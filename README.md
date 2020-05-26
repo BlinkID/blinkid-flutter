@@ -82,6 +82,9 @@ Plugin implementation is in folder `lib`, while platform specific implementation
 To initialize BlinkID framework for use with iOS, after you've added the dependency to `blinkid_flutter` to your pubspec.yaml, go to `NameOfYourProject/ios`and run `pod install`.
 Our blinkid_flutter depends on the latest PPBlinkID pod so it will be installed automatically.
 
+To set camera permission usage message, open `NameOfYourProject/ios/Runner.xcworkspace` and under Runner/Runner/Info.plist set 
+`Privacy - Camera Usage Description`.
+
 ## Licensing
 - [Generate](https://microblink.com/login?url=/customer/generatedemolicence) a **free demo license key** to start using the SDK in your app (registration required)
 - Get information about pricing and licensing of [BlinkID](https://microblink.com/blinkid)
