@@ -68,7 +68,7 @@ For more information please refer to our sample application source code.
 ### Available API
 All available recognizers can be found inside `blinkid_flutter/lib/recognizers`.
 
-All available recognizers can be found inside `blinkid_flutter/lib/overlays`.
+All available overlays can be found inside `blinkid_flutter/lib/overlays`.
 
 For 100% of features and maximum control, consider using native SDK.
 
