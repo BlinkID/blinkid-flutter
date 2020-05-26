@@ -38,7 +38,7 @@ dependencies:
 
 2. Perform scanning by calling the method `BlinkIDFlutter.scanWithCamera()` and passing it the `RecognizerCollection` and `OverlaySettings` you wish to use, along with your license key. To find out more about licensing, click
  [here](#licensing).
-```
+```dart
 Future<void> scan() async {
     List<RecognizerResult> results;
     
