@@ -44,6 +44,11 @@ build/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
 
+# VSCode
+.vscode/*
+.idea/*
+
+# Misc
 .DS_Store
 
 # Exceptions to above rules.
