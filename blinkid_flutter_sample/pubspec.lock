@@ -25,7 +25,7 @@ packages:
   blinkid_flutter:
     dependency: "direct main"
     description:
-      path: ".."
+      path: "../blinkid-plugin"
       relative: true
     source: path
     version: "0.0.1"
