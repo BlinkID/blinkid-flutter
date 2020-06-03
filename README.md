@@ -14,12 +14,12 @@ git clone https://github.com/BlinkID/blinkid-flutter.git
 ```
 
 ### Quick start with sample app
-To try BlinkID plugin, there is a minimal sample application in the `blinkid_flutter_sample` folder.
+To try BlinkID plugin, there is a minimal sample application in the `sample` folder.
 Sample currently works only on iOS devices.
 
 To run sample application, use the following commands:
 ```shell
-cd blinkid_flutter_sample/
+cd sample/
 flutter run
 ```
 If there are problems with running the application, please make sure you have
@@ -66,9 +66,9 @@ Future<void> scan() async {
 For more information please refer to our sample application source code.
 
 ### Available API
-All available recognizers can be found inside `blinkid_flutter/lib/recognizers`.
+All available recognizers can be found inside `blinkid-plugin/lib/recognizers`.
 
-All available overlays can be found inside `blinkid_flutter/lib/overlays`.
+All available overlays can be found inside `blinkid-plugin/lib/overlays`.
 
 For 100% of features and maximum control, consider using native SDK.
 
