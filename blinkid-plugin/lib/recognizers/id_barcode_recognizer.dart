@@ -49,6 +49,9 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The employer of the document owner. 
     String employer;
     
+    ///The additional privileges granted to the driver license owner. 
+    String endorsements;
+    
     ///The first name of the document owner. 
     String firstName;
     
@@ -88,6 +91,9 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The residential stauts of the document owner. 
     String residentialStatus;
     
+    ///The restrictions to driving privileges for the driver license owner. 
+    String restrictions;
+    
     ///The sex of the document owner. 
     String sex;
     
@@ -97,6 +103,9 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///Flag indicating uncertain scanning data
     /// E.g obtained from damaged barcode. 
     bool uncertain;
+    
+    ///The type of vehicle the driver license owner has privilege to drive. 
+    String vehicleClass;
     
     IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
         
@@ -124,6 +133,8 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.employer = nativeResult["employer"];
         
+        this.endorsements = nativeResult["endorsements"];
+        
         this.firstName = nativeResult["firstName"];
         
         this.fullName = nativeResult["fullName"];
@@ -150,11 +161,15 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.residentialStatus = nativeResult["residentialStatus"];
         
+        this.restrictions = nativeResult["restrictions"];
+        
         this.sex = nativeResult["sex"];
         
         this.stringData = nativeResult["stringData"];
         
         this.uncertain = nativeResult["uncertain"];
+        
+        this.vehicleClass = nativeResult["vehicleClass"];
         
     }
 }

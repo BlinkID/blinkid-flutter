@@ -35,6 +35,12 @@
         }
     }
     {
+        id anonymizeImage = [jsonRecognizer valueForKey:@"anonymizeImage"];
+        if (anonymizeImage != nil) {
+            recognizer.anonymizeImage = [(NSNumber *)anonymizeImage boolValue];
+        }
+    }
+    {
         id faceImageDpi = [jsonRecognizer valueForKey:@"faceImageDpi"];
         if (faceImageDpi != nil) {
             recognizer.faceImageDpi = [(NSNumber *)faceImageDpi unsignedIntegerValue];
@@ -70,6 +76,12 @@
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
     }
+    {
+        id validateResultCharacters = [jsonRecognizer valueForKey:@"validateResultCharacters"];
+        if (validateResultCharacters != nil) {
+            recognizer.validateResultCharacters = [(NSNumber *)validateResultCharacters boolValue];
+        }
+    }
 
     return recognizer;
 }
@@ -95,6 +107,7 @@
     [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfIssue] forKey:@"dateOfIssue"];
     [jsonResult setValue:self.result.documentAdditionalNumber forKey:@"documentAdditionalNumber"];
     [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentImageColorStatus + 1)] forKey:@"documentImageColorStatus"];
+    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentImageMoireStatus + 1)] forKey:@"documentImageMoireStatus"];
     [jsonResult setValue:self.result.documentNumber forKey:@"documentNumber"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeDriverLicenseDetailedInfo:self.result.driverLicenseDetailedInfo] forKey:@"driverLicenseDetailedInfo"];
     [jsonResult setValue:self.result.employer forKey:@"employer"];

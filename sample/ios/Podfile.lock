@@ -1,9 +1,9 @@
 PODS:
   - blinkid_flutter (0.0.1):
     - Flutter
-    - PPBlinkID
+    - PPBlinkID (~> 5.5.0)
   - Flutter (1.0.0)
-  - PPBlinkID (5.4.0)
+  - PPBlinkID (5.5.0)
 
 DEPENDENCIES:
   - blinkid_flutter (from `.symlinks/plugins/blinkid_flutter/ios`)
@@ -20,9 +20,9 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  blinkid_flutter: dc750bd83bb17edb8824b9e5936dbdcbd2434251
+  blinkid_flutter: 7747ab9f23daa636507519b1f65362f7d5216889
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  PPBlinkID: 03a4b452a5d99e2a0e4e450a4cacac078538a802
+  PPBlinkID: f3411d4470c345b6cf2ad255d2d325a1d6d1e0bb
 
 PODFILE CHECKSUM: c34e2287a9ccaa606aeceab922830efb9a6ff69a
 

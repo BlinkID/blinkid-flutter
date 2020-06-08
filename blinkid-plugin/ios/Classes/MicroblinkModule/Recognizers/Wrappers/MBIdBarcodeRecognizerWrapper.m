@@ -41,6 +41,7 @@
     [jsonResult setValue:self.result.documentNumber forKey:@"documentNumber"];
     [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentType + 1)] forKey:@"documentType"];
     [jsonResult setValue:self.result.employer forKey:@"employer"];
+    [jsonResult setValue:self.result.endorsements forKey:@"endorsements"];
     [jsonResult setValue:self.result.firstName forKey:@"firstName"];
     [jsonResult setValue:self.result.fullName forKey:@"fullName"];
     [jsonResult setValue:self.result.issuingAuthority forKey:@"issuingAuthority"];
@@ -54,9 +55,11 @@
     [jsonResult setValue:[self.result.rawData base64EncodedStringWithOptions:0] forKey:@"rawData"];
     [jsonResult setValue:self.result.religion forKey:@"religion"];
     [jsonResult setValue:self.result.residentialStatus forKey:@"residentialStatus"];
+    [jsonResult setValue:self.result.restrictions forKey:@"restrictions"];
     [jsonResult setValue:self.result.sex forKey:@"sex"];
     [jsonResult setValue:self.result.stringData forKey:@"stringData"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.uncertain] forKey:@"uncertain"];
+    [jsonResult setValue:self.result.vehicleClass forKey:@"vehicleClass"];
 
     return jsonResult;
 }

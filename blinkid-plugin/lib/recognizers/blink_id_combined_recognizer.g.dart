@@ -13,6 +13,7 @@ BlinkIdCombinedRecognizer _$BlinkIdCombinedRecognizerFromJson(
     ..allowBlurFilter = json['allowBlurFilter'] as bool
     ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
     ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
+    ..anonymizeImage = json['anonymizeImage'] as bool
     ..faceImageDpi = json['faceImageDpi'] as int
     ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
     ..fullDocumentImageExtensionFactors =
@@ -25,7 +26,8 @@ BlinkIdCombinedRecognizer _$BlinkIdCombinedRecognizerFromJson(
     ..returnFaceImage = json['returnFaceImage'] as bool
     ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
     ..signResult = json['signResult'] as bool
-    ..skipUnsupportedBack = json['skipUnsupportedBack'] as bool;
+    ..skipUnsupportedBack = json['skipUnsupportedBack'] as bool
+    ..validateResultCharacters = json['validateResultCharacters'] as bool;
 }
 
 Map<String, dynamic> _$BlinkIdCombinedRecognizerToJson(
@@ -35,6 +37,7 @@ Map<String, dynamic> _$BlinkIdCombinedRecognizerToJson(
       'allowBlurFilter': instance.allowBlurFilter,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,
       'allowUnverifiedMrzResults': instance.allowUnverifiedMrzResults,
+      'anonymizeImage': instance.anonymizeImage,
       'faceImageDpi': instance.faceImageDpi,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
@@ -44,4 +47,5 @@ Map<String, dynamic> _$BlinkIdCombinedRecognizerToJson(
       'returnFullDocumentImage': instance.returnFullDocumentImage,
       'signResult': instance.signResult,
       'skipUnsupportedBack': instance.skipUnsupportedBack,
+      'validateResultCharacters': instance.validateResultCharacters,
     };

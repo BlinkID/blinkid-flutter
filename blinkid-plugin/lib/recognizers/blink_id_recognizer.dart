@@ -45,6 +45,9 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///Defines possible color statuses determined from scanned image. 
     DocumentImageColorStatus documentImageColorStatus;
     
+    ///Defines possible moire statuses determined from scanned image. 
+    DocumentImageMoireStatus documentImageMoireStatus;
+    
     ///The document number. 
     String documentNumber;
     
@@ -131,6 +134,8 @@ class BlinkIdRecognizerResult extends RecognizerResult {
         
         this.documentImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentImageColorStatus"] - 1];
         
+        this.documentImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentImageMoireStatus"] - 1];
+        
         this.documentNumber = nativeResult["documentNumber"];
         
         this.driverLicenseDetailedInfo = nativeResult["driverLicenseDetailedInfo"] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeResult["driverLicenseDetailedInfo"])) : null;
@@ -195,6 +200,12 @@ class BlinkIdRecognizer extends Recognizer {
     /// 
     bool allowUnverifiedMrzResults = true;
     
+    ///Defines whether sensitive data should be anonymized in full document image result.
+    /// The setting only applies to certain documents
+    /// 
+    /// 
+    bool anonymizeImage = true;
+    
     ///Property for setting DPI for face images
     /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
     /// 
@@ -229,6 +240,12 @@ class BlinkIdRecognizer extends Recognizer {
     /// 
     /// 
     bool returnFullDocumentImage = false;
+    
+    ///Defines whether result characters validatation is performed.
+    /// If a result member contains invalid character, the result state cannot be valid
+    /// 
+    /// 
+    bool validateResultCharacters = true;
     
     BlinkIdRecognizer(): super('BlinkIdRecognizer');
 

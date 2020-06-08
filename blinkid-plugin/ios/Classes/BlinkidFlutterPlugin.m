@@ -3,11 +3,11 @@
 #import "MicroblinkModule/Overlays/MBOverlayViewControllerDelegate.h"
 #import "MicroblinkModule/Recognizers/MBRecognizerSerializers.h"
 #import "MicroblinkModule/Overlays/MBOverlaySettingsSerializers.h"
+#import "MBSerializationUtils.h"
 
 @interface BlinkidFlutterPlugin () <MBOverlayViewControllerDelegate>
 
 @property (nonatomic, strong) MBRecognizerCollection *recognizerCollection;
-@property (nonatomic) id<MBRecognizerRunnerViewController> scanningViewController;
 
 @property (nonatomic, strong) FlutterResult result;
 
@@ -15,6 +15,7 @@
 
 static NSString* const kChannelName = @"blinkid_flutter";
 static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
+static NSString* const kCaptureDocumentMethodName = @"captureDocument";
 
 @implementation BlinkidFlutterPlugin
 
@@ -52,9 +53,8 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
         
         [self setLicenseKey:licenseKeyDict];
         [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
-    } else if ([@"" isEqualToString:call.method]) {
-        
-    } else {
+    }
+    else {
         result(FlutterMethodNotImplemented);
     }
 }
@@ -97,12 +97,16 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
         [overlayViewController.recognizerRunnerViewController pauseScanning];
         // recognizers within self.recognizerCollection now have their results filled
 
+        BOOL isDocumentCaptureRecognizer = NO;
+
         NSMutableArray *jsonResults = [[NSMutableArray alloc] initWithCapacity:self.recognizerCollection.recognizerList.count];
         for (NSUInteger i = 0; i < self.recognizerCollection.recognizerList.count; ++i) {
             [jsonResults addObject:[[self.recognizerCollection.recognizerList objectAtIndex:i] serializeResult]];
         }
 
-        self.result(jsonResults);
+        if (!isDocumentCaptureRecognizer) {
+            self.result(jsonResults);
+        }
 
         // dismiss recognizer runner view controller
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -110,14 +114,9 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
             [rootViewController dismissViewControllerAnimated:YES completion:nil];
             
             self.recognizerCollection = nil;
-            self.scanningViewController = nil;
             self.result = nil;
         });
     }
-}
-
-- (void)overlayViewControllerDidFinishScanning:(MBOverlayViewController *)overlayViewController highResImage:(MBImage *)highResImage state:(MBRecognizerResultState)state {
-    
 }
 
 - (void)overlayDidTapClose:(MBOverlayViewController *)overlayViewController {
@@ -125,7 +124,6 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
     [rootViewController dismissViewControllerAnimated:YES completion:nil];
     
     self.recognizerCollection = nil;
-    self.scanningViewController = nil;
     self.result(nil);
     self.result = nil;
 }

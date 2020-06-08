@@ -51,6 +51,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///Defines possible color statuses determined from scanned image. 
     DocumentImageColorStatus documentBackImageColorStatus;
     
+    ///Defines possible moire statuses determined from scanned image. 
+    DocumentImageMoireStatus documentBackImageMoireStatus;
+    
     ///Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
     /// DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
     /// of the document and values do not match, this method will return DataMatchResultFailed. Result will
@@ -59,6 +62,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
     ///Defines possible color statuses determined from scanned image. 
     DocumentImageColorStatus documentFrontImageColorStatus;
+    
+    ///Defines possible moire statuses determined from scanned image. 
+    DocumentImageMoireStatus documentFrontImageMoireStatus;
     
     ///The document number. 
     String documentNumber;
@@ -157,9 +163,13 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         
         this.documentBackImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentBackImageColorStatus"] - 1];
         
+        this.documentBackImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentBackImageMoireStatus"] - 1];
+        
         this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] - 1];
         
         this.documentFrontImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentFrontImageColorStatus"] - 1];
+        
+        this.documentFrontImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentFrontImageMoireStatus"] - 1];
         
         this.documentNumber = nativeResult["documentNumber"];
         
@@ -229,6 +239,12 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     /// 
     bool allowUnverifiedMrzResults = true;
     
+    ///Defines whether sensitive data should be anonymized in full document image result.
+    /// The setting only applies to certain documents
+    /// 
+    /// 
+    bool anonymizeImage = true;
+    
     ///Property for setting DPI for face images
     /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
     /// 
@@ -273,6 +289,12 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     /// 
     /// 
     bool skipUnsupportedBack = false;
+    
+    ///Defines whether result characters validatation is performed.
+    /// If a result member contains invalid character, the result state cannot be valid
+    /// 
+    /// 
+    bool validateResultCharacters = true;
     
     BlinkIdCombinedRecognizer(): super('BlinkIdCombinedRecognizer');
 

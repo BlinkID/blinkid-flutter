@@ -7,6 +7,12 @@ part 'passport_recognizer.g.dart';
 /// Result object for PassportRecognizer.
 class PassportRecognizerResult extends RecognizerResult {
     
+    ///Digital signature of the recognition result. Available only if enabled with signResult property. 
+    String digitalSignature;
+    
+    ///Version of the digital signature. Available only if enabled with signResult property. 
+    int digitalSignatureVersion;
+    
     ///face image from the document if enabled with returnFaceImage property. 
     String faceImage;
     
@@ -17,6 +23,10 @@ class PassportRecognizerResult extends RecognizerResult {
     MrzResult mrzResult;
     
     PassportRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+        
+        this.digitalSignature = nativeResult["digitalSignature"];
+        
+        this.digitalSignatureVersion = nativeResult["digitalSignatureVersion"];
         
         this.faceImage = nativeResult["faceImage"];
         
@@ -69,6 +79,11 @@ class PassportRecognizer extends Recognizer {
     /// 
     /// 
     bool returnFullDocumentImage = false;
+    
+    ///Whether or not recognition result should be signed.
+    /// 
+    /// 
+    bool signResult = false;
     
     PassportRecognizer(): super('PassportRecognizer');
 

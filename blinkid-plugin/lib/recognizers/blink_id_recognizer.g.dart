@@ -12,6 +12,7 @@ BlinkIdRecognizer _$BlinkIdRecognizerFromJson(Map<String, dynamic> json) {
     ..allowBlurFilter = json['allowBlurFilter'] as bool
     ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
     ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
+    ..anonymizeImage = json['anonymizeImage'] as bool
     ..faceImageDpi = json['faceImageDpi'] as int
     ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
     ..fullDocumentImageExtensionFactors =
@@ -22,7 +23,8 @@ BlinkIdRecognizer _$BlinkIdRecognizerFromJson(Map<String, dynamic> json) {
                     as Map<String, dynamic>)
     ..paddingEdge = (json['paddingEdge'] as num)?.toDouble()
     ..returnFaceImage = json['returnFaceImage'] as bool
-    ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool;
+    ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
+    ..validateResultCharacters = json['validateResultCharacters'] as bool;
 }
 
 Map<String, dynamic> _$BlinkIdRecognizerToJson(BlinkIdRecognizer instance) =>
@@ -31,6 +33,7 @@ Map<String, dynamic> _$BlinkIdRecognizerToJson(BlinkIdRecognizer instance) =>
       'allowBlurFilter': instance.allowBlurFilter,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,
       'allowUnverifiedMrzResults': instance.allowUnverifiedMrzResults,
+      'anonymizeImage': instance.anonymizeImage,
       'faceImageDpi': instance.faceImageDpi,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
@@ -38,4 +41,5 @@ Map<String, dynamic> _$BlinkIdRecognizerToJson(BlinkIdRecognizer instance) =>
       'paddingEdge': instance.paddingEdge,
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
+      'validateResultCharacters': instance.validateResultCharacters,
     };

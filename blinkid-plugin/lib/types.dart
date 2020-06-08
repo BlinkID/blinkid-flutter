@@ -45,10 +45,10 @@ class Quadrilateral {
     Point lowerRight;
 
     Quadrilateral(Map<String, dynamic> nativeQuad) {
-        this.upperLeft = Point(nativeQuad['upperLeft']);
-        this.upperRight = Point(nativeQuad['upperRight']);
-        this.lowerLeft = Point(nativeQuad['lowerLeft']);
-        this.lowerRight = Point(nativeQuad['lowerRight']);
+        this.upperLeft = Point(Map<String, dynamic>.from(nativeQuad['upperLeft']));
+        this.upperRight = Point(Map<String, dynamic>.from(nativeQuad['upperRight']));
+        this.lowerLeft = Point(Map<String, dynamic>.from(nativeQuad['lowerLeft']));
+        this.lowerRight = Point(Map<String, dynamic>.from(nativeQuad['lowerRight']));
     }
 }
 
@@ -106,6 +106,7 @@ enum DataMatchResult {
     /// Data match. 
     Success
 }
+
 /// Represents the classification information.
 class ClassInfo {
 
@@ -173,6 +174,16 @@ enum DocumentImageColorStatus {
     BlackAndWhite,
     /// Color image scanned  
     Color
+}
+
+/// Defines possible states of Moire pattern detection.
+enum DocumentImageMoireStatus {
+    /// Detection of Moire patterns was not performed.
+    NotAvailable,
+    /// Moire pattern not detected on input image.
+    NotDetected,
+    /// Moire pattern detected on input image.
+    Detected
 }
 
 /// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -260,7 +271,10 @@ enum Country {
     UK,
     Ukraine,
     Usa,
-    Vietnam
+    Vietnam,
+    Brazil,
+    Norway,
+    Oman
 }
 
 /// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -358,7 +372,10 @@ enum Type {
     TemporaryResidencePermit,
     VoterId,
     WorkPermit,
-    iKad
+    iKad,
+    MilitaryId,
+    MyKas,
+    SocialSecurityCard
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
