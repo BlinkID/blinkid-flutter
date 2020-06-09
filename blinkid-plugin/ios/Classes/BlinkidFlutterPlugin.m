@@ -15,7 +15,6 @@
 
 static NSString* const kChannelName = @"blinkid_flutter";
 static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
-static NSString* const kCaptureDocumentMethodName = @"captureDocument";
 
 @implementation BlinkidFlutterPlugin
 
