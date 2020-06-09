@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   blinkid_flutter:
-    path: ../blinkid-plugin
+    path: ../BlinkID
 
 
   # The following adds the Cupertino Icons font to your application.
