@@ -22,7 +22,7 @@ dependencies:
 ```
 
 ### Quick start with sample app
-To try BlinkID plugin, there is a minimal sample application in the `sample` folder.
+To try BlinkID plugin, you can generate a minimal sample application. To do so run `./initFlutterDemo.sh` script.
 Sample currently works only on iOS devices.
 
 To run sample application, use the following commands:
