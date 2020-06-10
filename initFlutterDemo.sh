@@ -50,7 +50,7 @@ if [ "$IS_LOCAL_BUILD" = true ]; then
   popd
 fi
 
-# go to react native root project
+# go to flutter root project
 popd
 
 cp ../demoAPP/main.dart lib/
