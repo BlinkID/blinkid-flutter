@@ -21,7 +21,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> scan() async {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license = "sRwAAAEgY29tLmV4YW1wbGUuYmxpbmtpZEZsdXR0ZXJTYW1wbGWRQPR97CHKqmlpT8RNJqMsAVnYLfWLLi7+z4LMKBOsULCGMcifWys1es90iyDGM67IIiOwcFMNY5kU3R0s0utf5Ivb7bOmwdVOYWKJeCb0n0fsfNfNDaKZo+3+K29fgFBer4O5KddiFrvPe9DrZKTsqRtTfCfwjHdstlgPgGZ17IF5DOHe2CyWKuXCyawAVMgkVixIBGrxKi4KxB6vcJc6mM1NDpClCPa2d2Yamh+H0zydS60V8o4iNpwT/i67Cs4B2CclLhg0i0s=";
+      license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP+dpSuS/38LVOsaLNXzaiMXsGsDI9HoCvvTwW0ELAiAcBZdB/nLLlJdH4YxsICG1tc+42mh1/syML14kCuZrvHHUiGx1lwGyZGtAa65HTgU85+aXJwt95XSSiuiLjPXw6ue37/oqp3oHtw0P2xXzUA+jX6czpIynFScNPEInu81f1ylj15sbHxhmy/hPEvHEBd26myGxhjpM/JHX8jmrvmT02/ouLUWSbixVELFClQMBZ96X8omCq8l6SzuZJdRTcSxmpuj+";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license = "";
     }

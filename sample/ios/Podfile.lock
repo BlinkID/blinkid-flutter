@@ -1,5 +1,5 @@
 PODS:
-  - blinkid_flutter (0.0.1):
+  - blinkid_flutter (5.5.0):
     - Flutter
     - PPBlinkID (~> 5.5.0)
   - Flutter (1.0.0)
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  blinkid_flutter: 7747ab9f23daa636507519b1f65362f7d5216889
+  blinkid_flutter: 809c11d656299d4efc421351c6f09b99c3675835
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   PPBlinkID: f3411d4470c345b6cf2ad255d2d325a1d6d1e0bb
 

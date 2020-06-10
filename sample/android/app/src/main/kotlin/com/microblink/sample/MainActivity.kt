@@ -1,4 +1,4 @@
-package com.example.blinkid_flutter_sample
+package com.microblink.sample
 
 import io.flutter.embedding.android.FlutterActivity
 
