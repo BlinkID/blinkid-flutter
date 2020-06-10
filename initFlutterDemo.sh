@@ -42,11 +42,11 @@ if [ "$IS_LOCAL_BUILD" = true ]; then
   echo "Replace pod with custom dev version of BlinkID framework"
 
   pushd Pods/PPBlinkID
-  # rm -rf Microblink.bundle
-  # rm -rf Microblink.framework
+  rm -rf Microblink.bundle
+  rm -rf Microblink.framework
 
-  # cp -r ~/Downloads/blinkid-ios/Microblink.bundle ./
-  # cp -r ~/Downloads/blinkid-ios/Microblink.framework ./
+  cp -r ~/Downloads/blinkid-ios/Microblink.bundle ./
+  cp -r ~/Downloads/blinkid-ios/Microblink.framework ./
   popd
 fi
 
