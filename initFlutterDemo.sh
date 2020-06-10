@@ -12,7 +12,7 @@ flutter create --org com.microblink $appName
 # enter into demo project folder
 pushd $appName
 
-IS_LOCAL_BUILD=true
+IS_LOCAL_BUILD=false
 if [ ! "$IS_LOCAL_BUILD" = true ]; then
   # add blinkid_flutter dependency to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:/" pubspec.yaml
