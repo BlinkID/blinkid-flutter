@@ -12,8 +12,7 @@ flutter create --org com.microblink $appName
 # enter into demo project folder
 pushd $appName
 
-IS_LOCAL_BUILD=false
-if [ ! "$IS_LOCAL_BUILD" = true ]; then
+if false; then
   # add blinkid_flutter dependency to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:/" pubspec.yaml
   echo "Using blinkid_flutter from flutter pub"
@@ -38,7 +37,7 @@ pushd ios
 # install pod
 pod install
 
-if [ "$IS_LOCAL_BUILD" = true ]; then
+if false; then
   echo "Replace pod with custom dev version of BlinkID framework"
 
   pushd Pods/PPBlinkID
