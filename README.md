@@ -8,9 +8,17 @@ BlinkID plugin is developed with Flutter SDK version 1.17.11.
 For help with Flutter, view official [documentation](https://flutter.dev/docs).
 
 ## Getting Started
-To get started, first clone the repository:
+
+To get started, first create empty project if needed:
 ```shell
-git clone https://github.com/BlinkID/blinkid-flutter.git
+flutter create project_name
+```
+
+Add the blinkid_flutter dependency to your `pubspec.yaml` file:
+```yaml
+dependencies:
+  ...
+  blinkid_flutter:
 ```
 
 ### Quick start with sample app
@@ -26,17 +34,8 @@ If there are problems with running the application, please make sure you have
 properly configured tools by running `flutter doctor`. You can also try running
 the application from VSCode or Xcode.
 
-### Plugin integration
-1. Integrate BlinkId plugin in your application by setting path to the cloned repository
-in your `pubspec.yaml`:
-```yaml
-dependencies:
-  ...
-  blinkid_flutter:
-    path: path/to/blinkid-plugin
-```
-
-2. Perform scanning by calling the method `BlinkIDFlutter.scanWithCamera()` and passing it the `RecognizerCollection` and `OverlaySettings` you wish to use, along with your license key. To find out more about licensing, click
+### Plugin usage
+1. Perform scanning by calling the method `BlinkIDFlutter.scanWithCamera()` and passing it the `RecognizerCollection` and `OverlaySettings` you wish to use, along with your license key. To find out more about licensing, click
  [here](#licensing).
 ```dart
 Future<void> scan() async {
@@ -61,14 +60,14 @@ Future<void> scan() async {
     }
 ```
 
-3. When scanning is completed, variable `results` will contain a list of non-empty RecognizerResults from recognizers set in `RecognizerCollection`. You can then access each result individually. If the scanning is manually closed, the method will return an empty list.
+2. When scanning is completed, variable `results` will contain a list of non-empty RecognizerResults from recognizers set in `RecognizerCollection`. You can then access each result individually. If the scanning is manually closed, the method will return an empty list.
 
 For more information please refer to our sample application source code.
 
 ### Available API
-All available recognizers can be found inside `blinkid-plugin/lib/recognizers`.
+All available recognizers can be found inside `BlinkID/lib/recognizers`.
 
-All available overlays can be found inside `blinkid-plugin/lib/overlays`.
+All available overlays can be found inside `BlinkID/lib/overlays`.
 
 For 100% of features and maximum control, consider using native SDK.
 
