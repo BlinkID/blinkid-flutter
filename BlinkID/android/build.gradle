@@ -16,6 +16,7 @@ rootProject.allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'http://maven.microblink.com' }
     }
 }
 
@@ -31,3 +32,10 @@ android {
         disable 'InvalidPackage'
     }
 }
+
+dependencies {
+    implementation('com.microblink:blinkid:5.5.0@aar') {
+        transitive = true
+    }
+}
+

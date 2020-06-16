@@ -6,8 +6,10 @@ appName=sample
 # remove any existing code
 rm -rf $appName
 
-# create a sample application
-flutter create --org com.microblink $appName
+# create a sample application  # todo this will override old main.dart?
+# todo jel nam treba to uopce, zas ne bi bilo od prije settupirano? ili da se onda bar uzima uneseno?
+flutter create -a java --org com.microblink $appName
+#flutter create --org com.microblink $appName
 
 # enter into demo project folder
 pushd $appName
@@ -28,6 +30,7 @@ flutter pub get
 pushd android
 
 # TODO: android specifics
+# promijeniti MainActivity.java
 
 popd
 
@@ -53,7 +56,9 @@ fi
 popd
 
 cp ../demoAPP/main.dart lib/
+# rm -rf demoApp
+# todo remove demoApp?
 
 echo "Go to Flutter project folder: cd $appName"
-echo "To run on Android execute: ???"
+echo "To run on Android type: flutter run"
 echo "To run on iOS: go to $appName/ios and open Runner.xcworkspace; set your development team and add Privacy - Camera Usage Description key to Runner/Info.plist file and press run"
