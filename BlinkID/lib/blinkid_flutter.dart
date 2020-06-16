@@ -19,7 +19,10 @@ class BlinkIDFlutter {
       {
         "recognizerCollection": jsonDecode(jsonEncode(collection)),
         "overlaySettings": jsonDecode(jsonEncode(overlaySettings)),
-        "licenseKey": {"licenseKey": license}
+        "license": {
+          "licenseKey": license,
+          "licensee": ""
+        }
       }
     );
 
