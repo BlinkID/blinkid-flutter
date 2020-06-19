@@ -13,17 +13,26 @@ class BlinkIDFlutter {
   static const MethodChannel _channel =
       const MethodChannel('blinkid_flutter');
 
+
+  static const String METHOD_SCAN_WITH_CAMERA = 'scanWithCamera';
+
+  static const String ARG_RECOGNIZER_COLLECTION = 'recognizerCollection';
+  static const String ARG_OVERLAY_SETTINGS = 'overlaySettings';
+  static const String ARG_LICENSE = 'license';
+  static const String ARG_LICENSE_KEY = 'licenseKey';
+  static const String ARG_LICENSEE = 'licensee';
+  static const String ARG_SHOW_LICENSE_WARNING = 'showTimeLimitedLicenseKeyWarning';
+
   static Future<List<RecognizerResult>> scanWithCamera(RecognizerCollection collection, OverlaySettings overlaySettings, String license) async {
-    final List<dynamic> jsonResults = await _channel.invokeMethod(
-      'scanWithCamera',
+    var jsonResults = jsonDecode(await _channel.invokeMethod(
+      METHOD_SCAN_WITH_CAMERA,
       {
-        "recognizerCollection": jsonDecode(jsonEncode(collection)),
-        "overlaySettings": jsonDecode(jsonEncode(overlaySettings)),
-        "license": {
-          "licenseKey": license,
-          "licensee": ""
+        ARG_RECOGNIZER_COLLECTION: jsonDecode(jsonEncode(collection)),
+        ARG_OVERLAY_SETTINGS: jsonDecode(jsonEncode(overlaySettings)),
+        ARG_LICENSE: {
+          ARG_LICENSE_KEY: license
         }
-      }
+      })
     );
 
     if (jsonResults == null) return List<RecognizerResult>(0);

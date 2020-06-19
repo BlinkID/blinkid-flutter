@@ -1,53 +1,151 @@
 package com.microblink.blinkid_flutter;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import androidx.annotation.NonNull;
+import java.util.*;
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
+import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-/** BlinkidFlutterPlugin */
-public class BlinkidFlutterPlugin implements FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
-  private MethodChannel channel;
+import com.microblink.MicroblinkSDK;
+import com.microblink.entities.recognizers.Recognizer;
+import com.microblink.entities.recognizers.blinkid.generic.*;
+import com.microblink.entities.recognizers.RecognizerBundle;
+import com.microblink.intent.IntentDataTransferMode;
+import com.microblink.uisettings.UISettings;
+import com.microblink.uisettings.BlinkIdUISettings;
 
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getFlutterEngine().getDartExecutor(), "blinkid_flutter");
-    channel.setMethodCallHandler(this);
+import com.microblink.blinkid_flutter.recognizers.RecognizerSerializers;
+import com.microblink.blinkid_flutter.overlays.OverlaySettingsSerializers;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONArray;
+
+
+public class BlinkidFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener {
+
+
+  private static final String CHANNEL = "blinkid_flutter";
+
+  private static final int SCAN_REQ_CODE = 1904;
+  private static final String METHOD_SCAN = "scanWithCamera";
+
+  private static final String ARG_LICENSE = "license";
+  private static final String ARG_LICENSE_KEY = "licenseKey";
+  private static final String ARG_LICENSEE = "licensee";
+  private static final String ARG_SHOW_LICENSE_WARNING = "showTimeLimitedLicenseKeyWarning";
+  private static final String ARG_RECOGNIZER_COLLECTION = "recognizerCollection";
+  private static final String ARG_OVERLAY_SETTINGS = "overlaySettings";
+
+  private RecognizerBundle mRecognizerBundle;
+
+  private MethodChannel channel;
+  private Context context;
+
+  private Result pendingResult;
+
+  public static void registerWith(Registrar registrar) {
+    final BlinkidFlutterPlugin plugin = new BlinkidFlutterPlugin();
+    plugin.setupPlugin(registrar.activity(), registrar.messenger());
+    registrar.addActivityResultListener(plugin);
   }
 
-  // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-  // pre-Flutter-1.12 Android projects. You are encouraged to continue supporting
-  // plugin registration via this function while apps migrate to use the new Android APIs
-  // post-flutter-1.12 via https://flutter.dev/go/android-project-migration.
-  //
-  // It is encouraged to share logic between onAttachedToEngine and registerWith to keep
-  // them functionally equivalent. Only one of onAttachedToEngine or registerWith will be called
-  // depending on the user's project. onAttachedToEngine or registerWith must both be defined
-  // in the same class.
-  public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "blinkid_flutter");
-    channel.setMethodCallHandler(new BlinkidFlutterPlugin());
+  @Override
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+    setupPlugin(
+            binding.getApplicationContext(),
+            binding.getBinaryMessenger()
+    );
+  }
+
+  private void setupPlugin(Context context, BinaryMessenger messenger) {
+    if (context != null) {
+      this.context = context;
+    }
+
+    this.channel = new MethodChannel(messenger, CHANNEL);
+    this.channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
+    setLicense((Map)call.argument(ARG_LICENSE));
+
+    if (call.method.equals(METHOD_SCAN)) {
+      this.pendingResult = result;
+
+      JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
+      JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
+
+      mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+      UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
+
+      Intent intent = new Intent(context, overlaySettings.getTargetActivity());
+      overlaySettings.saveToIntent(intent);
+      ((Activity) context).startActivityForResult(intent, SCAN_REQ_CODE);
+
     } else {
       result.notImplemented();
     }
   }
 
+
+    @SuppressWarnings("unchecked")
+    private void setLicense(Map licenseMap) {
+      MicroblinkSDK.setShowTimeLimitedLicenseWarning((boolean)licenseMap.getOrDefault(ARG_SHOW_LICENSE_WARNING, true));
+
+      String licenseKey = (String)licenseMap.get(ARG_LICENSE_KEY);
+      String licensee = (String)licenseMap.getOrDefault(ARG_LICENSEE, null);
+
+      if (licensee == null) {
+          MicroblinkSDK.setLicenseKey(licenseKey, context);
+      } else {
+          MicroblinkSDK.setLicenseKey(licenseKey, licensee, context);
+      }
+
+      MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
+  }
+
+
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    channel.setMethodCallHandler(null);
+    this.context = null;
+
+    this.channel.setMethodCallHandler(null);
+    this.channel = null;
+  }
+
+
+  @Override
+  public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+      if (resultCode == Activity.RESULT_OK) {
+          if (requestCode == SCAN_REQ_CODE) {
+              mRecognizerBundle.loadFromIntent(data);
+              JSONArray resultList = RecognizerSerializers.INSTANCE.serializeRecognizerResults(mRecognizerBundle.getRecognizers());
+
+              pendingResult.success(resultList.toString());
+
+          }
+
+
+      } else if (resultCode == Activity.RESULT_CANCELED) {
+          pendingResult.success("null");
+
+      } else {
+          pendingResult.error("Unexpected error", null, null);
+      }
+
+      pendingResult = null;
+      return true;
   }
 }
+
