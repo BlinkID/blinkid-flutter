@@ -25,7 +25,6 @@ Note that, since the plugin is not yet published, you need to set the path to th
 
 ### Quick start with sample app
 To try BlinkID plugin, you can generate a minimal sample application. To do so run `./initFlutterDemo.sh` script.
-Sample currently works only on iOS devices.
 
 To run sample application, use the following commands:
 ```shell
@@ -34,10 +33,10 @@ flutter run
 ```
 If there are problems with running the application, please make sure you have
 properly configured tools by running `flutter doctor`. You can also try running
-the application from VSCode or Xcode.
+the application from VSCode, Android Studio or Xcode.
 
 ### Plugin usage
-1. Perform scanning by calling the method `BlinkIDFlutter.scanWithCamera()` and passing it the `RecognizerCollection` and `OverlaySettings` you wish to use, along with your license key. To find out more about licensing, click
+1. Perform scanning by calling the method `MicroblinkScanner.scanWithCamera()` and passing it the `RecognizerCollection` and `OverlaySettings` you wish to use, along with your license key. To find out more about licensing, click
  [here](#licensing).
 ```dart
 Future<void> scan() async {
@@ -55,14 +54,14 @@ Future<void> scan() async {
 
     try {
       // perform scan and gather results
-      results = await BlinkIDFlutter.scanWithCamera(RecognizerCollection([recognizer]), settings, license);
+      results = await MicroblinkScanner.scanWithCamera(RecognizerCollection([recognizer]), settings, license);
 
     } on PlatformException {
       // handle exception
     }
 ```
 
-2. When scanning is completed, variable `results` will contain a list of non-empty RecognizerResults from recognizers set in `RecognizerCollection`. You can then access each result individually. If the scanning is manually closed, the method will return an empty list.
+2. When scanning is completed, variable `results` will contain a list of non-empty `RecognizerResults` from recognizers set in `RecognizerCollection`. You can then access each result individually. If the scanning is manually closed, the method will return an empty list.
 
 For more information please refer to our sample application source code.
 
@@ -78,8 +77,8 @@ Plugin implementation is in folder `lib`, while platform specific implementation
 
 #### Android
 Android folder is fully initialized after running `./initFlutterDemo.sh`. The script will replace default `MainActivity.java` with the
-`./demoApp/MainActivity.java`. This is important, because the plugin works only if `MainActivity` extends `io.flutter.app.FlutterActivity`
-and if it is registered in the following way `BlinkidFlutterPlugin.registerWith(registrarFor("com.microblink.blinkid_flutter.BlinkidFlutterPlugin"))`.
+`./sample_files/MainActivity.java`. This is important, because the plugin works only if `MainActivity` extends `io.flutter.app.FlutterActivity`
+and if it is registered in the following way `MicroblinkFlutterPlugin.registerWith(registrarFor("com.microblink.flutter.MicroblinkFlutterPlugin"))`.
 
 #### iOS
 To initialize BlinkID framework for use with iOS, after you've added the dependency to `blinkid_flutter` to your `pubspec.yaml`, go to `NameOfYourProject/ios`and run `pod install`.

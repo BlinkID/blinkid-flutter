@@ -1,4 +1,4 @@
-import 'package:blinkid_flutter/blinkid_flutter.dart';
+import 'package:blinkid_flutter/microblink_scanner.dart';
 import 'package:flutter/material.dart';
 import "dart:convert";
 import "dart:async";
@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
 
     BlinkIdOverlaySettings settings = BlinkIdOverlaySettings();
 
-    var results = await BlinkIDFlutter.scanWithCamera(RecognizerCollection([idRecognizer]), settings, license);
+    var results = await MicroblinkScanner.scanWithCamera(RecognizerCollection([idRecognizer]), settings, license);
 
     if (!mounted) return;
 

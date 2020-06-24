@@ -1,5 +1,5 @@
 name: blinkid_flutter
-description: A new flutter plugin project.
+description: BlinkID plugin for Flutter.
 version: 5.5.0
 homepage: https://microblink.com
 
@@ -27,7 +27,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.microblink.blinkid_flutter
-        pluginClass: BlinkidFlutterPlugin
+        package: com.microblink.flutter
+        pluginClass: MicroblinkFlutterPlugin
       ios:
-        pluginClass: BlinkidFlutterPlugin
+        pluginClass: MicroblinkFlutterPlugin
