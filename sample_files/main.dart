@@ -39,21 +39,23 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     if (results.length == 0) return;
-    if (results[0] is BlinkIdCombinedRecognizerResult) {
-      BlinkIdCombinedRecognizerResult result = results[0];
+    for (var result in results) {
+      if (result is BlinkIdCombinedRecognizerResult) {
+          if (result.mrzResult.documentType == MrtdDocumentType.Passport) {
+            _resultString = getPassportResultString(result);
+          } else {
+            _resultString = getIdResultString(result);
+          }
 
-      if (result.mrzResult.documentType == MrtdDocumentType.Passport) {
-        _resultString = getPassportResultString(result);
-      } else {
-        _resultString = getIdResultString(result);
+          setState(() {
+            _resultString = _resultString;
+            _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage;
+            _fullDocumentBackImageBase64 = result.fullDocumentBackImage;
+            _faceImageBase64 = result.faceImage;
+          });
+
+          return;
       }
-
-      setState(() {
-        _resultString = _resultString;
-        _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage;
-        _fullDocumentBackImageBase64 = result.fullDocumentBackImage;
-        _faceImageBase64 = result.faceImage;
-      });
     }
   }
 
