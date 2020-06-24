@@ -120,9 +120,9 @@ class ClassInfo {
   Type type;
 
   ClassInfo(Map<String, dynamic> nativeClassInfo) {
-    this.country = Country.values[nativeClassInfo['country'] - 1];
-    this.region = Region.values[nativeClassInfo['region'] - 1];
-    this.type = Type.values[nativeClassInfo['type'] - 1];
+    this.country = Country.values[nativeClassInfo['country']];
+    this.region = Region.values[nativeClassInfo['region']];
+    this.type = Type.values[nativeClassInfo['type']];
   }
 }
 
@@ -478,7 +478,7 @@ class MrzResult {
     int age;
 
     MrzResult(Map<String, dynamic> nativeMRZResult) {
-        this.documentType = MrtdDocumentType.values[nativeMRZResult['documentType'] - 1];
+        this.documentType = MrtdDocumentType.values[nativeMRZResult['documentType']];
         this.primaryId = nativeMRZResult['primaryId'];
         this.secondaryId = nativeMRZResult['secondaryId'];
         this.issuer = nativeMRZResult['issuer'];

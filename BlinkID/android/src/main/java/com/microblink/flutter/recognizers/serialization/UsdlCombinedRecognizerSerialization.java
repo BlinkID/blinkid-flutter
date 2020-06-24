@@ -1,15 +1,15 @@
-package com.microblink.blinkid_flutter.recognizers.serialization;
+package com.microblink.flutter.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlKeys;
 import com.microblink.entities.recognizers.blinkid.usdl.UsdlCombinedRecognizer;
-import com.microblink.blinkid_flutter.recognizers.RecognizerSerialization;
+import com.microblink.flutter.recognizers.RecognizerSerialization;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.microblink.blinkid_flutter.SerializationUtils;
+import com.microblink.flutter.SerializationUtils;
 
 public final class UsdlCombinedRecognizerSerialization implements RecognizerSerialization {
 

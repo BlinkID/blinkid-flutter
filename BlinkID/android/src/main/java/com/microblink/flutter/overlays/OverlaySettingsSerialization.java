@@ -1,4 +1,4 @@
-package com.microblink.blinkid_flutter.overlays;
+package com.microblink.flutter.overlays;
 
 import android.content.Context;
 

@@ -7,19 +7,19 @@ part 'document_face_recognizer.g.dart';
 /// Result object for DocumentFaceRecognizer.
 class DocumentFaceRecognizerResult extends RecognizerResult {
     
-    ///Quadrangle represeting corner points of the document within the input image. 
+    ///The location of document detection in coordinate system of full input frame. 
     Quadrilateral documentLocation;
     
-    ///face image from the document if enabled with returnFaceImage property. 
+    ///Face image from the document 
     String faceImage;
     
-    ///Quadrangle represeting corner points of the face image within the input image. 
+    ///The location of face detection in coordinate system of cropped full document image. 
     Quadrilateral faceLocation;
     
-    ///full document image if enabled with returnFullDocumentImage property. 
+    ///Image of the full document 
     String fullDocumentImage;
     
-    DocumentFaceRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    DocumentFaceRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.documentLocation = nativeResult["documentLocation"] != null ? Quadrilateral(Map<String, dynamic>.from(nativeResult["documentLocation"])) : null;
         
@@ -33,51 +33,29 @@ class DocumentFaceRecognizerResult extends RecognizerResult {
 }
 
 
-///Class for configuring Document Face Recognizer Recognizer.
-/// 
-/// Document Face Recognizer recognizer is used for scanning documents containing face images.
+///Recognizer for detecting holder's photo on documents containing image.
 @JsonSerializable()
 class DocumentFaceRecognizer extends Recognizer {
     
-    ///Type of docment this recognizer will scan.
-    /// 
-    /// 
+    ///Currently used detector type.
     DocumentFaceDetectorType detectorType = DocumentFaceDetectorType.TD1;
     
-    ///Property for setting DPI for face images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for face image that should be returned.
     int faceImageDpi = 250;
     
-    ///Property for setting DPI for full document images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for full document image that should be returned.
     int fullDocumentImageDpi = 250;
     
-    ///Image extension factors for full document image.
-    /// 
-    /// @see ImageExtensionFactors
-    /// 
+    ///The extension factors for full document image.
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Defines how many times the same document should be detected before the detector
-    /// returns this document as a result of the deteciton
-    /// 
-    /// Higher number means more reliable detection, but slower processing
-    /// 
-    /// 
+    ///Minimum number of stable detections required for detection to be successful.
     int numStableDetectionsThreshold = 6;
     
-    ///Sets whether face image from ID card should be extracted
-    /// 
-    /// 
+    ///Defines whether face image will be available in result.
     bool returnFaceImage = false;
     
-    ///Sets whether full document image of ID card should be extracted.
-    /// 
-    /// 
+    ///Defines whether full document image will be available in
     bool returnFullDocumentImage = false;
     
     DocumentFaceRecognizer(): super('DocumentFaceRecognizer');

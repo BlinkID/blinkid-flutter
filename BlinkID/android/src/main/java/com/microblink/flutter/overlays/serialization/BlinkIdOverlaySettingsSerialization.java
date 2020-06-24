@@ -1,4 +1,4 @@
-package com.microblink.blinkid_flutter.overlays.serialization;;
+package com.microblink.flutter.overlays.serialization;
 
 import android.content.Context;
 
@@ -6,12 +6,12 @@ import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.fragment.overlay.blinkid.reticleui.ReticleOverlayStrings;
 import com.microblink.uisettings.BlinkIdUISettings;
 import com.microblink.uisettings.UISettings;
-import com.microblink.blinkid_flutter.overlays.OverlaySettingsSerialization;
-import com.microblink.blinkid_flutter.SerializationUtils;
+import com.microblink.flutter.overlays.OverlaySettingsSerialization;
+import com.microblink.flutter.SerializationUtils;
 
 import org.json.JSONObject;
 
-import static com.microblink.blinkid_flutter.SerializationUtils.getStringFromJSONObject;
+import static com.microblink.flutter.SerializationUtils.getStringFromJSONObject;
 
 public final class BlinkIdOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override

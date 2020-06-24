@@ -7,22 +7,22 @@ part 'passport_recognizer.g.dart';
 /// Result object for PassportRecognizer.
 class PassportRecognizerResult extends RecognizerResult {
     
-    ///Digital signature of the recognition result. Available only if enabled with signResult property. 
+    ///Defines digital signature of recognition results. 
     String digitalSignature;
     
-    ///Version of the digital signature. Available only if enabled with signResult property. 
+    ///Defines digital signature version. 
     int digitalSignatureVersion;
     
-    ///face image from the document if enabled with returnFaceImage property. 
+    ///Face image from the document 
     String faceImage;
     
-    ///full document image if enabled with returnFullDocumentImage property. 
+    ///Image of the full document 
     String fullDocumentImage;
     
     ///The data extracted from the machine readable zone. 
     MrzResult mrzResult;
     
-    PassportRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    PassportRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.digitalSignature = nativeResult["digitalSignature"];
         
@@ -42,47 +42,28 @@ class PassportRecognizerResult extends RecognizerResult {
 @JsonSerializable()
 class PassportRecognizer extends Recognizer {
     
-    ///Defines whether to anonymize Netherlands MRZ
-    /// 
-    /// 
+    ///Defines whether the Netherlands MRZ should be anonymized.
     bool anonymizeNetherlandsMrz = true;
     
-    ///Defines if glare detection should be turned on/off.
-    /// 
-    /// 
+    ///Defines whether glare detector is enabled.
     bool detectGlare = true;
     
-    ///Property for setting DPI for face images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for face image that should be returned.
     int faceImageDpi = 250;
     
-    ///Property for setting DPI for full document images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for full document image that should be returned.
     int fullDocumentImageDpi = 250;
     
-    ///Image extension factors for full document image.
-    /// 
-    /// @see ImageExtensionFactors
-    /// 
+    ///The extension factors for full document image.
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Sets whether face image from ID card should be extracted
-    /// 
-    /// 
+    ///Defines whether face image will be available in result.
     bool returnFaceImage = false;
     
-    ///Sets whether full document image of ID card should be extracted.
-    /// 
-    /// 
+    ///Defines whether full document image will be available in
     bool returnFullDocumentImage = false;
     
-    ///Whether or not recognition result should be signed.
-    /// 
-    /// 
+    ///Defines whether or not recognition result should be signed.
     bool signResult = false;
     
     PassportRecognizer(): super('PassportRecognizer');

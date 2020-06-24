@@ -62,7 +62,7 @@ class UsdlRecognizerResult extends RecognizerResult {
     /// @return current age of the document owner in years or -1 if date of birth is unknown.
     int age;
 
-    UsdlRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    UsdlRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
 
         this.optionalElements = List<String>.from(nativeResult['optionalElements']);
     

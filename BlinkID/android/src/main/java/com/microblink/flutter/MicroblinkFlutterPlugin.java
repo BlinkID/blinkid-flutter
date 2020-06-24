@@ -1,4 +1,4 @@
-package com.microblink.blinkid_flutter;
+package com.microblink.flutter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,19 +22,19 @@ import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.uisettings.UISettings;
 import com.microblink.uisettings.BlinkIdUISettings;
+import com.microblink.uisettings.ActivityRunner;
 
-import com.microblink.blinkid_flutter.recognizers.RecognizerSerializers;
-import com.microblink.blinkid_flutter.overlays.OverlaySettingsSerializers;
+import com.microblink.flutter.recognizers.RecognizerSerializers;
+import com.microblink.flutter.overlays.OverlaySettingsSerializers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-public class BlinkidFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener {
+public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener {
 
-
-  private static final String CHANNEL = "blinkid_flutter";
+  private static final String CHANNEL = "microblink_scanner";
 
   private static final int SCAN_REQ_CODE = 1904;
   private static final String METHOD_SCAN = "scanWithCamera";
@@ -54,17 +54,14 @@ public class BlinkidFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
   private Result pendingResult;
 
   public static void registerWith(Registrar registrar) {
-    final BlinkidFlutterPlugin plugin = new BlinkidFlutterPlugin();
+    final MicroblinkFlutterPlugin plugin = new MicroblinkFlutterPlugin();
     plugin.setupPlugin(registrar.activity(), registrar.messenger());
     registrar.addActivityResultListener(plugin);
   }
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-    setupPlugin(
-            binding.getApplicationContext(),
-            binding.getBinaryMessenger()
-    );
+      // not used
   }
 
   private void setupPlugin(Context context, BinaryMessenger messenger) {
@@ -81,17 +78,15 @@ public class BlinkidFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
     setLicense((Map)call.argument(ARG_LICENSE));
 
     if (call.method.equals(METHOD_SCAN)) {
-      this.pendingResult = result;
+      pendingResult = result;
 
       JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
       JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
 
       mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-      UISettings overlaySettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
+      UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
 
-      Intent intent = new Intent(context, overlaySettings.getTargetActivity());
-      overlaySettings.saveToIntent(intent);
-      ((Activity) context).startActivityForResult(intent, SCAN_REQ_CODE);
+      startScanning(context, SCAN_REQ_CODE, uiSettings);
 
     } else {
       result.notImplemented();
@@ -99,8 +94,8 @@ public class BlinkidFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
   }
 
 
-    @SuppressWarnings("unchecked")
-    private void setLicense(Map licenseMap) {
+  @SuppressWarnings("unchecked")
+  private void setLicense(Map licenseMap) {
       MicroblinkSDK.setShowTimeLimitedLicenseWarning((boolean)licenseMap.getOrDefault(ARG_SHOW_LICENSE_WARNING, true));
 
       String licenseKey = (String)licenseMap.get(ARG_LICENSE_KEY);
@@ -115,6 +110,13 @@ public class BlinkidFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
       MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
   }
 
+  private void startScanning(Context context, int requestCode, UISettings uiSettings) {
+      if (context instanceof Activity) {
+          ActivityRunner.startActivityForResult(((Activity) context), requestCode, uiSettings);
+      } else {
+          pendingResult.error("Context can't be casted to Activity", null, null);
+      }
+  }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {

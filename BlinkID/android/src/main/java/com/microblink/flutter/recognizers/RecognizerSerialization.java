@@ -1,4 +1,4 @@
-package com.microblink.blinkid_flutter.recognizers;
+package com.microblink.flutter.recognizers;
 
 import com.microblink.entities.recognizers.Recognizer;
 

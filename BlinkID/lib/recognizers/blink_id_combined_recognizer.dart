@@ -7,7 +7,7 @@ part 'blink_id_combined_recognizer.g.dart';
 /// Result object for BlinkIdCombinedRecognizer.
 class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
-    ///The additional address information of the document owner. 
+    ///The additional name information of the document owner. 
     String additionalAddressInformation;
     
     ///The additional name information of the document owner. 
@@ -16,12 +16,10 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The address of the document owner. 
     String address;
     
-    ///The current age of the document owner in years. It is calculated difference
-    /// between now and date of birth. Now is current time on the device.
-    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
+    ///The current age of the document owner in years. It is calculated difference 
     int age;
     
-    ///The classification information. 
+    ///The document class information. 
     ClassInfo classInfo;
     
     ///The driver license conditions. 
@@ -39,31 +37,28 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The date of issue of the document. 
     Date dateOfIssue;
     
-    ///Digital signature of the recognition result. Available only if enabled with signResult property. 
+    ///Defines digital signature of recognition results. 
     String digitalSignature;
     
-    ///Version of the digital signature. Available only if enabled with signResult property. 
+    ///Defines digital signature version. 
     int digitalSignatureVersion;
     
     ///The additional number of the document. 
     String documentAdditionalNumber;
     
-    ///Defines possible color statuses determined from scanned image. 
+    ///The document back side color status determined from scanned image. 
     DocumentImageColorStatus documentBackImageColorStatus;
     
-    ///Defines possible moire statuses determined from scanned image. 
+    ///The Moire pattern detection status determined from the back side image. 
     DocumentImageMoireStatus documentBackImageMoireStatus;
     
-    ///Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
-    /// DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
-    /// of the document and values do not match, this method will return DataMatchResultFailed. Result will
-    /// be DataMatchResultSuccess only if scanned values for all fields that are compared are the same. 
+    ///Defines result of the data matching algorithm for scanned parts/sides of the document. 
     DataMatchResult documentDataMatch;
     
-    ///Defines possible color statuses determined from scanned image. 
+    ///The document front side color status determined from scanned image. 
     DocumentImageColorStatus documentFrontImageColorStatus;
     
-    ///Defines possible moire statuses determined from scanned image. 
+    ///The Moire pattern detection status determined from the front side image. 
     DocumentImageMoireStatus documentFrontImageMoireStatus;
     
     ///The document number. 
@@ -75,16 +70,16 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The employer of the document owner. 
     String employer;
     
-    ///face image from the document if enabled with returnFaceImage property. 
+    ///Face image from the document 
     String faceImage;
     
     ///The first name of the document owner. 
     String firstName;
     
-    ///back side image of the document if enabled with returnFullDocumentImage property. 
+    ///Back side image of the document 
     String fullDocumentBackImage;
     
-    ///front side image of the document if enabled with returnFullDocumentImage property. 
+    ///Front side image of the document 
     String fullDocumentFrontImage;
     
     ///The full name of the document owner. 
@@ -102,7 +97,7 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The marital status of the document owner. 
     String maritalStatus;
     
-    ///The data extracted from the machine readable zone 
+    ///The data extracted from the machine readable zone. 
     MrzResult mrzResult;
     
     ///The nationality of the documet owner. 
@@ -126,14 +121,13 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The residential stauts of the document owner. 
     String residentialStatus;
     
-    ///Returns true if recognizer has finished scanning first side and is now scanning back side,
-    /// false if it's still scanning first side. 
+    ///{true} if recognizer has finished scanning first side and is now scanning back side, 
     bool scanningFirstSideDone;
     
     ///The sex of the document owner. 
     String sex;
     
-    BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
         
@@ -161,15 +155,15 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         
         this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"];
         
-        this.documentBackImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentBackImageColorStatus"] - 1];
+        this.documentBackImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentBackImageColorStatus"]];
         
-        this.documentBackImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentBackImageMoireStatus"] - 1];
+        this.documentBackImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentBackImageMoireStatus"]];
         
-        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] - 1];
+        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] ];
         
-        this.documentFrontImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentFrontImageColorStatus"] - 1];
+        this.documentFrontImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentFrontImageColorStatus"]];
         
-        this.documentFrontImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentFrontImageMoireStatus"] - 1];
+        this.documentFrontImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentFrontImageMoireStatus"]];
         
         this.documentNumber = nativeResult["documentNumber"];
         
@@ -219,81 +213,47 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
 }
 
 
-///Recognizer which can scan front and back side of the United States driver license.
+///A generic recognizer which can scan front and back side of the document.
 @JsonSerializable()
 class BlinkIdCombinedRecognizer extends Recognizer {
     
-    ///Defines whether blured frames filtering is allowed
-    /// 
-    /// 
+    ///Defines whether blured frames filtering is allowed.
     bool allowBlurFilter = true;
     
-    ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
-    /// 
-    /// 
+    ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed.
     bool allowUnparsedMrzResults = false;
     
-    ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed
-    /// Unverified MRZ is parsed, but check digits are incorrect
-    /// 
-    /// 
+    ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed.
     bool allowUnverifiedMrzResults = true;
     
-    ///Defines whether sensitive data should be anonymized in full document image result.
-    /// The setting only applies to certain documents
-    /// 
-    /// 
+    ///Whether sensitive data should be anonymized in full document image result.
     bool anonymizeImage = true;
     
-    ///Property for setting DPI for face images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for face image that should be returned.
     int faceImageDpi = 250;
     
-    ///Property for setting DPI for full document images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for full document image that should be returned.
     int fullDocumentImageDpi = 250;
     
-    ///Image extension factors for full document image.
-    /// 
-    /// @see ImageExtensionFactors
-    /// 
+    ///The extension factors for full document image.
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
-    /// padding edge and image edge are the same.
-    /// Recommended value is 0.02f.
-    /// 
-    /// 
+    ///Padding is a minimum distance from the edge of the frame and it is defined
     double paddingEdge = 0.0;
     
-    ///Sets whether face image from ID card should be extracted
-    /// 
-    /// 
+    ///Defines whether face image will be available in result.
     bool returnFaceImage = false;
     
-    ///Sets whether full document image of ID card should be extracted.
-    /// 
-    /// 
+    ///Defines whether full document image will be available in
     bool returnFullDocumentImage = false;
     
-    ///Whether or not recognition result should be signed.
-    /// 
-    /// 
+    ///Defines whether or not recognition result should be signed.
     bool signResult = false;
     
-    ///Skip back side capture and processing step when back side of the document is not supported
-    /// 
-    /// 
+    ///Skip back side capture and processing step when back side of the document is not supported.
     bool skipUnsupportedBack = false;
     
-    ///Defines whether result characters validatation is performed.
-    /// If a result member contains invalid character, the result state cannot be valid
-    /// 
-    /// 
+    ///Whether result characters validatation is performed.
     bool validateResultCharacters = true;
     
     BlinkIdCombinedRecognizer(): super('BlinkIdCombinedRecognizer');

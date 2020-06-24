@@ -1,6 +1,6 @@
-package com.microblink.blinkid_flutter.recognizers.serialization;
+package com.microblink.flutter.recognizers.serialization;
 
-import com.microblink.blinkid_flutter.SerializationUtils;
+import com.microblink.flutter.SerializationUtils;
 
 import com.microblink.entities.recognizers.blinkid.mrtd.MrzResult;
 import com.microblink.entities.recognizers.blinkid.generic.DriverLicenseDetailedInfo;

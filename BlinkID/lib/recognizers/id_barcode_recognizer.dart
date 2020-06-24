@@ -16,14 +16,10 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The address of the document owner. 
     String address;
     
-    ///The current age of the document owner in years. It is calculated difference
-    /// between now and date of birth. Now is current time on the device.
-    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
+    ///The current age of the document owner in years. It is calculated difference 
     int age;
     
-    ///Type of the barcode scanned
-    /// 
-    ///  @return Type of the barcode 
+    ///The format of the scanned barcode. 
     BarcodeType barcodeType;
     
     ///The date of birth of the document owner. 
@@ -41,9 +37,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The document number. 
     String documentNumber;
     
-    ///The document type deduced from the recognized barcode
-    /// 
-    ///  @return Type of the document 
+    ///The document type deduced from the recognized barcode 
     IdBarcodeDocumentType documentType;
     
     ///The employer of the document owner. 
@@ -82,13 +76,13 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The race of the document owner. 
     String race;
     
-    ///Byte array with result of the scan 
+    ///The raw bytes contained inside barcode. 
     String rawData;
     
     ///The religion of the document owner. 
     String religion;
     
-    ///The residential stauts of the document owner. 
+    ///The residential status of the document owner. 
     String residentialStatus;
     
     ///The restrictions to driving privileges for the driver license owner. 
@@ -97,17 +91,16 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The sex of the document owner. 
     String sex;
     
-    ///Retrieves string content of scanned data 
+    ///String representation of data inside barcode. 
     String stringData;
     
-    ///Flag indicating uncertain scanning data
-    /// E.g obtained from damaged barcode. 
+    ///True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
     bool uncertain;
     
     ///The type of vehicle the driver license owner has privilege to drive. 
     String vehicleClass;
     
-    IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
         
@@ -117,7 +110,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.age = nativeResult["age"];
         
-        this.barcodeType = BarcodeType.values[nativeResult["barcodeType"] - 1];
+        this.barcodeType = BarcodeType.values[nativeResult["barcodeType"] ];
         
         this.dateOfBirth = nativeResult["dateOfBirth"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
         
@@ -129,7 +122,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.documentNumber = nativeResult["documentNumber"];
         
-        this.documentType = IdBarcodeDocumentType.values[nativeResult["documentType"] - 1];
+        this.documentType = IdBarcodeDocumentType.values[nativeResult["documentType"]];
         
         this.employer = nativeResult["employer"];
         

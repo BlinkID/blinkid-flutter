@@ -7,41 +7,37 @@ part 'mrtd_combined_recognizer.g.dart';
 /// Result object for MrtdCombinedRecognizer.
 class MrtdCombinedRecognizerResult extends RecognizerResult {
     
-    ///Digital signature of the recognition result. Available only if enabled with signResult property. 
+    ///Defines digital signature of recognition results. 
     String digitalSignature;
     
-    ///Version of the digital signature. Available only if enabled with signResult property. 
+    ///Defines digital signature version. 
     int digitalSignatureVersion;
     
-    ///Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
-    /// DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
-    /// of the document and values do not match, this method will return DataMatchResultFailed. Result will
-    /// be DataMatchResultSuccess only if scanned values for all fields that are compared are the same. 
+    ///Defines result of the data matching algorithm for scanned parts/sides of the document. 
     DataMatchResult documentDataMatch;
     
-    ///face image from the document if enabled with returnFaceImage property. 
+    ///Face image from the document 
     String faceImage;
     
-    ///back side image of the document if enabled with returnFullDocumentImage property. 
+    ///Back side image of the document 
     String fullDocumentBackImage;
     
-    ///front side image of the document if enabled with returnFullDocumentImage property. 
+    ///Front side image of the document 
     String fullDocumentFrontImage;
     
-    ///Returns the Data extracted from the machine readable zone. 
+    ///The data extracted from the machine readable zone. 
     MrzResult mrzResult;
     
-    ///Returns true if recognizer has finished scanning first side and is now scanning back side,
-    /// false if it's still scanning first side. 
+    ///{true} if recognizer has finished scanning first side and is now scanning back side, 
     bool scanningFirstSideDone;
     
-    MrtdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    MrtdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.digitalSignature = nativeResult["digitalSignature"];
         
         this.digitalSignatureVersion = nativeResult["digitalSignatureVersion"];
         
-        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] - 1];
+        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] ];
         
         this.faceImage = nativeResult["faceImage"];
         
@@ -57,72 +53,42 @@ class MrtdCombinedRecognizerResult extends RecognizerResult {
 }
 
 
-///MRTD Combined recognizer
-/// 
-/// MRTD Combined recognizer is used for scanning both front and back side of generic IDs.
+///Recognizer for combined reading of face from front side of documents  and MRZ from back side of
+///  * Machine Readable Travel Document.
 @JsonSerializable()
 class MrtdCombinedRecognizer extends Recognizer {
     
-    ///Whether special characters are allowed
-    /// 
-    /// 
+    ///Whether special characters are allowed.
     bool allowSpecialCharacters = false;
     
-    ///Whether returning of unparsed results is allowed
-    /// 
-    /// 
+    ///Whether returning of unparsed results is allowed.
     bool allowUnparsedResults = false;
     
-    ///Whether returning of unverified results is allowed
-    /// Unverified result is result that is parsed, but check digits are incorrect.
-    /// 
-    /// 
+    ///Whether returning of unverified results is allowed.
     bool allowUnverifiedResults = false;
     
-    ///Type of document this recognizer will scan.
-    /// 
-    /// 
+    ///Currently used detector type.
     DocumentFaceDetectorType detectorType = DocumentFaceDetectorType.TD1;
     
-    ///Property for setting DPI for face images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for face image that should be returned.
     int faceImageDpi = 250;
     
-    ///Property for setting DPI for full document images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for full document image that should be returned.
     int fullDocumentImageDpi = 250;
     
-    ///Image extension factors for full document image.
-    /// 
-    /// @see ImageExtensionFactors
-    /// 
+    ///The extension factors for full document image.
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Defines how many times the same document should be detected before the detector
-    /// returns this document as a result of the deteciton
-    /// 
-    /// Higher number means more reliable detection, but slower processing
-    /// 
-    /// 
+    ///Minimum number of stable detections required for detection to be successful.
     int numStableDetectionsThreshold = 6;
     
-    ///Sets whether face image from ID card should be extracted
-    /// 
-    /// 
+    ///Defines whether face image will be available in result.
     bool returnFaceImage = false;
     
-    ///Sets whether full document image of ID card should be extracted.
-    /// 
-    /// 
+    ///Defines whether full document image will be available in
     bool returnFullDocumentImage = false;
     
-    ///Whether or not recognition result should be signed.
-    /// 
-    /// 
+    ///Defines whether or not recognition result should be signed.
     bool signResult = false;
     
     MrtdCombinedRecognizer(): super('MrtdCombinedRecognizer');

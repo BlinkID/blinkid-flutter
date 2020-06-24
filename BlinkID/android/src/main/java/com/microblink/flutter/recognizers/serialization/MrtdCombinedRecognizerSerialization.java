@@ -1,8 +1,8 @@
-package com.microblink.blinkid_flutter.recognizers.serialization;
+package com.microblink.flutter.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.blinkid_flutter.recognizers.RecognizerSerialization;
-import com.microblink.blinkid_flutter.SerializationUtils;
+import com.microblink.flutter.recognizers.RecognizerSerialization;
+import com.microblink.flutter.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
         recognizer.setAllowSpecialCharacters(jsonObject.optBoolean("allowSpecialCharacters", false));
         recognizer.setAllowUnparsedResults(jsonObject.optBoolean("allowUnparsedResults", false));
         recognizer.setAllowUnverifiedResults(jsonObject.optBoolean("allowUnverifiedResults", false));
-        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 1) - 1]);
+        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 1)]);
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));

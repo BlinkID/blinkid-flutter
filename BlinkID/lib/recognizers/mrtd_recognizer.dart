@@ -7,13 +7,13 @@ part 'mrtd_recognizer.g.dart';
 /// Result object for MrtdRecognizer.
 class MrtdRecognizerResult extends RecognizerResult {
     
-    ///full document image if enabled with returnFullDocumentImage property. 
+    ///Image of the full document 
     String fullDocumentImage;
     
-    ///Returns the Data extracted from the machine readable zone. 
+    ///The Data extracted from the machine readable zone. 
     MrzResult mrzResult;
     
-    MrtdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    MrtdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.fullDocumentImage = nativeResult["fullDocumentImage"];
         
@@ -23,46 +23,29 @@ class MrtdRecognizerResult extends RecognizerResult {
 }
 
 
-///Recognizer that can recognizer Machine Readable Zone (MRZ) of the Machine Readable Travel Document (MRTD)
+///Recognizer that can recognize Machine Readable Zone (MRZ) of the Machine Readable Travel Document (MRTD)
 @JsonSerializable()
 class MrtdRecognizer extends Recognizer {
     
-    ///Whether special characters are allowed
-    /// 
-    /// 
+    ///Whether special characters are allowed.
     bool allowSpecialCharacters = false;
     
-    ///Whether returning of unparsed results is allowed
-    /// 
-    /// 
+    ///Whether returning of unparsed results is allowed.
     bool allowUnparsedResults = false;
     
-    ///Whether returning of unverified results is allowed
-    /// Unverified result is result that is parsed, but check digits are incorrect.
-    /// 
-    /// 
+    ///Whether returning of unverified results is allowed.
     bool allowUnverifiedResults = false;
     
-    ///Defines if glare detection should be turned on/off.
-    /// 
-    /// 
+    ///Defines whether glare detector is enabled.
     bool detectGlare = true;
     
-    ///Property for setting DPI for full document images
-    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
-    /// 
-    /// 
+    ///The DPI (Dots Per Inch) for full document image that should be returned.
     int fullDocumentImageDpi = 250;
     
-    ///Image extension factors for full document image.
-    /// 
-    /// @see ImageExtensionFactors
-    /// 
+    ///The extension factors for full document image.
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Sets whether full document image of ID card should be extracted.
-    /// 
-    /// 
+    ///Defines whether full document image will be available in
     bool returnFullDocumentImage = false;
     
     MrtdRecognizer(): super('MrtdRecognizer');

@@ -85,13 +85,13 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
         /// @return current age of the document owner in years or -1 if date of birth is unknown.
         int age;
 
-    UsdlCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    UsdlCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
 
         this.digitalSignature = nativeResult['digitalSignature'];
         
         this.digitalSignatureVersion = nativeResult['digitalSignatureVersion'];
         
-        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] - 1];
+        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"]];
 
         this.faceImage = nativeResult['faceImage'];
 

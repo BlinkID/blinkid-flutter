@@ -1,10 +1,10 @@
-package com.microblink.blinkid_flutter.overlays;
+package com.microblink.flutter.overlays;
 
 import android.content.Context;
 
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.uisettings.UISettings;
-import com.microblink.blinkid_flutter.overlays.serialization.*;
+import com.microblink.flutter.overlays.serialization.*;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,8 +1,8 @@
-package com.microblink.blinkid_flutter.recognizers;
+package com.microblink.flutter.recognizers;
 
 import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.blinkid_flutter.recognizers.serialization.*;
+import com.microblink.flutter.recognizers.serialization.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;

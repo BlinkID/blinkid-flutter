@@ -1,8 +1,8 @@
-package com.microblink.blinkid_flutter.recognizers.serialization;
+package com.microblink.flutter.recognizers.serialization;
 
 import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.blinkid_flutter.recognizers.RecognizerSerialization;
-import com.microblink.blinkid_flutter.SerializationUtils;
+import com.microblink.flutter.recognizers.RecognizerSerialization;
+import com.microblink.flutter.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +12,7 @@ public final class DocumentFaceRecognizerSerialization implements RecognizerSeri
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer();
-        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 1) - 1]);
+        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 1)]);
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));

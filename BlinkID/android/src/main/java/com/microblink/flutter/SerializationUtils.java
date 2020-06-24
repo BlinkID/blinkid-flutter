@@ -1,4 +1,4 @@
-package com.microblink.blinkid_flutter;
+package com.microblink.flutter;
 
 import android.graphics.Bitmap;
 import android.util.Base64;
@@ -54,7 +54,7 @@ public abstract class SerializationUtils {
     }
 
     public static int serializeEnum(Enum e) {
-        return e.ordinal() + 1;
+        return e.ordinal();
     }
 
     public static JSONArray serializeStringArray(String[] strings) {
