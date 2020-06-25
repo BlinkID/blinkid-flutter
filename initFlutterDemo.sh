@@ -12,11 +12,11 @@ flutter create -a java --org com.microblink $appName
 pushd $appName
 
 if false; then
-  # add microblink_flutter dependency to pubspec.yaml
+  # add blinkid_flutter dependency to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:/" pubspec.yaml
   echo "Using blinkid_flutter from flutter pub"
 else
-  # add microblink_flutter dependency with local path to pubspec.yaml
+  # add blinkid_flutter dependency with local path to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:\n    path: ..\/BlinkID/" pubspec.yaml
   echo "Using blinkid_flutter from this repo instead from flutter pub"
 fi
