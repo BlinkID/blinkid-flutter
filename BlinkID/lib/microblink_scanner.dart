@@ -10,9 +10,8 @@ export 'package:blinkid_flutter/overlay_settings.dart';
 export 'package:blinkid_flutter/types.dart';
 
 class MicroblinkScanner {
-  static const MethodChannel _channel =
-      const MethodChannel('microblink_scanner');
 
+  static const MethodChannel _channel = const MethodChannel('microblink_scanner');
 
   static const String METHOD_SCAN_WITH_CAMERA = 'scanWithCamera';
 

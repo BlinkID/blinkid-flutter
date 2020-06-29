@@ -27,8 +27,8 @@ class Point {
     double y;
 
     Point(Map<String, dynamic> nativePoint) {
-        this.x = nativePoint['x'];
-        this.y = nativePoint['y'];
+        this.x = nativePoint['x']*1.0;
+        this.y = nativePoint['y']*1.0;
     }
 }
 
