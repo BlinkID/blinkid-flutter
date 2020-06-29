@@ -1,4 +1,4 @@
-group 'com.microblink.blinkid_flutter'
+group 'com.microblink.flutter'
 version '1.0'
 
 buildscript {
