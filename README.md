@@ -21,7 +21,9 @@ Add the blinkid_flutter dependency to your `pubspec.yaml` file:
 dependencies:
   ...
   blinkid_flutter:
+    path: path/to/BlinkID
 ```
+Note that, since the plugin is not yet published, you need to set the path to the cloned plugin repository.
 
 ### Quick start with sample app
 To try BlinkID plugin, you can generate a minimal sample application. To do so run `./initFlutterDemo.sh` script.
