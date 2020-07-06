@@ -37,7 +37,7 @@
     {
         id detectorType = [jsonRecognizer valueForKey:@"detectorType"];
         if (detectorType != nil) {
-            recognizer.detectorType = (MBDocumentFaceDetectorType)([(NSNumber *)detectorType unsignedIntegerValue] - 1);
+            recognizer.detectorType = (MBDocumentFaceDetectorType)([(NSNumber *)detectorType unsignedIntegerValue]);
         }
     }
     {
@@ -97,7 +97,7 @@
     NSMutableDictionary* jsonResult = (NSMutableDictionary*)[super serializeResult];
     [jsonResult setValue:[self.result.digitalSignature base64EncodedStringWithOptions:0] forKey:@"digitalSignature"];
     [jsonResult setValue:[NSNumber numberWithUnsignedInteger:self.result.digitalSignatureVersion] forKey:@"digitalSignatureVersion"];
-    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentDataMatch + 1)] forKey:@"documentDataMatch"];
+    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentDataMatch)] forKey:@"documentDataMatch"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.faceImage] forKey:@"faceImage"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentBackImage] forKey:@"fullDocumentBackImage"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.fullDocumentFrontImage] forKey:@"fullDocumentFrontImage"];

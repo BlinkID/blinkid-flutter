@@ -106,8 +106,8 @@
     [jsonResult setValue:[NSNumber numberWithBool:self.result.dateOfExpiryPermanent] forKey:@"dateOfExpiryPermanent"];
     [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfIssue] forKey:@"dateOfIssue"];
     [jsonResult setValue:self.result.documentAdditionalNumber forKey:@"documentAdditionalNumber"];
-    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentImageColorStatus + 1)] forKey:@"documentImageColorStatus"];
-    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentImageMoireStatus + 1)] forKey:@"documentImageMoireStatus"];
+    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentImageColorStatus)] forKey:@"documentImageColorStatus"];
+    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.documentImageMoireStatus)] forKey:@"documentImageMoireStatus"];
     [jsonResult setValue:self.result.documentNumber forKey:@"documentNumber"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeDriverLicenseDetailedInfo:self.result.driverLicenseDetailedInfo] forKey:@"driverLicenseDetailedInfo"];
     [jsonResult setValue:self.result.employer forKey:@"employer"];

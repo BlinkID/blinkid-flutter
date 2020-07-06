@@ -7,7 +7,7 @@ part 'blink_id_recognizer.g.dart';
 /// Result object for BlinkIdRecognizer.
 class BlinkIdRecognizerResult extends RecognizerResult {
     
-    ///The additional name information of the document owner. 
+    ///The additional address information of the document owner. 
     String additionalAddressInformation;
     
     ///The additional name information of the document owner. 
@@ -16,10 +16,12 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///The address of the document owner. 
     String address;
     
-    ///The current age of the document owner in years. It is calculated difference 
+    ///The current age of the document owner in years. It is calculated difference
+    /// between now and date of birth. Now is current time on the device.
+    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
     int age;
     
-    ///The document class information. 
+    ///The classification information. 
     ClassInfo classInfo;
     
     ///The driver license conditions. 
@@ -40,10 +42,10 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///The additional number of the document. 
     String documentAdditionalNumber;
     
-    ///The color status determined from scanned image. 
+    ///Defines possible color statuses determined from scanned image. 
     DocumentImageColorStatus documentImageColorStatus;
     
-    ///The Moire pattern detection status determined from the scanned image. 
+    ///Defines possible moire statuses determined from scanned image. 
     DocumentImageMoireStatus documentImageMoireStatus;
     
     ///The document number. 
@@ -55,13 +57,13 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///The employer of the document owner. 
     String employer;
     
-    ///Face image from the document 
+    ///face image from the document if enabled with returnFaceImage property. 
     String faceImage;
     
     ///The first name of the document owner. 
     String firstName;
     
-    ///Image of the full document 
+    ///full document image if enabled with returnFullDocumentImage property. 
     String fullDocumentImage;
     
     ///The full name of the document owner. 
@@ -79,7 +81,7 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///The marital status of the document owner. 
     String maritalStatus;
     
-    ///The data extracted from the machine readable zone. 
+    ///The data extracted from the machine readable zone 
     MrzResult mrzResult;
     
     ///The nationality of the documet owner. 
@@ -178,41 +180,71 @@ class BlinkIdRecognizerResult extends RecognizerResult {
 }
 
 
-///Generic BlinkID recognizer.
+///The Blink ID Recognizer is used for scanning Blink ID.
 @JsonSerializable()
 class BlinkIdRecognizer extends Recognizer {
     
-    ///Defines whether blured frames filtering is allowed"
+    ///Defines whether blured frames filtering is allowed
+    /// 
+    /// 
     bool allowBlurFilter = true;
     
-    ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed.
+    ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
+    /// 
+    /// 
     bool allowUnparsedMrzResults = false;
     
-    ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed.
+    ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed
+    /// Unverified MRZ is parsed, but check digits are incorrect
+    /// 
+    /// 
     bool allowUnverifiedMrzResults = true;
     
-    ///Whether sensitive data should be anonymized in full document image result.
+    ///Defines whether sensitive data should be anonymized in full document image result.
+    /// The setting only applies to certain documents
+    /// 
+    /// 
     bool anonymizeImage = true;
     
-    ///The DPI (Dots Per Inch) for face image that should be returned.
+    ///Property for setting DPI for face images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int faceImageDpi = 250;
     
-    ///The DPI (Dots Per Inch) for full document image that should be returned.
+    ///Property for setting DPI for full document images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int fullDocumentImageDpi = 250;
     
-    ///The extension factors for full document image.
+    ///Image extension factors for full document image.
+    /// 
+    /// @see ImageExtensionFactors
+    /// 
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Padding is a minimum distance from the edge of the frame and it is defined
+    ///Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
+    /// padding edge and image edge are the same.
+    /// Recommended value is 0.02f.
+    /// 
+    /// 
     double paddingEdge = 0.0;
     
-    ///Defines whether face image will be available in result.
+    ///Sets whether face image from ID card should be extracted
+    /// 
+    /// 
     bool returnFaceImage = false;
     
-    ///Defines whether full document image will be available in
+    ///Sets whether full document image of ID card should be extracted.
+    /// 
+    /// 
     bool returnFullDocumentImage = false;
     
-    ///Whether result characters validatation is performed.
+    ///Defines whether result characters validatation is performed.
+    /// If a result member contains invalid character, the result state cannot be valid
+    /// 
+    /// 
     bool validateResultCharacters = true;
     
     BlinkIdRecognizer(): super('BlinkIdRecognizer');

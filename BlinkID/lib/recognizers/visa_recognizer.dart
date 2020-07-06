@@ -7,10 +7,10 @@ part 'visa_recognizer.g.dart';
 /// Result object for VisaRecognizer.
 class VisaRecognizerResult extends RecognizerResult {
     
-    ///Face image from the document 
+    ///face image from the document if enabled with returnFaceImage property. 
     String faceImage;
     
-    ///Image of the full document 
+    ///full document image if enabled with returnFullDocumentImage property. 
     String fullDocumentImage;
     
     ///The data extracted from the machine readable zone. 
@@ -32,22 +32,37 @@ class VisaRecognizerResult extends RecognizerResult {
 @JsonSerializable()
 class VisaRecognizer extends Recognizer {
     
-    ///Defines whether glare detector is enabled.
+    ///Defines if glare detection should be turned on/off.
+    /// 
+    /// 
     bool detectGlare = true;
     
-    ///The DPI (Dots Per Inch) for face image that should be returned.
+    ///Property for setting DPI for face images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int faceImageDpi = 250;
     
-    ///The DPI (Dots Per Inch) for full document image that should be returned.
+    ///Property for setting DPI for full document images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int fullDocumentImageDpi = 250;
     
-    ///The extension factors for full document image.
+    ///Image extension factors for full document image.
+    /// 
+    /// @see ImageExtensionFactors
+    /// 
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Defines whether face image will be available in result.
+    ///Sets whether face image from ID card should be extracted
+    /// 
+    /// 
     bool returnFaceImage = false;
     
-    ///Defines whether full document image will be available in
+    ///Sets whether full document image of ID card should be extracted.
+    /// 
+    /// 
     bool returnFullDocumentImage = false;
     
     VisaRecognizer(): super('VisaRecognizer');
