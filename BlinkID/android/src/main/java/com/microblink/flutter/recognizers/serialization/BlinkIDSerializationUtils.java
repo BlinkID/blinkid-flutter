@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public abstract class BlinkIDSerializationUtils {
     public static JSONObject serializeMrzResult(MrzResult mrzResult) throws JSONException {
         JSONObject jsonMrz = new JSONObject();
-        jsonMrz.put("documentType", mrzResult.getDocumentType().ordinal() + 1);
+        jsonMrz.put("documentType", mrzResult.getDocumentType().ordinal());
         jsonMrz.put("primaryId", mrzResult.getPrimaryId());
         jsonMrz.put("secondaryId", mrzResult.getSecondaryId());
         jsonMrz.put("issuer", mrzResult.getIssuer());
