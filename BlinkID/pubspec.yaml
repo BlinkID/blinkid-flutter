@@ -1,6 +1,6 @@
 name: blinkid_flutter
 description: BlinkID plugin for Flutter.
-version: 5.5.0
+version: 5.5.0+1
 homepage: https://microblink.com
 
 environment:
