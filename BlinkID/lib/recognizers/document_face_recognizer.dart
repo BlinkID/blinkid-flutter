@@ -19,7 +19,7 @@ class DocumentFaceRecognizerResult extends RecognizerResult {
     ///full document image if enabled with returnFullDocumentImage property. 
     String fullDocumentImage;
     
-    DocumentFaceRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    DocumentFaceRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.documentLocation = nativeResult["documentLocation"] != null ? Quadrilateral(Map<String, dynamic>.from(nativeResult["documentLocation"])) : null;
         

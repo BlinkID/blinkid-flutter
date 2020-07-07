@@ -13,7 +13,7 @@ class MrtdRecognizerResult extends RecognizerResult {
     ///Returns the Data extracted from the machine readable zone. 
     MrzResult mrzResult;
     
-    MrtdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    MrtdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.fullDocumentImage = nativeResult["fullDocumentImage"];
         

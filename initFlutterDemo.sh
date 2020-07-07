@@ -1,13 +1,12 @@
 #!/bin/bash
 
-blink_id_plugin_path=`pwd`/BlinkID
 appName=sample
 
 # remove any existing code
 rm -rf $appName
 
 # create a sample application
-flutter create --org com.microblink $appName
+flutter create -a java --org com.microblink $appName
 
 # enter into demo project folder
 pushd $appName
@@ -27,7 +26,9 @@ flutter pub get
 # enter into android project folder
 pushd android
 
-# TODO: android specifics
+file_main_activity=app/src/main/java/com/microblink/$appName/MainActivity.java
+cp ../../sample_files/MainActivity.java $file_main_activity
+perl -i~ -pe "if ($. == 1) { s/.*/package com.microblink.$appName;/; }" $file_main_activity
 
 popd
 
@@ -52,8 +53,9 @@ fi
 # go to flutter root project
 popd
 
-cp ../demoAPP/main.dart lib/
+cp ../sample_files/main.dart lib/
 
+echo ""
 echo "Go to Flutter project folder: cd $appName"
-echo "To run on Android execute: ???"
+echo "To run on Android type: flutter run"
 echo "To run on iOS: go to $appName/ios and open Runner.xcworkspace; set your development team and add Privacy - Camera Usage Description key to Runner/Info.plist file and press run"

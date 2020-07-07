@@ -35,13 +35,13 @@ class MrtdCombinedRecognizerResult extends RecognizerResult {
     /// false if it's still scanning first side. 
     bool scanningFirstSideDone;
     
-    MrtdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    MrtdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.digitalSignature = nativeResult["digitalSignature"];
         
         this.digitalSignatureVersion = nativeResult["digitalSignatureVersion"];
         
-        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] - 1];
+        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"]];
         
         this.faceImage = nativeResult["faceImage"];
         

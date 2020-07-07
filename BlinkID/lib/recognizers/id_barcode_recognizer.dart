@@ -107,7 +107,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The type of vehicle the driver license owner has privilege to drive. 
     String vehicleClass;
     
-    IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
         
@@ -117,7 +117,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.age = nativeResult["age"];
         
-        this.barcodeType = BarcodeType.values[nativeResult["barcodeType"] - 1];
+        this.barcodeType = BarcodeType.values[nativeResult["barcodeType"]];
         
         this.dateOfBirth = nativeResult["dateOfBirth"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
         
@@ -129,7 +129,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.documentNumber = nativeResult["documentNumber"];
         
-        this.documentType = IdBarcodeDocumentType.values[nativeResult["documentType"] - 1];
+        this.documentType = IdBarcodeDocumentType.values[nativeResult["documentType"]];
         
         this.employer = nativeResult["employer"];
         

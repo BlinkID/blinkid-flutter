@@ -22,7 +22,7 @@ class PassportRecognizerResult extends RecognizerResult {
     ///The data extracted from the machine readable zone. 
     MrzResult mrzResult;
     
-    PassportRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    PassportRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.digitalSignature = nativeResult["digitalSignature"];
         

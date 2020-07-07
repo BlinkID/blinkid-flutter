@@ -108,7 +108,7 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///The sex of the document owner. 
     String sex;
     
-    BlinkIdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    BlinkIdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
         
@@ -132,9 +132,9 @@ class BlinkIdRecognizerResult extends RecognizerResult {
         
         this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"];
         
-        this.documentImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentImageColorStatus"] - 1];
+        this.documentImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentImageColorStatus"]];
         
-        this.documentImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentImageMoireStatus"] - 1];
+        this.documentImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentImageMoireStatus"]];
         
         this.documentNumber = nativeResult["documentNumber"];
         

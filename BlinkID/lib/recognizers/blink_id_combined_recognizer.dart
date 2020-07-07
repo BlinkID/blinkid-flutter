@@ -133,7 +133,7 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The sex of the document owner. 
     String sex;
     
-    BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
         
@@ -161,15 +161,15 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         
         this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"];
         
-        this.documentBackImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentBackImageColorStatus"] - 1];
+        this.documentBackImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentBackImageColorStatus"]];
         
-        this.documentBackImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentBackImageMoireStatus"] - 1];
+        this.documentBackImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentBackImageMoireStatus"]];
         
-        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"] - 1];
+        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"]];
         
-        this.documentFrontImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentFrontImageColorStatus"] - 1];
+        this.documentFrontImageColorStatus = DocumentImageColorStatus.values[nativeResult["documentFrontImageColorStatus"]];
         
-        this.documentFrontImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentFrontImageMoireStatus"] - 1];
+        this.documentFrontImageMoireStatus = DocumentImageMoireStatus.values[nativeResult["documentFrontImageMoireStatus"]];
         
         this.documentNumber = nativeResult["documentNumber"];
         

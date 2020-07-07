@@ -12,7 +12,7 @@
 
 +(NSDictionary *) serializeMrzResult:(MBMrzResult *)mrzResult {
     return @{
-        @"documentType" : [NSNumber numberWithInteger:(mrzResult.documentType + 1)],
+        @"documentType" : [NSNumber numberWithInteger:(mrzResult.documentType)],
         @"primaryId" : mrzResult.primaryID,
         @"secondaryId" : mrzResult.secondaryID,
         @"issuer" : mrzResult.issuer,
@@ -63,9 +63,9 @@
 
 +(NSDictionary *) serializeClassInfo:(MBClassInfo *)classInfo {
     return @{
-             @"country" : [NSNumber numberWithInteger:(classInfo.country + 1)],
-             @"region" : [NSNumber numberWithInteger:(classInfo.region + 1)],
-             @"type" : [NSNumber numberWithInteger:(classInfo.type + 1)],
+             @"country" : [NSNumber numberWithInteger:(classInfo.country)],
+             @"region" : [NSNumber numberWithInteger:(classInfo.region)],
+             @"type" : [NSNumber numberWithInteger:(classInfo.type)],
              };
 }
 

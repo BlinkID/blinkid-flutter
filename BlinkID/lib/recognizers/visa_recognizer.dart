@@ -16,7 +16,7 @@ class VisaRecognizerResult extends RecognizerResult {
     ///The data extracted from the machine readable zone. 
     MrzResult mrzResult;
     
-    VisaRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState'] - 1]) {
+    VisaRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.faceImage = nativeResult["faceImage"];
         

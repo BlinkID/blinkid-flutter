@@ -1,11 +1,11 @@
-#import "BlinkidFlutterPlugin.h"
+#import "MicroblinkFlutterPlugin.h"
 #import "Microblink/Microblink.h"
 #import "MicroblinkModule/Overlays/MBOverlayViewControllerDelegate.h"
 #import "MicroblinkModule/Recognizers/MBRecognizerSerializers.h"
 #import "MicroblinkModule/Overlays/MBOverlaySettingsSerializers.h"
 #import "MBSerializationUtils.h"
 
-@interface BlinkidFlutterPlugin () <MBOverlayViewControllerDelegate>
+@interface MicroblinkFlutterPlugin () <MBOverlayViewControllerDelegate>
 
 @property (nonatomic, strong) MBRecognizerCollection *recognizerCollection;
 
@@ -13,16 +13,16 @@
 
 @end
 
-static NSString* const kChannelName = @"blinkid_flutter";
+static NSString* const kChannelName = @"microblink_scanner";
 static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
 
-@implementation BlinkidFlutterPlugin
+@implementation MicroblinkFlutterPlugin
 
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     FlutterMethodChannel* channel = [FlutterMethodChannel
                                      methodChannelWithName:kChannelName
                                      binaryMessenger:[registrar messenger]];
-    BlinkidFlutterPlugin* instance = [[BlinkidFlutterPlugin alloc] init];
+    MicroblinkFlutterPlugin* instance = [[MicroblinkFlutterPlugin alloc] init];
     [registrar addMethodCallDelegate:instance channel:channel];
 }
 
@@ -48,7 +48,7 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
     if ([kScanWithCameraMethodName isEqualToString:call.method]) {
         NSDictionary *recognizerCollectionDict = call.arguments[@"recognizerCollection"];
         NSDictionary *overlaySettingsDict = call.arguments[@"overlaySettings"];
-        NSDictionary *licenseKeyDict = call.arguments[@"licenseKey"];
+        NSDictionary *licenseKeyDict = call.arguments[@"license"];
         
         [self setLicenseKey:licenseKeyDict];
         [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
@@ -98,12 +98,14 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
 
         BOOL isDocumentCaptureRecognizer = NO;
 
-        NSMutableArray *jsonResults = [[NSMutableArray alloc] initWithCapacity:self.recognizerCollection.recognizerList.count];
+        NSMutableArray *arrayResults = [[NSMutableArray alloc] initWithCapacity:self.recognizerCollection.recognizerList.count];
         for (NSUInteger i = 0; i < self.recognizerCollection.recognizerList.count; ++i) {
-            [jsonResults addObject:[[self.recognizerCollection.recognizerList objectAtIndex:i] serializeResult]];
+            [arrayResults addObject:[[self.recognizerCollection.recognizerList objectAtIndex:i] serializeResult]];
         }
 
         if (!isDocumentCaptureRecognizer) {
+            NSData *resultsData = [NSJSONSerialization dataWithJSONObject:arrayResults options:NSJSONWritingPrettyPrinted error:nil];
+            NSString *jsonResults = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
             self.result(jsonResults);
         }
 
@@ -123,7 +125,7 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
     [rootViewController dismissViewControllerAnimated:YES completion:nil];
     
     self.recognizerCollection = nil;
-    self.result(nil);
+    self.result(@"null");
     self.result = nil;
 }
 
