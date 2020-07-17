@@ -15,7 +15,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         recognizer.setAllowBlurFilter(jsonObject.optBoolean("allowBlurFilter", true));
         recognizer.setAllowUnparsedMrzResults(jsonObject.optBoolean("allowUnparsedMrzResults", false));
         recognizer.setAllowUnverifiedMrzResults(jsonObject.optBoolean("allowUnverifiedMrzResults", true));
-        recognizer.setAnonymizeImage(jsonObject.optBoolean("anonymizeImage", true));
+        recognizer.setAnonymizationMode(com.microblink.entities.recognizers.blinkid.generic.AnonymizationMode.values()[jsonObject.optInt("anonymizationMode", 4) - 1]);
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
@@ -38,6 +38,9 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("additionalNameInformation", result.getAdditionalNameInformation());
             jsonResult.put("address", result.getAddress());
             jsonResult.put("age", result.getAge());
+            jsonResult.put("backImageAnalysisResult", BlinkIDSerializationUtils.serializeImageAnalysisResult(result.getBackImageAnalysisResult()));
+            jsonResult.put("backVizResult", BlinkIDSerializationUtils.serializeVizResult(result.getBackVizResult()));
+            jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
             jsonResult.put("conditions", result.getConditions());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
@@ -47,16 +50,15 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
             jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentAdditionalNumber", result.getDocumentAdditionalNumber());
-            jsonResult.put("documentBackImageColorStatus", SerializationUtils.serializeEnum(result.getDocumentBackImageColorStatus()));
-            jsonResult.put("documentBackImageMoireStatus", SerializationUtils.serializeEnum(result.getDocumentBackImageMoireStatus()));
             jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
-            jsonResult.put("documentFrontImageColorStatus", SerializationUtils.serializeEnum(result.getDocumentFrontImageColorStatus()));
-            jsonResult.put("documentFrontImageMoireStatus", SerializationUtils.serializeEnum(result.getDocumentFrontImageMoireStatus()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
             jsonResult.put("employer", result.getEmployer());
+            jsonResult.put("expired", result.isExpired());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("firstName", result.getFirstName());
+            jsonResult.put("frontImageAnalysisResult", BlinkIDSerializationUtils.serializeImageAnalysisResult(result.getFrontImageAnalysisResult()));
+            jsonResult.put("frontVizResult", BlinkIDSerializationUtils.serializeVizResult(result.getFrontVizResult()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));
             jsonResult.put("fullDocumentFrontImage", SerializationUtils.encodeImageBase64(result.getFullDocumentFrontImage()));
             jsonResult.put("fullName", result.getFullName());

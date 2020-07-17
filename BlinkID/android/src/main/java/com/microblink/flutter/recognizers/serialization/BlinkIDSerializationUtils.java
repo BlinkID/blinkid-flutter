@@ -5,6 +5,9 @@ import com.microblink.flutter.SerializationUtils;
 import com.microblink.entities.recognizers.blinkid.mrtd.MrzResult;
 import com.microblink.entities.recognizers.blinkid.generic.DriverLicenseDetailedInfo;
 import com.microblink.entities.recognizers.blinkid.generic.classinfo.ClassInfo;
+import com.microblink.entities.recognizers.blinkid.generic.imageanalysis.ImageAnalysisResult;
+import com.microblink.entities.recognizers.blinkid.generic.viz.VizResult;
+import com.microblink.entities.recognizers.blinkid.generic.barcode.BarcodeResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,6 +56,82 @@ public abstract class BlinkIDSerializationUtils {
         jsonClassInfo.put("region", SerializationUtils.serializeEnum(classInfo.getRegion()));
         jsonClassInfo.put("type", SerializationUtils.serializeEnum(classInfo.getType()));
         return jsonClassInfo;
+    }
+
+    public static JSONObject serializeImageAnalysisResult(ImageAnalysisResult imageAnalysisResult) throws JSONException {
+        JSONObject jsonImageAnalysis = new JSONObject();
+        jsonImageAnalysis.put("blurred", imageAnalysisResult.isBlurred());
+        jsonImageAnalysis.put("documentImageColorStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getDocumentImageColorStatus()));
+        jsonImageAnalysis.put("documentImageMoireStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getDocumentImageMoireStatus()));
+        return jsonImageAnalysis;
+    }
+
+    public static JSONObject serializeVizResult(VizResult vizResult) throws JSONException {
+        JSONObject jsonViz = new JSONObject();
+        jsonViz.put("firstName", vizResult.getFirstName());
+        jsonViz.put("lastName", vizResult.getLastName());
+        jsonViz.put("fullName", vizResult.getFullName());
+        jsonViz.put("additionalNameInformation", vizResult.getAdditionalNameInformation());
+        jsonViz.put("localizedName", vizResult.getLocalizedName());
+        jsonViz.put("address", vizResult.getAddress());
+        jsonViz.put("additionalAddressInformation", vizResult.getAdditionalAddressInformation());
+        jsonViz.put("placeOfBirth", vizResult.getPlaceOfBirth());
+        jsonViz.put("nationality", vizResult.getNationality());
+        jsonViz.put("race", vizResult.getRace());
+        jsonViz.put("religion", vizResult.getReligion());
+        jsonViz.put("profession", vizResult.getProfession());
+        jsonViz.put("maritalStatus", vizResult.getMaritalStatus());
+        jsonViz.put("residentialStatus", vizResult.getResidentialStatus());
+        jsonViz.put("employer", vizResult.getEmployer());
+        jsonViz.put("sex", vizResult.getSex());
+        jsonViz.put("dateOfBirth", SerializationUtils.serializeDate(vizResult.getDateOfBirth().getDate()));
+        jsonViz.put("dateOfIssue", SerializationUtils.serializeDate(vizResult.getDateOfIssue().getDate()));
+        jsonViz.put("dateOfExpiry", SerializationUtils.serializeDate(vizResult.getDateOfExpiry().getDate()));
+        jsonViz.put("documentNumber", vizResult.getDocumentNumber());
+        jsonViz.put("personalIdNumber", vizResult.getPersonalIdNumber());
+        jsonViz.put("documentAdditionalNumber", vizResult.getDocumentAdditionalNumber());
+        jsonViz.put("additionalPersonalIdNumber", vizResult.getAdditionalPersonalIdNumber());
+        jsonViz.put("issuingAuthority", vizResult.getIssuingAuthority());
+        jsonViz.put("driverLicenseDetailedInfo", serializeDriverLicenseDetailedInfo(vizResult.getDriverLicenseDetailedInfo()));
+        jsonViz.put("conditions", vizResult.getConditions());
+        jsonViz.put("empty", vizResult.isEmpty());
+        return jsonViz;
+    }
+
+    public static JSONObject serializeBarcodeResult(BarcodeResult barcodeResult) throws JSONException {
+        JSONObject jsonBarcode = new JSONObject();
+        jsonBarcode.put("barcodeType", SerializationUtils.serializeEnum(barcodeResult.getBarcodeType()));
+        jsonBarcode.put("rawData", SerializationUtils.encodeByteArrayToBase64(barcodeResult.getRawData()));
+        jsonBarcode.put("stringData", barcodeResult.getStringData());
+        jsonBarcode.put("uncertain", barcodeResult.isUncertain());
+        jsonBarcode.put("firstName", barcodeResult.getFirstName());
+        jsonBarcode.put("lastName", barcodeResult.getLastName());
+        jsonBarcode.put("fullName", barcodeResult.getFullName());
+        jsonBarcode.put("additionalNameInformation", barcodeResult.getAdditionalNameInformation());
+        jsonBarcode.put("address", barcodeResult.getAddress());
+        jsonBarcode.put("placeOfBirth", barcodeResult.getPlaceOfBirth());
+        jsonBarcode.put("nationality", barcodeResult.getNationality());
+        jsonBarcode.put("race", barcodeResult.getRace());
+        jsonBarcode.put("religion", barcodeResult.getReligion());
+        jsonBarcode.put("profession", barcodeResult.getProfession());
+        jsonBarcode.put("maritalStatus", barcodeResult.getMaritalStatus());
+        jsonBarcode.put("residentialStatus", barcodeResult.getResidentialStatus());
+        jsonBarcode.put("employer", barcodeResult.getEmployer());
+        jsonBarcode.put("sex", barcodeResult.getSex());
+        jsonBarcode.put("dateOfBirth", SerializationUtils.serializeDate(barcodeResult.getDateOfBirth().getDate()));
+        jsonBarcode.put("dateOfIssue", SerializationUtils.serializeDate(barcodeResult.getDateOfIssue().getDate()));
+        jsonBarcode.put("dateOfExpiry", SerializationUtils.serializeDate(barcodeResult.getDateOfExpiry().getDate()));
+        jsonBarcode.put("documentNumber", barcodeResult.getDocumentNumber());
+        jsonBarcode.put("personalIdNumber", barcodeResult.getPersonalIdNumber());
+        jsonBarcode.put("documentAdditionalNumber", barcodeResult.getDocumentAdditionalNumber());
+        jsonBarcode.put("issuingAuthority", barcodeResult.getIssuingAuthority());
+        jsonBarcode.put("street", barcodeResult.getStreet());
+        jsonBarcode.put("postalCode", barcodeResult.getPostalCode());
+        jsonBarcode.put("city", barcodeResult.getCity());
+        jsonBarcode.put("jurisdiction", barcodeResult.getJurisdiction());
+        jsonBarcode.put("driverLicenseDetailedInfo", serializeDriverLicenseDetailedInfo(barcodeResult.getDriverLicenseDetailedInfo()));
+        jsonBarcode.put("empty", barcodeResult.isEmpty());
+        return jsonBarcode;
     }
 
 }
