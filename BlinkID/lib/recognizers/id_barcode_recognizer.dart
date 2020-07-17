@@ -7,24 +7,20 @@ part 'id_barcode_recognizer.g.dart';
 /// Result object for IdBarcodeRecognizer.
 class IdBarcodeRecognizerResult extends RecognizerResult {
     
-    ///THe additional address information of the document owner. 
-    String additionalAddressInformation;
-    
     ///The additional name information of the document owner. 
     String additionalNameInformation;
     
     ///The address of the document owner. 
     String address;
     
-    ///The current age of the document owner in years. It is calculated difference
-    /// between now and date of birth. Now is current time on the device.
-    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
+    ///The current age of the document owner in years. It is calculated difference 
     int age;
     
-    ///Type of the barcode scanned
-    /// 
-    ///  @return Type of the barcode 
+    ///The format of the scanned barcode. 
     BarcodeType barcodeType;
+    
+    ///The city address portion of the document owner. 
+    String city;
     
     ///The date of birth of the document owner. 
     Date dateOfBirth;
@@ -41,9 +37,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The document number. 
     String documentNumber;
     
-    ///The document type deduced from the recognized barcode
-    /// 
-    ///  @return Type of the document 
+    ///The document type deduced from the recognized barcode 
     IdBarcodeDocumentType documentType;
     
     ///The employer of the document owner. 
@@ -51,6 +45,9 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     
     ///The additional privileges granted to the driver license owner. 
     String endorsements;
+    
+    ///Checks whether the document has expired or not by comparing the current 
+    bool expired;
     
     ///The first name of the document owner. 
     String firstName;
@@ -60,6 +57,9 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     
     ///The issuing authority of the document. 
     String issuingAuthority;
+    
+    ///The jurisdiction code address portion of the document owner. 
+    String jurisdiction;
     
     ///The last name of the document owner. 
     String lastName;
@@ -76,19 +76,22 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The place of birth of the document owner. 
     String placeOfBirth;
     
+    ///The postal code address portion of the document owner. 
+    String postalCode;
+    
     ///The profession of the document owner. 
     String profession;
     
     ///The race of the document owner. 
     String race;
     
-    ///Byte array with result of the scan 
+    ///The raw bytes contained inside barcode. 
     String rawData;
     
     ///The religion of the document owner. 
     String religion;
     
-    ///The residential stauts of the document owner. 
+    ///The residential status of the document owner. 
     String residentialStatus;
     
     ///The restrictions to driving privileges for the driver license owner. 
@@ -97,19 +100,19 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The sex of the document owner. 
     String sex;
     
-    ///Retrieves string content of scanned data 
+    ///The street address portion of the document owner. 
+    String street;
+    
+    ///String representation of data inside barcode. 
     String stringData;
     
-    ///Flag indicating uncertain scanning data
-    /// E.g obtained from damaged barcode. 
+    ///True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
     bool uncertain;
     
     ///The type of vehicle the driver license owner has privilege to drive. 
     String vehicleClass;
     
     IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
-        
-        this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
         
         this.additionalNameInformation = nativeResult["additionalNameInformation"];
         
@@ -118,6 +121,8 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         this.age = nativeResult["age"];
         
         this.barcodeType = BarcodeType.values[nativeResult["barcodeType"]];
+        
+        this.city = nativeResult["city"];
         
         this.dateOfBirth = nativeResult["dateOfBirth"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
         
@@ -135,11 +140,15 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.endorsements = nativeResult["endorsements"];
         
+        this.expired = nativeResult["expired"];
+        
         this.firstName = nativeResult["firstName"];
         
         this.fullName = nativeResult["fullName"];
         
         this.issuingAuthority = nativeResult["issuingAuthority"];
+        
+        this.jurisdiction = nativeResult["jurisdiction"];
         
         this.lastName = nativeResult["lastName"];
         
@@ -150,6 +159,8 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         this.personalIdNumber = nativeResult["personalIdNumber"];
         
         this.placeOfBirth = nativeResult["placeOfBirth"];
+        
+        this.postalCode = nativeResult["postalCode"];
         
         this.profession = nativeResult["profession"];
         
@@ -164,6 +175,8 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         this.restrictions = nativeResult["restrictions"];
         
         this.sex = nativeResult["sex"];
+        
+        this.street = nativeResult["street"];
         
         this.stringData = nativeResult["stringData"];
         

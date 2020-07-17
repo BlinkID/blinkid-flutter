@@ -62,6 +62,18 @@ class UsdlRecognizerResult extends RecognizerResult {
     /// @return current age of the document owner in years or -1 if date of birth is unknown.
     int age;
 
+    /// The street address portion of the United States driver license owner.
+    String street;
+
+    /// The postal code address portion of the United States driver license owner.
+    String postalCode;
+
+    /// The city address portion of the United States driver license owner.
+    String city;
+
+    /// The jurisdiction code address portion of the United States driver license owner.
+    String jurisdiction;
+
     UsdlRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
 
         this.optionalElements = List<String>.from(nativeResult['optionalElements']);
@@ -99,6 +111,14 @@ class UsdlRecognizerResult extends RecognizerResult {
         this.dateOfExpiry = nativeResult['dateOfExpiry'] != null ? new Date(Map<String, dynamic>.from(nativeResult['dateOfExpiry'])) : null;
 
         this.age = nativeResult['age'];
+
+        this.street = nativeResult['street'];
+
+        this.postalCode = nativeResult['postalCode'];
+
+        this.city = nativeResult['city'];
+
+        this.jurisdiction = nativeResult['jurisdiction'];
     }
 }
 
@@ -111,6 +131,9 @@ class UsdlRecognizer extends Recognizer {
 
     /// Enable decoding of non-standard PDF417 barcodes, but without 
     bool uncertainDecoding = true;
+
+    /// Enables parsing of compact barcode encoding format
+    bool enableCompactParser = false;
 
     UsdlRecognizer(): super('UsdlRecognizer');
 

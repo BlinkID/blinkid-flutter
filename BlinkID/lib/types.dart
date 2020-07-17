@@ -274,7 +274,10 @@ enum Country {
     Vietnam,
     Brazil,
     Norway,
-    Oman
+    Oman,
+    Ecuador,
+    ElSalvador,
+    SriLanka
 }
 
 /// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -375,7 +378,8 @@ enum Type {
     iKad,
     MilitaryId,
     MyKas,
-    SocialSecurityCard
+    SocialSecurityCard,
+    HealthInsuranceCard
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -407,8 +411,8 @@ class MrzResult {
     /// extensions for certain States.
     String nationality;
 
-    // The gender of the card holder. Gender is specified by use of the single initial, capital letter F for female,
-    // M for male or <code>&lt;</code> for unspecified.
+    /// The gender of the card holder. Gender is specified by use of the single initial, capital letter F for female,
+    /// M for male or <code>&lt;</code> for unspecified.
     String gender;
 
     /// The document code. Document code contains two characters. For MRTD the first character shall
@@ -539,3 +543,222 @@ class ImageExtensionFactors {
     Map<String, dynamic> toJson() => _$ImageExtensionFactorsToJson(this);
 }
 
+
+
+/// Define level of anonymization performed on recognizer result
+enum AnonymizationMode {
+    /// Anonymization will not be performed.
+    None,
+    /// FullDocumentImage is anonymized with black boxes covering sensitive data.
+    ImageOnly,
+    /// Result fields containing sensitive data are removed from result.
+    ResultFieldsOnly,
+    /// This mode is combination of ImageOnly and ResultFieldsOnly modes.
+    FullResult
+}
+
+/// Defines possible color and moire statuses determined from scanned image.
+class ImageAnalysisResult {
+
+    /// Whether the image is blurred.
+    bool blurred;
+    /// The color status determined from scanned image.
+    DocumentImageColorStatus documentImageColorStatus;
+    /// The Moire pattern detection status determined from the scanned image.
+    DocumentImageMoireStatus documentImageMoireStatus;
+
+    ImageAnalysisResult(Map<String, dynamic> nativeImageAnalysisResult) {
+        this.blurred = nativeImageAnalysisResult['blurred'];
+        this.documentImageColorStatus = DocumentImageColorStatus.values[nativeImageAnalysisResult['documentImageColorStatus']];
+        this.documentImageMoireStatus = DocumentImageMoireStatus.values[nativeImageAnalysisResult['documentImageMoireStatus']];
+    }
+}
+
+/// Defines the data extracted from the barcode. 
+class BarcodeResult {
+
+    /// Type of the barcode scanned 
+    BarcodeType barcodeType;
+    /// Byte array with result of the scan
+    String rawData;
+    /// Retrieves string content of scanned data
+    String stringData;
+    /// Flag indicating uncertain scanning data
+    bool uncertain;
+    /// The first name of the document owner.
+    String firstName;
+    /// The last name of the document owner.
+    String lastName;
+    /// The full name of the document owner.
+    String fullName;
+    /// The additional name information of the document owner.
+    String additionalNameInformation;
+    /// The address of the document owner.
+    String address;
+    /// The place of birth of the document owner.
+    String placeOfBirth;
+    /// The nationality of the documet owner.
+    String nationality;
+    /// The race of the document owner.
+    String race;
+    /// The religion of the document owner.
+    String religion;
+    /// The profession of the document owner.
+    String profession;
+    /// The marital status of the document owner.
+    String maritalStatus;
+    /// The residential stauts of the document owner.
+    String residentialStatus;
+    /// The employer of the document owner.
+    String employer;
+    /// The sex of the document owner.
+    String sex;
+    /// The date of birth of the document owner.
+    Date dateOfBirth;
+    /// The date of issue of the document.
+    Date dateOfIssue;
+    /// The date of expiry of the document.
+    Date dateOfExpiry;
+    /// The document number.
+    String documentNumber;
+    ///  The personal identification number.
+    String personalIdNumber;
+    /// The additional number of the document.
+    String documentAdditionalNumber;
+    /// The issuing authority of the document.
+    String issuingAuthority;
+    /// The street address portion of the document owner.
+    String street;
+    /// The postal code address portion of the document owner.
+    String postalCode;
+    /// The city address portion of the document owner.
+    String city;
+    /// The jurisdiction code address portion of the document owner.
+    String jurisdiction;
+    /// The driver license detailed info.
+    DriverLicenseDetailedInfo driverLicenseDetailedInfo;
+    /// Flag that indicates if barcode result is empty
+    bool empty;
+
+    BarcodeResult(Map<String, dynamic> nativeBarcodeResult) {
+        this.barcodeType = BarcodeType.values[nativeBarcodeResult['barcodeType']];
+        this.rawData = nativeBarcodeResult['rawData'];
+        this.stringData = nativeBarcodeResult['stringData'];
+        this.uncertain = nativeBarcodeResult['uncertain'];
+        this.firstName = nativeBarcodeResult['firstName'];
+        this.lastName = nativeBarcodeResult['lastName'];
+        this.fullName = nativeBarcodeResult['fullName'];
+        this.additionalNameInformation = nativeBarcodeResult['additionalNameInformation'];
+        this.address = nativeBarcodeResult['address'];
+        this.placeOfBirth = nativeBarcodeResult['placeOfBirth'];
+        this.nationality = nativeBarcodeResult['nationality'];
+        this.race = nativeBarcodeResult['race'];
+        this.religion = nativeBarcodeResult['religion'];
+        this.profession = nativeBarcodeResult['profession'];
+        this.maritalStatus = nativeBarcodeResult['maritalStatus'];
+        this.residentialStatus = nativeBarcodeResult['residentialStatus'];
+        this.employer = nativeBarcodeResult['employer'];
+        this.sex = nativeBarcodeResult['sex'];
+        this.dateOfBirth = nativeBarcodeResult['dateOfBirth'] != null ? Date(Map<String, dynamic>.from(nativeBarcodeResult['dateOfBirth'])) : null;
+        this.dateOfBirth = nativeBarcodeResult['dateOfIssue'] != null ? Date(Map<String, dynamic>.from(nativeBarcodeResult['dateOfIssue'])) : null;
+        this.dateOfBirth = nativeBarcodeResult['dateOfExpiry'] != null ? Date(Map<String, dynamic>.from(nativeBarcodeResult['dateOfExpiry'])) : null;
+        this.documentNumber = nativeBarcodeResult['documentNumber'];
+        this.personalIdNumber = nativeBarcodeResult['personalIdNumber'];
+        this.documentAdditionalNumber = nativeBarcodeResult['documentAdditionalNumber'];
+        this.issuingAuthority = nativeBarcodeResult['issuingAuthority'];
+        this.street = nativeBarcodeResult['street'];
+        this.postalCode = nativeBarcodeResult['postalCode'];
+        this.city = nativeBarcodeResult['city'];
+        this.jurisdiction = nativeBarcodeResult['jurisdiction'];
+        this.driverLicenseDetailedInfo = nativeBarcodeResult['driverLicenseDetailedInfo'] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeBarcodeResult['driverLicenseDetailedInfo'])) : null;
+        this.empty = nativeBarcodeResult['empty'];
+    }
+}
+
+class VizResult {
+
+    /// The first name of the document owner. 
+    String firstName;
+    /// The last name of the document owner. 
+    String lastName;
+    /// The full name of the document owner. 
+    String fullName;
+    /// The additional name information of the document owner. 
+    String additionalNameInformation;
+    /// The localized name of the document owner. 
+    String localizedName;
+    /// The address of the document owner. 
+    String address;
+    /// The additional address information of the document owner. 
+    String additionalAddressInformation;
+    /// The place of birth of the document owner. 
+    String placeOfBirth;
+    /// The nationality of the documet owner. 
+    String nationality;
+    /// The race of the document owner. 
+    String race;
+    /// The religion of the document owner. 
+    String religion;
+    /// The profession of the document owner. 
+    String profession;
+    /// The marital status of the document owner. 
+    String maritalStatus;
+    /// The residential stauts of the document owner. 
+    String residentialStatus;
+    /// The employer of the document owner. 
+    String employer;
+    /// The sex of the document owner. 
+    String sex;
+    /// The date of birth of the document owner. 
+    Date dateOfBirth;
+    /// The date of issue of the document. 
+    Date dateOfIssue;
+    /// The date of expiry of the document. 
+    Date dateOfExpiry;
+    /// The document number. 
+    String documentNumber;
+    /// The personal identification number. 
+    String personalIdNumber;
+    /// The additional number of the document. 
+    String documentAdditionalNumber;
+    /// The additional personal identification number. 
+    String additionalPersonalIdNumber;
+    /// The issuing authority of the document. 
+    String issuingAuthority;
+    /// The driver license detailed info. 
+    DriverLicenseDetailedInfo driverLicenseDetailedInfo;
+    /// The driver license conditions. 
+    String conditions;
+    /// Flag that indicates if barcode result is empty 
+    bool empty;
+
+    VizResult(Map<String, dynamic> nativeVizResult) {
+        this.firstName = nativeVizResult['firstName'];
+        this.lastName = nativeVizResult['lastName'];
+        this.fullName = nativeVizResult['fullName'];
+        this.additionalNameInformation = nativeVizResult['additionalNameInformation'];
+        this.localizedName = nativeVizResult['localizedName'];
+        this.address = nativeVizResult['address'];
+        this.additionalAddressInformation = nativeVizResult['additionalAddressInformation'];
+        this.placeOfBirth = nativeVizResult['placeOfBirth'];
+        this.nationality = nativeVizResult['nationality'];
+        this.race = nativeVizResult['race'];
+        this.religion = nativeVizResult['religion'];
+        this.profession = nativeVizResult['profession'];
+        this.maritalStatus = nativeVizResult['maritalStatus'];
+        this.residentialStatus = nativeVizResult['residentialStatus'];
+        this.employer = nativeVizResult['employer'];
+        this.sex = nativeVizResult['sex'];
+        this.dateOfBirth = nativeVizResult['dateOfBirth'] != null ? Date(Map<String, dynamic>.from(nativeVizResult['dateOfBirth'])) : null;
+        this.dateOfIssue = nativeVizResult['dateOfIssue'] != null ? Date(Map<String, dynamic>.from(nativeVizResult['dateOfIssue'])) : null;
+        this.dateOfExpiry = nativeVizResult['dateOfExpiry'] != null ? Date(Map<String, dynamic>.from(nativeVizResult['dateOfExpiry'])) : null;
+        this.documentNumber = nativeVizResult['documentNumber'];
+        this.personalIdNumber = nativeVizResult['personalIdNumber'];
+        this.documentAdditionalNumber = nativeVizResult['documentAdditionalNumber'];
+        this.additionalPersonalIdNumber = nativeVizResult['additionalPersonalIdNumber'];
+        this.issuingAuthority = nativeVizResult['issuingAuthority'];
+        this.driverLicenseDetailedInfo = nativeVizResult['driverLicenseDetailedInfo'] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeVizResult['driverLicenseDetailedInfo'])) : null;
+        this.conditions = nativeVizResult['conditions'];
+        this.empty = nativeVizResult['empty'];
+    }
+}
