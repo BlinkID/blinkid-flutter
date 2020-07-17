@@ -15,7 +15,7 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
         recognizer.setAllowSpecialCharacters(jsonObject.optBoolean("allowSpecialCharacters", false));
         recognizer.setAllowUnparsedResults(jsonObject.optBoolean("allowUnparsedResults", false));
         recognizer.setAllowUnverifiedResults(jsonObject.optBoolean("allowUnverifiedResults", false));
-        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 1)]);
+        recognizer.setDetectorType(com.microblink.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 1) - 1]);
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
