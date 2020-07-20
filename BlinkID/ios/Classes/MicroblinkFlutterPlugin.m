@@ -42,6 +42,11 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
     return mutableDictionary;
 }
 
+- (NSString *) serializeJSONObject:(id) object {
+    NSData *data = [NSJSONSerialization dataWithJSONObject:object options:NSJSONWritingPrettyPrinted error:nil];
+    return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+}
+
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     self.result = result;
     
@@ -104,9 +109,7 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
         }
 
         if (!isDocumentCaptureRecognizer) {
-            NSData *resultsData = [NSJSONSerialization dataWithJSONObject:arrayResults options:NSJSONWritingPrettyPrinted error:nil];
-            NSString *jsonResults = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
-            self.result(jsonResults);
+            self.result([self serializeJSONObject:arrayResults]);
         }
 
         // dismiss recognizer runner view controller
