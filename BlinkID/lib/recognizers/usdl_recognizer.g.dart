@@ -10,7 +10,8 @@ UsdlRecognizer _$UsdlRecognizerFromJson(Map<String, dynamic> json) {
   return UsdlRecognizer()
     ..recognizerType = json['recognizerType'] as String
     ..nullQuietZoneAllowed = json['nullQuietZoneAllowed'] as bool
-    ..uncertainDecoding = json['uncertainDecoding'] as bool;
+    ..uncertainDecoding = json['uncertainDecoding'] as bool
+    ..enableCompactParser = json['enableCompactParser'] as bool;
 }
 
 Map<String, dynamic> _$UsdlRecognizerToJson(UsdlRecognizer instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$UsdlRecognizerToJson(UsdlRecognizer instance) =>
       'recognizerType': instance.recognizerType,
       'nullQuietZoneAllowed': instance.nullQuietZoneAllowed,
       'uncertainDecoding': instance.uncertainDecoding,
+      'enableCompactParser': instance.enableCompactParser,
     };

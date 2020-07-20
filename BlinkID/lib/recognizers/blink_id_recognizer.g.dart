@@ -12,7 +12,8 @@ BlinkIdRecognizer _$BlinkIdRecognizerFromJson(Map<String, dynamic> json) {
     ..allowBlurFilter = json['allowBlurFilter'] as bool
     ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
     ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
-    ..anonymizeImage = json['anonymizeImage'] as bool
+    ..anonymizationMode = _$enumDecodeNullable(
+        _$AnonymizationModeEnumMap, json['anonymizationMode'])
     ..faceImageDpi = json['faceImageDpi'] as int
     ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
     ..fullDocumentImageExtensionFactors =
@@ -33,7 +34,8 @@ Map<String, dynamic> _$BlinkIdRecognizerToJson(BlinkIdRecognizer instance) =>
       'allowBlurFilter': instance.allowBlurFilter,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,
       'allowUnverifiedMrzResults': instance.allowUnverifiedMrzResults,
-      'anonymizeImage': instance.anonymizeImage,
+      'anonymizationMode':
+          _$AnonymizationModeEnumMap[instance.anonymizationMode],
       'faceImageDpi': instance.faceImageDpi,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
@@ -43,3 +45,42 @@ Map<String, dynamic> _$BlinkIdRecognizerToJson(BlinkIdRecognizer instance) =>
       'returnFullDocumentImage': instance.returnFullDocumentImage,
       'validateResultCharacters': instance.validateResultCharacters,
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$AnonymizationModeEnumMap = {
+  AnonymizationMode.None: 'None',
+  AnonymizationMode.ImageOnly: 'ImageOnly',
+  AnonymizationMode.ResultFieldsOnly: 'ResultFieldsOnly',
+  AnonymizationMode.FullResult: 'FullResult',
+};

@@ -1,6 +1,6 @@
 name: blinkid_flutter
-description: BlinkID plugin for Flutter.
-version: 5.5.0+1
+description: Flutter plugin for BlinkID, SDK for scanning and OCR of various identity documents.
+version: 5.6.0
 homepage: https://microblink.com
 
 environment:

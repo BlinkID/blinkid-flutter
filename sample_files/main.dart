@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import "dart:convert";
 import "dart:async";
 
-
 void main() {
   runApp(MyApp());
 }
@@ -14,7 +13,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   String _resultString = "";
   String _fullDocumentFrontImageBase64 = "";
   String _fullDocumentBackImageBase64 = "";
@@ -23,9 +21,11 @@ class _MyAppState extends State<MyApp> {
   Future<void> scan() async {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP+dpSuS/38LVOsaLNXzaiMXsGsDI9HoCvvTwW0ELAiAcBZdB/nLLlJdH4YxsICG1tc+42mh1/syML14kCuZrvHHUiGx1lwGyZGtAa65HTgU85+aXJwt95XSSiuiLjPXw6ue37/oqp3oHtw0P2xXzUA+jX6czpIynFScNPEInu81f1ylj15sbHxhmy/hPEvHEBd26myGxhjpM/JHX8jmrvmT02/ouLUWSbixVELFClQMBZ96X8omCq8l6SzuZJdRTcSxmpuj+";
+      license =
+          "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP+dpSuS/38LVPD6KNcA1l7ZZ+SkRn3VDXl7bdphdcRnVXtuy6VlFj9O2vY89dw1DEsDAhjnuyGmGBgnq2w8cm1kcBO1c0RfaeontlrH9UlMShPrSXqfRLd0WKxT8EZ/iWhkTspyraTjaGS3G6z7h3imoCMir5mgW6CizZPA+3W1fIkNTU2CIA2lIHtd6RffCiQyFUXeIMBVRyyKRg35TsizGsXlzU62Mgx7lMVwZ0PQYf4gL7TvquJ1YROZYdlNFhje2TMvC";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license = "sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdf5ZkGlTu9W3vzSlBMML22Z+WDQp2HDIHyeFJ2T6rQqyfa/9N/DcqB6plnlcQ/BRPipC0+ErjoVlqUsCKxV0SktW2v9Rrtdfupf8jMpgPeXzq4J4X84OQiTcxTeNSoVSHED+d8mZsuCRG2XV85s/bVvzqyTm9nCWg6JgVnIPO6EsVihmgNHSGinAoslPfSzxxijS4dzvQJtqgnm4UeUGmST4vcF7Kv7ocfVA2UNevpg2SQAXIkEzsf39mx2WvtDdRK55";
+      license =
+          "sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdf5ZkGlTu9W3v1xEYnFautC44tpbaAeaHkSdH0wrd8IYzBmTJ9fhe4iEYQBvhxBQsmyK5SY84qumgrVhCz69l+GtbFktpndyzqjvsjKRY50o9vpQ6KesA50OQMJtwPqbadjQz6tDa5sELkGHXeoL6YrTiUIHz6O6xgo0PFMCuYeJjS9bTiIy8sKLyhwyquMjkc9wausrC8SdGN7ao7Wv9Q1SPMGo9w+Olc3Mvz0Xlys/a5O7zJI63DV0YMQqiOlzx4IWLfUe";
     }
 
     var idRecognizer = BlinkIdCombinedRecognizer();
@@ -34,61 +34,85 @@ class _MyAppState extends State<MyApp> {
 
     BlinkIdOverlaySettings settings = BlinkIdOverlaySettings();
 
-    var results = await MicroblinkScanner.scanWithCamera(RecognizerCollection([idRecognizer]), settings, license);
+    var results = await MicroblinkScanner.scanWithCamera(
+        RecognizerCollection([idRecognizer]), settings, license);
 
     if (!mounted) return;
 
     if (results.length == 0) return;
     for (var result in results) {
       if (result is BlinkIdCombinedRecognizerResult) {
-          if (result.mrzResult.documentType == MrtdDocumentType.Passport) {
-            _resultString = getPassportResultString(result);
-          } else {
-            _resultString = getIdResultString(result);
-          }
+        if (result.mrzResult.documentType == MrtdDocumentType.Passport) {
+          _resultString = getPassportResultString(result);
+        } else {
+          _resultString = getIdResultString(result);
+        }
 
-          setState(() {
-            _resultString = _resultString;
-            _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage;
-            _fullDocumentBackImageBase64 = result.fullDocumentBackImage;
-            _faceImageBase64 = result.faceImage;
-          });
+        setState(() {
+          _resultString = _resultString;
+          _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage;
+          _fullDocumentBackImageBase64 = result.fullDocumentBackImage;
+          _faceImageBase64 = result.faceImage;
+        });
 
-          return;
+        return;
       }
     }
   }
 
   String getIdResultString(BlinkIdCombinedRecognizerResult result) {
-    return
-      "First name: ${result.firstName}\n"
-      "Last name: ${result.lastName}\n"
-      "Address: ${result.address}\n"
-      "Document number: ${result.documentNumber}\n"
-      "Sex: ${result.sex}\n"
-      "Date of birth: ${result.dateOfBirth.day}."
-        "${result.dateOfBirth.month}."
-        "${result.dateOfBirth.year}\n"
-      "Date of issue: ${result.dateOfIssue.day}."
-        "${result.dateOfIssue.month}."
-        "${result.dateOfIssue.year}\n"
-      "Date of expiry: ${result.dateOfExpiry.day}."
-        "${result.dateOfExpiry.month}."
-        "${result.dateOfExpiry.year}\n";
+    var dateOfBirth = "";
+    if (result.dateOfBirth != null) {
+      dateOfBirth = "Date of birth: ${result.dateOfBirth.day}."
+          "${result.dateOfBirth.month}."
+          "${result.dateOfBirth.year}\n";
+    }
+
+    var dateOfIssue = "";
+    if (result.dateOfIssue != null) {
+      dateOfIssue = "Date of issue: ${result.dateOfIssue.day}."
+          "${result.dateOfIssue.month}."
+          "${result.dateOfIssue.year}\n";
+    }
+
+    var dateOfExpiry = "";
+    if (result.dateOfExpiry != null) {
+      dateOfExpiry = "Date of expiry: ${result.dateOfExpiry.day}."
+          "${result.dateOfExpiry.month}."
+          "${result.dateOfExpiry.year}\n";
+    }
+
+    return "First name: ${result.firstName}\n"
+        "Last name: ${result.lastName}\n"
+        "Address: ${result.address}\n"
+        "Document number: ${result.documentNumber}\n"
+        "Sex: ${result.sex}\n"
+        "$dateOfBirth"
+        "$dateOfIssue"
+        "$dateOfExpiry";
   }
 
   String getPassportResultString(BlinkIdCombinedRecognizerResult result) {
-    return
-      "First name: ${result.mrzResult.secondaryId}\n"
-      "Last name: ${result.mrzResult.primaryId}\n"
-      "Document number: ${result.mrzResult.documentNumber}\n"
-      "Sex: ${result.mrzResult.gender}\n"
-      "Date of birth: ${result.mrzResult.dateOfBirth.day}."
-        "${result.mrzResult.dateOfBirth.month}."
-        "${result.mrzResult.dateOfBirth.year}\n"
-      "Date of expiry: ${result.mrzResult.dateOfExpiry.day}."
-        "${result.mrzResult.dateOfExpiry.month}."
-        "${result.mrzResult.dateOfExpiry.year}\n";
+    var dateOfBirth = "";
+    if (result.mrzResult.dateOfBirth != null) {
+      dateOfBirth = "Date of birth: ${result.mrzResult.dateOfBirth.day}."
+          "${result.mrzResult.dateOfBirth.month}."
+          "${result.mrzResult.dateOfBirth.year}\n";
+    }
+
+    var dateOfExpiry = "";
+    if (result.mrzResult.dateOfExpiry != null) {
+      dateOfExpiry = "Date of expiry: ${result.mrzResult.dateOfExpiry.day}."
+          "${result.mrzResult.dateOfExpiry.month}."
+          "${result.mrzResult.dateOfExpiry.year}\n";
+    }
+
+    return "First name: ${result.mrzResult.secondaryId}\n"
+        "Last name: ${result.mrzResult.primaryId}\n"
+        "Document number: ${result.mrzResult.documentNumber}\n"
+        "Sex: ${result.mrzResult.gender}\n"
+        "$dateOfBirth"
+        "$dateOfExpiry";
   }
 
   @override
@@ -138,26 +162,26 @@ class _MyAppState extends State<MyApp> {
     }
 
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text("BlinkID Sample"),
-        ),
-        body: SingleChildScrollView(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                Padding(
-                    child: RaisedButton(
-                      child: Text("Scan"),
-                      onPressed: () => scan(),
-                    ),
-                    padding: EdgeInsets.only(bottom: 16.0)),
-                Text(_resultString),
-                fullDocumentFrontImage,
-                fullDocumentBackImage,
-                faceImage,
-              ],
-            )),
-      ));
+        home: Scaffold(
+      appBar: AppBar(
+        title: const Text("BlinkID Sample"),
+      ),
+      body: SingleChildScrollView(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                  child: RaisedButton(
+                    child: Text("Scan"),
+                    onPressed: () => scan(),
+                  ),
+                  padding: EdgeInsets.only(bottom: 16.0)),
+              Text(_resultString),
+              fullDocumentFrontImage,
+              fullDocumentBackImage,
+              faceImage,
+            ],
+          )),
+    ));
   }
 }
