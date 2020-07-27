@@ -26,6 +26,9 @@ doc/api/
 .pub-cache/
 .pub/
 
+### Sample app ###
+sample
+
 # Android related
 **/android/**/gradle-wrapper.jar
 **/android/.gradle
