@@ -4,7 +4,7 @@ This repository contains Flutter wrappers for BlinkID native SDKs ([iOS](https:/
 and [Android](https://github.com/BlinkID/blinkid-android)). Not all features of native SDKs are available. However, the wrapper is open source so you can add features that you need. For 100% of features and maximum control, consider using native SDKs.
 
 ## Requirements
-BlinkID plugin is developed with Flutter SDK version 1.17.11.
+BlinkID plugin is developed with Flutter SDK version 1.17.5.
 For help with Flutter, view official [documentation](https://flutter.dev/docs).
 
 ## Getting Started
