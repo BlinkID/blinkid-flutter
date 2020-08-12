@@ -96,7 +96,6 @@
         @"additionalPersonalIdNumber" : vizResult.additionalPersonalIdNumber,
         @"issuingAuthority" : vizResult.issuingAuthority,
         @"driverLicenseDetailedInfo" : [MBBlinkIDSerializationUtils serializeDriverLicenseDetailedInfo:vizResult.driverLicenseDetailedInfo],
-        @"conditions" : vizResult.conditions,
         @"empty" : [NSNumber numberWithBool:vizResult.empty]
     };
 }
@@ -141,7 +140,10 @@
     return @{
              @"blurred" : [NSNumber numberWithBool:imageAnalysisResult.blurred],
              @"documentImageColorStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageColorStatus)],
-             @"documentImageMoireStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageMoireStatus)]
+             @"documentImageMoireStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageMoireStatus)],
+             @"faceDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.faceDetectionStatus)],
+             @"mrzDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.mrzDetectionStatus)],
+             @"barcodeDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.barcodeDetectionStatus)]
         };
 }
 
@@ -154,6 +156,21 @@
         return MBAnonymizationModeFullResult;
     } else {
         return MBAnonymizationModeNone;
+    }
+}
+
++(MBRecognitionModeFilter *) deserializeMBRecognitionModeFilter:(NSDictionary *)jsonRecognitionModeFilter {
+    if (jsonRecognitionModeFilter == nil) {
+        return [[MBRecognitionModeFilter alloc] init];
+    } else {
+        MBRecognitionModeFilter *recognitionModeFilter = [[MBRecognitionModeFilter alloc] init];
+        recognitionModeFilter.enableMrzId = [[jsonRecognitionModeFilter valueForKey:@"enableMrzId"] boolValue];
+        recognitionModeFilter.enableMrzVisa = [[jsonRecognitionModeFilter valueForKey:@"enableMrzVisa"] boolValue];
+        recognitionModeFilter.enableMrzPassport = [[jsonRecognitionModeFilter valueForKey:@"enableMrzPassport"] boolValue];
+        recognitionModeFilter.enablePhotoId = [[jsonRecognitionModeFilter valueForKey:@"enablePhotoId"] boolValue];
+        recognitionModeFilter.enableFullDocumentRecognition = [[jsonRecognitionModeFilter valueForKey:@"enableFullDocumentRecognition"] boolValue];
+
+        return recognitionModeFilter;
     }
 }
 

@@ -10,8 +10,8 @@ export 'package:blinkid_flutter/overlay_settings.dart';
 export 'package:blinkid_flutter/types.dart';
 
 class MicroblinkScanner {
-  static const MethodChannel _channel =
-      const MethodChannel('microblink_scanner');
+
+  static const MethodChannel _channel = const MethodChannel('microblink_scanner');
 
   static const String METHOD_SCAN_WITH_CAMERA = 'scanWithCamera';
 
@@ -20,19 +20,19 @@ class MicroblinkScanner {
   static const String ARG_LICENSE = 'license';
   static const String ARG_LICENSE_KEY = 'licenseKey';
   static const String ARG_LICENSEE = 'licensee';
-  static const String ARG_SHOW_LICENSE_WARNING =
-      'showTimeLimitedLicenseKeyWarning';
+  static const String ARG_SHOW_LICENSE_WARNING = 'showTimeLimitedLicenseKeyWarning';
 
-  static Future<List<RecognizerResult>> scanWithCamera(
-      RecognizerCollection collection,
-      OverlaySettings overlaySettings,
-      String license) async {
-    var jsonResults =
-        jsonDecode(await _channel.invokeMethod(METHOD_SCAN_WITH_CAMERA, {
-      ARG_RECOGNIZER_COLLECTION: jsonDecode(jsonEncode(collection)),
-      ARG_OVERLAY_SETTINGS: jsonDecode(jsonEncode(overlaySettings)),
-      ARG_LICENSE: {ARG_LICENSE_KEY: license}
-    }));
+  static Future<List<RecognizerResult>> scanWithCamera(RecognizerCollection collection, OverlaySettings overlaySettings, String license) async {
+    var jsonResults = jsonDecode(await _channel.invokeMethod(
+      METHOD_SCAN_WITH_CAMERA,
+      {
+        ARG_RECOGNIZER_COLLECTION: jsonDecode(jsonEncode(collection)),
+        ARG_OVERLAY_SETTINGS: jsonDecode(jsonEncode(overlaySettings)),
+        ARG_LICENSE: {
+          ARG_LICENSE_KEY: license
+        }
+      })
+    );
 
     if (jsonResults == null) return List<RecognizerResult>(0);
 
@@ -47,4 +47,5 @@ class MicroblinkScanner {
 
     return List<RecognizerResult>.from(results);
   }
+
 }

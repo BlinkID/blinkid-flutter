@@ -19,6 +19,6 @@
 +(NSDictionary * _Nonnull) serializeBarcodeResult:(MBBarcodeResult * _Nonnull)barcodeResult;
 +(NSDictionary * _Nonnull) serializeImageAnalysisResult:(MBImageAnalysisResult * _Nonnull)imageAnalysisResult;
 +(MBAnonymizationMode) deserializeMBAnonymizationMode:(NSString *)jsonAnonymizationMode;
-
++(MBRecognitionModeFilter * _Nonnull) deserializeMBRecognitionModeFilter:(NSDictionary * _Nullable)jsonRecognitionModeFilter;
 
 @end

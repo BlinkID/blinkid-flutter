@@ -65,6 +65,12 @@
         }
     }
     {
+        id recognitionModeFilter = [jsonRecognizer valueForKey:@"recognitionModeFilter"];
+        if (recognitionModeFilter != nil) {
+            recognizer.recognitionModeFilter = [MBBlinkIDSerializationUtils deserializeMBRecognitionModeFilter:(NSDictionary*)recognitionModeFilter];
+        }
+    }
+    {
         id returnFaceImage = [jsonRecognizer valueForKey:@"returnFaceImage"];
         if (returnFaceImage != nil) {
             recognizer.returnFaceImage = [(NSNumber *)returnFaceImage boolValue];
@@ -115,7 +121,6 @@
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeVizResult:self.result.backVizResult] forKey:@"backVizResult"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeBarcodeResult:self.result.barcodeResult] forKey:@"barcodeResult"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeClassInfo:self.result.classInfo] forKey:@"classInfo"];
-    [jsonResult setValue:self.result.conditions forKey:@"conditions"];
     [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfBirth] forKey:@"dateOfBirth"];
     [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfExpiry] forKey:@"dateOfExpiry"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.dateOfExpiryPermanent] forKey:@"dateOfExpiryPermanent"];
@@ -143,8 +148,10 @@
     [jsonResult setValue:self.result.nationality forKey:@"nationality"];
     [jsonResult setValue:self.result.personalIdNumber forKey:@"personalIdNumber"];
     [jsonResult setValue:self.result.placeOfBirth forKey:@"placeOfBirth"];
+    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.processingStatus)] forKey:@"processingStatus"];
     [jsonResult setValue:self.result.profession forKey:@"profession"];
     [jsonResult setValue:self.result.race forKey:@"race"];
+    [jsonResult setValue:[NSNumber numberWithInteger:(self.result.recognitionMode)] forKey:@"recognitionMode"];
     [jsonResult setValue:self.result.religion forKey:@"religion"];
     [jsonResult setValue:self.result.residentialStatus forKey:@"residentialStatus"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.scanningFirstSideDone] forKey:@"scanningFirstSideDone"];

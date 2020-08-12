@@ -19,7 +19,8 @@ part 'recognizer.g.dart';
 /// and updates its result with data extracted from the image.
 @JsonSerializable()
 class Recognizer {
-  /// Type of recognizer
+
+  /// Type of recognizer 
   String recognizerType;
 
   Recognizer(String recognizerType) {
@@ -28,21 +29,18 @@ class Recognizer {
 
   RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {}
 
-  factory Recognizer.fromJson(Map<String, dynamic> json) =>
-      _$RecognizerFromJson(json);
+  factory Recognizer.fromJson(Map<String, dynamic> json) => _$RecognizerFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecognizerToJson(this);
 }
 
 /// Possible states of the Recognizer's result
 enum RecognizerResultState {
-  /// Recognizer result is empty
+  /// Recognizer result is empty 
   empty,
-
-  /// Recognizer result contains some values, but is incomplete or it contains all values, but some are uncertain
+  /// Recognizer result contains some values, but is incomplete or it contains all values, but some are uncertain 
   uncertain,
-
-  /// Recognizer result contains all required values
+  /// Recognizer result contains all required values 
   valid
 }
 
@@ -50,21 +48,22 @@ enum RecognizerResultState {
 /// Recognizer result contains data extracted from the image.
 @JsonSerializable()
 class RecognizerResult {
-  /// State of the result. It is always one of the values represented by RecognizerResultState enum
+
+  /// State of the result. It is always one of the values represented by RecognizerResultState enum 
   RecognizerResultState resultState;
 
   RecognizerResult(RecognizerResultState resultState) {
     this.resultState = resultState;
   }
 
-  factory RecognizerResult.fromJson(Map<String, dynamic> json) =>
-      _$RecognizerResultFromJson(json);
+  factory RecognizerResult.fromJson(Map<String, dynamic> json) => _$RecognizerResultFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecognizerResultToJson(this);
 }
 
 @JsonSerializable()
 class RecognizerCollection {
+
   List<Recognizer> recognizerArray;
 
   bool allowMultipleResults = false;
@@ -75,8 +74,7 @@ class RecognizerCollection {
     this.recognizerArray = recognizerArray;
   }
 
-  factory RecognizerCollection.fromJson(Map<String, dynamic> json) =>
-      _$RecognizerCollectionFromJson(json);
+  factory RecognizerCollection.fromJson(Map<String, dynamic> json) => _$RecognizerCollectionFromJson(json);
 
   Map<String, dynamic> toJson() => _$RecognizerCollectionToJson(this);
 }
