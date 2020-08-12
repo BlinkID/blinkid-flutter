@@ -61,35 +61,69 @@ class _MyAppState extends State<MyApp> {
   }
 
   String getIdResultString(BlinkIdCombinedRecognizerResult result) {
-    var dateOfBirth = "";
-    if (result.dateOfBirth != null) {
-      dateOfBirth = "Date of birth: ${result.dateOfBirth.day}."
-          "${result.dateOfBirth.month}."
-          "${result.dateOfBirth.year}\n";
+    return buildResult(result.firstName, "First name") +
+        buildResult(result.lastName, "Last name") +
+        buildResult(result.fullName, "Full name") +
+        buildResult(result.localizedName, "Localized name") +
+        buildResult(result.additionalNameInformation, "Additional name info") +
+        buildResult(result.address, "Address") +
+        buildResult(
+            result.additionalAddressInformation, "Additional address info") +
+        buildResult(result.documentNumber, "Document number") +
+        buildResult(
+            result.documentAdditionalNumber, "Additional document number") +
+        buildResult(result.sex, "Sex") +
+        buildResult(result.issuingAuthority, "Issuing authority") +
+        buildResult(result.nationality, "Nationality") +
+        buildDateResult(result.dateOfBirth, "Date of birth") +
+        buildIntResult(result.age, "Age") +
+        buildDateResult(result.dateOfIssue, "Date of issue") +
+        buildDateResult(result.dateOfExpiry, "Date of expiry") +
+        buildResult(result.dateOfExpiryPermanent.toString(),
+            "Date of expiry permanent") +
+        buildResult(result.maritalStatus, "Martial status") +
+        buildResult(result.personalIdNumber, "Personal Id Number") +
+        buildResult(result.profession, "Profession") +
+        buildResult(result.race, "Race") +
+        buildResult(result.religion, "Religion") +
+        buildResult(result.residentialStatus, "Residential Status") +
+        buildResult(result.conditions, "Conditions") +
+        buildDriverLicenceResult(result.driverLicenseDetailedInfo);
+  }
+
+  String buildResult(String result, String propertyName) {
+    if (result == null || result.isEmpty) {
+      return "";
     }
 
-    var dateOfIssue = "";
-    if (result.dateOfIssue != null) {
-      dateOfIssue = "Date of issue: ${result.dateOfIssue.day}."
-          "${result.dateOfIssue.month}."
-          "${result.dateOfIssue.year}\n";
+    return propertyName + ": " + result + "\n";
+  }
+
+  String buildDateResult(Date result, String propertyName) {
+    if (result == null || result.year == 0) {
+      return "";
     }
 
-    var dateOfExpiry = "";
-    if (result.dateOfExpiry != null) {
-      dateOfExpiry = "Date of expiry: ${result.dateOfExpiry.day}."
-          "${result.dateOfExpiry.month}."
-          "${result.dateOfExpiry.year}\n";
+    return buildResult(
+        "${result.day}.${result.month}.${result.year}", propertyName);
+  }
+
+  String buildIntResult(int result, String propertyName) {
+    if (result < 0) {
+      return "";
     }
 
-    return "First name: ${result.firstName}\n"
-        "Last name: ${result.lastName}\n"
-        "Address: ${result.address}\n"
-        "Document number: ${result.documentNumber}\n"
-        "Sex: ${result.sex}\n"
-        "$dateOfBirth"
-        "$dateOfIssue"
-        "$dateOfExpiry";
+    return buildResult(result.toString(), propertyName);
+  }
+
+  String buildDriverLicenceResult(DriverLicenseDetailedInfo result) {
+    if (result == null) {
+      return "";
+    }
+
+    return buildResult(result.restrictions, "Restrictions") +
+        buildResult(result.endorsements, "Endorsements") +
+        buildResult(result.vehicleClass, "Vehicle class");
   }
 
   String getPassportResultString(BlinkIdCombinedRecognizerResult result) {
