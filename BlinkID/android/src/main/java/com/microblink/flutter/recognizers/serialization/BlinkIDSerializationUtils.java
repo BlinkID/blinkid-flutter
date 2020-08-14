@@ -47,6 +47,7 @@ public abstract class BlinkIDSerializationUtils {
         jsonDriverLicenseDetailedInfo.put("restrictions", dlDetailedInfo.getRestrictions());
         jsonDriverLicenseDetailedInfo.put("endorsements", dlDetailedInfo.getEndorsements());
         jsonDriverLicenseDetailedInfo.put("vehicleClass", dlDetailedInfo.getVehicleClass());
+        jsonDriverLicenseDetailedInfo.put("conditions", dlDetailedInfo.getConditions());
         return jsonDriverLicenseDetailedInfo;
     }
 
@@ -63,6 +64,9 @@ public abstract class BlinkIDSerializationUtils {
         jsonImageAnalysis.put("blurred", imageAnalysisResult.isBlurred());
         jsonImageAnalysis.put("documentImageColorStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getDocumentImageColorStatus()));
         jsonImageAnalysis.put("documentImageMoireStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getDocumentImageMoireStatus()));
+        jsonImageAnalysis.put("faceDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getFaceDetectionStatus()));
+        jsonImageAnalysis.put("mrzDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getMrzDetectionStatus()));
+        jsonImageAnalysis.put("barcodeDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getBarcodeDetectionStatus()));
         return jsonImageAnalysis;
     }
 
@@ -93,7 +97,6 @@ public abstract class BlinkIDSerializationUtils {
         jsonViz.put("additionalPersonalIdNumber", vizResult.getAdditionalPersonalIdNumber());
         jsonViz.put("issuingAuthority", vizResult.getIssuingAuthority());
         jsonViz.put("driverLicenseDetailedInfo", serializeDriverLicenseDetailedInfo(vizResult.getDriverLicenseDetailedInfo()));
-        jsonViz.put("conditions", vizResult.getConditions());
         jsonViz.put("empty", vizResult.isEmpty());
         return jsonViz;
     }
