@@ -6,6 +6,8 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import java.util.*;
 
+import io.flutter.embedding.engine.plugins.activity.ActivityAware;
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
@@ -32,7 +34,7 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener {
+public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener, ActivityAware {
 
   private static final String CHANNEL = "microblink_scanner";
 
@@ -50,9 +52,12 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
 
   private MethodChannel channel;
   private Context context;
+  private Activity activity;
 
   private Result pendingResult;
 
+  // This static function is optional and equivalent to onAttachedToEngine. It supports the old
+  // pre-Flutter-1.12 Android projects.
   public static void registerWith(Registrar registrar) {
     final MicroblinkFlutterPlugin plugin = new MicroblinkFlutterPlugin();
     plugin.setupPlugin(registrar.activity(), registrar.messenger());
@@ -61,7 +66,10 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-      // not used
+      setupPlugin(
+              binding.getApplicationContext(),
+              binding.getBinaryMessenger()
+      );
   }
 
   private void setupPlugin(Context context, BinaryMessenger messenger) {
@@ -86,7 +94,7 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
       mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
       UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
 
-      startScanning(context, SCAN_REQ_CODE, uiSettings);
+      startScanning(SCAN_REQ_CODE, uiSettings);
 
     } else {
       result.notImplemented();
@@ -110,17 +118,37 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
       MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
   }
 
-  private void startScanning(Context context, int requestCode, UISettings uiSettings) {
+  private void startScanning(int requestCode, UISettings uiSettings) {
       if (context instanceof Activity) {
           ActivityRunner.startActivityForResult(((Activity) context), requestCode, uiSettings);
+      } else if (activity != null) {
+          ActivityRunner.startActivityForResult(activity, requestCode, uiSettings);
       } else {
           pendingResult.error("Context can't be casted to Activity", null, null);
       }
   }
 
   @Override
+  public void onDetachedFromActivity() {}
+
+  @Override
+  public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
+      onAttachedToActivity(binding);
+  }
+
+  @Override
+  public void onAttachedToActivity(ActivityPluginBinding binding) {
+      activity = binding.getActivity();
+      binding.addActivityResultListener(this);
+  }
+
+  @Override
+  public void onDetachedFromActivityForConfigChanges() {}
+
+  @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
     this.context = null;
+    this.activity = null;
 
     this.channel.setMethodCallHandler(null);
     this.channel = null;
@@ -130,7 +158,7 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
       if (resultCode == Activity.RESULT_OK) {
-          if (requestCode == SCAN_REQ_CODE) {
+          if (requestCode == SCAN_REQ_CODE  && mRecognizerBundle != null) {
               mRecognizerBundle.loadFromIntent(data);
               JSONArray resultList = RecognizerSerializers.INSTANCE.serializeRecognizerResults(mRecognizerBundle.getRecognizers());
 
