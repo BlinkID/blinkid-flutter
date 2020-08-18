@@ -26,10 +26,6 @@ flutter pub get
 # enter into android project folder
 pushd android
 
-file_main_activity=app/src/main/java/com/microblink/$appName/MainActivity.java
-cp ../../sample_files/MainActivity.java $file_main_activity
-perl -i~ -pe "if ($. == 1) { s/.*/package com.microblink.$appName;/; }" $file_main_activity
-
 popd
 
 # enter into ios project folder
