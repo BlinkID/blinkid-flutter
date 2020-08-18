@@ -74,9 +74,7 @@ For 100% of features and maximum control, consider using native SDK.
 Plugin implementation is in folder `lib`, while platform specific implementations are in `android` and `ios` folders.
 
 #### Android
-Android folder is fully initialized after running `./initFlutterDemo.sh`. The script will replace default `MainActivity.java` with the
-`./sample_files/MainActivity.java`. This is important, because the plugin works only if `MainActivity` extends `io.flutter.app.FlutterActivity`
-and if it is registered in the following way `MicroblinkFlutterPlugin.registerWith(registrarFor("com.microblink.flutter.MicroblinkFlutterPlugin"))`.
+Android folder is fully initialized after running `./initFlutterDemo.sh`.
 
 #### iOS
 To initialize BlinkID framework for use with iOS, after you've added the dependency to `blinkid_flutter` to your `pubspec.yaml`, go to `NameOfYourProject/ios`and run `pod install`.

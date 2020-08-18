@@ -11,7 +11,7 @@ flutter create -a java --org com.microblink $appName
 # enter into demo project folder
 pushd $appName
 
-if false; then
+if true; then
   # add blinkid_flutter dependency to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:/" pubspec.yaml
   echo "Using blinkid_flutter from flutter pub"
@@ -25,10 +25,6 @@ flutter pub get
 
 # enter into android project folder
 pushd android
-
-file_main_activity=app/src/main/java/com/microblink/$appName/MainActivity.java
-cp ../../sample_files/MainActivity.java $file_main_activity
-perl -i~ -pe "if ($. == 1) { s/.*/package com.microblink.$appName;/; }" $file_main_activity
 
 popd
 

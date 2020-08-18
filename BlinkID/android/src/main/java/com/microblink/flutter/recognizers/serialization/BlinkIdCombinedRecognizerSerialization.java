@@ -20,6 +20,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setPaddingEdge((float)jsonObject.optDouble("paddingEdge", 0.0));
+        recognizer.setRecognitionModeFilter(SerializationUtils.deserializeRecognitionModeFilter(jsonObject.optJSONObject("recognitionModeFilter")));
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
         recognizer.setSignResult(jsonObject.optBoolean("signResult", false));
@@ -42,7 +43,6 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("backVizResult", BlinkIDSerializationUtils.serializeVizResult(result.getBackVizResult()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
-            jsonResult.put("conditions", result.getConditions());
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
@@ -70,8 +70,10 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("personalIdNumber", result.getPersonalIdNumber());
             jsonResult.put("placeOfBirth", result.getPlaceOfBirth());
+            jsonResult.put("processingStatus", SerializationUtils.serializeEnum(result.getProcessingStatus()));
             jsonResult.put("profession", result.getProfession());
             jsonResult.put("race", result.getRace());
+            jsonResult.put("recognitionMode", SerializationUtils.serializeEnum(result.getRecognitionMode()));
             jsonResult.put("religion", result.getReligion());
             jsonResult.put("residentialStatus", result.getResidentialStatus());
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());

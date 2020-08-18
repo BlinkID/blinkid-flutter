@@ -24,6 +24,10 @@ BlinkIdCombinedRecognizer _$BlinkIdCombinedRecognizerFromJson(
                 json['fullDocumentImageExtensionFactors']
                     as Map<String, dynamic>)
     ..paddingEdge = (json['paddingEdge'] as num)?.toDouble()
+    ..recognitionModeFilter = json['recognitionModeFilter'] == null
+        ? null
+        : RecognitionModeFilter.fromJson(
+            json['recognitionModeFilter'] as Map<String, dynamic>)
     ..returnFaceImage = json['returnFaceImage'] as bool
     ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
     ..signResult = json['signResult'] as bool
@@ -45,6 +49,7 @@ Map<String, dynamic> _$BlinkIdCombinedRecognizerToJson(
       'fullDocumentImageExtensionFactors':
           instance.fullDocumentImageExtensionFactors,
       'paddingEdge': instance.paddingEdge,
+      'recognitionModeFilter': instance.recognitionModeFilter,
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
       'signResult': instance.signResult,
