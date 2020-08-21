@@ -1,3 +1,9 @@
+## 5.7.1
+
+### Major bug fix:
+
+- This version fixes bug introduced in v5.7.0 which could cause SDK crash on `applicationDidBecomeActive` event.
+
 ## 5.7.0
 
 ### Plugin changes
