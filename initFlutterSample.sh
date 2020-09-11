@@ -1,6 +1,6 @@
 #!/bin/bash
 
-appName=BlinkIDSampleApp
+appName=sample
 
 # remove any existing code
 rm -rf $appName
@@ -49,7 +49,7 @@ fi
 # go to flutter root project
 popd
 
-cp ../SampleFiles/main.dart lib/
+cp ../sample_files/main.dart lib/
 
 echo ""
 echo "Go to Flutter project folder: cd $appName"
