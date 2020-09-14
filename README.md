@@ -26,7 +26,7 @@ To try BlinkID plugin, you can generate a minimal sample application. To do so r
 
 To run sample application, use the following commands:
 ```shell
-cd BlinkIDSampleApp/
+cd sample/
 flutter run
 ```
 If there are problems with running the application, please make sure you have
