@@ -11,14 +11,15 @@ flutter create -a java --org com.microblink $appName
 # enter into demo project folder
 pushd $appName
 
-if true; then
-  # add blinkid_flutter dependency to pubspec.yaml
-  perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:/" pubspec.yaml
-  echo "Using blinkid_flutter from flutter pub"
-else
+IS_LOCAL_BUILD=false || exit 1
+if [ "$IS_LOCAL_BUILD" = true ]; then
   # add blinkid_flutter dependency with local path to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:\n    path: ..\/BlinkID/" pubspec.yaml
   echo "Using blinkid_flutter from this repo instead from flutter pub"
+else
+  # add blinkid_flutter dependency to pubspec.yaml
+  perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:/" pubspec.yaml
+  echo "Using blinkid_flutter from flutter pub"
 fi
 
 flutter pub get

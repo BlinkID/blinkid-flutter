@@ -21,11 +21,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> scan() async {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license =
-          "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP+dpSuS/38LVOMaONWiKJjpY6eEl4xSDsjO9Nn1vCtVJPaKZ7VYNB51RiI1L62UVN0EIfT3K590r4XU7RycEYICOXhs2Urh43CBMVAcwvfuGhVrVPcbVHl1HMOqGORGqCmGQDL/yEQLpJXb6GrMJ30dYo+5EpIYHbStXBKj4bRfTL26Fov32TEJfNFBz1O5q/R1iqgaw9ci773cOGmAyq99/N00AmfhHgIdBBFUqUmR/B4B8/RT6mWOVp1dKfXpoa+zupw==";
+      license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP+dpSuS/38LVOOaNNacdy5kvOjARlS+ZYUJequcG+Hqo27AnV1Dsb+chCYtaeZSdPijWBCYJ51tohlnyZoEVBy/6a1OH/bRSNy8cPbh6GEjWK5XsLOJGggpwhNMoId3hXJpEJisHYvwiArC5tvWBUZzgr5rmupFObXTd67RaHytuIBa1ENEiLqT9RRHho05ftVuEcfE0Qk/eKv1vbL+LyowK80VS2pZNoOCd/g8K7iHW5XhGdeCqu0C7izVQ+kROfheTZf8I";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license =
-          "sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdf5ZkGlTu9W3OHtBYks7swsPIY8ko1sO1mUT95Dvb+D4PWnCuEvfyHYhlCkErRhNKpEJ+53m8VnPzGUSVTaiQI+ZnY+ASWuzCjsvb4cj5gY/s+BEvl1paY4KGHFuGFLmThdKOcvHlWtPz+4lf5T5UjapCXFTIcJzR0PGmg+Sy/0IAgTeGNyhjLAtgUhuZODykCXZIqz++x7cwuNAnlOEPXYT6EnxUdHYZq1N2KNL9kNdUKb4RFVwlG2Lfld8CREhWNRnnw==";
+      license = "sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdf5ZkGlTu9W3OMtlz473rOYXXInzJ8snv7nxCLN17zjcm+suA4KjMpE2dFZXWX8BduxrLbWtOYVI7H3P3lFjc30uqRa8ikxwUJM+6JuKs1dLFNQw80KBHE3OymtkC0tpOKtNbEZzzlpJSjZn8AfP2PofMEuJvM3tohOnYAtGIY6tNG4k4pMivgzZF4C6FfhlV/h5PJKcwxlYWUEIUUc5yzzsYyNApK/dvRHpdPHaup1XJML8nTQjvXTAkiuiIjMRdQ/9Uew=";
     }
 
     var idRecognizer = BlinkIdCombinedRecognizer();

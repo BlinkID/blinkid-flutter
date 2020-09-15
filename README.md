@@ -22,7 +22,7 @@ dependencies:
 ```
 
 ### Quick start with sample app
-To try BlinkID plugin, you can generate a minimal sample application. To do so run `./initFlutterDemo.sh` script.
+To try BlinkID plugin, you can generate a minimal sample application. To do so run `./initFlutterSample.sh` script.
 
 To run sample application, use the following commands:
 ```shell
@@ -74,7 +74,7 @@ For 100% of features and maximum control, consider using native SDK.
 Plugin implementation is in folder `lib`, while platform specific implementations are in `android` and `ios` folders.
 
 #### Android
-Android folder is fully initialized after running `./initFlutterDemo.sh`.
+Android folder is fully initialized after running `./initFlutterSample.sh`.
 
 #### iOS
 To initialize BlinkID framework for use with iOS, after you've added the dependency to `blinkid_flutter` to your `pubspec.yaml`, go to `NameOfYourProject/ios`and run `pod install`.
