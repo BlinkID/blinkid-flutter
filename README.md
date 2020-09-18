@@ -1,7 +1,10 @@
 # BlinkID SDK Flutter plugin
 
-This repository contains Flutter wrappers for BlinkID native SDKs ([iOS](https://github.com/BlinkID/blinkid-ios)
-and [Android](https://github.com/BlinkID/blinkid-android)). Not all features of native SDKs are available. However, the wrapper is open source so you can add features that you need. For 100% of features and maximum control, consider using native SDKs.
+AI-driven identity document scanning for Flutter apps.  
+We made it quick and easy to create a sample application or install the plugin into your existing iOS or Android app.
+Please note that, for maximum performance and full access to all features, it’s best to go with one of our native SDKs (for [iOS](https://github.com/BlinkID/blinkid-ios) or [Android](https://github.com/BlinkID/blinkid-android)).
+However, since the wrapper is open source, you can add the features you need on your own.
+
 
 ## Requirements
 BlinkID plugin is developed with Flutter SDK version 1.17.5.
