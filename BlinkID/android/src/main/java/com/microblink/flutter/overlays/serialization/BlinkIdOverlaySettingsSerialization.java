@@ -24,6 +24,9 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         boolean showNotSupportedDialog = jsonUISettings.optBoolean("showNotSupportedDialog", true);
         settings.setShowNotSupportedDialog(showNotSupportedDialog);
 
+        boolean showFlashlightWarning = jsonUISettings.optBoolean("showFlashlightWarning", true);
+        settings.setShowFlashlightWarning(showFlashlightWarning);
+
         long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
         settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
 

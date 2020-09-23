@@ -6,55 +6,61 @@ part 'usdl_recognizer.g.dart';
 
 /// Result object for UsdlRecognizer.
 class UsdlRecognizerResult extends RecognizerResult {
-    /// Array of elements that are not part of AAMVA standard and are specific to each US state. 
+    /// Array of elements that are not part of AAMVA standard and are specific to each US state.
     List<String> optionalElements;
 
-    /// The raw bytes contained inside 2D barcode. 
+    /// The raw bytes contained inside 2D barcode.
     String rawData;
 
-    /// Raw string inside 2D barcode. 
+    /// Raw string inside 2D barcode.
     String rawStringData;
 
-    /// True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
+    /// True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e.
     bool uncertain;
 
-    /// Fields inside US Driver's licence. Available Keys are listed in UsdlKeys enum. 
+    /// Fields inside US Driver's licence. Available Keys are listed in UsdlKeys enum.
     List<String> fields;
 
-    /// The first name of the United States driver license owner. 
+    /// The first name of the United States driver license owner.
     String firstName;
 
-    /// The last name of the United States driver license owner. 
+    /// The middle name of the United States driver license owner.
+    String middleName;
+
+    /// The last name of the United States driver license owner.
     String lastName;
 
-    /// The full name of the United States driver license owner. 
+    /// The full name of the United States driver license owner.
     String fullName;
 
-    /// The full address of the United States driver license owner. 
+    /// The name suffix of the United States driver license owner.
+    String nameSuffix;
+
+    /// The full address of the United States driver license owner.
     String address;
 
-    /// The document number of the United States driver license. 
+    /// The document number of the United States driver license.
     String documentNumber;
 
-    /// The sex of the United States driver license owner. 
+    /// The sex of the United States driver license owner.
     String sex;
 
-    /// The restrictions to driving privileges for the United States driver license owner. 
+    /// The restrictions to driving privileges for the United States driver license owner.
     String restrictions;
 
-    /// The additional privileges granted to the United States driver license owner. 
+    /// The additional privileges granted to the United States driver license owner.
     String endorsements;
 
-    /// The type of vehicle the driver license owner has privilege to drive. 
+    /// The type of vehicle the driver license owner has privilege to drive.
     String vehicleClass;
 
-    /// The date of birth of the United States driver license owner. 
+    /// The date of birth of the United States driver license owner.
     Date dateOfBirth;
 
-    /// The date of issue of the United States driver license. 
+    /// The date of issue of the United States driver license.
     Date dateOfIssue;
 
-    /// The date of expiry of the United States driver license. 
+    /// The date of expiry of the United States driver license.
     Date dateOfExpiry;
 
     /// The current age of the document owner in years. It is calculated difference
@@ -77,20 +83,24 @@ class UsdlRecognizerResult extends RecognizerResult {
     UsdlRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
 
         this.optionalElements = List<String>.from(nativeResult['optionalElements']);
-    
+
         this.rawData = nativeResult['rawData'];
-    
+
         this.rawStringData = nativeResult['rawStringData'];
-    
+
         this.uncertain = nativeResult['uncertain'];
 
         this.fields = List<String>.from(nativeResult['fields']);
 
         this.firstName = nativeResult['firstName'];
 
+        this.middleName = nativeResult['middleName'];
+
         this.lastName = nativeResult['lastName'];
 
         this.fullName = nativeResult['fullName'];
+
+        this.nameSuffix = nativeResult['nameSuffix'];
 
         this.address = nativeResult['address'];
 
@@ -126,10 +136,10 @@ class UsdlRecognizerResult extends RecognizerResult {
 @JsonSerializable()
 class UsdlRecognizer extends Recognizer {
 
-    /// Allow scanning PDF417 barcodes which don't have quiet zone 
+    /// Allow scanning PDF417 barcodes which don't have quiet zone
     bool nullQuietZoneAllowed = true;
 
-    /// Enable decoding of non-standard PDF417 barcodes, but without 
+    /// Enable decoding of non-standard PDF417 barcodes, but without
     bool uncertainDecoding = true;
 
     /// Enables parsing of compact barcode encoding format
@@ -140,7 +150,7 @@ class UsdlRecognizer extends Recognizer {
     RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
         return UsdlRecognizerResult(nativeResult);
     }
- 
+
     factory UsdlRecognizer.fromJson(Map<String, dynamic> json) => _$UsdlRecognizerFromJson(json);
 
     Map<String, dynamic> toJson() => _$UsdlRecognizerToJson(this);

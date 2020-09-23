@@ -23,6 +23,8 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
         recognizer.setRecognitionModeFilter(SerializationUtils.deserializeRecognitionModeFilter(jsonObject.optJSONObject("recognitionModeFilter")));
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
+        recognizer.setReturnSignatureImage(jsonObject.optBoolean("returnSignatureImage", false));
+        recognizer.setSignatureImageDpi(jsonObject.optInt("signatureImageDpi", 250));
         recognizer.setValidateResultCharacters(jsonObject.optBoolean("validateResultCharacters", true));
         return recognizer;
     }
@@ -68,6 +70,7 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
             jsonResult.put("religion", result.getReligion());
             jsonResult.put("residentialStatus", result.getResidentialStatus());
             jsonResult.put("sex", result.getSex());
+            jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
             jsonResult.put("vizResult", BlinkIDSerializationUtils.serializeVizResult(result.getVizResult()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
