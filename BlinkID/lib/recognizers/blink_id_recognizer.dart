@@ -176,13 +176,13 @@ class BlinkIdRecognizerResult extends RecognizerResult {
         
         this.placeOfBirth = nativeResult["placeOfBirth"];
         
-        this.processingStatus = nativeResult["processingStatus"];
+        this.processingStatus = ProcessingStatus.values[nativeResult["processingStatus"]];
         
         this.profession = nativeResult["profession"];
         
         this.race = nativeResult["race"];
         
-        this.recognitionMode = nativeResult["recognitionMode"];
+        this.recognitionMode = RecognitionMode.values[nativeResult["recognitionMode"]];
         
         this.religion = nativeResult["religion"];
         
