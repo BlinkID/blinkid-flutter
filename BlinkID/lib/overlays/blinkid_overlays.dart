@@ -62,6 +62,11 @@ class BlinkIdOverlaySettings extends OverlaySettings {
     /// Default: true
     bool showNotSupportedDialog = true;
 
+    /// Defines whether glare warning will be displayed when user turn on a flashlight
+    ///
+    /// Default: true
+    bool showFlashlightWarning = true;
+
     /// Option to configure back side scanning timeout.
     ///
     /// Default: 17000

@@ -79,6 +79,9 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The marital status of the document owner. 
     String maritalStatus;
     
+    ///The middle name of the document owner. 
+    String middleName;
+    
     ///The nationality of the documet owner. 
     String nationality;
     
@@ -166,6 +169,8 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         this.lastName = nativeResult["lastName"];
         
         this.maritalStatus = nativeResult["maritalStatus"];
+        
+        this.middleName = nativeResult["middleName"];
         
         this.nationality = nativeResult["nationality"];
         

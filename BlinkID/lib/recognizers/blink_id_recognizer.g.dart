@@ -29,6 +29,8 @@ BlinkIdRecognizer _$BlinkIdRecognizerFromJson(Map<String, dynamic> json) {
             json['recognitionModeFilter'] as Map<String, dynamic>)
     ..returnFaceImage = json['returnFaceImage'] as bool
     ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
+    ..returnSignatureImage = json['returnSignatureImage'] as bool
+    ..signatureImageDpi = json['signatureImageDpi'] as int
     ..validateResultCharacters = json['validateResultCharacters'] as bool;
 }
 
@@ -48,6 +50,8 @@ Map<String, dynamic> _$BlinkIdRecognizerToJson(BlinkIdRecognizer instance) =>
       'recognitionModeFilter': instance.recognitionModeFilter,
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
+      'returnSignatureImage': instance.returnSignatureImage,
+      'signatureImageDpi': instance.signatureImageDpi,
       'validateResultCharacters': instance.validateResultCharacters,
     };
 

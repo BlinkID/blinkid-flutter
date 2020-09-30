@@ -157,6 +157,10 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
 
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
+      if (pendingResult == null) {
+          return true;
+      }
+      
       if (resultCode == Activity.RESULT_OK) {
           if (requestCode == SCAN_REQ_CODE  && mRecognizerBundle != null) {
               mRecognizerBundle.loadFromIntent(data);

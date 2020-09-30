@@ -35,6 +35,8 @@ public final class UsdlRecognizerSerialization implements RecognizerSerializatio
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("lastName", result.getLastName());
             jsonResult.put("fullName", result.getFullName());
+            jsonResult.put("middleName", result.getMiddleName());
+            jsonResult.put("nameSuffix", result.getNameSuffix());
             jsonResult.put("address", result.getAddress());
             jsonResult.put("documentNumber", result.getDocumentNumber());
             jsonResult.put("sex", result.getSex());

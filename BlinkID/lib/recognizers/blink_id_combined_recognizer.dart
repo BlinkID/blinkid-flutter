@@ -148,6 +148,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The sex of the document owner. 
     String sex;
     
+    ///image of the signature if enabled with returnSignatureImage property. 
+    String signatureImage;
+    
     BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
@@ -236,6 +239,8 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         
         this.sex = nativeResult["sex"];
         
+        this.signatureImage = nativeResult["signatureImage"];
+        
     }
 }
 
@@ -306,10 +311,21 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     /// 
     bool returnFullDocumentImage = false;
     
+    ///Sets whether signature image from ID card should be extracted.
+    /// 
+    /// 
+    bool returnSignatureImage = false;
+    
     ///Whether or not recognition result should be signed.
     /// 
     /// 
     bool signResult = false;
+    
+    ///Property for setting DPI for signature images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
+    int signatureImageDpi = 250;
     
     ///Skip back side capture and processing step when back side of the document is not supported
     /// 

@@ -49,12 +49,12 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
     self.result = result;
-    
+
     if ([kScanWithCameraMethodName isEqualToString:call.method]) {
         NSDictionary *recognizerCollectionDict = call.arguments[@"recognizerCollection"];
         NSDictionary *overlaySettingsDict = call.arguments[@"overlaySettings"];
         NSDictionary *licenseKeyDict = call.arguments[@"license"];
-        
+
         [self setLicenseKey:licenseKeyDict];
         [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
     }
@@ -65,33 +65,33 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
 
 - (void)setLicenseKey:(NSDictionary *)licenseKeyDict {
     licenseKeyDict = [self sanitizeDictionary:licenseKeyDict];
-    
+
     if ([licenseKeyDict objectForKey:@"showTimeLimitedLicenseKeyWarning"] != nil) {
         BOOL showTimeLimitedLicenseKeyWarning = [[licenseKeyDict objectForKey:@"showTimeLimitedLicenseKeyWarning"] boolValue];
         [MBMicroblinkSDK sharedInstance].showLicenseKeyTimeLimitedWarning = showTimeLimitedLicenseKeyWarning;
     }
-    
+
     NSString *iosLicense = [licenseKeyDict objectForKey:@"licenseKey"];
     if ([licenseKeyDict objectForKey:@"licensee"] != nil) {
         NSString *licensee = [licenseKeyDict objectForKey:@"licensee"];
-        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee];
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback: nil];
     } else {
-        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense];
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback: nil];
     }
 }
 
 - (void)scanWith:(NSDictionary *)recognizerCollectionDict overlaySettingsDict:(NSDictionary *)overlaySettingsDict {
     recognizerCollectionDict = [self sanitizeDictionary:recognizerCollectionDict];
     overlaySettingsDict = [self sanitizeDictionary:overlaySettingsDict];
-    
+
     self.recognizerCollection = [[MBRecognizerSerializers sharedInstance] deserializeRecognizerCollection:recognizerCollectionDict];
-    
+
     MBOverlayViewController *overlayVC = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:overlaySettingsDict recognizerCollection:self.recognizerCollection delegate:self];
-    
+
     UIViewController<MBRecognizerRunnerViewController>* recognizerRunnerViewController = [MBViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:overlayVC];
-    
+
     UIViewController *rootViewController = (UINavigationController *) UIApplication.sharedApplication.keyWindow.rootViewController;
-    
+
     recognizerRunnerViewController.modalPresentationStyle = UIModalPresentationFullScreen;
     [rootViewController presentViewController:recognizerRunnerViewController animated:YES completion:nil];
 }
@@ -116,7 +116,7 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
         dispatch_async(dispatch_get_main_queue(), ^{
             UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
             [rootViewController dismissViewControllerAnimated:YES completion:nil];
-            
+
             self.recognizerCollection = nil;
             self.result = nil;
         });
@@ -126,7 +126,7 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
 - (void)overlayDidTapClose:(MBOverlayViewController *)overlayViewController {
     UIViewController *rootViewController = UIApplication.sharedApplication.keyWindow.rootViewController;
     [rootViewController dismissViewControllerAnimated:YES completion:nil];
-    
+
     self.recognizerCollection = nil;
     self.result(@"null");
     self.result = nil;

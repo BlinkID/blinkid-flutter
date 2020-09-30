@@ -4,11 +4,11 @@ part 'types.g.dart';
 /// Represents a date extracted from image.
 class Date {
 
-    /// day in month 
+    /// day in month
     int day;
-    /// month in year 
+    /// month in year
     int month;
-    /// year 
+    /// year
     int year;
 
     Date(Map<String, dynamic> nativeDate) {
@@ -21,9 +21,9 @@ class Date {
 /// Represents a point in image
 class Point {
 
-    /// x coordinate of the point 
+    /// x coordinate of the point
     double x;
-    /// y coordinate of the point 
+    /// y coordinate of the point
     double y;
 
     Point(Map<String, dynamic> nativePoint) {
@@ -35,13 +35,13 @@ class Point {
 /// Represents a quadrilateral location in the image
 class Quadrilateral {
 
-    /// upper left point of the quadrilateral 
+    /// upper left point of the quadrilateral
     Point upperLeft;
-    /// upper right point of the quadrilateral 
+    /// upper right point of the quadrilateral
     Point upperRight;
-    /// lower left point of the quadrilateral 
+    /// lower left point of the quadrilateral
     Point lowerLeft;
-    /// lower right point of the quadrilateral 
+    /// lower right point of the quadrilateral
     Point lowerRight;
 
     Quadrilateral(Map<String, dynamic> nativeQuad) {
@@ -54,40 +54,40 @@ class Quadrilateral {
 
 /// Represents the type of scanned barcode
 enum BarcodeType {
-        /// No barcode was scanned 
+        /// No barcode was scanned
         None,
-        /// QR code was scanned 
+        /// QR code was scanned
         QRCode,
-        /// Data Matrix 2D barcode was scanned 
+        /// Data Matrix 2D barcode was scanned
         DataMatrix,
-        /// UPC E barcode was scanned 
+        /// UPC E barcode was scanned
         UPCE,
-        /// UPC A barcode was scanned 
+        /// UPC A barcode was scanned
         UPCA,
-        /// EAN 8 barcode was scanned 
+        /// EAN 8 barcode was scanned
         EAN8,
-        /// EAN 13 barcode was scanned 
+        /// EAN 13 barcode was scanned
         EAN13,
-        /// Code 128 barcode was scanned 
+        /// Code 128 barcode was scanned
         Code128,
-        /// Code 39 barcode was scanned 
+        /// Code 39 barcode was scanned
         Code39,
-        /// ITF barcode was scanned 
+        /// ITF barcode was scanned
         ITF,
-        /// Aztec 2D barcode was scanned 
+        /// Aztec 2D barcode was scanned
         Aztec,
-        /// PDF417 2D barcode was scanned 
+        /// PDF417 2D barcode was scanned
         PDF417
 }
 
 /// Represents data extracted from the Driver's license.
 class DriverLicenseDetailedInfo {
 
-    ///  Restrictions to driving privileges for the driver license owner. 
+    ///  Restrictions to driving privileges for the driver license owner.
     String restrictions;
-    /// Additional privileges granted to the driver license owner. 
+    /// Additional privileges granted to the driver license owner.
     String endorsements;
-    /// The type of vehicle the driver license owner has privilege to drive. 
+    /// The type of vehicle the driver license owner has privilege to drive.
     String vehicleClass;
     /// The driver license conditions.
     String conditions;
@@ -100,13 +100,13 @@ class DriverLicenseDetailedInfo {
     }
 }
 
-/// Result of the data matching algorithm for scanned parts/sides of the document. 
+/// Result of the data matching algorithm for scanned parts/sides of the document.
 enum DataMatchResult {
-    /// Data matching has not been performed. 
+    /// Data matching has not been performed.
     NotPerformed,
-    /// Data does not match. 
+    /// Data does not match.
     Failed,
-    /// Data match. 
+    /// Data match.
     Success
 }
 
@@ -131,51 +131,51 @@ class ClassInfo {
 
 /// Possible types of Machine Readable Travel Documents (MRTDs).
 enum MrtdDocumentType {
-    /// Unknown document type 
+    /// Unknown document type
     Unknown,
-    /// Identity card 
+    /// Identity card
     IdentityCard,
-    /// Passport 
+    /// Passport
     Passport,
-    /// Visa 
+    /// Visa
     Visa,
-    /// US Green Card 
+    /// US Green Card
     GreenCard,
-    /// Malaysian PASS type IMM13P 
+    /// Malaysian PASS type IMM13P
     MalaysianPassIMM13P
 }
 
 /// Possible types of documents scanned with IdBarcodeRecognizer.
 enum IdBarcodeDocumentType {
-    /// No document was scanned 
+    /// No document was scanned
     None,
-    /// AAMVACompliant document was scanned 
+    /// AAMVACompliant document was scanned
     AAMVACompliant,
-    /// Argentina ID document was scanned 
+    /// Argentina ID document was scanned
     ArgentinaID,
-    /// Argentina driver license document was scanned 
+    /// Argentina driver license document was scanned
     ArgentinaDL,
-    /// Colombia ID document was scanned 
+    /// Colombia ID document was scanned
     ColombiaID,
-    /// Colombia driver license document was scanned 
+    /// Colombia driver license document was scanned
     ColombiaDL,
-    /// NigeriaVoter ID document was scanned 
+    /// NigeriaVoter ID document was scanned
     NigeriaVoterID,
-    /// Nigeria driver license document was scanned 
+    /// Nigeria driver license document was scanned
     NigeriaDL,
-    /// Panama ID document was scanned 
+    /// Panama ID document was scanned
     PanamaID,
-    /// SouthAfrica ID document was scanned 
+    /// SouthAfrica ID document was scanned
     SouthAfricaID0
 }
 
 /// Defines possible color statuses determined from scanned image scanned with BlinkID or BlinkID Combined Recognizer
 enum DocumentImageColorStatus {
-    /// Determining image color status was not performed  
+    /// Determining image color status was not performed
     NotAvailable,
-    /// Black-and-white image scanned  
+    /// Black-and-white image scanned
     BlackAndWhite,
-    /// Color image scanned  
+    /// Color image scanned
     Color
 }
 
@@ -280,7 +280,9 @@ enum Country {
     Oman,
     Ecuador,
     ElSalvador,
-    SriLanka
+    SriLanka,
+    Peru,
+    Uruguay
 }
 
 /// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -353,7 +355,11 @@ enum Region {
     WestVirginia,
     Wisconsin,
     Wyoming,
-    Yukon
+    Yukon,
+    CiudadDeMexico,
+    Jalisco,
+    NewfoundlandAndLabrador,
+    NuevoLeon
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -382,7 +388,9 @@ enum Type {
     MilitaryId,
     MyKas,
     SocialSecurityCard,
-    HealthInsuranceCard
+    HealthInsuranceCard,
+    Passport,
+    SPass
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -390,10 +398,10 @@ class MrzResult {
     /// Type of recognized document. It is always one of the values represented by BlinkIDScanner.MRTDDocumentType
     MrtdDocumentType documentType;
 
-    /// The primary indentifier. If there is more than one component, they are separated with space. 
+    /// The primary indentifier. If there is more than one component, they are separated with space.
     String primaryId;
 
-    /// The secondary identifier. If there is more than one component, they are separated with space. 
+    /// The secondary identifier. If there is more than one component, they are separated with space.
     String secondaryId;
 
     /// Three-letter or two-letter code which indicate the issuing State. Three-letter codes are based
@@ -401,7 +409,7 @@ class MrzResult {
     /// codes are based on Alpha-2 codes for entities specified in ISO 3166-1, with extensions for certain States.
     String issuer;
 
-    /// Holder's date of birth 
+    /// Holder's date of birth
     Date dateOfBirth;
 
     /// The document number. Document number contains up to 9 characters.
@@ -427,7 +435,7 @@ class MrzResult {
     /// character <code>&lt;</code>.
     String documentCode;
 
-    /// The date of expiry 
+    /// The date of expiry
     Date dateOfExpiry;
 
     /// The first optional data. Contains empty string if not available.
@@ -455,10 +463,10 @@ class MrzResult {
     /// NOTE: This string is available only if OCR result was parsed successfully.
     String mrzText;
 
-    /// true if Machine Readable Zone has been parsed, false otherwise. 
+    /// true if Machine Readable Zone has been parsed, false otherwise.
     bool mrzParsed;
 
-    /// true if all check digits inside MRZ are correct, false otherwise. 
+    /// true if all check digits inside MRZ are correct, false otherwise.
     bool mrzVerified;
 
     /// Sanitized field opt1
@@ -513,13 +521,13 @@ class MrzResult {
     }
 }
 
-/// Possible supported detectors for documents containing face image 
+/// Possible supported detectors for documents containing face image
 enum DocumentFaceDetectorType {
-    /// Uses document detector for TD1 size identity cards 
+    /// Uses document detector for TD1 size identity cards
     TD1,
-    /// Uses document detector for TD2 size identity cards  
+    /// Uses document detector for TD2 size identity cards
     TD2,
-    /// Uses MRTD detector for detecting documents with MRZ 
+    /// Uses MRTD detector for detecting documents with MRZ
     PassportsAndVisas
 }
 
@@ -530,13 +538,13 @@ enum DocumentFaceDetectorType {
 @JsonSerializable()
 class ImageExtensionFactors {
 
-    /// image extension factor relative to full image height in UP direction. 
+    /// image extension factor relative to full image height in UP direction.
     double upFactor = 0.0;
-    /// image extension factor relative to full image height in RIGHT direction. 
+    /// image extension factor relative to full image height in RIGHT direction.
     double rightFactor = 0.0;
-    /// image extension factor relative to full image height in DOWN direction. 
+    /// image extension factor relative to full image height in DOWN direction.
     double downFactor = 0.0;
-    /// image extension factor relative to full image height in LEFT direction. 
+    /// image extension factor relative to full image height in LEFT direction.
     double leftFactor = 0.0;
 
     ImageExtensionFactors();
@@ -585,67 +593,67 @@ enum AnonymizationMode {
 
 /// Defines status of the last recognition process.
 enum ProcessingStatus {
-    /// Recognition was successful. 
+    /// Recognition was successful.
     Success,
 
-    /// Detection of the document failed. 
+    /// Detection of the document failed.
     DetectionFailed,
 
-    /// Preprocessing of the input image has failed. 
+    /// Preprocessing of the input image has failed.
     ImagePreprocessingFailed,
 
-    /// Recognizer has inconsistent results. 
+    /// Recognizer has inconsistent results.
     StabilityTestFailed,
 
-    /// Wrong side of the document has been scanned. 
+    /// Wrong side of the document has been scanned.
     ScanningWrongSide,
 
-    /// Identification of the fields present on the document has failed. 
+    /// Identification of the fields present on the document has failed.
     FieldIdentificationFailed,
 
-    /// Mandatory field for the specific document is missing. 
+    /// Mandatory field for the specific document is missing.
     MandatoryFieldMissing,
 
-    /// Result contains invalid characters in some of the fields. 
+    /// Result contains invalid characters in some of the fields.
     InvalidCharactersFound,
 
-    /// Failed to return a requested image. 
+    /// Failed to return a requested image.
     ImageReturnFailed,
 
-    /// Reading or parsing of the barcode has failed. 
+    /// Reading or parsing of the barcode has failed.
     BarcodeRecognitionFailed,
 
-    /// Parsing of the MRZ has failed. 
+    /// Parsing of the MRZ has failed.
     MrzParsingFailed,
 
-    /// Document class has been filtered out. 
+    /// Document class has been filtered out.
     ClassFiltered,
 
-    /// Document currently not supported by the recognizer. 
+    /// Document currently not supported by the recognizer.
     UnsupportedClass,
 
-    /// License for the detected document is missing. 
+    /// License for the detected document is missing.
     UnsupportedByLicense
 }
 
 /// Define level of anonymization performed on recognizer result
 enum RecognitionMode {
-    /// No recognition performed. 
+    /// No recognition performed.
     None,
 
-    /// Recognition of mrz document (does not include visa and passport) 
+    /// Recognition of mrz document (does not include visa and passport)
     MrzId,
 
-    /// Recognition of visa mrz. 
+    /// Recognition of visa mrz.
     MrzVisa,
 
-    /// Recognition of passport mrz. 
+    /// Recognition of passport mrz.
     MrzPassport,
 
-    /// Recognition of documents that have face photo on the front. 
+    /// Recognition of documents that have face photo on the front.
     PhotoId,
 
-    /// Detailed document recognition. 
+    /// Detailed document recognition.
     FullRecognition
 }
 
@@ -675,10 +683,10 @@ class ImageAnalysisResult {
     }
 }
 
-/// Defines the data extracted from the barcode. 
+/// Defines the data extracted from the barcode.
 class BarcodeResult {
 
-    /// Type of the barcode scanned 
+    /// Type of the barcode scanned
     BarcodeType barcodeType;
     /// Byte array with result of the scan
     String rawData;
@@ -688,6 +696,8 @@ class BarcodeResult {
     bool uncertain;
     /// The first name of the document owner.
     String firstName;
+    /// The middle name of the document owner.
+    String middleName;
     /// The last name of the document owner.
     String lastName;
     /// The full name of the document owner.
@@ -747,6 +757,7 @@ class BarcodeResult {
         this.stringData = nativeBarcodeResult['stringData'];
         this.uncertain = nativeBarcodeResult['uncertain'];
         this.firstName = nativeBarcodeResult['firstName'];
+        this.middleName = nativeBarcodeResult['middleName'];
         this.lastName = nativeBarcodeResult['lastName'];
         this.fullName = nativeBarcodeResult['fullName'];
         this.additionalNameInformation = nativeBarcodeResult['additionalNameInformation'];
@@ -778,57 +789,57 @@ class BarcodeResult {
 
 class VizResult {
 
-    /// The first name of the document owner. 
+    /// The first name of the document owner.
     String firstName;
-    /// The last name of the document owner. 
+    /// The last name of the document owner.
     String lastName;
-    /// The full name of the document owner. 
+    /// The full name of the document owner.
     String fullName;
-    /// The additional name information of the document owner. 
+    /// The additional name information of the document owner.
     String additionalNameInformation;
-    /// The localized name of the document owner. 
+    /// The localized name of the document owner.
     String localizedName;
-    /// The address of the document owner. 
+    /// The address of the document owner.
     String address;
-    /// The additional address information of the document owner. 
+    /// The additional address information of the document owner.
     String additionalAddressInformation;
-    /// The place of birth of the document owner. 
+    /// The place of birth of the document owner.
     String placeOfBirth;
-    /// The nationality of the documet owner. 
+    /// The nationality of the documet owner.
     String nationality;
-    /// The race of the document owner. 
+    /// The race of the document owner.
     String race;
-    /// The religion of the document owner. 
+    /// The religion of the document owner.
     String religion;
-    /// The profession of the document owner. 
+    /// The profession of the document owner.
     String profession;
-    /// The marital status of the document owner. 
+    /// The marital status of the document owner.
     String maritalStatus;
-    /// The residential stauts of the document owner. 
+    /// The residential stauts of the document owner.
     String residentialStatus;
-    /// The employer of the document owner. 
+    /// The employer of the document owner.
     String employer;
-    /// The sex of the document owner. 
+    /// The sex of the document owner.
     String sex;
-    /// The date of birth of the document owner. 
+    /// The date of birth of the document owner.
     Date dateOfBirth;
-    /// The date of issue of the document. 
+    /// The date of issue of the document.
     Date dateOfIssue;
-    /// The date of expiry of the document. 
+    /// The date of expiry of the document.
     Date dateOfExpiry;
-    /// The document number. 
+    /// The document number.
     String documentNumber;
-    /// The personal identification number. 
+    /// The personal identification number.
     String personalIdNumber;
-    /// The additional number of the document. 
+    /// The additional number of the document.
     String documentAdditionalNumber;
-    /// The additional personal identification number. 
+    /// The additional personal identification number.
     String additionalPersonalIdNumber;
-    /// The issuing authority of the document. 
+    /// The issuing authority of the document.
     String issuingAuthority;
-    /// The driver license detailed info. 
+    /// The driver license detailed info.
     DriverLicenseDetailedInfo driverLicenseDetailedInfo;
-    /// Flag that indicates if barcode result is empty 
+    /// Flag that indicates if barcode result is empty
     bool empty;
 
     VizResult(Map<String, dynamic> nativeVizResult) {

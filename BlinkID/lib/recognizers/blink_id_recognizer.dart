@@ -120,6 +120,9 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///The sex of the document owner. 
     String sex;
     
+    ///image of the signature if enabled with returnSignatureImage property. 
+    String signatureImage;
+    
     ///Defines the data extracted from the visual inspection zone 
     VizResult vizResult;
     
@@ -195,6 +198,8 @@ class BlinkIdRecognizerResult extends RecognizerResult {
         
         this.sex = nativeResult["sex"];
         
+        this.signatureImage = nativeResult["signatureImage"];
+        
         this.vizResult = nativeResult["vizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["vizResult"])) : null;
         
     }
@@ -266,6 +271,17 @@ class BlinkIdRecognizer extends Recognizer {
     /// 
     /// 
     bool returnFullDocumentImage = false;
+    
+    ///Sets whether signature image from ID card should be extracted.
+    /// 
+    /// 
+    bool returnSignatureImage = false;
+    
+    ///Property for setting DPI for signature images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
+    int signatureImageDpi = 250;
     
     ///Defines whether result characters validatation is performed.
     /// If a result member contains invalid character, the result state cannot be valid
