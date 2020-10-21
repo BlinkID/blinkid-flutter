@@ -97,7 +97,15 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
 
         this.digitalSignatureVersion = nativeResult['digitalSignatureVersion'];
 
-        this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"]];
+        if (nativeResult["documentDataMatch"] is int) {
+          this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"]];
+        } else if (nativeResult["documentDataMatch"] == true) {
+          this.documentDataMatch = DataMatchResult.Success;
+        }else if (nativeResult["documentDataMatch"] == false) {
+          this.documentDataMatch = DataMatchResult.Failed;
+        } else {
+          this.documentDataMatch = DataMatchResult.NotPerformed;
+        }
 
         this.faceImage = nativeResult['faceImage'];
 
