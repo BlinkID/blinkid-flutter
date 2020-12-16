@@ -74,9 +74,11 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
     NSString *iosLicense = [licenseKeyDict objectForKey:@"licenseKey"];
     if ([licenseKeyDict objectForKey:@"licensee"] != nil) {
         NSString *licensee = [licenseKeyDict objectForKey:@"licensee"];
-        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback: nil];
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback:^(MBLicenseError licenseError) {
+        }];
     } else {
-        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback: nil];
+        [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback:^(MBLicenseError licenseError) {
+        }];
     }
 }
 

@@ -17,6 +17,7 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         BlinkIdUISettings settings = new BlinkIdUISettings(recognizerBundle);
+        OverlaySerializationUtils.extractCommonUISettings(jsonUISettings, settings);
 
         boolean requireDocumentSidesDataMatch = jsonUISettings.optBoolean("requireDocumentSidesDataMatch", true);
         settings.setDocumentDataMatchRequired(requireDocumentSidesDataMatch);

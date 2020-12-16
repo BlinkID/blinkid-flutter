@@ -63,6 +63,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The document number. 
     String documentNumber;
     
+    ///The one more additional number of the document. 
+    String documentOptionalAdditionalNumber;
+    
     ///The driver license detailed info. 
     DriverLicenseDetailedInfo driverLicenseDetailedInfo;
     
@@ -186,6 +189,8 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"]];
         
         this.documentNumber = nativeResult["documentNumber"];
+        
+        this.documentOptionalAdditionalNumber = nativeResult["documentOptionalAdditionalNumber"];
         
         this.driverLicenseDetailedInfo = nativeResult["driverLicenseDetailedInfo"] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeResult["driverLicenseDetailedInfo"])) : null;
         

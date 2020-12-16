@@ -25,13 +25,13 @@
     {
         id faceImageDpi = [jsonRecognizer valueForKey:@"faceImageDpi"];
         if (faceImageDpi != nil) {
-            recognizer.faceImageDpi = [(NSNumber *)faceImageDpi unsignedIntegerValue];
+            recognizer.faceImageDpi = [(NSNumber *)faceImageDpi integerValue];
         }
     }
     {
         id fullDocumentImageDpi = [jsonRecognizer valueForKey:@"fullDocumentImageDpi"];
         if (fullDocumentImageDpi != nil) {
-            recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi unsignedIntegerValue];
+            recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi integerValue];
         }
     }
     {

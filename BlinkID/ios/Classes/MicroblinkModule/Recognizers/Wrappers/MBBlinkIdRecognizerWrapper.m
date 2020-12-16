@@ -37,19 +37,19 @@
     {
         id anonymizationMode = [jsonRecognizer valueForKey:@"anonymizationMode"];
         if (anonymizationMode != nil) {
-            recognizer.anonymizationMode = [MBBlinkIDSerializationUtils deserializeMBAnonymizationMode:anonymizationMode];
+            recognizer.anonymizationMode = [(NSNumber *)anonymizationMode unsignedIntegerValue] - 1;
         }
     }
     {
         id faceImageDpi = [jsonRecognizer valueForKey:@"faceImageDpi"];
         if (faceImageDpi != nil) {
-            recognizer.faceImageDpi = [(NSNumber *)faceImageDpi unsignedIntegerValue];
+            recognizer.faceImageDpi = [(NSNumber *)faceImageDpi integerValue];
         }
     }
     {
         id fullDocumentImageDpi = [jsonRecognizer valueForKey:@"fullDocumentImageDpi"];
         if (fullDocumentImageDpi != nil) {
-            recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi unsignedIntegerValue];
+            recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi integerValue];
         }
     }
     {
@@ -91,7 +91,7 @@
     {
         id signatureImageDpi = [jsonRecognizer valueForKey:@"signatureImageDpi"];
         if (signatureImageDpi != nil) {
-            recognizer.signatureImageDpi = [(NSNumber *)signatureImageDpi unsignedIntegerValue];
+            recognizer.signatureImageDpi = [(NSNumber *)signatureImageDpi integerValue];
         }
     }
     {
@@ -125,6 +125,7 @@
     [jsonResult setValue:[MBSerializationUtils serializeMBDateResult:self.result.dateOfIssue] forKey:@"dateOfIssue"];
     [jsonResult setValue:self.result.documentAdditionalNumber forKey:@"documentAdditionalNumber"];
     [jsonResult setValue:self.result.documentNumber forKey:@"documentNumber"];
+    [jsonResult setValue:self.result.documentOptionalAdditionalNumber forKey:@"documentOptionalAdditionalNumber"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeDriverLicenseDetailedInfo:self.result.driverLicenseDetailedInfo] forKey:@"driverLicenseDetailedInfo"];
     [jsonResult setValue:self.result.employer forKey:@"employer"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.expired] forKey:@"expired"];

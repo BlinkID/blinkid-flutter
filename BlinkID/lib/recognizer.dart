@@ -20,7 +20,7 @@ part 'recognizer.g.dart';
 @JsonSerializable()
 class Recognizer {
 
-  /// Type of recognizer 
+  /// Type of recognizer
   String recognizerType;
 
   Recognizer(String recognizerType) {
@@ -36,12 +36,13 @@ class Recognizer {
 
 /// Possible states of the Recognizer's result
 enum RecognizerResultState {
-  /// Recognizer result is empty 
+  /// Recognizer result is empty
   empty,
-  /// Recognizer result contains some values, but is incomplete or it contains all values, but some are uncertain 
+  /// Recognizer result contains some values, but is incomplete or it contains all values, but some are uncertain
   uncertain,
-  /// Recognizer result contains all required values 
-  valid
+  /// Recognizer result contains all required values
+  valid,
+  stageValid
 }
 
 /// Base class for all recognizer's result objects.
@@ -49,7 +50,7 @@ enum RecognizerResultState {
 @JsonSerializable()
 class RecognizerResult {
 
-  /// State of the result. It is always one of the values represented by RecognizerResultState enum 
+  /// State of the result. It is always one of the values represented by RecognizerResultState enum
   RecognizerResultState resultState;
 
   RecognizerResult(RecognizerResultState resultState) {

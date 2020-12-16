@@ -282,7 +282,21 @@ enum Country {
     ElSalvador,
     SriLanka,
     Peru,
-    Uruguay
+    Uruguay,
+    Bahamas,
+    Bermuda,
+    Bolivia,
+    China,
+    EuropeanUnion,
+    Haiti,
+    Honduras,
+    Iceland,
+    Japan,
+    Luxembourg,
+    Montenegro,
+    Nicaragua,
+    SouthKorea,
+    Venezuela
 }
 
 /// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -359,7 +373,16 @@ enum Region {
     CiudadDeMexico,
     Jalisco,
     NewfoundlandAndLabrador,
-    NuevoLeon
+    NuevoLeon,
+    BajaCalifornia,
+    Chihuahua,
+    Guanajuato,
+    Guerrero,
+    Mexico,
+    Michoacan,
+    NewYorkCity,
+    Tamaulipas,
+    Veracruz
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -390,7 +413,16 @@ enum Type {
     SocialSecurityCard,
     HealthInsuranceCard,
     Passport,
-    SPass
+    SPass,
+    AddressCard,
+    AlienId,
+    AlienPassport,
+    GreenCard,
+    MinorsId,
+    PostalId,
+    ProfessionalDl,
+    TaxId,
+    WeaponPermit
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -524,11 +556,11 @@ class MrzResult {
 /// Possible supported detectors for documents containing face image
 enum DocumentFaceDetectorType {
     /// Uses document detector for TD1 size identity cards
-    TD1,
+    @JsonValue(1) TD1,
     /// Uses document detector for TD2 size identity cards
-    TD2,
+    @JsonValue(2) TD2,
     /// Uses MRTD detector for detecting documents with MRZ
-    PassportsAndVisas
+    @JsonValue(3) PassportsAndVisas
 }
 
 /// Extension factors relative to corresponding dimension of the full image. For example,
@@ -582,13 +614,13 @@ class RecognitionModeFilter {
 /// Define level of anonymization performed on recognizer result
 enum AnonymizationMode {
     /// Anonymization will not be performed.
-    None,
+    @JsonValue(1) None,
     /// FullDocumentImage is anonymized with black boxes covering sensitive data.
-    ImageOnly,
+    @JsonValue(2) ImageOnly,
     /// Result fields containing sensitive data are removed from result.
-    ResultFieldsOnly,
+    @JsonValue(3) ResultFieldsOnly,
     /// This mode is combination of ImageOnly and ResultFieldsOnly modes.
-    FullResult
+    @JsonValue(4) FullResult
 }
 
 /// Defines status of the last recognition process.
@@ -841,6 +873,8 @@ class VizResult {
     DriverLicenseDetailedInfo driverLicenseDetailedInfo;
     /// Flag that indicates if barcode result is empty
     bool empty;
+    /// The one more additional number of the document.
+    String documentOptionalAdditionalNumber;
 
     VizResult(Map<String, dynamic> nativeVizResult) {
         this.firstName = nativeVizResult['firstName'];
@@ -869,5 +903,6 @@ class VizResult {
         this.issuingAuthority = nativeVizResult['issuingAuthority'];
         this.driverLicenseDetailedInfo = nativeVizResult['driverLicenseDetailedInfo'] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeVizResult['driverLicenseDetailedInfo'])) : null;
         this.empty = nativeVizResult['empty'];
+        this.documentOptionalAdditionalNumber = nativeVizResult['documentOptionalAdditionalNumber'];
     }
 }

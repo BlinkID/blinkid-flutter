@@ -88,8 +88,8 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$AnonymizationModeEnumMap = {
-  AnonymizationMode.None: 'None',
-  AnonymizationMode.ImageOnly: 'ImageOnly',
-  AnonymizationMode.ResultFieldsOnly: 'ResultFieldsOnly',
-  AnonymizationMode.FullResult: 'FullResult',
+  AnonymizationMode.None: 1,
+  AnonymizationMode.ImageOnly: 2,
+  AnonymizationMode.ResultFieldsOnly: 3,
+  AnonymizationMode.FullResult: 4,
 };
