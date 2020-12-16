@@ -148,18 +148,6 @@
         };
 }
 
-+(MBAnonymizationMode) deserializeMBAnonymizationMode:(NSString *)jsonAnonymizationMode {
-    if ([jsonAnonymizationMode isEqualToString:@"ImageOnly"]) {
-        return MBAnonymizationModeImageOnly;
-    } else if ([jsonAnonymizationMode isEqualToString:@"ResultFieldsOnly"]) {
-        return MBAnonymizationModeResultFieldsOnly;
-    } else if ([jsonAnonymizationMode isEqualToString:@"FullResult"]) {
-        return MBAnonymizationModeFullResult;
-    } else {
-        return MBAnonymizationModeNone;
-    }
-}
-
 +(MBRecognitionModeFilter *) deserializeMBRecognitionModeFilter:(NSDictionary *)jsonRecognitionModeFilter {
     if (jsonRecognitionModeFilter == nil) {
         return [[MBRecognitionModeFilter alloc] init];
