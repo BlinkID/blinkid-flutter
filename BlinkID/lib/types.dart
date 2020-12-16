@@ -556,11 +556,11 @@ class MrzResult {
 /// Possible supported detectors for documents containing face image
 enum DocumentFaceDetectorType {
     /// Uses document detector for TD1 size identity cards
-    TD1,
+    @JsonValue(1) TD1,
     /// Uses document detector for TD2 size identity cards
-    TD2,
+    @JsonValue(2) TD2,
     /// Uses MRTD detector for detecting documents with MRZ
-    PassportsAndVisas
+    @JsonValue(3) PassportsAndVisas
 }
 
 /// Extension factors relative to corresponding dimension of the full image. For example,
@@ -614,13 +614,13 @@ class RecognitionModeFilter {
 /// Define level of anonymization performed on recognizer result
 enum AnonymizationMode {
     /// Anonymization will not be performed.
-    None,
+    @JsonValue(1) None,
     /// FullDocumentImage is anonymized with black boxes covering sensitive data.
-    ImageOnly,
+    @JsonValue(2) ImageOnly,
     /// Result fields containing sensitive data are removed from result.
-    ResultFieldsOnly,
+    @JsonValue(3) ResultFieldsOnly,
     /// This mode is combination of ImageOnly and ResultFieldsOnly modes.
-    FullResult
+    @JsonValue(4) FullResult
 }
 
 /// Defines status of the last recognition process.

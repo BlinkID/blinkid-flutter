@@ -72,7 +72,7 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$DocumentFaceDetectorTypeEnumMap = {
-  DocumentFaceDetectorType.TD1: 'TD1',
-  DocumentFaceDetectorType.TD2: 'TD2',
-  DocumentFaceDetectorType.PassportsAndVisas: 'PassportsAndVisas',
+  DocumentFaceDetectorType.TD1: 1,
+  DocumentFaceDetectorType.TD2: 2,
+  DocumentFaceDetectorType.PassportsAndVisas: 3,
 };
