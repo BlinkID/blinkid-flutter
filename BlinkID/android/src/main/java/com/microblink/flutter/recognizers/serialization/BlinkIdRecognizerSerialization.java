@@ -47,6 +47,7 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
             jsonResult.put("documentAdditionalNumber", result.getDocumentAdditionalNumber());
             jsonResult.put("documentNumber", result.getDocumentNumber());
+            jsonResult.put("documentOptionalAdditionalNumber", result.getDocumentOptionalAdditionalNumber());
             jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
             jsonResult.put("employer", result.getEmployer());
             jsonResult.put("expired", result.isExpired());
