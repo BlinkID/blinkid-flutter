@@ -16,6 +16,7 @@ public final class DocumentVerificationOverlaySettingsSerialization implements O
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         DocumentVerificationUISettings settings = new DocumentVerificationUISettings(recognizerBundle);
+        OverlaySerializationUtils.extractCommonUISettings(jsonUISettings, settings);
 
         DocumentVerificationOverlayStrings.Builder overlasStringsBuilder = new DocumentVerificationOverlayStrings.Builder(context);
         String firstSideSplashMessage = getStringFromJSONObject(jsonUISettings, "firstSideSplashMessage");
