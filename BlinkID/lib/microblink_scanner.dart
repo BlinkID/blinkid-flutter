@@ -20,7 +20,7 @@ class MicroblinkScanner {
   static const String ARG_LICENSE = 'license';
   static const String ARG_LICENSE_KEY = 'licenseKey';
   static const String ARG_LICENSEE = 'licensee';
-  static const String ARG_SHOW_LICENSE_WARNING = 'showTimeLimitedLicenseKeyWarning';
+  static const String ARG_SHOW_LICENSE_WARNING = 'showTrialLicenseWarning';
 
   static Future<List<RecognizerResult>> scanWithCamera(RecognizerCollection collection, OverlaySettings overlaySettings, String license) async {
     var jsonResults = jsonDecode(await _channel.invokeMethod(
