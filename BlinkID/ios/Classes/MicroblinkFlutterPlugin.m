@@ -66,9 +66,9 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
 - (void)setLicenseKey:(NSDictionary *)licenseKeyDict {
     licenseKeyDict = [self sanitizeDictionary:licenseKeyDict];
 
-    if ([licenseKeyDict objectForKey:@"showTimeLimitedLicenseKeyWarning"] != nil) {
-        BOOL showTimeLimitedLicenseKeyWarning = [[licenseKeyDict objectForKey:@"showTimeLimitedLicenseKeyWarning"] boolValue];
-        [MBMicroblinkSDK sharedInstance].showLicenseKeyTimeLimitedWarning = showTimeLimitedLicenseKeyWarning;
+    if ([licenseKeyDict objectForKey:@"showTrialLicenseWarning"] != nil) {
+        BOOL showTrialLicenseWarning = [[licenseKeyDict objectForKey:@"showTrialLicenseWarning"] boolValue];
+        [MBMicroblinkSDK sharedInstance].showTrialLicenseWarning = showTrialLicenseWarning;
     }
 
     NSString *iosLicense = [licenseKeyDict objectForKey:@"licenseKey"];

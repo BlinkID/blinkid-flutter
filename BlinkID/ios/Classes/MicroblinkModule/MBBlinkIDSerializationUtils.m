@@ -66,6 +66,11 @@
              @"country" : [NSNumber numberWithInteger:(classInfo.country)],
              @"region" : [NSNumber numberWithInteger:(classInfo.region)],
              @"type" : [NSNumber numberWithInteger:(classInfo.type)],
+             @"empty" : [NSNumber numberWithBool:classInfo.empty],
+             @"countryName" : classInfo.countryName,
+             @"isoNumericCountryCode" : classInfo.isoNumericCountryCode,
+             @"isoAlpha2CountryCode" : classInfo.isoAlpha2CountryCode,
+             @"isoAlpha3CountryCode" : classInfo.isoAlpha3CountryCode
              };
 }
 
@@ -133,7 +138,8 @@
         @"city" : barcodeResult.city,
         @"jurisdiction" : barcodeResult.jurisdiction,
         @"driverLicenseDetailedInfo" : [MBBlinkIDSerializationUtils serializeDriverLicenseDetailedInfo:barcodeResult.driverLicenseDetailedInfo],
-        @"empty" : [NSNumber numberWithBool:barcodeResult.empty]
+        @"empty" : [NSNumber numberWithBool:barcodeResult.empty],
+        @"extendedElements" : [MBBlinkIDSerializationUtils serializeBarcodeElements:barcodeResult.extendedElements]
     };
 }
 
@@ -161,6 +167,21 @@
 
         return recognitionModeFilter;
     }
+}
+
++(NSDictionary * _Nonnull) serializeBarcodeElements:(MBBarcodeElements * _Nonnull)extendedElements {
+    return @{
+        @"empty" : [NSNumber numberWithBool:extendedElements.empty],
+        @"values": [MBBlinkIDSerializationUtils serializeBarcodeElementsValues: extendedElements]
+    };
+}
+
++(NSArray<NSString *> *) serializeBarcodeElementsValues:(MBBarcodeElements *)extendedElements {
+    NSMutableArray<NSString *> *fieldsArr = [[NSMutableArray alloc] init];
+    for (NSUInteger i = 0; i <= SecurityVersion; ++i) {
+        [fieldsArr addObject:[extendedElements getValue:(MBBarcodeElementKey)i]];
+    }
+    return fieldsArr;
 }
 
 @end
