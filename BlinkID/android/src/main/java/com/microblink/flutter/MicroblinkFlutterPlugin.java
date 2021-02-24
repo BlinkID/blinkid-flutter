@@ -104,7 +104,7 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
 
   @SuppressWarnings("unchecked")
   private void setLicense(Map licenseMap) {
-      MicroblinkSDK.setShowTimeLimitedLicenseWarning((boolean)licenseMap.getOrDefault(ARG_SHOW_LICENSE_WARNING, true));
+      MicroblinkSDK.setShowTrialLicenseWarning((boolean)licenseMap.getOrDefault(ARG_SHOW_LICENSE_WARNING, true));
 
       String licenseKey = (String)licenseMap.get(ARG_LICENSE_KEY);
       String licensee = (String)licenseMap.getOrDefault(ARG_LICENSEE, null);

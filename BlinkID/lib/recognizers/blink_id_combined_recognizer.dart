@@ -321,6 +321,12 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     /// 
     bool returnSignatureImage = false;
     
+    ///Configure the recognizer to only work on already cropped and dewarped images.
+    /// This only works for still images - video feeds will ignore this setting.
+    /// 
+    /// 
+    bool scanCroppedDocumentImage = false;
+    
     ///Whether or not recognition result should be signed.
     /// 
     /// 

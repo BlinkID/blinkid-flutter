@@ -89,6 +89,12 @@
         }
     }
     {
+        id scanCroppedDocumentImage = [jsonRecognizer valueForKey:@"scanCroppedDocumentImage"];
+        if (scanCroppedDocumentImage != nil) {
+            recognizer.scanCroppedDocumentImage = [(NSNumber *)scanCroppedDocumentImage boolValue];
+        }
+    }
+    {
         id signatureImageDpi = [jsonRecognizer valueForKey:@"signatureImageDpi"];
         if (signatureImageDpi != nil) {
             recognizer.signatureImageDpi = [(NSNumber *)signatureImageDpi integerValue];

@@ -61,6 +61,11 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     /// date of expiry is unknown and it is not permanent 
     bool expired;
     
+    ///Document specific extended elements that contain all barcode fields in their original form.
+    /// 
+    /// Currently this is only filled for AAMVACompliant documents. 
+    BarcodeElements extendedElements;
+    
     ///The first name of the document owner. 
     String firstName;
     
@@ -157,6 +162,8 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         this.endorsements = nativeResult["endorsements"];
         
         this.expired = nativeResult["expired"];
+        
+        this.extendedElements = nativeResult["extendedElements"];
         
         this.firstName = nativeResult["firstName"];
         

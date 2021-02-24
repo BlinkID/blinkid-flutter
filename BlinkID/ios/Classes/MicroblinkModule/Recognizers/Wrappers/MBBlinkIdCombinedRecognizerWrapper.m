@@ -89,6 +89,12 @@
         }
     }
     {
+        id scanCroppedDocumentImage = [jsonRecognizer valueForKey:@"scanCroppedDocumentImage"];
+        if (scanCroppedDocumentImage != nil) {
+            recognizer.scanCroppedDocumentImage = [(NSNumber *)scanCroppedDocumentImage boolValue];
+        }
+    }
+    {
         id signResult = [jsonRecognizer valueForKey:@"signResult"];
         if (signResult != nil) {
             recognizer.signResult = [(NSNumber *)signResult boolValue];

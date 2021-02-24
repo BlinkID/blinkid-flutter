@@ -8,7 +8,10 @@ import com.microblink.entities.recognizers.blinkid.generic.classinfo.ClassInfo;
 import com.microblink.entities.recognizers.blinkid.generic.imageanalysis.ImageAnalysisResult;
 import com.microblink.entities.recognizers.blinkid.generic.viz.VizResult;
 import com.microblink.entities.recognizers.blinkid.generic.barcode.BarcodeResult;
+import com.microblink.entities.recognizers.blinkid.idbarcode.BarcodeElements;
+import com.microblink.entities.recognizers.blinkid.idbarcode.BarcodeElementKey;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,6 +59,11 @@ public abstract class BlinkIDSerializationUtils {
         jsonClassInfo.put("country", SerializationUtils.serializeEnum(classInfo.getCountry()));
         jsonClassInfo.put("region", SerializationUtils.serializeEnum(classInfo.getRegion()));
         jsonClassInfo.put("type", SerializationUtils.serializeEnum(classInfo.getType()));
+        jsonClassInfo.put("countryName", classInfo.getCountryName());
+        jsonClassInfo.put("isoNumericCountryCode", classInfo.getIsoNumericCountryCode());
+        jsonClassInfo.put("isoAlpha2CountryCode", classInfo.getIsoAlpha2CountryCode());
+        jsonClassInfo.put("isoAlpha3CountryCode", classInfo.getIsoAlpha3CountryCode());
+        jsonClassInfo.put("empty", classInfo.isEmpty());
         return jsonClassInfo;
     }
 
@@ -134,8 +142,20 @@ public abstract class BlinkIDSerializationUtils {
         jsonBarcode.put("city", barcodeResult.getCity());
         jsonBarcode.put("jurisdiction", barcodeResult.getJurisdiction());
         jsonBarcode.put("driverLicenseDetailedInfo", serializeDriverLicenseDetailedInfo(barcodeResult.getDriverLicenseDetailedInfo()));
+        jsonBarcode.put("extendedElements", serializeBarcodeElements(barcodeResult.getExtendedElements()));
         jsonBarcode.put("empty", barcodeResult.isEmpty());
         return jsonBarcode;
+    }
+
+    public static JSONObject serializeBarcodeElements(BarcodeElements barcodeElements) throws JSONException {
+        JSONObject jsonBarcodeElements = new JSONObject();
+        jsonBarcodeElements.put("empty", barcodeElements.isEmpty());
+        JSONArray valuesArr = new JSONArray();
+        for (int i = 0; i < BarcodeElementKey.values().length; ++i) {
+            valuesArr.put(barcodeElements.getValue(BarcodeElementKey.values()[i]));
+        }
+        jsonBarcodeElements.put("values", valuesArr);
+        return jsonBarcodeElements;
     }
 
 }
