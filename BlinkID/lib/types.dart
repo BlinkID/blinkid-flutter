@@ -196,11 +196,17 @@ class BarcodeElements {
     bool empty;
 
     /// Values inside barcodes. Available Keys are listed in BarcodeElementKey enum.
-    List<String> values;
+    List<String> _values;
+
+    /// Returns value for the given BarcodeElementKey, or empty string if it
+    /// does not exist.
+    String getValue(BarcodeElementKey key) {
+      return _values[key.index];
+    }
 
     BarcodeElements(Map<String, dynamic> nativeBarcodeElements) {
         this.empty = nativeBarcodeElements['empty'];
-        this.values = List<String>.from(nativeBarcodeElements['values']);
+        this._values = List<String>.from(nativeBarcodeElements['values']);
     }
 }
 
