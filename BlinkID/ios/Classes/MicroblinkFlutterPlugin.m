@@ -1,5 +1,5 @@
 #import "MicroblinkFlutterPlugin.h"
-#import "Microblink/Microblink.h"
+#import <Microblink/Microblink.h>
 #import "MicroblinkModule/Overlays/MBOverlayViewControllerDelegate.h"
 #import "MicroblinkModule/Recognizers/MBRecognizerSerializers.h"
 #import "MicroblinkModule/Overlays/MBOverlaySettingsSerializers.h"
