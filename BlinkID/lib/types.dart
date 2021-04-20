@@ -1468,7 +1468,34 @@ enum Region {
     Michoacan,
     NewYorkCity,
     Tamaulipas,
-    Veracruz
+    Veracruz,
+    Chiapas,
+    Coahuila,
+    Durango,
+    GuerreroCocula,
+    GuerreroJuchitan,
+    GuerreroTepecoacuilco,
+    GuerreroTlacoapa,
+    Gujarat,
+    Hidalgo,
+    Karnataka,
+    Kerala,
+    KhyberPakhtunkhwa,
+    MadhyaPradesh,
+    Maharashtra,
+    Morelos,
+    Nayarit,
+    Oaxaca,
+    Puebla,
+    Punjab,
+    Queretaro,
+    SanLuisPotosi,
+    Sinaloa,
+    Sonora,
+    Tabasco,
+    TamilNadu,
+    Yucatan,
+    Zacatecas
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -1509,7 +1536,17 @@ enum Type {
     ProfessionalDl,
     TaxId,
     WeaponPermit,
-    Visa
+    Visa,
+    BorderCrossingCard,
+    DriverCard,
+    GlobalEntryCard,
+    Mypolis,
+    NexusCard,
+    PassportCard,
+    ProofOfAgeCard,
+    RefugeeId,
+    TribalId,
+    VeteranId
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -1686,6 +1723,8 @@ class RecognitionModeFilter {
     bool enableMrzPassport = true;
     /// Enable scanning of Photo ID. Setting is taken into account only if the photo_id right is purchased.
     bool enablePhotoId = true;
+    /// Enable scanning of barcode IDs. Setting is taken into account only if the barcode right to scan that barcode is purchased.
+    bool enableBarcodeId = true;
     /// Enable full document recognition. Setting is taken into account only if the document right to scan that document is purchased.
     bool enableFullDocumentRecognition = true;
 
@@ -1776,7 +1815,10 @@ enum RecognitionMode {
     PhotoId,
 
     /// Detailed document recognition.
-    FullRecognition
+    FullRecognition,
+
+    /// Recognition of barcode document.
+    BarcodeId
 }
 
 /// Defines possible color and moire statuses determined from scanned image.

@@ -31,6 +31,7 @@ RecognitionModeFilter _$RecognitionModeFilterFromJson(
     ..enableMrzVisa = json['enableMrzVisa'] as bool
     ..enableMrzPassport = json['enableMrzPassport'] as bool
     ..enablePhotoId = json['enablePhotoId'] as bool
+    ..enableBarcodeId = json['enableBarcodeId'] as bool
     ..enableFullDocumentRecognition =
         json['enableFullDocumentRecognition'] as bool;
 }
@@ -42,5 +43,6 @@ Map<String, dynamic> _$RecognitionModeFilterToJson(
       'enableMrzVisa': instance.enableMrzVisa,
       'enableMrzPassport': instance.enableMrzPassport,
       'enablePhotoId': instance.enablePhotoId,
+      'enableBarcodeId': instance.enableBarcodeId,
       'enableFullDocumentRecognition': instance.enableFullDocumentRecognition,
     };

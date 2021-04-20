@@ -24,7 +24,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonObject.optBoolean("returnSignatureImage", false));
-        recognizer.setScanCroppedDocumentImage(jsonObject.optBoolean("scanCroppedDocumentImage", true));
+        recognizer.setScanCroppedDocumentImage(jsonObject.optBoolean("scanCroppedDocumentImage", false));
         recognizer.setSignResult(jsonObject.optBoolean("signResult", false));
         recognizer.setSignatureImageDpi(jsonObject.optInt("signatureImageDpi", 250));
         recognizer.setSkipUnsupportedBack(jsonObject.optBoolean("skipUnsupportedBack", false));
