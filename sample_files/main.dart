@@ -24,6 +24,8 @@ class _MyAppState extends State<MyApp> {
       license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38JVOWaLMUMW+4CSRlPH5nVsy5f+xFjYutJX80GcvEyclw+SM7cjBwSazdaGilBWPcwulKICq141a1XBnYLt5nSyhDrP+PNnId8bqFT1ic1A71TubT8iroMgkbLhW7lnjNgPDyuw/2aqsS8U/pkkk8YgekN0IZm5M/0q1CSLtAehIswt5CoFtYcG1DIuGnaTvVNoRGUu7+HaVXAmxGFENiITmrOpLXFSJXFRdyBQHd3rfLgBDzIEPvTIGoGVD0ZUFFziRMkk+om4QIQE8bYHx0L8WFNbkXf5WMw2hlf3cUJmDOI04Xx1FYrTYKlbam6Q+5OsEHXjTIt5";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license = "sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9U3ORtDZCu0vFoxWJyF0dnv88NTiJO9pmEXPFZB9pVlO146QMSXVLAnYzACtQkatIeij7DU7ncIxLPulqRre/pOorG7HaWypuPGrotFAut0fJMJSckpf7QQC5N/97MV4Mdjk/JA6zeC83V0JqSEIMBisJRSeL4H1BqrcrDqhZpMjddPQQ+e8XVAmL2WxPsTubyqQDFvU6VSGE2nVIxbsXfpKApGRPSD7d+m46zsK6X86hMuMIu9sdtABD0AS0Bzm8HpaJZWkP51L6Ag9Dor9Iqluw0RTm+WgsQzycLBJ80iJwxryFiKOWtiPlvxQPAqn16CDT7J6h/z";
+    } else {
+      license = "";
     }
 
     var idRecognizer = BlinkIdCombinedRecognizer();
@@ -40,7 +42,7 @@ class _MyAppState extends State<MyApp> {
     if (results.length == 0) return;
     for (var result in results) {
       if (result is BlinkIdCombinedRecognizerResult) {
-        if (result.mrzResult.documentType == MrtdDocumentType.Passport) {
+        if (result.mrzResult?.documentType == MrtdDocumentType.Passport) {
           _resultString = getPassportResultString(result);
         } else {
           _resultString = getIdResultString(result);
@@ -48,9 +50,9 @@ class _MyAppState extends State<MyApp> {
 
         setState(() {
           _resultString = _resultString;
-          _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage;
-          _fullDocumentBackImageBase64 = result.fullDocumentBackImage;
-          _faceImageBase64 = result.faceImage;
+          _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage ?? "";
+          _fullDocumentBackImageBase64 = result.fullDocumentBackImage ?? "";
+          _faceImageBase64 = result.faceImage ?? "";
         });
 
         return;
@@ -88,7 +90,7 @@ class _MyAppState extends State<MyApp> {
         buildDriverLicenceResult(result.driverLicenseDetailedInfo);
   }
 
-  String buildResult(String result, String propertyName) {
+  String buildResult(String? result, String propertyName) {
     if (result == null || result.isEmpty) {
       return "";
     }
@@ -96,7 +98,7 @@ class _MyAppState extends State<MyApp> {
     return propertyName + ": " + result + "\n";
   }
 
-  String buildDateResult(Date result, String propertyName) {
+  String buildDateResult(Date? result, String propertyName) {
     if (result == null || result.year == 0) {
       return "";
     }
@@ -105,15 +107,15 @@ class _MyAppState extends State<MyApp> {
         "${result.day}.${result.month}.${result.year}", propertyName);
   }
 
-  String buildIntResult(int result, String propertyName) {
-    if (result < 0) {
+  String buildIntResult(int? result, String propertyName) {
+    if (result == null || result < 0) {
       return "";
     }
 
     return buildResult(result.toString(), propertyName);
   }
 
-  String buildDriverLicenceResult(DriverLicenseDetailedInfo result) {
+  String buildDriverLicenceResult(DriverLicenseDetailedInfo? result) {
     if (result == null) {
       return "";
     }
@@ -124,25 +126,30 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.conditions, "Conditions");
   }
 
-  String getPassportResultString(BlinkIdCombinedRecognizerResult result) {
+  String getPassportResultString(BlinkIdCombinedRecognizerResult? result) {
+
+    if(result == null){
+      return "";
+    }
+
     var dateOfBirth = "";
-    if (result.mrzResult.dateOfBirth != null) {
-      dateOfBirth = "Date of birth: ${result.mrzResult.dateOfBirth.day}."
-          "${result.mrzResult.dateOfBirth.month}."
-          "${result.mrzResult.dateOfBirth.year}\n";
+    if (result.mrzResult?.dateOfBirth != null) {
+      dateOfBirth = "Date of birth: ${result.mrzResult!.dateOfBirth?.day}."
+          "${result.mrzResult!.dateOfBirth?.month}."
+          "${result.mrzResult!.dateOfBirth?.year}\n";
     }
 
     var dateOfExpiry = "";
-    if (result.mrzResult.dateOfExpiry != null) {
-      dateOfExpiry = "Date of expiry: ${result.mrzResult.dateOfExpiry.day}."
-          "${result.mrzResult.dateOfExpiry.month}."
-          "${result.mrzResult.dateOfExpiry.year}\n";
+    if (result.mrzResult?.dateOfExpiry != null) {
+      dateOfExpiry = "Date of expiry: ${result.mrzResult?.dateOfExpiry?.day}."
+          "${result.mrzResult?.dateOfExpiry?.month}."
+          "${result.mrzResult?.dateOfExpiry?.year}\n";
     }
 
-    return "First name: ${result.mrzResult.secondaryId}\n"
-        "Last name: ${result.mrzResult.primaryId}\n"
-        "Document number: ${result.mrzResult.documentNumber}\n"
-        "Sex: ${result.mrzResult.gender}\n"
+    return "First name: ${result.mrzResult?.secondaryId}\n"
+        "Last name: ${result.mrzResult?.primaryId}\n"
+        "Document number: ${result.mrzResult?.documentNumber}\n"
+        "Sex: ${result.mrzResult?.gender}\n"
         "$dateOfBirth"
         "$dateOfExpiry";
   }
