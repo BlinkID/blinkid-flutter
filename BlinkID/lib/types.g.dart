@@ -6,24 +6,6 @@ part of 'types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ImageExtensionFactors _$ImageExtensionFactorsFromJson(
-    Map<String, dynamic> json) {
-  return ImageExtensionFactors()
-    ..upFactor = (json['upFactor'] as num)?.toDouble()
-    ..rightFactor = (json['rightFactor'] as num)?.toDouble()
-    ..downFactor = (json['downFactor'] as num)?.toDouble()
-    ..leftFactor = (json['leftFactor'] as num)?.toDouble();
-}
-
-Map<String, dynamic> _$ImageExtensionFactorsToJson(
-        ImageExtensionFactors instance) =>
-    <String, dynamic>{
-      'upFactor': instance.upFactor,
-      'rightFactor': instance.rightFactor,
-      'downFactor': instance.downFactor,
-      'leftFactor': instance.leftFactor,
-    };
-
 RecognitionModeFilter _$RecognitionModeFilterFromJson(
     Map<String, dynamic> json) {
   return RecognitionModeFilter()
@@ -45,4 +27,22 @@ Map<String, dynamic> _$RecognitionModeFilterToJson(
       'enablePhotoId': instance.enablePhotoId,
       'enableBarcodeId': instance.enableBarcodeId,
       'enableFullDocumentRecognition': instance.enableFullDocumentRecognition,
+    };
+
+ImageExtensionFactors _$ImageExtensionFactorsFromJson(
+    Map<String, dynamic> json) {
+  return ImageExtensionFactors()
+    ..upFactor = (json['upFactor'] as num).toDouble()
+    ..rightFactor = (json['rightFactor'] as num).toDouble()
+    ..downFactor = (json['downFactor'] as num).toDouble()
+    ..leftFactor = (json['leftFactor'] as num).toDouble();
+}
+
+Map<String, dynamic> _$ImageExtensionFactorsToJson(
+        ImageExtensionFactors instance) =>
+    <String, dynamic>{
+      'upFactor': instance.upFactor,
+      'rightFactor': instance.rightFactor,
+      'downFactor': instance.downFactor,
+      'leftFactor': instance.leftFactor,
     };

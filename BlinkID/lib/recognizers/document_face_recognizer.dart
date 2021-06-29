@@ -8,16 +8,16 @@ part 'document_face_recognizer.g.dart';
 class DocumentFaceRecognizerResult extends RecognizerResult {
     
     ///Quadrangle represeting corner points of the document within the input image. 
-    Quadrilateral documentLocation;
+    Quadrilateral? documentLocation;
     
     ///face image from the document if enabled with returnFaceImage property. 
-    String faceImage;
+    String? faceImage;
     
     ///Quadrangle represeting corner points of the face image within the input image. 
-    Quadrilateral faceLocation;
+    Quadrilateral? faceLocation;
     
     ///full document image if enabled with returnFullDocumentImage property. 
-    String fullDocumentImage;
+    String? fullDocumentImage;
     
     DocumentFaceRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         

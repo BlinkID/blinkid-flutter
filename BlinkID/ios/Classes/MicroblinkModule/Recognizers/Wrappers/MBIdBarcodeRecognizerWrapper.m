@@ -1,6 +1,7 @@
 #import "MBIdBarcodeRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
+#import "MBCommonSerializationUtils.h"
 
 @implementation MBIdBarcodeRecognizerCreator
 

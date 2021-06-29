@@ -7,78 +7,78 @@ part 'usdl_recognizer.g.dart';
 /// Result object for UsdlRecognizer.
 class UsdlRecognizerResult extends RecognizerResult {
     /// Array of elements that are not part of AAMVA standard and are specific to each US state.
-    List<String> optionalElements;
+    List<String>? optionalElements;
 
     /// The raw bytes contained inside 2D barcode.
-    String rawData;
+    String? rawData;
 
     /// Raw string inside 2D barcode.
-    String rawStringData;
+    String? rawStringData;
 
     /// True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e.
-    bool uncertain;
+    bool? uncertain;
 
     /// Fields inside US Driver's licence. Available Keys are listed in UsdlKeys enum.
-    List<String> fields;
+    List<String>? fields;
 
     /// The first name of the United States driver license owner.
-    String firstName;
+    String? firstName;
 
     /// The middle name of the United States driver license owner.
-    String middleName;
+    String? middleName;
 
     /// The last name of the United States driver license owner.
-    String lastName;
+    String? lastName;
 
     /// The full name of the United States driver license owner.
-    String fullName;
+    String? fullName;
 
     /// The name suffix of the United States driver license owner.
-    String nameSuffix;
+    String? nameSuffix;
 
     /// The full address of the United States driver license owner.
-    String address;
+    String? address;
 
     /// The document number of the United States driver license.
-    String documentNumber;
+    String? documentNumber;
 
     /// The sex of the United States driver license owner.
-    String sex;
+    String? sex;
 
     /// The restrictions to driving privileges for the United States driver license owner.
-    String restrictions;
+    String? restrictions;
 
     /// The additional privileges granted to the United States driver license owner.
-    String endorsements;
+    String? endorsements;
 
     /// The type of vehicle the driver license owner has privilege to drive.
-    String vehicleClass;
+    String? vehicleClass;
 
     /// The date of birth of the United States driver license owner.
-    Date dateOfBirth;
+    Date? dateOfBirth;
 
     /// The date of issue of the United States driver license.
-    Date dateOfIssue;
+    Date? dateOfIssue;
 
     /// The date of expiry of the United States driver license.
-    Date dateOfExpiry;
+    Date? dateOfExpiry;
 
     /// The current age of the document owner in years. It is calculated difference
     /// between now and date of birth. Now is current time on the device.
     /// @return current age of the document owner in years or -1 if date of birth is unknown.
-    int age;
+    int? age;
 
     /// The street address portion of the United States driver license owner.
-    String street;
+    String? street;
 
     /// The postal code address portion of the United States driver license owner.
-    String postalCode;
+    String? postalCode;
 
     /// The city address portion of the United States driver license owner.
-    String city;
+    String? city;
 
     /// The jurisdiction code address portion of the United States driver license owner.
-    String jurisdiction;
+    String? jurisdiction;
 
     UsdlRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
 
@@ -90,7 +90,7 @@ class UsdlRecognizerResult extends RecognizerResult {
 
         this.uncertain = nativeResult['uncertain'];
 
-        this.fields = List<String>.from(nativeResult['fields']);
+        this.fields = nativeResult['fields'] != null ? List<String>.from(nativeResult['fields']) : null;
 
         this.firstName = nativeResult['firstName'];
 

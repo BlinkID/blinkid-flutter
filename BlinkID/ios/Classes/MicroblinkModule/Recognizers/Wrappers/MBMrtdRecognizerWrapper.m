@@ -1,6 +1,7 @@
 #import "MBMrtdRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
+#import "MBCommonSerializationUtils.h"
 
 @implementation MBMrtdRecognizerCreator
 
@@ -21,42 +22,49 @@
         if (allowSpecialCharacters != nil) {
             recognizer.allowSpecialCharacters = [(NSNumber *)allowSpecialCharacters boolValue];
         }
+
     }
     {
         id allowUnparsedResults = [jsonRecognizer valueForKey:@"allowUnparsedResults"];
         if (allowUnparsedResults != nil) {
             recognizer.allowUnparsedResults = [(NSNumber *)allowUnparsedResults boolValue];
         }
+
     }
     {
         id allowUnverifiedResults = [jsonRecognizer valueForKey:@"allowUnverifiedResults"];
         if (allowUnverifiedResults != nil) {
             recognizer.allowUnverifiedResults = [(NSNumber *)allowUnverifiedResults boolValue];
         }
+
     }
     {
         id detectGlare = [jsonRecognizer valueForKey:@"detectGlare"];
         if (detectGlare != nil) {
             recognizer.detectGlare = [(NSNumber *)detectGlare boolValue];
         }
+
     }
     {
         id fullDocumentImageDpi = [jsonRecognizer valueForKey:@"fullDocumentImageDpi"];
         if (fullDocumentImageDpi != nil) {
             recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi integerValue];
         }
+
     }
     {
         id fullDocumentImageExtensionFactors = [jsonRecognizer valueForKey:@"fullDocumentImageExtensionFactors"];
         if (fullDocumentImageExtensionFactors != nil) {
-            recognizer.fullDocumentImageExtensionFactors = [MBBlinkIDSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
+            recognizer.fullDocumentImageExtensionFactors = [MBCommonSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
         }
+
     }
     {
         id returnFullDocumentImage = [jsonRecognizer valueForKey:@"returnFullDocumentImage"];
         if (returnFullDocumentImage != nil) {
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
+
     }
 
     return recognizer;

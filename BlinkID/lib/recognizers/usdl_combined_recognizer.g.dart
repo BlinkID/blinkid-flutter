@@ -14,12 +14,8 @@ UsdlCombinedRecognizer _$UsdlCombinedRecognizerFromJson(
     ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
     ..returnFaceImage = json['returnFaceImage'] as bool
     ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
-    ..fullDocumentImageExtensionFactors =
-        json['fullDocumentImageExtensionFactors'] == null
-            ? null
-            : ImageExtensionFactors.fromJson(
-                json['fullDocumentImageExtensionFactors']
-                    as Map<String, dynamic>)
+    ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
+        json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
     ..numStableDetectionsThreshold = json['numStableDetectionsThreshold'] as int
     ..signResult = json['signResult'] as bool;
 }

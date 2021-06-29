@@ -19,11 +19,9 @@ import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import com.microblink.MicroblinkSDK;
 import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.entities.recognizers.blinkid.generic.*;
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.uisettings.UISettings;
-import com.microblink.uisettings.BlinkIdUISettings;
 import com.microblink.uisettings.ActivityRunner;
 
 import com.microblink.flutter.recognizers.RecognizerSerializers;

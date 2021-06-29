@@ -8,51 +8,51 @@ part 'blink_id_recognizer.g.dart';
 class BlinkIdRecognizerResult extends RecognizerResult {
     
     ///The additional address information of the document owner. 
-    String additionalAddressInformation;
+    String? additionalAddressInformation;
     
     ///The additional name information of the document owner. 
-    String additionalNameInformation;
+    String? additionalNameInformation;
     
     ///The address of the document owner. 
-    String address;
+    String? address;
     
     ///The current age of the document owner in years. It is calculated difference
     /// between now and date of birth. Now is current time on the device.
     /// @return current age of the document owner in years or -1 if date of birth is unknown. 
-    int age;
+    int? age;
     
     ///Defines the data extracted from the barcode. 
-    BarcodeResult barcodeResult;
+    BarcodeResult? barcodeResult;
     
     ///The classification information. 
-    ClassInfo classInfo;
+    ClassInfo? classInfo;
     
     ///The date of birth of the document owner. 
-    Date dateOfBirth;
+    Date? dateOfBirth;
     
     ///The date of expiry of the document. 
-    Date dateOfExpiry;
+    Date? dateOfExpiry;
     
     ///Determines if date of expiry is permanent. 
-    bool dateOfExpiryPermanent;
+    bool? dateOfExpiryPermanent;
     
     ///The date of issue of the document. 
-    Date dateOfIssue;
+    Date? dateOfIssue;
     
     ///The additional number of the document. 
-    String documentAdditionalNumber;
+    String? documentAdditionalNumber;
     
     ///The document number. 
-    String documentNumber;
+    String? documentNumber;
     
     ///The one more additional number of the document. 
-    String documentOptionalAdditionalNumber;
+    String? documentOptionalAdditionalNumber;
     
     ///The driver license detailed info. 
-    DriverLicenseDetailedInfo driverLicenseDetailedInfo;
+    DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     
     ///The employer of the document owner. 
-    String employer;
+    String? employer;
     
     ///Checks whether the document has expired or not by comparing the current
     /// time on the device with the date of expiry.
@@ -61,73 +61,73 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     /// document does not expire (date of expiry is permanent)
     /// date of expiry has passed
     /// date of expiry is unknown and it is not permanent 
-    bool expired;
+    bool? expired;
     
     ///face image from the document if enabled with returnFaceImage property. 
-    String faceImage;
+    String? faceImage;
     
     ///The first name of the document owner. 
-    String firstName;
+    String? firstName;
     
     ///full document image if enabled with returnFullDocumentImage property. 
-    String fullDocumentImage;
+    String? fullDocumentImage;
     
     ///The full name of the document owner. 
-    String fullName;
+    String? fullName;
     
     ///Defines possible color and moire statuses determined from scanned image. 
-    ImageAnalysisResult imageAnalysisResult;
+    ImageAnalysisResult? imageAnalysisResult;
     
     ///The issuing authority of the document. 
-    String issuingAuthority;
+    String? issuingAuthority;
     
     ///The last name of the document owner. 
-    String lastName;
+    String? lastName;
     
     ///The localized name of the document owner. 
-    String localizedName;
+    String? localizedName;
     
     ///The marital status of the document owner. 
-    String maritalStatus;
+    String? maritalStatus;
     
     ///The data extracted from the machine readable zone 
-    MrzResult mrzResult;
+    MrzResult? mrzResult;
     
     ///The nationality of the documet owner. 
-    String nationality;
+    String? nationality;
     
     ///The personal identification number. 
-    String personalIdNumber;
+    String? personalIdNumber;
     
     ///The place of birth of the document owner. 
-    String placeOfBirth;
+    String? placeOfBirth;
     
     ///Defines status of the last recognition process. 
-    ProcessingStatus processingStatus;
+    ProcessingStatus? processingStatus;
     
     ///The profession of the document owner. 
-    String profession;
+    String? profession;
     
     ///The race of the document owner. 
-    String race;
+    String? race;
     
     ///Recognition mode used to scan current document. 
-    RecognitionMode recognitionMode;
+    RecognitionMode? recognitionMode;
     
     ///The religion of the document owner. 
-    String religion;
+    String? religion;
     
     ///The residential stauts of the document owner. 
-    String residentialStatus;
+    String? residentialStatus;
     
     ///The sex of the document owner. 
-    String sex;
+    String? sex;
     
     ///image of the signature if enabled with returnSignatureImage property. 
-    String signatureImage;
+    String? signatureImage;
     
     ///Defines the data extracted from the visual inspection zone 
-    VizResult vizResult;
+    VizResult? vizResult;
     
     BlinkIdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         

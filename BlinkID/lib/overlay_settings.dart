@@ -6,27 +6,26 @@ part 'overlay_settings.g.dart';
 /// Base class for all overlay settings objects 
 @JsonSerializable()
 class OverlaySettings {
+    /// type of the overlay settings object
+    String? overlaySettingsType;
 
-    /// type of the overlay settings object 
-    String overlaySettingsType;
-
-    /// whether front camera should be used instead of the default camera 
+    /// whether front camera should be used instead of the default camera
+    /// false by default
     bool useFrontCamera = false;
 
-    /// whether beep sound will be played on successful scan 
+    /// whether beep sound will be played on successful scan
+    /// false by default
     bool enableBeep = false;
 
     /// (optional) if default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used 
     /// example: "en" 
-    String language;
+    String? language;
 
     /// (optional) to be used with language variable, it defines the country locale 
     /// example: "US" to use "en_US" on Android and en-US on iOS 
-    String country;
+    String? country;
 
-    OverlaySettings(String overlaySettingsType) {
-        this.overlaySettingsType = overlaySettingsType;
-    }
+    OverlaySettings(this.overlaySettingsType);
 
     factory OverlaySettings.fromJson(Map<String, dynamic> json) => _$OverlaySettingsFromJson(json);
 

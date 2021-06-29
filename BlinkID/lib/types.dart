@@ -5,11 +5,11 @@ part 'types.g.dart';
 class Date {
 
     /// day in month
-    int day;
+    int? day;
     /// month in year
-    int month;
+    int? month;
     /// year
-    int year;
+    int? year;
 
     Date(Map<String, dynamic> nativeDate) {
         this.day = nativeDate['day'];
@@ -22,13 +22,14 @@ class Date {
 class Point {
 
     /// x coordinate of the point
-    double x;
+    double? x;
     /// y coordinate of the point
-    double y;
+    double? y;
 
     Point(Map<String, dynamic> nativePoint) {
-        this.x = nativePoint['x']*1.0;
-        this.y = nativePoint['y']*1.0;
+
+        this.x = nativePoint['x'] != null? nativePoint['x']*1.0 : null;
+        this.y = nativePoint['y'] != null? nativePoint['y']*1.0 : null;
     }
 }
 
@@ -36,13 +37,13 @@ class Point {
 class Quadrilateral {
 
     /// upper left point of the quadrilateral
-    Point upperLeft;
+    Point? upperLeft;
     /// upper right point of the quadrilateral
-    Point upperRight;
+    Point? upperRight;
     /// lower left point of the quadrilateral
-    Point lowerLeft;
+    Point? lowerLeft;
     /// lower right point of the quadrilateral
-    Point lowerRight;
+    Point? lowerRight;
 
     Quadrilateral(Map<String, dynamic> nativeQuad) {
         this.upperLeft = Point(Map<String, dynamic>.from(nativeQuad['upperLeft']));
@@ -84,13 +85,13 @@ enum BarcodeType {
 class DriverLicenseDetailedInfo {
 
     ///  Restrictions to driving privileges for the driver license owner.
-    String restrictions;
+    String? restrictions;
     /// Additional privileges granted to the driver license owner.
-    String endorsements;
+    String? endorsements;
     /// The type of vehicle the driver license owner has privilege to drive.
-    String vehicleClass;
+    String? vehicleClass;
     /// The driver license conditions.
-    String conditions;
+    String? conditions;
 
     DriverLicenseDetailedInfo(Map<String, dynamic> nativeDriverLicenseDetailedInfo) {
         this.restrictions = nativeDriverLicenseDetailedInfo['restrictions'];
@@ -100,42 +101,32 @@ class DriverLicenseDetailedInfo {
     }
 }
 
-/// Result of the data matching algorithm for scanned parts/sides of the document.
-enum DataMatchResult {
-    /// Data matching has not been performed.
-    NotPerformed,
-    /// Data does not match.
-    Failed,
-    /// Data match.
-    Success
-}
-
 /// Represents the classification information.
 class ClassInfo {
 
   /// The document country.
-  Country country;
+  Country? country;
 
   /// The document region.
-  Region region;
+  Region? region;
 
   /// The type of the scanned document.
-  Type type;
+  Type? type;
 
   /// Flag that indicates if class info is empty
-  bool empty;
+  bool? empty;
 
   /// The name of the country that issued the scanned document.
-  String countryName;
+  String? countryName;
 
   /// The ISO numeric code of the country that issued the scanned document.
-  String isoNumericCountryCode;
+  String? isoNumericCountryCode;
 
   /// The 2 letter ISO code of the country that issued the scanned document.
-  String isoAlpha2CountryCode;
+  String? isoAlpha2CountryCode;
 
   /// The 3 letter ISO code of the country that issued the scanned document.
-  String isoAlpha3CountryCode;
+  String? isoAlpha3CountryCode;
 
   ClassInfo(Map<String, dynamic> nativeClassInfo) {
     this.country = Country.values[nativeClassInfo['country']];
@@ -193,20 +184,20 @@ enum IdBarcodeDocumentType {
 class BarcodeElements {
 
     ///  Flag that indicates if barcode elements is empty
-    bool empty;
+    bool? empty;
 
     /// Values inside barcodes. Available Keys are listed in BarcodeElementKey enum.
-    List<String> _values;
+    List<String>? _values;
 
     /// Returns value for the given BarcodeElementKey, or empty string if it
     /// does not exist.
-    String getValue(BarcodeElementKey key) {
-      return _values[key.index];
+    String? getValue(BarcodeElementKey key) {
+      return _values != null ? _values![key.index] : null;
     }
 
     BarcodeElements(Map<String, dynamic> nativeBarcodeElements) {
         this.empty = nativeBarcodeElements['empty'];
-        this._values = List<String>.from(nativeBarcodeElements['values']);
+        this._values = nativeBarcodeElements['values'] != null ? List<String>.from(nativeBarcodeElements['values']) : null;
     }
 }
 
@@ -1495,7 +1486,12 @@ enum Region {
     Tabasco,
     TamilNadu,
     Yucatan,
-    Zacatecas
+    Zacatecas,
+    Aguascalientes,
+    BajaCaliforniaSur,
+    Campeche,
+    Colima,
+    QuintanaRooBenitoJuarez
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -1546,41 +1542,42 @@ enum Type {
     ProofOfAgeCard,
     RefugeeId,
     TribalId,
-    VeteranId
+    VeteranId,
+    CitizenshipCertificate
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
 class MrzResult {
     /// Type of recognized document. It is always one of the values represented by BlinkIDScanner.MRTDDocumentType
-    MrtdDocumentType documentType;
+    MrtdDocumentType? documentType;
 
     /// The primary indentifier. If there is more than one component, they are separated with space.
-    String primaryId;
+    String? primaryId;
 
     /// The secondary identifier. If there is more than one component, they are separated with space.
-    String secondaryId;
+    String? secondaryId;
 
     /// Three-letter or two-letter code which indicate the issuing State. Three-letter codes are based
     /// on Aplha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. Two-letter
     /// codes are based on Alpha-2 codes for entities specified in ISO 3166-1, with extensions for certain States.
-    String issuer;
+    String? issuer;
 
     /// Holder's date of birth
-    Date dateOfBirth;
+    Date? dateOfBirth;
 
     /// The document number. Document number contains up to 9 characters.
     /// Element does not exist on US Green Card. To see which document was scanned use documentType property.
-    String documentNumber;
+    String? documentNumber;
 
     /// The nationality of the holder represented by a three-letter or two-letter code. Three-letter
     /// codes are based on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain
     /// States. Two-letter codes are based on Aplha-2 codes for entities specified in ISO 3166-1, with
     /// extensions for certain States.
-    String nationality;
+    String? nationality;
 
     /// The gender of the card holder. Gender is specified by use of the single initial, capital letter F for female,
     /// M for male or <code>&lt;</code> for unspecified.
-    String gender;
+    String? gender;
 
     /// The document code. Document code contains two characters. For MRTD the first character shall
     /// be A, C or I. The second character shall be discretion of the issuing State or organization except
@@ -1589,64 +1586,64 @@ class MrzResult {
     /// letter may be used, at the discretion of the issuing State or organization, to designate a particular
     /// MRP. If the second character position is not used for this purpose, it shall be filled by the filter
     /// character <code>&lt;</code>.
-    String documentCode;
+    String? documentCode;
 
     /// The date of expiry
-    Date dateOfExpiry;
+    Date? dateOfExpiry;
 
     /// The first optional data. Contains empty string if not available.
     /// Element does not exist on US Green Card. To see which document was scanned use the documentType property.
-    String opt1;
+    String? opt1;
 
     /// The second optional data. Contains empty string if not available.
     /// Element does not exist on Passports and Visas. To see which document was scanned use the documentType property.
-    String opt2;
+    String? opt2;
 
     /// The alien number. Contains empty string if not available.
     /// Exists only on US Green Cards. To see which document was scanned use the documentType property.
-    String alienNumber;
+    String? alienNumber;
 
     /// The application receipt number. Contains empty string if not available.
     /// Exists only on US Green Cards. To see which document was scanned use the documentType property.
-    String applicationReceiptNumber;
+    String? applicationReceiptNumber;
 
     /// The immigrant case number. Contains empty string if not available.
     /// Exists only on US Green Cards. To see which document was scanned use the documentType property.
-    String immigrantCaseNumber;
+    String? immigrantCaseNumber;
 
     /// The entire Machine Readable Zone text from ID. This text is usually used for parsing
     /// other elements.
     /// NOTE: This string is available only if OCR result was parsed successfully.
-    String mrzText;
+    String? mrzText;
 
     /// true if Machine Readable Zone has been parsed, false otherwise.
-    bool mrzParsed;
+    bool? mrzParsed;
 
     /// true if all check digits inside MRZ are correct, false otherwise.
-    bool mrzVerified;
+    bool? mrzVerified;
 
     /// Sanitized field opt1
-    String sanitizedOpt1;
+    String? sanitizedOpt1;
 
     /// Sanitized field opt2
-    String sanitizedOpt2;
+    String? sanitizedOpt2;
 
     /// Sanitized field nationality
-    String sanitizedNationality;
+    String? sanitizedNationality;
 
     /// Sanitized field issuer
-    String sanitizedIssuer;
+    String? sanitizedIssuer;
 
     /// Sanitized document code
-    String sanitizedDocumentCode;
+    String? sanitizedDocumentCode;
 
     /// Sanitized document number
-    String sanitizedDocumentNumber;
+    String? sanitizedDocumentNumber;
 
     /// The current age of the document owner in years. It is calculated difference
     /// between now and date of birth. Now is current time on the device.
     /// @return current age of the document owner in years or -1 if date of birth is unknown.
-    int age;
+    int? age;
 
     MrzResult(Map<String, dynamic> nativeMRZResult) {
         this.documentType = MrtdDocumentType.values[nativeMRZResult['documentType']];
@@ -1687,29 +1684,6 @@ enum DocumentFaceDetectorType {
     @JsonValue(3) PassportsAndVisas
 }
 
-/// Extension factors relative to corresponding dimension of the full image. For example,
-/// upFactor and downFactor define extensions relative to image height, e.g.
-/// when upFactor is 0.5, upper image boundary will be extended for half of image's full
-/// height.
-@JsonSerializable()
-class ImageExtensionFactors {
-
-    /// image extension factor relative to full image height in UP direction.
-    double upFactor = 0.0;
-    /// image extension factor relative to full image height in RIGHT direction.
-    double rightFactor = 0.0;
-    /// image extension factor relative to full image height in DOWN direction.
-    double downFactor = 0.0;
-    /// image extension factor relative to full image height in LEFT direction.
-    double leftFactor = 0.0;
-
-    ImageExtensionFactors();
-
-    factory ImageExtensionFactors.fromJson(Map<String, dynamic> json) => _$ImageExtensionFactorsFromJson(json);
-
-    Map<String, dynamic> toJson() => _$ImageExtensionFactorsToJson(this);
-}
-
 /// RecognitionModeFilter is used to enable/disable recognition of specific document groups.
 /// Setting is taken into account only if the right for that document is purchased.
 @JsonSerializable()
@@ -1734,8 +1708,6 @@ class RecognitionModeFilter {
 
     Map<String, dynamic> toJson() => _$RecognitionModeFilterToJson(this);
 }
-
-
 
 /// Define level of anonymization performed on recognizer result
 enum AnonymizationMode {
@@ -1794,7 +1766,10 @@ enum ProcessingStatus {
     UnsupportedByLicense,
 
     /// Front side recognition has completed successfully, and recognizer is waiting for the other side to be scanned.
-    AwaitingOtherSide
+    AwaitingOtherSide,
+
+    /// Side not scanned.
+    NotScanned
 }
 
 /// Define level of anonymization performed on recognizer result
@@ -1825,17 +1800,17 @@ enum RecognitionMode {
 class ImageAnalysisResult {
 
     /// Whether the image is blurred.
-    bool blurred;
+    bool? blurred;
     /// The color status determined from scanned image.
-    DocumentImageColorStatus documentImageColorStatus;
+    DocumentImageColorStatus? documentImageColorStatus;
     /// The Moire pattern detection status determined from the scanned image.
-    ImageAnalysisDetectionStatus documentImageMoireStatus;
+    ImageAnalysisDetectionStatus? documentImageMoireStatus;
       /// Face detection status determined from the scanned image.
-    ImageAnalysisDetectionStatus faceDetectionStatus;
+    ImageAnalysisDetectionStatus? faceDetectionStatus;
       /// Mrz detection status determined from the scanned image.
-    ImageAnalysisDetectionStatus mrzDetectionStatus;
+    ImageAnalysisDetectionStatus? mrzDetectionStatus;
       /// TBarcode detection status determined from the scanned image.
-    ImageAnalysisDetectionStatus barcodeDetectionStatus;
+    ImageAnalysisDetectionStatus? barcodeDetectionStatus;
 
     ImageAnalysisResult(Map<String, dynamic> nativeImageAnalysisResult) {
         this.blurred = nativeImageAnalysisResult['blurred'];
@@ -1851,71 +1826,71 @@ class ImageAnalysisResult {
 class BarcodeResult {
 
     /// Type of the barcode scanned
-    BarcodeType barcodeType;
+    BarcodeType? barcodeType;
     /// Byte array with result of the scan
-    String rawData;
+    String? rawData;
     /// Retrieves string content of scanned data
-    String stringData;
+    String? stringData;
     /// Flag indicating uncertain scanning data
-    bool uncertain;
+    bool? uncertain;
     /// The first name of the document owner.
-    String firstName;
+    String? firstName;
     /// The middle name of the document owner.
-    String middleName;
+    String? middleName;
     /// The last name of the document owner.
-    String lastName;
+    String? lastName;
     /// The full name of the document owner.
-    String fullName;
+    String? fullName;
     /// The additional name information of the document owner.
-    String additionalNameInformation;
+    String? additionalNameInformation;
     /// The address of the document owner.
-    String address;
+    String? address;
     /// The place of birth of the document owner.
-    String placeOfBirth;
+    String? placeOfBirth;
     /// The nationality of the documet owner.
-    String nationality;
+    String? nationality;
     /// The race of the document owner.
-    String race;
+    String? race;
     /// The religion of the document owner.
-    String religion;
+    String? religion;
     /// The profession of the document owner.
-    String profession;
+    String? profession;
     /// The marital status of the document owner.
-    String maritalStatus;
+    String? maritalStatus;
     /// The residential stauts of the document owner.
-    String residentialStatus;
+    String? residentialStatus;
     /// The employer of the document owner.
-    String employer;
+    String? employer;
     /// The sex of the document owner.
-    String sex;
+    String? sex;
     /// The date of birth of the document owner.
-    Date dateOfBirth;
+    Date? dateOfBirth;
     /// The date of issue of the document.
-    Date dateOfIssue;
+    Date? dateOfIssue;
     /// The date of expiry of the document.
-    Date dateOfExpiry;
+    Date? dateOfExpiry;
     /// The document number.
-    String documentNumber;
+    String? documentNumber;
     ///  The personal identification number.
-    String personalIdNumber;
+    String? personalIdNumber;
     /// The additional number of the document.
-    String documentAdditionalNumber;
+    String? documentAdditionalNumber;
     /// The issuing authority of the document.
-    String issuingAuthority;
+    String? issuingAuthority;
     /// The street address portion of the document owner.
-    String street;
+    String? street;
     /// The postal code address portion of the document owner.
-    String postalCode;
+    String? postalCode;
     /// The city address portion of the document owner.
-    String city;
+    String? city;
     /// The jurisdiction code address portion of the document owner.
-    String jurisdiction;
+    String? jurisdiction;
     /// The driver license detailed info.
-    DriverLicenseDetailedInfo driverLicenseDetailedInfo;
+    DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     /// Flag that indicates if barcode result is empty
-    bool empty;
+    bool? empty;
     /// Document specific extended elements that contain all barcode fields in their original form. Currently this is only filled for AAMVACompliant documents.
-    BarcodeElements extendedElements;
+    BarcodeElements? extendedElements;
 
     BarcodeResult(Map<String, dynamic> nativeBarcodeResult) {
         this.barcodeType = BarcodeType.values[nativeBarcodeResult['barcodeType']];
@@ -1957,59 +1932,59 @@ class BarcodeResult {
 class VizResult {
 
     /// The first name of the document owner.
-    String firstName;
+    String? firstName;
     /// The last name of the document owner.
-    String lastName;
+    String? lastName;
     /// The full name of the document owner.
-    String fullName;
+    String? fullName;
     /// The additional name information of the document owner.
-    String additionalNameInformation;
+    String? additionalNameInformation;
     /// The localized name of the document owner.
-    String localizedName;
+    String? localizedName;
     /// The address of the document owner.
-    String address;
+    String? address;
     /// The additional address information of the document owner.
-    String additionalAddressInformation;
+    String? additionalAddressInformation;
     /// The place of birth of the document owner.
-    String placeOfBirth;
+    String? placeOfBirth;
     /// The nationality of the documet owner.
-    String nationality;
+    String? nationality;
     /// The race of the document owner.
-    String race;
+    String? race;
     /// The religion of the document owner.
-    String religion;
+    String? religion;
     /// The profession of the document owner.
-    String profession;
+    String? profession;
     /// The marital status of the document owner.
-    String maritalStatus;
+    String? maritalStatus;
     /// The residential stauts of the document owner.
-    String residentialStatus;
+    String? residentialStatus;
     /// The employer of the document owner.
-    String employer;
+    String? employer;
     /// The sex of the document owner.
-    String sex;
+    String? sex;
     /// The date of birth of the document owner.
-    Date dateOfBirth;
+    Date? dateOfBirth;
     /// The date of issue of the document.
-    Date dateOfIssue;
+    Date? dateOfIssue;
     /// The date of expiry of the document.
-    Date dateOfExpiry;
+    Date? dateOfExpiry;
     /// The document number.
-    String documentNumber;
+    String? documentNumber;
     /// The personal identification number.
-    String personalIdNumber;
+    String? personalIdNumber;
     /// The additional number of the document.
-    String documentAdditionalNumber;
+    String? documentAdditionalNumber;
     /// The additional personal identification number.
-    String additionalPersonalIdNumber;
+    String? additionalPersonalIdNumber;
     /// The issuing authority of the document.
-    String issuingAuthority;
+    String? issuingAuthority;
     /// The driver license detailed info.
-    DriverLicenseDetailedInfo driverLicenseDetailedInfo;
+    DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     /// Flag that indicates if barcode result is empty
-    bool empty;
+    bool? empty;
     /// The one more additional number of the document.
-    String documentOptionalAdditionalNumber;
+    String? documentOptionalAdditionalNumber;
 
     VizResult(Map<String, dynamic> nativeVizResult) {
         this.firstName = nativeVizResult['firstName'];
@@ -2040,4 +2015,39 @@ class VizResult {
         this.empty = nativeVizResult['empty'];
         this.documentOptionalAdditionalNumber = nativeVizResult['documentOptionalAdditionalNumber'];
     }
+}
+
+
+
+/// Extension factors relative to corresponding dimension of the full image. For example,
+/// upFactor and downFactor define extensions relative to image height, e.g.
+/// when upFactor is 0.5, upper image boundary will be extended for half of image's full
+/// height.
+@JsonSerializable()
+class ImageExtensionFactors {
+
+    /// image extension factor relative to full image height in UP direction.
+    double upFactor = 0.0;
+    /// image extension factor relative to full image height in RIGHT direction.
+    double rightFactor = 0.0;
+    /// image extension factor relative to full image height in DOWN direction.
+    double downFactor = 0.0;
+    /// image extension factor relative to full image height in LEFT direction.
+    double leftFactor = 0.0;
+
+    ImageExtensionFactors();
+
+    factory ImageExtensionFactors.fromJson(Map<String, dynamic> json) => _$ImageExtensionFactorsFromJson(json);
+
+    Map<String, dynamic> toJson() => _$ImageExtensionFactorsToJson(this);
+}
+
+/// Result of the data matching algorithm for scanned parts/sides of the document.
+enum DataMatchResult {
+    /// Data matching has not been performed.
+    NotPerformed,
+    /// Data does not match.
+    Failed,
+    /// Data match.
+    Success
 }
