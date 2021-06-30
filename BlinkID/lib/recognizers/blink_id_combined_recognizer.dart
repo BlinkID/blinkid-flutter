@@ -8,69 +8,72 @@ part 'blink_id_combined_recognizer.g.dart';
 class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
     ///The additional address information of the document owner. 
-    String additionalAddressInformation;
+    String? additionalAddressInformation;
     
     ///The additional name information of the document owner. 
-    String additionalNameInformation;
+    String? additionalNameInformation;
     
     ///The address of the document owner. 
-    String address;
+    String? address;
     
     ///The current age of the document owner in years. It is calculated difference
     /// between now and date of birth. Now is current time on the device.
     /// @return current age of the document owner in years or -1 if date of birth is unknown. 
-    int age;
+    int? age;
     
     ///Defines possible color and moire statuses determined from scanned back image. 
-    ImageAnalysisResult backImageAnalysisResult;
+    ImageAnalysisResult? backImageAnalysisResult;
+    
+    ///Status of the last back side recognition process. 
+    ProcessingStatus? backProcessingStatus;
     
     ///Defines the data extracted from the back side visual inspection zone. 
-    VizResult backVizResult;
+    VizResult? backVizResult;
     
     ///Defines the data extracted from the barcode. 
-    BarcodeResult barcodeResult;
+    BarcodeResult? barcodeResult;
     
     ///The classification information. 
-    ClassInfo classInfo;
+    ClassInfo? classInfo;
     
     ///The date of birth of the document owner. 
-    Date dateOfBirth;
+    Date? dateOfBirth;
     
     ///The date of expiry of the document. 
-    Date dateOfExpiry;
+    Date? dateOfExpiry;
     
     ///Determines if date of expiry is permanent. 
-    bool dateOfExpiryPermanent;
+    bool? dateOfExpiryPermanent;
     
     ///The date of issue of the document. 
-    Date dateOfIssue;
+    Date? dateOfIssue;
     
     ///Digital signature of the recognition result. Available only if enabled with signResult property. 
-    String digitalSignature;
+    String? digitalSignature;
     
     ///Version of the digital signature. Available only if enabled with signResult property. 
-    int digitalSignatureVersion;
+    int? digitalSignatureVersion;
     
     ///The additional number of the document. 
-    String documentAdditionalNumber;
+    String? documentAdditionalNumber;
     
     ///Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
     /// DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
     /// of the document and values do not match, this method will return DataMatchResultFailed. Result will
     /// be DataMatchResultSuccess only if scanned values for all fields that are compared are the same. 
-    DataMatchResult documentDataMatch;
+    DataMatchResult? documentDataMatch;
     
     ///The document number. 
-    String documentNumber;
+    String? documentNumber;
     
     ///The one more additional number of the document. 
-    String documentOptionalAdditionalNumber;
+    String? documentOptionalAdditionalNumber;
     
     ///The driver license detailed info. 
-    DriverLicenseDetailedInfo driverLicenseDetailedInfo;
+    DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     
     ///The employer of the document owner. 
-    String employer;
+    String? employer;
     
     ///Checks whether the document has expired or not by comparing the current
     /// time on the device with the date of expiry.
@@ -79,80 +82,83 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     /// document does not expire (date of expiry is permanent)
     /// date of expiry has passed
     /// date of expiry is unknown and it is not permanent 
-    bool expired;
+    bool? expired;
     
     ///face image from the document if enabled with returnFaceImage property. 
-    String faceImage;
+    String? faceImage;
     
     ///The first name of the document owner. 
-    String firstName;
+    String? firstName;
     
     ///Defines possible color and moire statuses determined from scanned front image. 
-    ImageAnalysisResult frontImageAnalysisResult;
+    ImageAnalysisResult? frontImageAnalysisResult;
+    
+    ///Status of the last front side recognition process. 
+    ProcessingStatus? frontProcessingStatus;
     
     ///Defines the data extracted from the front side visual inspection zone. 
-    VizResult frontVizResult;
+    VizResult? frontVizResult;
     
     ///back side image of the document if enabled with returnFullDocumentImage property. 
-    String fullDocumentBackImage;
+    String? fullDocumentBackImage;
     
     ///front side image of the document if enabled with returnFullDocumentImage property. 
-    String fullDocumentFrontImage;
+    String? fullDocumentFrontImage;
     
     ///The full name of the document owner. 
-    String fullName;
+    String? fullName;
     
     ///The issuing authority of the document. 
-    String issuingAuthority;
+    String? issuingAuthority;
     
     ///The last name of the document owner. 
-    String lastName;
+    String? lastName;
     
     ///The localized name of the document owner. 
-    String localizedName;
+    String? localizedName;
     
     ///The marital status of the document owner. 
-    String maritalStatus;
+    String? maritalStatus;
     
     ///The data extracted from the machine readable zone 
-    MrzResult mrzResult;
+    MrzResult? mrzResult;
     
     ///The nationality of the documet owner. 
-    String nationality;
+    String? nationality;
     
     ///The personal identification number. 
-    String personalIdNumber;
+    String? personalIdNumber;
     
     ///The place of birth of the document owner. 
-    String placeOfBirth;
+    String? placeOfBirth;
     
     ///Defines status of the last recognition process. 
-    ProcessingStatus processingStatus;
+    ProcessingStatus? processingStatus;
     
     ///The profession of the document owner. 
-    String profession;
+    String? profession;
     
     ///The race of the document owner. 
-    String race;
+    String? race;
     
     ///Recognition mode used to scan current document. 
-    RecognitionMode recognitionMode;
+    RecognitionMode? recognitionMode;
     
     ///The religion of the document owner. 
-    String religion;
+    String? religion;
     
     ///The residential stauts of the document owner. 
-    String residentialStatus;
+    String? residentialStatus;
     
     ///Returns true if recognizer has finished scanning first side and is now scanning back side,
     /// false if it's still scanning first side. 
-    bool scanningFirstSideDone;
+    bool? scanningFirstSideDone;
     
     ///The sex of the document owner. 
-    String sex;
+    String? sex;
     
     ///image of the signature if enabled with returnSignatureImage property. 
-    String signatureImage;
+    String? signatureImage;
     
     BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
@@ -165,6 +171,8 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         this.age = nativeResult["age"];
         
         this.backImageAnalysisResult = nativeResult["backImageAnalysisResult"] != null ? ImageAnalysisResult(Map<String, dynamic>.from(nativeResult["backImageAnalysisResult"])) : null;
+        
+        this.backProcessingStatus = ProcessingStatus.values[nativeResult["backProcessingStatus"]];
         
         this.backVizResult = nativeResult["backVizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["backVizResult"])) : null;
         
@@ -203,6 +211,8 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         this.firstName = nativeResult["firstName"];
         
         this.frontImageAnalysisResult = nativeResult["frontImageAnalysisResult"] != null ? ImageAnalysisResult(Map<String, dynamic>.from(nativeResult["frontImageAnalysisResult"])) : null;
+        
+        this.frontProcessingStatus = ProcessingStatus.values[nativeResult["frontProcessingStatus"]];
         
         this.frontVizResult = nativeResult["frontVizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["frontVizResult"])) : null;
         
@@ -259,6 +269,12 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     /// 
     bool allowBlurFilter = true;
     
+    ///Proceed with scanning the back side even if the front side result is uncertain.
+    /// This only works for still images - video feeds will ignore this setting.
+    /// 
+    /// 
+    bool allowUncertainFrontSideScan = false;
+    
     ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
     /// 
     /// 
@@ -293,6 +309,11 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     /// @see ImageExtensionFactors
     /// 
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
+    
+    ///Configure the number of characters per field that are allowed to be inconsistent in data match.
+    /// 
+    /// 
+    int maxAllowedMismatchesPerField = 0;
     
     ///Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
     /// padding edge and image edge are the same.

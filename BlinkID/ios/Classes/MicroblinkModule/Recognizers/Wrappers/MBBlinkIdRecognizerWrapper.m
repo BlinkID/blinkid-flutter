@@ -1,6 +1,7 @@
 #import "MBBlinkIdRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
+#import "MBCommonSerializationUtils.h"
 
 @implementation MBBlinkIdRecognizerCreator
 
@@ -21,90 +22,105 @@
         if (allowBlurFilter != nil) {
             recognizer.allowBlurFilter = [(NSNumber *)allowBlurFilter boolValue];
         }
+
     }
     {
         id allowUnparsedMrzResults = [jsonRecognizer valueForKey:@"allowUnparsedMrzResults"];
         if (allowUnparsedMrzResults != nil) {
             recognizer.allowUnparsedMrzResults = [(NSNumber *)allowUnparsedMrzResults boolValue];
         }
+
     }
     {
         id allowUnverifiedMrzResults = [jsonRecognizer valueForKey:@"allowUnverifiedMrzResults"];
         if (allowUnverifiedMrzResults != nil) {
             recognizer.allowUnverifiedMrzResults = [(NSNumber *)allowUnverifiedMrzResults boolValue];
         }
+
     }
     {
         id anonymizationMode = [jsonRecognizer valueForKey:@"anonymizationMode"];
         if (anonymizationMode != nil) {
             recognizer.anonymizationMode = [(NSNumber *)anonymizationMode unsignedIntegerValue] - 1;
         }
+
     }
     {
         id faceImageDpi = [jsonRecognizer valueForKey:@"faceImageDpi"];
         if (faceImageDpi != nil) {
             recognizer.faceImageDpi = [(NSNumber *)faceImageDpi integerValue];
         }
+
     }
     {
         id fullDocumentImageDpi = [jsonRecognizer valueForKey:@"fullDocumentImageDpi"];
         if (fullDocumentImageDpi != nil) {
             recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi integerValue];
         }
+
     }
     {
         id fullDocumentImageExtensionFactors = [jsonRecognizer valueForKey:@"fullDocumentImageExtensionFactors"];
         if (fullDocumentImageExtensionFactors != nil) {
-            recognizer.fullDocumentImageExtensionFactors = [MBBlinkIDSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
+            recognizer.fullDocumentImageExtensionFactors = [MBCommonSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
         }
+
     }
     {
         id paddingEdge = [jsonRecognizer valueForKey:@"paddingEdge"];
         if (paddingEdge != nil) {
             recognizer.paddingEdge = [(NSNumber *)paddingEdge floatValue];
         }
+
     }
     {
         id recognitionModeFilter = [jsonRecognizer valueForKey:@"recognitionModeFilter"];
         if (recognitionModeFilter != nil) {
             recognizer.recognitionModeFilter = [MBBlinkIDSerializationUtils deserializeMBRecognitionModeFilter:(NSDictionary*)recognitionModeFilter];
         }
+
     }
     {
         id returnFaceImage = [jsonRecognizer valueForKey:@"returnFaceImage"];
         if (returnFaceImage != nil) {
             recognizer.returnFaceImage = [(NSNumber *)returnFaceImage boolValue];
         }
+
     }
     {
         id returnFullDocumentImage = [jsonRecognizer valueForKey:@"returnFullDocumentImage"];
         if (returnFullDocumentImage != nil) {
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
+
     }
     {
         id returnSignatureImage = [jsonRecognizer valueForKey:@"returnSignatureImage"];
         if (returnSignatureImage != nil) {
             recognizer.returnSignatureImage = [(NSNumber *)returnSignatureImage boolValue];
         }
+
     }
     {
         id scanCroppedDocumentImage = [jsonRecognizer valueForKey:@"scanCroppedDocumentImage"];
         if (scanCroppedDocumentImage != nil) {
             recognizer.scanCroppedDocumentImage = [(NSNumber *)scanCroppedDocumentImage boolValue];
         }
+
     }
     {
         id signatureImageDpi = [jsonRecognizer valueForKey:@"signatureImageDpi"];
         if (signatureImageDpi != nil) {
             recognizer.signatureImageDpi = [(NSNumber *)signatureImageDpi integerValue];
         }
+
     }
     {
         id validateResultCharacters = [jsonRecognizer valueForKey:@"validateResultCharacters"];
         if (validateResultCharacters != nil) {
             recognizer.validateResultCharacters = [(NSNumber *)validateResultCharacters boolValue];
         }
+
     }
 
     return recognizer;

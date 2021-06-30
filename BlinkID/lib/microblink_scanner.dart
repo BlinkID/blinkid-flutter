@@ -34,7 +34,7 @@ class MicroblinkScanner {
       })
     );
 
-    if (jsonResults == null) return List<RecognizerResult>(0);
+    if (jsonResults == null) return List.empty();
 
     var results = [];
     for (int i = 0; i < jsonResults.length; ++i) {

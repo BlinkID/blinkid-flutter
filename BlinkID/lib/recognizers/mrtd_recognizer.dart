@@ -8,10 +8,10 @@ part 'mrtd_recognizer.g.dart';
 class MrtdRecognizerResult extends RecognizerResult {
     
     ///full document image if enabled with returnFullDocumentImage property. 
-    String fullDocumentImage;
+    String? fullDocumentImage;
     
     ///Returns the Data extracted from the machine readable zone. 
-    MrzResult mrzResult;
+    MrzResult? mrzResult;
     
     MrtdRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         

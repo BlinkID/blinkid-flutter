@@ -1,6 +1,7 @@
 #import "MBMrtdCombinedRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
+#import "MBCommonSerializationUtils.h"
 
 @implementation MBMrtdCombinedRecognizerCreator
 
@@ -21,66 +22,77 @@
         if (allowSpecialCharacters != nil) {
             recognizer.allowSpecialCharacters = [(NSNumber *)allowSpecialCharacters boolValue];
         }
+
     }
     {
         id allowUnparsedResults = [jsonRecognizer valueForKey:@"allowUnparsedResults"];
         if (allowUnparsedResults != nil) {
             recognizer.allowUnparsedResults = [(NSNumber *)allowUnparsedResults boolValue];
         }
+
     }
     {
         id allowUnverifiedResults = [jsonRecognizer valueForKey:@"allowUnverifiedResults"];
         if (allowUnverifiedResults != nil) {
             recognizer.allowUnverifiedResults = [(NSNumber *)allowUnverifiedResults boolValue];
         }
+
     }
     {
         id detectorType = [jsonRecognizer valueForKey:@"detectorType"];
         if (detectorType != nil) {
             recognizer.detectorType = [(NSNumber *)detectorType unsignedIntegerValue] - 1;
         }
+
     }
     {
         id faceImageDpi = [jsonRecognizer valueForKey:@"faceImageDpi"];
         if (faceImageDpi != nil) {
             recognizer.faceImageDpi = [(NSNumber *)faceImageDpi integerValue];
         }
+
     }
     {
         id fullDocumentImageDpi = [jsonRecognizer valueForKey:@"fullDocumentImageDpi"];
         if (fullDocumentImageDpi != nil) {
             recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi integerValue];
         }
+
     }
     {
         id fullDocumentImageExtensionFactors = [jsonRecognizer valueForKey:@"fullDocumentImageExtensionFactors"];
         if (fullDocumentImageExtensionFactors != nil) {
-            recognizer.fullDocumentImageExtensionFactors = [MBBlinkIDSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
+            recognizer.fullDocumentImageExtensionFactors = [MBCommonSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
         }
+
     }
     {
         id numStableDetectionsThreshold = [jsonRecognizer valueForKey:@"numStableDetectionsThreshold"];
         if (numStableDetectionsThreshold != nil) {
             recognizer.numStableDetectionsThreshold = [(NSNumber *)numStableDetectionsThreshold integerValue];
         }
+
     }
     {
         id returnFaceImage = [jsonRecognizer valueForKey:@"returnFaceImage"];
         if (returnFaceImage != nil) {
             recognizer.returnFaceImage = [(NSNumber *)returnFaceImage boolValue];
         }
+
     }
     {
         id returnFullDocumentImage = [jsonRecognizer valueForKey:@"returnFullDocumentImage"];
         if (returnFullDocumentImage != nil) {
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
+
     }
     {
         id signResult = [jsonRecognizer valueForKey:@"signResult"];
         if (signResult != nil) {
             recognizer.signResult = [(NSNumber *)signResult boolValue];
         }
+
     }
 
     return recognizer;

@@ -8,88 +8,88 @@ part 'usdl_combined_recognizer.g.dart';
 class UsdlCombinedRecognizerResult extends RecognizerResult {
 
         /// Digital signature of the recognition result. Available only if enabled with signResult property.
-        String digitalSignature;
+        String? digitalSignature;
 
         /// Version of the digital signature. Available only if enabled with signResult property.
-        int digitalSignatureVersion;
+        int? digitalSignatureVersion;
 
         /// Returns true if data from scanned parts/sides of the document match,
         /// false otherwise. For example if date of expiry is scanned from the front and back side
         /// of the document and values do not match, this method will return false. Result will
         /// be true only if scanned values for all fields that are compared are the same.
-        DataMatchResult documentDataMatch;
+        DataMatchResult? documentDataMatch;
 
         /// face image from the document if enabled with returnFaceImage property.
-        String faceImage;
+        String? faceImage;
 
         /// full document image if enabled with returnFullDocumentImage property.
-        String fullDocumentImage;
+        String? fullDocumentImage;
 
         /// Returns true if recognizer has finished scanning first side and is now scanning back side,
         /// false if it's still scanning first side.
-        bool scanningFirstSideDone;
+        bool? scanningFirstSideDone;
 
         /// Array of elements that are not part of AAMVA standard and are specific to each US state.
-        List<String> optionalElements;
+        List<String>? optionalElements;
 
         /// The raw bytes contained inside 2D barcode.
-        String rawData;
+        String? rawData;
 
         /// Raw string inside 2D barcode.
-        String rawStringData;
+        String? rawStringData;
 
         /// True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e.
-        bool uncertain;
+        bool? uncertain;
 
         /// Fields inside US Driver's licence. Available Keys are listed in UsdlKeys enum.
-        List<String> fields;
+        List<String>? fields;
 
         /// The first name of the United States driver license owner.
-        String firstName;
+        String? firstName;
 
         /// The middle name of the United States driver license owner.
-        String middleName;
+        String? middleName;
 
         /// The last name of the United States driver license owner.
-        String lastName;
+        String? lastName;
 
         /// The full name of the United States driver license owner.
-        String fullName;
+        String? fullName;
 
         /// The name suffix of the United States driver license owner.
-        String nameSuffix;
+        String? nameSuffix;
 
         /// The full address of the United States driver license owner.
-        String address;
+        String? address;
 
         /// The document number of the United States driver license.
-        String documentNumber;
+        String? documentNumber;
 
         /// The sex of the United States driver license owner.
-        String sex;
+        String? sex;
 
         /// The restrictions to driving privileges for the United States driver license owner.
-        String restrictions;
+        String? restrictions;
 
         /// The additional privileges granted to the United States driver license owner.
-        String endorsements;
+        String? endorsements;
 
         /// The type of vehicle the driver license owner has privilege to drive.
-        String vehicleClass;
+        String? vehicleClass;
 
         /// The date of birth of the United States driver license owner.
-        Date dateOfBirth;
+        Date? dateOfBirth;
 
         /// The date of issue of the United States driver license.
-        Date dateOfIssue;
+        Date? dateOfIssue;
 
         /// The date of expiry of the United States driver license.
-        Date dateOfExpiry;
+        Date? dateOfExpiry;
 
         /// The current age of the document owner in years. It is calculated difference
         /// between now and date of birth. Now is current time on the device.
         /// @return current age of the document owner in years or -1 if date of birth is unknown.
-        int age;
+        int? age;
 
     UsdlCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
 
@@ -105,7 +105,7 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
 
         this.scanningFirstSideDone = nativeResult['scanningFirstSideDone'];
 
-        this.optionalElements = List<String>.from(nativeResult['optionalElements']);
+        this.optionalElements = nativeResult['optionalElements'] != null ? List<String>.from(nativeResult['optionalElements']) : null;
 
         this.rawData = nativeResult['rawData'];
 
@@ -113,7 +113,7 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
 
         this.uncertain = nativeResult['uncertain'];
 
-        this.fields = List<String>.from(nativeResult['fields']);
+        this.fields = nativeResult['fields'] != null ? List<String>.from(nativeResult['fields']) : null;
 
         this.firstName = nativeResult['firstName'];
 

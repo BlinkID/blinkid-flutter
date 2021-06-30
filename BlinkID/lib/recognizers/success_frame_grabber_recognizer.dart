@@ -7,18 +7,15 @@ part 'success_frame_grabber_recognizer.g.dart';
 class SuccessFrameGrabberRecognizerResult extends RecognizerResult {
 
     /// Camera frame at the time slave recognizer finished recognition 
-    String successFrame;
+    String? successFrame;
 
     /// RecognizerResult of the slave recognizer 
     RecognizerResult slaveRecognizerResult;
 
-    SuccessFrameGrabberRecognizerResult(Map<String, dynamic> nativeResult, RecognizerResult slaveRecognizerResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
+    SuccessFrameGrabberRecognizerResult(Map<String, dynamic> nativeResult, this.slaveRecognizerResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
 
         /// Camera frame at the time slave recognizer finished recognition 
         this.successFrame = nativeResult['successFrame'];
-
-        /// RecognizerResult of the slave recognizer 
-        this.slaveRecognizerResult = slaveRecognizerResult;
     }
 }
 
@@ -29,8 +26,7 @@ class SuccessFrameGrabberRecognizer extends Recognizer {
 
     Recognizer slaveRecognizer;
 
-    SuccessFrameGrabberRecognizer(Recognizer slaveRecognizer): super('SuccessFrameGrabberRecognizer') {
-        this.slaveRecognizer = slaveRecognizer;
+    SuccessFrameGrabberRecognizer(this.slaveRecognizer): super('SuccessFrameGrabberRecognizer') {
 
         if (!(this.slaveRecognizer is Recognizer)) {
             throw Exception("Slave recognizer must be Recognizer!");

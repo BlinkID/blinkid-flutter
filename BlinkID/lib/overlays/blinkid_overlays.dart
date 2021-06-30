@@ -20,38 +20,38 @@ class DocumentOverlaySettings extends OverlaySettings {
 class BlinkIdOverlaySettings extends OverlaySettings {
     /// String: message that is shown while scanning first side of the document.
     /// If null, default value will be used.
-    String firstSideInstructionsText;
+    String? firstSideInstructionsText;
     /// String: instructions to flip document, shown when scanning of the first side is done, before scanning the second
     /// side of the document.
     /// If null, default value will be used.
-    String flipInstructions;
+    String? flipInstructions;
     /// String: instructions for the user to move the document closer.
     /// If null, default value will be used.
-    String errorMoveCloser;
+    String? errorMoveCloser;
     /// String: instructions for the user to move the document farther.
     /// If null, default value will be used.
-    String errorMoveFarther;
+    String? errorMoveFarther;
     /// String: title of the dialog, which is shown when scanned document sides are not from the same document.
     /// If null, default value will be used.
-    String sidesNotMatchingTitle;
+    String? sidesNotMatchingTitle;
     /// String: message inside dialog, which is shown when scanned document sides are not from the same document.
     /// If null, default value will be used.
-    String sidesNotMatchingMessage;
+    String? sidesNotMatchingMessage;
     /// String: title of the dialog, which is shown when unsupported document is scanned.
     /// If null, default value will be used.
-    String unsupportedDocumentTitle;
+    String? unsupportedDocumentTitle;
     /// String: message inside dialog, which is shown when unsupported document is scanned.
     /// If null, default value will be used.
-    String unsupportedDocumentMessage;
+    String? unsupportedDocumentMessage;
     /// String: title of the dialog, which is shown on timeout when scanning is stuck on the back document side.
     /// If null, default value will be used.
-    String recognitionTimeoutTitle;
+    String? recognitionTimeoutTitle;
     /// String: message inside dialog, which is shown on timeout when scanning is stuck on the back document side.
     /// If null, default value will be used.
-    String recognitionTimeoutMessage;
+    String? recognitionTimeoutMessage;
     /// String: text of the "retry" button inside dialog, which is shown on timeout when scanning is stuck on the back
     /// document side.
-    String retryButtonText;
+    String? retryButtonText;
 
     /// If true, BlinkIdCombinedRecognizer will check if sides do match when scanning is finished
     /// Default: true
@@ -74,11 +74,11 @@ class BlinkIdOverlaySettings extends OverlaySettings {
 
     /// Message that is shown while scanning the barcode.
     /// If null, default value will be used.
-    String scanBarcodeText;
+    String? scanBarcodeText;
 
     /// Instructions for the user to move the document from the edge.
     /// If null, default value will be used.
-    String errorDocumentTooCloseToEdge;
+    String? errorDocumentTooCloseToEdge;
 
     BlinkIdOverlaySettings(): super('BlinkIdOverlaySettings');
 
@@ -94,24 +94,24 @@ class BlinkIdOverlaySettings extends OverlaySettings {
 class DocumentVerificationOverlaySettings extends OverlaySettings {
     /// String: splash message that is shown before scanning the first side of the document, while starting camera.
     /// If null, default value will be used.
-    String firstSideSplashMessage;
+    String? firstSideSplashMessage;
     /// String: splash message that is shown before scanning the second side of the document, while starting camera.
     /// If null, default value will be used.
-    String secondSideSplashMessage;
+    String? secondSideSplashMessage;
     /// String: splash message that is shown after scanning the document.
     /// If null, default value will be used.
-    String scanningDoneSplashMessage;
+    String? scanningDoneSplashMessage;
     /// String: user instructions that are shown above camera preview while the first side of the
     /// document is being scanned.
     /// If null, default value will be used.
-    String firstSideInstructions;
+    String? firstSideInstructions;
     /// String: user instructions that are shown above camera preview while the second side of the
     /// document is being scanned.
     /// If null, default value will be used.
-    String secondSideInstructions;
+    String? secondSideInstructions;
     /// String: glare message that is shown if glare was detected while scanning document.
     /// If null, default value will be used.
-    String glareMessage;
+    String? glareMessage;
 
     DocumentVerificationOverlaySettings(): super('DocumentVerificationOverlaySettings');
 

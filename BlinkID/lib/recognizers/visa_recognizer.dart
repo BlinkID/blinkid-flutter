@@ -8,13 +8,13 @@ part 'visa_recognizer.g.dart';
 class VisaRecognizerResult extends RecognizerResult {
     
     ///face image from the document if enabled with returnFaceImage property. 
-    String faceImage;
+    String? faceImage;
     
     ///full document image if enabled with returnFullDocumentImage property. 
-    String fullDocumentImage;
+    String? fullDocumentImage;
     
     ///The data extracted from the machine readable zone. 
-    MrzResult mrzResult;
+    MrzResult? mrzResult;
     
     VisaRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         

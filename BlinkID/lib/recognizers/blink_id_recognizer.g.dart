@@ -12,21 +12,15 @@ BlinkIdRecognizer _$BlinkIdRecognizerFromJson(Map<String, dynamic> json) {
     ..allowBlurFilter = json['allowBlurFilter'] as bool
     ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
     ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
-    ..anonymizationMode = _$enumDecodeNullable(
-        _$AnonymizationModeEnumMap, json['anonymizationMode'])
+    ..anonymizationMode =
+        _$enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
     ..faceImageDpi = json['faceImageDpi'] as int
     ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
-    ..fullDocumentImageExtensionFactors =
-        json['fullDocumentImageExtensionFactors'] == null
-            ? null
-            : ImageExtensionFactors.fromJson(
-                json['fullDocumentImageExtensionFactors']
-                    as Map<String, dynamic>)
-    ..paddingEdge = (json['paddingEdge'] as num)?.toDouble()
-    ..recognitionModeFilter = json['recognitionModeFilter'] == null
-        ? null
-        : RecognitionModeFilter.fromJson(
-            json['recognitionModeFilter'] as Map<String, dynamic>)
+    ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
+        json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
+    ..paddingEdge = (json['paddingEdge'] as num).toDouble()
+    ..recognitionModeFilter = RecognitionModeFilter.fromJson(
+        json['recognitionModeFilter'] as Map<String, dynamic>)
     ..returnFaceImage = json['returnFaceImage'] as bool
     ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
     ..returnSignatureImage = json['returnSignatureImage'] as bool
@@ -57,36 +51,30 @@ Map<String, dynamic> _$BlinkIdRecognizerToJson(BlinkIdRecognizer instance) =>
       'validateResultCharacters': instance.validateResultCharacters,
     };
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
 }) {
   if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
 }
 
 const _$AnonymizationModeEnumMap = {

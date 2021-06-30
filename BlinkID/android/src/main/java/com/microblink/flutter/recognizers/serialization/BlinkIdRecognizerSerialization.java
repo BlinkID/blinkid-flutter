@@ -20,7 +20,7 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
         recognizer.setPaddingEdge((float)jsonObject.optDouble("paddingEdge", 0.0));
-        recognizer.setRecognitionModeFilter(SerializationUtils.deserializeRecognitionModeFilter(jsonObject.optJSONObject("recognitionModeFilter")));
+        recognizer.setRecognitionModeFilter(BlinkIDSerializationUtils.deserializeRecognitionModeFilter(jsonObject.optJSONObject("recognitionModeFilter")));
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonObject.optBoolean("returnSignatureImage", false));

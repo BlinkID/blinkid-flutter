@@ -1,6 +1,7 @@
 #import "MBPassportRecognizerWrapper.h"
 #import "MBSerializationUtils.h"
 #import "MBBlinkIDSerializationUtils.h"
+#import "MBCommonSerializationUtils.h"
 
 @implementation MBPassportRecognizerCreator
 
@@ -21,48 +22,56 @@
         if (anonymizeNetherlandsMrz != nil) {
             recognizer.anonymizeNetherlandsMrz = [(NSNumber *)anonymizeNetherlandsMrz boolValue];
         }
+
     }
     {
         id detectGlare = [jsonRecognizer valueForKey:@"detectGlare"];
         if (detectGlare != nil) {
             recognizer.detectGlare = [(NSNumber *)detectGlare boolValue];
         }
+
     }
     {
         id faceImageDpi = [jsonRecognizer valueForKey:@"faceImageDpi"];
         if (faceImageDpi != nil) {
             recognizer.faceImageDpi = [(NSNumber *)faceImageDpi integerValue];
         }
+
     }
     {
         id fullDocumentImageDpi = [jsonRecognizer valueForKey:@"fullDocumentImageDpi"];
         if (fullDocumentImageDpi != nil) {
             recognizer.fullDocumentImageDpi = [(NSNumber *)fullDocumentImageDpi integerValue];
         }
+
     }
     {
         id fullDocumentImageExtensionFactors = [jsonRecognizer valueForKey:@"fullDocumentImageExtensionFactors"];
         if (fullDocumentImageExtensionFactors != nil) {
-            recognizer.fullDocumentImageExtensionFactors = [MBBlinkIDSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
+            recognizer.fullDocumentImageExtensionFactors = [MBCommonSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
         }
+
     }
     {
         id returnFaceImage = [jsonRecognizer valueForKey:@"returnFaceImage"];
         if (returnFaceImage != nil) {
             recognizer.returnFaceImage = [(NSNumber *)returnFaceImage boolValue];
         }
+
     }
     {
         id returnFullDocumentImage = [jsonRecognizer valueForKey:@"returnFullDocumentImage"];
         if (returnFullDocumentImage != nil) {
             recognizer.returnFullDocumentImage = [(NSNumber *)returnFullDocumentImage boolValue];
         }
+
     }
     {
         id signResult = [jsonRecognizer valueForKey:@"signResult"];
         if (signResult != nil) {
             recognizer.signResult = [(NSNumber *)signResult boolValue];
         }
+
     }
 
     return recognizer;
