@@ -22,6 +22,9 @@ else
   echo "Using blinkid_flutter from flutter pub"
 fi
 
+#update sdk version to 2.12 to support null safety.
+sed -in 's/sdk: ">=[0-9.]*/sdk: ">=2.12.0/' pubspec.yaml
+
 flutter pub get
 
 # enter into android project folder
