@@ -7,7 +7,7 @@ part 'blink_id_combined_recognizer.g.dart';
 /// Result object for BlinkIdCombinedRecognizer.
 class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
-    ///The additional name information of the document owner. 
+    ///The additional address information of the document owner. 
     String? additionalAddressInformation;
     
     ///The additional name information of the document owner. 
@@ -16,22 +16,24 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The address of the document owner. 
     String? address;
     
-    ///The current age of the document owner in years. It is calculated difference 
+    ///The current age of the document owner in years. It is calculated difference
+    /// between now and date of birth. Now is current time on the device.
+    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
     int? age;
     
-    ///Image analysis result for the scanned document back side image 
+    ///Defines possible color and moire statuses determined from scanned back image. 
     ImageAnalysisResult? backImageAnalysisResult;
     
     ///Status of the last back side recognition process. 
     ProcessingStatus? backProcessingStatus;
     
-    ///The data extracted from the back side visual inspection zone. 
+    ///Defines the data extracted from the back side visual inspection zone. 
     VizResult? backVizResult;
     
-    ///The data extracted from the barcode. 
+    ///Defines the data extracted from the barcode. 
     BarcodeResult? barcodeResult;
     
-    ///The document class information. 
+    ///The classification information. 
     ClassInfo? classInfo;
     
     ///The date of birth of the document owner. 
@@ -46,16 +48,19 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The date of issue of the document. 
     Date? dateOfIssue;
     
-    ///Defines digital signature of recognition results. 
+    ///Digital signature of the recognition result. Available only if enabled with signResult property. 
     String? digitalSignature;
     
-    ///Defines digital signature version. 
+    ///Version of the digital signature. Available only if enabled with signResult property. 
     int? digitalSignatureVersion;
     
     ///The additional number of the document. 
     String? documentAdditionalNumber;
     
-    ///Defines result of the data matching algorithm for scanned parts/sides of the document. 
+    ///Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
+    /// DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
+    /// of the document and values do not match, this method will return DataMatchResultFailed. Result will
+    /// be DataMatchResultSuccess only if scanned values for all fields that are compared are the same. 
     DataMatchResult? documentDataMatch;
     
     ///The document number. 
@@ -70,28 +75,34 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The employer of the document owner. 
     String? employer;
     
-    ///Checks whether the document has expired or not by comparing the current 
+    ///Checks whether the document has expired or not by comparing the current
+    /// time on the device with the date of expiry.
+    /// 
+    /// @return true if the document has expired, false in following cases:
+    /// document does not expire (date of expiry is permanent)
+    /// date of expiry has passed
+    /// date of expiry is unknown and it is not permanent 
     bool? expired;
     
-    ///Face image from the document 
+    ///face image from the document if enabled with returnFaceImage property. 
     String? faceImage;
     
     ///The first name of the document owner. 
     String? firstName;
     
-    ///Image analysis result for the scanned document front side image 
+    ///Defines possible color and moire statuses determined from scanned front image. 
     ImageAnalysisResult? frontImageAnalysisResult;
     
     ///Status of the last front side recognition process. 
     ProcessingStatus? frontProcessingStatus;
     
-    ///The data extracted from the front side visual inspection zone. 
+    ///Defines the data extracted from the front side visual inspection zone. 
     VizResult? frontVizResult;
     
-    ///Back side image of the document 
+    ///back side image of the document if enabled with returnFullDocumentImage property. 
     String? fullDocumentBackImage;
     
-    ///Front side image of the document 
+    ///front side image of the document if enabled with returnFullDocumentImage property. 
     String? fullDocumentFrontImage;
     
     ///The full name of the document owner. 
@@ -109,7 +120,7 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The marital status of the document owner. 
     String? maritalStatus;
     
-    ///The data extracted from the machine readable zone. 
+    ///The data extracted from the machine readable zone 
     MrzResult? mrzResult;
     
     ///The nationality of the documet owner. 
@@ -121,7 +132,7 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The place of birth of the document owner. 
     String? placeOfBirth;
     
-    ///Status of the last recognition process. 
+    ///Defines status of the last recognition process. 
     ProcessingStatus? processingStatus;
     
     ///The profession of the document owner. 
@@ -139,13 +150,14 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The residential stauts of the document owner. 
     String? residentialStatus;
     
-    ///{true} if recognizer has finished scanning first side and is now scanning back side, 
+    ///Returns true if recognizer has finished scanning first side and is now scanning back side,
+    /// false if it's still scanning first side. 
     bool? scanningFirstSideDone;
     
     ///The sex of the document owner. 
     String? sex;
     
-    ///Signature image from the document 
+    ///image of the signature if enabled with returnSignatureImage property. 
     String? signatureImage;
     
     BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
@@ -248,65 +260,114 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
 }
 
 
-///A generic recognizer which can scan front and back side of the document.
+///Recognizer which can scan front and back side of the United States driver license.
 @JsonSerializable()
 class BlinkIdCombinedRecognizer extends Recognizer {
     
-    ///Defines whether blured frames filtering is allowed.
+    ///Defines whether blured frames filtering is allowed
+    /// 
+    /// 
     bool allowBlurFilter = true;
     
     ///Proceed with scanning the back side even if the front side result is uncertain.
+    /// This only works for still images - video feeds will ignore this setting.
+    /// 
+    /// 
     bool allowUncertainFrontSideScan = false;
     
-    ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed.
+    ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
+    /// 
+    /// 
     bool allowUnparsedMrzResults = false;
     
-    ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed.
+    ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed
+    /// Unverified MRZ is parsed, but check digits are incorrect
+    /// 
+    /// 
     bool allowUnverifiedMrzResults = true;
     
-    ///Whether sensitive data should be removed from images, result fields or both.
+    ///Defines whether sensitive data should be removed from images, result fields or both.
+    /// The setting only applies to certain documents
+    /// 
+    /// 
     AnonymizationMode anonymizationMode = AnonymizationMode.FullResult;
     
-    ///The DPI (Dots Per Inch) for face image that should be returned.
+    ///Property for setting DPI for face images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int faceImageDpi = 250;
     
-    ///The DPI (Dots Per Inch) for full document image that should be returned.
+    ///Property for setting DPI for full document images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int fullDocumentImageDpi = 250;
     
-    ///The extension factors for full document image.
+    ///Image extension factors for full document image.
+    /// 
+    /// @see ImageExtensionFactors
+    /// 
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
     ///Configure the number of characters per field that are allowed to be inconsistent in data match.
+    /// 
+    /// 
     int maxAllowedMismatchesPerField = 0;
     
-    ///Padding is a minimum distance from the edge of the frame and it is defined
+    ///Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
+    /// padding edge and image edge are the same.
+    /// Recommended value is 0.02f.
+    /// 
+    /// 
     double paddingEdge = 0.0;
     
-    ///Currently set recognition mode filter.
+    ///Enable or disable recognition of specific document groups supported by the current license.
+    /// 
+    /// 
     RecognitionModeFilter recognitionModeFilter = RecognitionModeFilter();
     
-    ///Defines whether face image will be available in result.
+    ///Sets whether face image from ID card should be extracted
+    /// 
+    /// 
     bool returnFaceImage = false;
     
-    ///Defines whether full document image will be available in
+    ///Sets whether full document image of ID card should be extracted.
+    /// 
+    /// 
     bool returnFullDocumentImage = false;
     
-    ///Defines whether signature image will be available in result.
+    ///Sets whether signature image from ID card should be extracted.
+    /// 
+    /// 
     bool returnSignatureImage = false;
     
     ///Configure the recognizer to only work on already cropped and dewarped images.
+    /// This only works for still images - video feeds will ignore this setting.
+    /// 
+    /// 
     bool scanCroppedDocumentImage = false;
     
-    ///Defines whether or not recognition result should be signed.
+    ///Whether or not recognition result should be signed.
+    /// 
+    /// 
     bool signResult = false;
     
-    ///The DPI (Dots Per Inch) for signature image that should be returned.
+    ///Property for setting DPI for signature images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int signatureImageDpi = 250;
     
-    ///Skip back side capture and processing step when back side of the document is not supported.
+    ///Skip back side capture and processing step when back side of the document is not supported
+    /// 
+    /// 
     bool skipUnsupportedBack = false;
     
-    ///Whether result characters validatation is performed.
+    ///Defines whether result characters validatation is performed.
+    /// If a result member contains invalid character, the result state cannot be valid
+    /// 
+    /// 
     bool validateResultCharacters = true;
     
     BlinkIdCombinedRecognizer(): super('BlinkIdCombinedRecognizer');
