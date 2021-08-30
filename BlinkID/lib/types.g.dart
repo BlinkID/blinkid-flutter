@@ -32,10 +32,10 @@ Map<String, dynamic> _$RecognitionModeFilterToJson(
 ImageExtensionFactors _$ImageExtensionFactorsFromJson(
     Map<String, dynamic> json) {
   return ImageExtensionFactors()
-    ..upFactor = (json['upFactor'] as num).toDouble()
-    ..rightFactor = (json['rightFactor'] as num).toDouble()
-    ..downFactor = (json['downFactor'] as num).toDouble()
-    ..leftFactor = (json['leftFactor'] as num).toDouble();
+    ..upFactor = (json['upFactor'] as num?)?.toDouble()
+    ..rightFactor = (json['rightFactor'] as num?)?.toDouble()
+    ..downFactor = (json['downFactor'] as num?)?.toDouble()
+    ..leftFactor = (json['leftFactor'] as num?)?.toDouble();
 }
 
 Map<String, dynamic> _$ImageExtensionFactorsToJson(

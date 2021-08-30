@@ -1351,7 +1351,7 @@ enum Country {
     Sudan,
     Suriname,
     SvalbardAndJanMayen,
-    Swaziland,
+    Eswatini,
     Syria,
     Tajikistan,
     Tanzania,
@@ -2027,13 +2027,13 @@ class VizResult {
 class ImageExtensionFactors {
 
     /// image extension factor relative to full image height in UP direction.
-    double upFactor = 0.0;
+    double? upFactor = 0.0;
     /// image extension factor relative to full image height in RIGHT direction.
-    double rightFactor = 0.0;
+    double? rightFactor = 0.0;
     /// image extension factor relative to full image height in DOWN direction.
-    double downFactor = 0.0;
+    double? downFactor = 0.0;
     /// image extension factor relative to full image height in LEFT direction.
-    double leftFactor = 0.0;
+    double? leftFactor = 0.0;
 
     ImageExtensionFactors();
 
