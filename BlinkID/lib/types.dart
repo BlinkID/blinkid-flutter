@@ -153,7 +153,9 @@ enum MrtdDocumentType {
     /// US Green Card
     GreenCard,
     /// Malaysian PASS type IMM13P
-    MalaysianPassIMM13P
+    MalaysianPassIMM13P,
+    /// Border Crossing Card
+    BorderCrossingCard
 }
 
 /// Possible types of documents scanned with IdBarcodeRecognizer.

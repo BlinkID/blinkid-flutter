@@ -34,7 +34,7 @@ import org.json.JSONArray;
 
 public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener, ActivityAware {
 
-  private static final String CHANNEL = "microblink_scanner";
+  private static final String CHANNEL = "blinkid_scanner";
 
   private static final int SCAN_REQ_CODE = 1904;
   private static final String METHOD_SCAN = "scanWithCamera";
