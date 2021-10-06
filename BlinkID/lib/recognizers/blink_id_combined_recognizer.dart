@@ -87,6 +87,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///face image from the document if enabled with returnFaceImage property. 
     String? faceImage;
     
+    ///The father's name of the document owner. 
+    String? fathersName;
+    
     ///The first name of the document owner. 
     String? firstName;
     
@@ -119,6 +122,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
     ///The marital status of the document owner. 
     String? maritalStatus;
+    
+    ///The mother's name of the document owner. 
+    String? mothersName;
     
     ///The data extracted from the machine readable zone 
     MrzResult? mrzResult;
@@ -208,6 +214,8 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         
         this.faceImage = nativeResult["faceImage"];
         
+        this.fathersName = nativeResult["fathersName"];
+        
         this.firstName = nativeResult["firstName"];
         
         this.frontImageAnalysisResult = nativeResult["frontImageAnalysisResult"] != null ? ImageAnalysisResult(Map<String, dynamic>.from(nativeResult["frontImageAnalysisResult"])) : null;
@@ -229,6 +237,8 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         this.localizedName = nativeResult["localizedName"];
         
         this.maritalStatus = nativeResult["maritalStatus"];
+        
+        this.mothersName = nativeResult["mothersName"];
         
         this.mrzResult = nativeResult["mrzResult"] != null ? MrzResult(Map<String, dynamic>.from(nativeResult["mrzResult"])) : null;
         

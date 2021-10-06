@@ -53,6 +53,7 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
             jsonResult.put("employer", result.getEmployer());
             jsonResult.put("expired", result.isExpired());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("fathersName", result.getFathersName());
             jsonResult.put("firstName", result.getFirstName());
             jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
             jsonResult.put("fullName", result.getFullName());
@@ -61,6 +62,7 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
             jsonResult.put("lastName", result.getLastName());
             jsonResult.put("localizedName", result.getLocalizedName());
             jsonResult.put("maritalStatus", result.getMaritalStatus());
+            jsonResult.put("mothersName", result.getMothersName());
             jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
             jsonResult.put("nationality", result.getNationality());
             jsonResult.put("personalIdNumber", result.getPersonalIdNumber());
