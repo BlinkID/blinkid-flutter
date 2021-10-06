@@ -13,7 +13,7 @@
 
 @end
 
-static NSString* const kChannelName = @"microblink_scanner";
+static NSString* const kChannelName = @"blinkid_scanner";
 static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
 
 @implementation MicroblinkFlutterPlugin
