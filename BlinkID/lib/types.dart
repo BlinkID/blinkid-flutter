@@ -166,6 +166,8 @@ enum IdBarcodeDocumentType {
     AAMVACompliant,
     /// Argentina ID document was scanned
     ArgentinaID,
+    /// ArgentinaAlienID document was scanned
+    ArgentinaAlienID,
     /// Argentina driver license document was scanned
     ArgentinaDL,
     /// Colombia ID document was scanned
