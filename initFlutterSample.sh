@@ -58,4 +58,4 @@ cp ../sample_files/main.dart lib/
 echo ""
 echo "Go to Flutter project folder: cd $appName"
 echo "To run on Android type: flutter run"
-echo "To run on iOS: go to $appName/ios and open Runner.xcworkspace; set your development team and add Privacy - Camera Usage Description key to Runner/Info.plist file and press run"
+echo "To run on iOS: open $appName/ios/Runner.xcworkspace; set your development team and add Privacy - Camera Usage Description key to Runner/Info.plist file and press run"
