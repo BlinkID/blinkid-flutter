@@ -37,12 +37,12 @@ class Recognizer {
 /// Possible states of the Recognizer's result
 enum RecognizerResultState {
   /// Recognizer result is empty
-  empty,
+  @JsonValue(0) empty,
   /// Recognizer result contains some values, but is incomplete or it contains all values, but some are uncertain
-  uncertain,
+  @JsonValue(1) uncertain,
   /// Recognizer result contains all required values
-  valid,
-  stageValid
+  @JsonValue(2) valid,
+  @JsonValue(3) stageValid
 }
 
 /// Base class for all recognizer's result objects.
