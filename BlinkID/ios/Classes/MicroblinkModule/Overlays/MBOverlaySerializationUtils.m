@@ -21,7 +21,7 @@
         id language = [jsonOverlaySettings objectForKey:@"language"];
         if (language != nil && language != NSNull.null) {
             id country = [jsonOverlaySettings objectForKey:@"country"];
-            if (country && country != NSNull.null) {
+            if (country != nil && country != NSNull.null) {
                 overlaySettings.language = [[(NSString *)language stringByAppendingString:@"-" ] stringByAppendingString:(NSString *)country];
             } else {
                 overlaySettings.language = (NSString *)language;

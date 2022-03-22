@@ -28,7 +28,7 @@ Map<String, dynamic> _$PassportRecognizerToJson(PassportRecognizer instance) =>
       'faceImageDpi': instance.faceImageDpi,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
-          instance.fullDocumentImageExtensionFactors,
+          instance.fullDocumentImageExtensionFactors.toJson(),
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
       'signResult': instance.signResult,

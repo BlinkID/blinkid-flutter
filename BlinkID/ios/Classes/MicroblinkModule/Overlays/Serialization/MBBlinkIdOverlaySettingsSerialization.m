@@ -34,119 +34,119 @@
 
     {
         id firstSideInstructionsText = [jsonOverlaySettings valueForKey:@"firstSideInstructionsText"];
-        if (firstSideInstructionsText != nil) {
+        if (firstSideInstructionsText != nil && firstSideInstructionsText != NSNull.null) {
             sett.firstSideInstructionsText = (NSString *)firstSideInstructionsText;
         }
     }
 
     {
         id flipInstructions = [jsonOverlaySettings valueForKey:@"flipInstructions"];
-        if (flipInstructions != nil) {
+        if (flipInstructions != nil && flipInstructions != NSNull.null) {
             sett.flipInstructions = (NSString *)flipInstructions;
         }
     }
 
     {
         id errorMoveCloser = [jsonOverlaySettings valueForKey:@"errorMoveCloser"];
-        if (errorMoveCloser != nil) {
+        if (errorMoveCloser != nil && errorMoveCloser != NSNull.null) {
             sett.errorMoveCloser = (NSString *)errorMoveCloser;
         }
     }
 
     {
         id errorMoveFarther = [jsonOverlaySettings valueForKey:@"errorMoveFarther"];
-        if (errorMoveFarther != nil) {
+        if (errorMoveFarther != nil && errorMoveFarther != NSNull.null) {
             sett.errorMoveFarther = (NSString *)errorMoveFarther;
         }
     }
 
     {
         id sidesNotMatchingTitle = [jsonOverlaySettings valueForKey:@"sidesNotMatchingTitle"];
-        if (sidesNotMatchingTitle != nil) {
+        if (sidesNotMatchingTitle != nil && sidesNotMatchingTitle != NSNull.null) {
             sett.sidesNotMatchingTitle = (NSString *)sidesNotMatchingTitle;
         }
     }
 
     {
         id sidesNotMatchingMessage = [jsonOverlaySettings valueForKey:@"sidesNotMatchingMessage"];
-        if (sidesNotMatchingMessage != nil) {
+        if (sidesNotMatchingMessage != nil && sidesNotMatchingMessage != NSNull.null) {
             sett.sidesNotMatchingMessage = (NSString *)sidesNotMatchingMessage;
         }
     }
 
     {
         id unsupportedDocumentTitle = [jsonOverlaySettings valueForKey:@"unsupportedDocumentTitle"];
-        if (unsupportedDocumentTitle != nil) {
+        if (unsupportedDocumentTitle != nil && unsupportedDocumentTitle != NSNull.null) {
             sett.unsupportedDocumentTitle = (NSString *)unsupportedDocumentTitle;
         }
     }
 
     {
         id unsupportedDocumentMessage = [jsonOverlaySettings valueForKey:@"unsupportedDocumentMessage"];
-        if (unsupportedDocumentMessage != nil) {
+        if (unsupportedDocumentMessage != nil && unsupportedDocumentMessage != NSNull.null) {
             sett.unsupportedDocumentMessage = (NSString *)unsupportedDocumentMessage;
         }
     }
 
     {
         id recognitionTimeoutTitle = [jsonOverlaySettings valueForKey:@"recognitionTimeoutTitle"];
-        if (recognitionTimeoutTitle != nil) {
+        if (recognitionTimeoutTitle != nil && recognitionTimeoutTitle != NSNull.null) {
             sett.recognitionTimeoutTitle = (NSString *)recognitionTimeoutTitle;
         }
     }
 
     {
         id recognitionTimeoutMessage = [jsonOverlaySettings valueForKey:@"recognitionTimeoutMessage"];
-        if (recognitionTimeoutMessage != nil) {
+        if (recognitionTimeoutMessage != nil && recognitionTimeoutMessage != NSNull.null) {
             sett.recognitionTimeoutMessage = (NSString *)recognitionTimeoutMessage;
         }
     }
 
     {
         id retryButtonText = [jsonOverlaySettings valueForKey:@"retryButtonText"];
-        if (retryButtonText != nil) {
+        if (retryButtonText != nil && retryButtonText != NSNull.null) {
             sett.retryButtonText = (NSString *)retryButtonText;
         }
     }
 
     {
         id requireDocumentSidesDataMatch = [jsonOverlaySettings valueForKey:@"requireDocumentSidesDataMatch"];
-        if (requireDocumentSidesDataMatch != nil) {
+        if (requireDocumentSidesDataMatch != nil && requireDocumentSidesDataMatch != NSNull.null) {
             sett.requireDocumentSidesDataMatch = [requireDocumentSidesDataMatch boolValue];
         }
     }
 
     {
         id showNotSupportedDialog = [jsonOverlaySettings valueForKey:@"showNotSupportedDialog"];
-        if (showNotSupportedDialog != nil) {
+        if (showNotSupportedDialog != nil && showNotSupportedDialog != NSNull.null) {
             sett.showNotSupportedDialog = [showNotSupportedDialog boolValue];
         }
     }
 
     {
         id showFlashlightWarning = [jsonOverlaySettings valueForKey:@"showFlashlightWarning"];
-        if (showFlashlightWarning != nil) {
+        if (showFlashlightWarning != nil && showFlashlightWarning != NSNull.null) {
             sett.showFlashlightWarning = [showFlashlightWarning boolValue];
         }
     }
 
     {
         id backSideScanningTimeoutMilliseconds = [jsonOverlaySettings valueForKey:@"backSideScanningTimeoutMilliseconds"];
-        if (backSideScanningTimeoutMilliseconds != nil) {
+        if (backSideScanningTimeoutMilliseconds != nil && backSideScanningTimeoutMilliseconds != NSNull.null) {
             sett.backSideScanningTimeout = [backSideScanningTimeoutMilliseconds doubleValue] / 1000.0;
         }
     }
 
     {
         id scanBarcodeText = [jsonOverlaySettings valueForKey:@"scanBarcodeText"];
-        if (scanBarcodeText != nil) {
+        if (scanBarcodeText != nil && scanBarcodeText != NSNull.null) {
             sett.scanBarcodeText = (NSString *)scanBarcodeText;
         }
     }
 
     {
         id errorDocumentTooCloseToEdge = [jsonOverlaySettings valueForKey:@"errorDocumentTooCloseToEdge"];
-        if (errorDocumentTooCloseToEdge != nil) {
+        if (errorDocumentTooCloseToEdge != nil && errorDocumentTooCloseToEdge != NSNull.null) {
             sett.errorDocumentTooCloseToEdge = (NSString *)errorDocumentTooCloseToEdge;
         }
     }

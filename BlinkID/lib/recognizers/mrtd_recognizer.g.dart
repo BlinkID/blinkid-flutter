@@ -28,6 +28,6 @@ Map<String, dynamic> _$MrtdRecognizerToJson(MrtdRecognizer instance) =>
       'detectGlare': instance.detectGlare,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
-          instance.fullDocumentImageExtensionFactors,
+          instance.fullDocumentImageExtensionFactors.toJson(),
       'returnFullDocumentImage': instance.returnFullDocumentImage,
     };

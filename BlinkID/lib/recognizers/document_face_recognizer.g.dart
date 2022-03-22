@@ -29,7 +29,7 @@ Map<String, dynamic> _$DocumentFaceRecognizerToJson(
       'faceImageDpi': instance.faceImageDpi,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
-          instance.fullDocumentImageExtensionFactors,
+          instance.fullDocumentImageExtensionFactors.toJson(),
       'numStableDetectionsThreshold': instance.numStableDetectionsThreshold,
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
