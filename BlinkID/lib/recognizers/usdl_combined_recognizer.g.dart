@@ -29,7 +29,7 @@ Map<String, dynamic> _$UsdlCombinedRecognizerToJson(
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
       'fullDocumentImageExtensionFactors':
-          instance.fullDocumentImageExtensionFactors,
+          instance.fullDocumentImageExtensionFactors.toJson(),
       'numStableDetectionsThreshold': instance.numStableDetectionsThreshold,
       'signResult': instance.signResult,
     };
