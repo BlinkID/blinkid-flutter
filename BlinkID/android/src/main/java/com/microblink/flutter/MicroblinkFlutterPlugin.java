@@ -16,6 +16,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.plugin.platform.PlatformViewRegistry;
 
 import com.microblink.MicroblinkSDK;
 import com.microblink.entities.recognizers.Recognizer;
@@ -58,25 +59,32 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
   // pre-Flutter-1.12 Android projects.
   public static void registerWith(Registrar registrar) {
     final MicroblinkFlutterPlugin plugin = new MicroblinkFlutterPlugin();
-    plugin.setupPlugin(registrar.activity(), registrar.messenger());
+    plugin.setupPlugin(registrar.activity(), registrar.messenger(), registrar.platformViewRegistry());
     registrar.addActivityResultListener(plugin);
   }
 
+  private FlutterPluginBinding flutterPluginBinding;
+  
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+      flutterPluginBinding = binding;
+      
       setupPlugin(
               binding.getApplicationContext(),
-              binding.getBinaryMessenger()
+              binding.getBinaryMessenger(),
+              binding.getPlatformViewRegistry()
       );
   }
 
-  private void setupPlugin(Context context, BinaryMessenger messenger) {
+  private void setupPlugin(Context context, BinaryMessenger messenger, PlatformViewRegistry platformViewRegistry) {
     if (context != null) {
       this.context = context;
     }
 
     this.channel = new MethodChannel(messenger, CHANNEL);
     this.channel.setMethodCallHandler(this);
+
+//    platformViewRegistry.registerViewFactory("MicroblinkScannerView", new MicroblinkScannerViewFactory(messenger));
   }
 
   @Override
@@ -138,6 +146,8 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
   public void onAttachedToActivity(ActivityPluginBinding binding) {
       activity = binding.getActivity();
       binding.addActivityResultListener(this);
+
+      flutterPluginBinding.getPlatformViewRegistry().registerViewFactory("MicroblinkScannerView", new MicroblinkScannerViewFactory(flutterPluginBinding.getBinaryMessenger(), binding));
   }
 
   @Override

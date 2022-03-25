@@ -37,5 +37,6 @@ dependencies {
     implementation('com.microblink:blinkid:5.15.0@aar') {
         transitive = true
     }
+//    implementation files('/home/droid/dev/flutter/bin/cache/artifacts/engine/android-x86/flutter.jar')
 }
 
