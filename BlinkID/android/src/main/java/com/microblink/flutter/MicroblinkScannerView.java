@@ -3,9 +3,17 @@ package com.microblink.flutter;
 import android.content.Context;
 import android.graphics.Rect;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleObserver;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 
 import com.microblink.MicroblinkSDK;
 import com.microblink.entities.recognizers.RecognizerBundle;
@@ -21,28 +29,36 @@ import org.json.JSONObject;
 import java.util.Map;
 
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import io.flutter.embedding.engine.plugins.lifecycle.HiddenLifecycleReference;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
 
-class MicroblinkScannerView implements PlatformView {
+class MicroblinkScannerView implements PlatformView, LifecycleOwner {
     MicroblinkScannerView(@NonNull Context context, int id, @Nullable Map<String, Object> creationParams, BinaryMessenger messenger, ActivityPluginBinding activityPluginBinding) {
         methodChannel = new MethodChannel(messenger, "MicroblinkScannerWidget/" + id);
 
         MicroblinkSDK.setLicenseKey((String) creationParams.get("licenseKey"), activityPluginBinding.getActivity());
 
-        recognizerRunnerView = new RecognizerRunnerView(activityPluginBinding.getActivity());
-
         recognizerBundle = getRecognizerBundle(creationParams);
 
+        recognizerRunnerView = new RecognizerRunnerView(activityPluginBinding.getActivity());
+
+        lifecycleRegistry = new LifecycleRegistry(this);
+
         recognizerRunnerView.setRecognizerBundle(recognizerBundle);
+
         recognizerRunnerView.setScanResultListener(scanResultListener);
         recognizerRunnerView.setCameraEventsListener(cameraEventsListener);
-        recognizerRunnerView.setLifecycle(((HiddenLifecycleReference) activityPluginBinding.getLifecycle()).getLifecycle());
+
+        recognizerRunnerView.setLifecycle(lifecycleRegistry);
+
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
     }
 
+    private final LifecycleRegistry lifecycleRegistry;
     private final MethodChannel methodChannel;
     private final RecognizerRunnerView recognizerRunnerView;
     private final RecognizerBundle recognizerBundle;
@@ -67,11 +83,10 @@ class MicroblinkScannerView implements PlatformView {
 
         @Override
         public void onCameraPreviewStopped() {
-            // this method is from CameraEventsListener and will be called when camera preview stops
         }
 
         @Override
-        public void onError(Throwable exc) {
+        public void onError(@NonNull Throwable throwable) {
         }
 
         @Override
@@ -105,5 +120,12 @@ class MicroblinkScannerView implements PlatformView {
 
     @Override
     public void dispose() {
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+    }
+
+    @NonNull
+    @Override
+    public Lifecycle getLifecycle() {
+        return lifecycleRegistry;
     }
 }
