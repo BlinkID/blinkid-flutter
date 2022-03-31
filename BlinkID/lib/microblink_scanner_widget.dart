@@ -15,13 +15,17 @@ class MicroblinkScannerWidget extends StatefulWidget {
     required this.collection,
     required this.settings,
     required this.licenseKey,
+    required this.onFirstSideRecognitionFinished,
     required this.onResult,
+    required this.onMessage,
   }) : super(key: key);
 
   final RecognizerCollection collection;
   final String licenseKey;
   final MicroblinkScannerResultCallback onResult;
   final OverlaySettings settings;
+  final ValueChanged<String> onMessage;
+  final VoidCallback onFirstSideRecognitionFinished;
 
   @override
   State<MicroblinkScannerWidget> createState() => _MicroblinkScannerWidgetState();
@@ -31,7 +35,7 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
   late MethodChannel channel;
 
   void _onFinishScanning(MethodCall call) {
-    final List<Map>? jsonResults = jsonDecode(call.arguments);
+    final List? jsonResults = jsonDecode(call.arguments);
 
     if (jsonResults == null) {
       widget.onResult(null);
@@ -59,6 +63,10 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
           _onFinishScanning(call);
         } else if (call.method == 'onClose') {
           widget.onResult(null);
+        } else if (call.method == 'onFirstSideRecognitionFinished') {
+          widget.onFirstSideRecognitionFinished();
+        } else if (call.method == 'sendMessage') {
+          widget.onMessage(call.arguments);
         } else {
           throw PlatformException(
             code: 'Unsupported',

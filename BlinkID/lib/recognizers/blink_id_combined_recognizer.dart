@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import '../recognizer.dart';
 import '../types.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -165,8 +167,11 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
     ///image of the signature if enabled with returnSignatureImage property. 
     String? signatureImage;
+
+    String? nativeJson;
     
     BlinkIdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
+        this.nativeJson = JsonEncoder.withIndent('    ').convert(nativeResult);
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"];
         

@@ -37,11 +37,15 @@ class Recognizer {
 /// Possible states of the Recognizer's result
 enum RecognizerResultState {
   /// Recognizer result is empty
+  @JsonValue(0)
   empty,
   /// Recognizer result contains some values, but is incomplete or it contains all values, but some are uncertain
+  @JsonValue(1)
   uncertain,
   /// Recognizer result contains all required values
+  @JsonValue(2)
   valid,
+  @JsonValue(3)
   stageValid
 }
 
@@ -57,7 +61,7 @@ class RecognizerResult {
 
   factory RecognizerResult.fromJson(Map<String, dynamic> json) => _$RecognizerResultFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RecognizerResultToJson(this);
+  Map<String, dynamic>  toJson() => _$RecognizerResultToJson(this);
 }
 
 @JsonSerializable()
