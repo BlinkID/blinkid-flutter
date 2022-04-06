@@ -30,7 +30,8 @@ class MicroblinkScannerWidget extends StatefulWidget {
   final ValueChanged<DetectionStatus> onDetectionStatusUpdate;
 
   @override
-  State<MicroblinkScannerWidget> createState() => _MicroblinkScannerWidgetState();
+  State<MicroblinkScannerWidget> createState() =>
+      _MicroblinkScannerWidgetState();
 }
 
 class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {

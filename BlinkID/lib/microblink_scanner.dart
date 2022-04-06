@@ -47,8 +47,4 @@ class MicroblinkScanner {
 
     return List<RecognizerResult>.from(results);
   }
-
-  static Future<void> setLicense(String license) async {
-    await _channel.invokeMethod('setLicense', license);
-  }
 }

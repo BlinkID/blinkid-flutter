@@ -1728,7 +1728,7 @@ enum AnonymizationMode {
 /// Defines status of the last recognition process.
 enum ProcessingStatus {
     /// Recognition was successful.
-    @JsonValue(0) Success,
+    Success,
 
     /// Detection of the document failed.
     DetectionFailed,
@@ -1770,7 +1770,7 @@ enum ProcessingStatus {
     UnsupportedByLicense,
 
     /// Front side recognition has completed successfully, and recognizer is waiting for the other side to be scanned.
-    @JsonValue(14) AwaitingOtherSide,
+    AwaitingOtherSide,
 
     /// Side not scanned.
     NotScanned

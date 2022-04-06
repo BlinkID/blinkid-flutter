@@ -61,7 +61,7 @@ class RecognizerResult {
 
   factory RecognizerResult.fromJson(Map<String, dynamic> json) => _$RecognizerResultFromJson(json);
 
-  Map<String, dynamic>  toJson() => _$RecognizerResultToJson(this);
+  Map<String, dynamic> toJson() => _$RecognizerResultToJson(this);
 }
 
 @JsonSerializable()
