@@ -16,10 +16,8 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-import io.flutter.plugin.platform.PlatformViewRegistry;
 
 import com.microblink.MicroblinkSDK;
-import com.microblink.entities.recognizers.Recognizer;
 import com.microblink.entities.recognizers.RecognizerBundle;
 import com.microblink.intent.IntentDataTransferMode;
 import com.microblink.uisettings.UISettings;
@@ -28,7 +26,6 @@ import com.microblink.uisettings.ActivityRunner;
 import com.microblink.flutter.recognizers.RecognizerSerializers;
 import com.microblink.flutter.overlays.OverlaySettingsSerializers;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -86,25 +83,25 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-      setLicense((Map)call.argument(ARG_LICENSE));
+    setLicense((Map)call.argument(ARG_LICENSE));
 
-      if (call.method.equals(METHOD_SCAN)) {
-          pendingResult = result;
+    if (call.method.equals(METHOD_SCAN)) {
+        pendingResult = result;
 
-          JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
-          JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
+        JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
+        JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
 
-          mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-          UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
+        mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+        UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
 
-          startScanning(SCAN_REQ_CODE, uiSettings);
+        startScanning(SCAN_REQ_CODE, uiSettings);
 
-      } else {
-          result.notImplemented();
-      }
+    } else {
+        result.notImplemented();
+    }
   }
 
-    @SuppressWarnings("unchecked")
+  @SuppressWarnings("unchecked")
   private void setLicense(Map licenseMap) {
       MicroblinkSDK.setShowTrialLicenseWarning((boolean)licenseMap.getOrDefault(ARG_SHOW_LICENSE_WARNING, true));
 
@@ -167,7 +164,6 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
       if (pendingResult == null) {
           return true;
       }
-
       if (resultCode == Activity.RESULT_OK) {
           if (requestCode == SCAN_REQ_CODE  && mRecognizerBundle != null) {
               mRecognizerBundle.loadFromIntent(data);

@@ -16,6 +16,7 @@ import io.flutter.plugin.platform.PlatformViewFactory;
 class MicroblinkScannerViewFactory extends PlatformViewFactory {
     private final BinaryMessenger messenger;
     private final ActivityPluginBinding activityPluginBinding;
+
     MicroblinkScannerViewFactory(BinaryMessenger messenger,
             ActivityPluginBinding activityPluginBinding) {
         super(StandardMessageCodec.INSTANCE);
