@@ -15,17 +15,19 @@ class MicroblinkScannerWidget extends StatefulWidget {
     required this.collection,
     required this.settings,
     required this.licenseKey,
-    required this.onFirstSideRecognitionFinished,
     required this.onResult,
-    required this.onMessage,
+    required this.onError,
+    required this.onFirstSideScanned,
+    required this.onDetectionStatusUpdate,
   }) : super(key: key);
 
   final RecognizerCollection collection;
+  final OverlaySettings settings;
   final String licenseKey;
   final MicroblinkScannerResultCallback onResult;
-  final OverlaySettings settings;
-  final ValueChanged<String> onMessage;
-  final VoidCallback onFirstSideRecognitionFinished;
+  final ValueChanged<String> onError;
+  final VoidCallback onFirstSideScanned;
+  final ValueChanged<DetectionStatus> onDetectionStatusUpdate;
 
   @override
   State<MicroblinkScannerWidget> createState() => _MicroblinkScannerWidgetState();
@@ -56,6 +58,12 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
     widget.onResult(results);
   }
 
+  void _onDetectionStatusUpdate(MethodCall call) {
+    final Map<String, dynamic> json = jsonDecode(call.arguments);
+    final detectionStatusUpdate = DetectionStatusUpdate.fromJson(json);
+    widget.onDetectionStatusUpdate(detectionStatusUpdate.detectionStatus);
+  }
+
   void _createChannel(int viewId) {
     channel = MethodChannel('MicroblinkScannerWidget/$viewId')
       ..setMethodCallHandler((call) async {
@@ -63,10 +71,12 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
           _onFinishScanning(call);
         } else if (call.method == 'onClose') {
           widget.onResult(null);
-        } else if (call.method == 'onFirstSideRecognitionFinished') {
-          widget.onFirstSideRecognitionFinished();
-        } else if (call.method == 'sendMessage') {
-          widget.onMessage(call.arguments);
+        } else if (call.method == 'onFirstSideScanned') {
+          widget.onFirstSideScanned();
+        } else if (call.method == 'onError') {
+          widget.onError(call.arguments as String);
+        } else if (call.method == 'onDetectionStatusUpdate') {
+          _onDetectionStatusUpdate(call);
         } else {
           throw PlatformException(
             code: 'Unsupported',
@@ -82,7 +92,7 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
     final Map<String, dynamic> creationParams = <String, dynamic>{
       'recognizerCollection': widget.collection.toJson(),
       'licenseKey': widget.licenseKey,
-      'settings': widget.settings.toJson(),
+      'overlaySettings': widget.settings.toJson(),
     };
 
     switch (defaultTargetPlatform) {

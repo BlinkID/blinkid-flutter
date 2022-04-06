@@ -2055,3 +2055,41 @@ enum DataMatchResult {
     /// Data match.
     Success
 }
+
+enum DetectionStatus {
+  @JsonValue('FAIL')
+  Fail,
+
+  @JsonValue('SUCCESS')
+  Success,
+
+  @JsonValue('CAMERA_TOO_HIGH')
+  CameraTooHigh,
+
+  @JsonValue('FALLBACK_SUCCESS')
+  FallbackSuccess,
+
+  @JsonValue('PARTIAL_OBJECT')
+  PartialObject,
+
+  @JsonValue('CAMERA_AT_ANGLE')
+  CameraAtAngle,
+
+  @JsonValue('CAMERA_TOO_NEAR')
+  CameraTooNear,
+
+  @JsonValue('DOCUMENT_TOO_CLOSE_TO_EDGE')
+  DocumentTooCloseToEdge,
+}
+
+@JsonSerializable()
+class DetectionStatusUpdate{
+  final DetectionStatus detectionStatus;
+
+  DetectionStatusUpdate(this.detectionStatus);
+
+  factory DetectionStatusUpdate.fromJson(Map<String, dynamic> json) =>
+      _$DetectionStatusUpdateFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DetectionStatusUpdateToJson(this);
+}

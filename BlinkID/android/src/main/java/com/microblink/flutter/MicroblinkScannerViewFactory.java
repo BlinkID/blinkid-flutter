@@ -14,21 +14,22 @@ import io.flutter.plugin.platform.PlatformView;
 import io.flutter.plugin.platform.PlatformViewFactory;
 
 class MicroblinkScannerViewFactory extends PlatformViewFactory {
-    MicroblinkScannerViewFactory(BinaryMessenger messenger, ActivityPluginBinding activityPluginBinding) {
+    private final BinaryMessenger messenger;
+    private final ActivityPluginBinding activityPluginBinding;
+    MicroblinkScannerViewFactory(BinaryMessenger messenger,
+            ActivityPluginBinding activityPluginBinding) {
         super(StandardMessageCodec.INSTANCE);
 
         this.messenger = messenger;
         this.activityPluginBinding = activityPluginBinding;
     }
 
-    private final BinaryMessenger messenger;
-    private final ActivityPluginBinding activityPluginBinding;
-
     @NonNull
     @Override
     public PlatformView create(@NonNull Context context, int id, @Nullable Object args) {
         final Map<String, Object> creationParams = (Map<String, Object>) args;
 
-        return new MicroblinkScannerView(context, id, creationParams, messenger, activityPluginBinding);
+        return new MicroblinkScannerView(context, id, creationParams, messenger,
+                activityPluginBinding);
     }
 }

@@ -46,3 +46,53 @@ Map<String, dynamic> _$ImageExtensionFactorsToJson(
       'downFactor': instance.downFactor,
       'leftFactor': instance.leftFactor,
     };
+
+DetectionStatusUpdate _$DetectionStatusUpdateFromJson(
+    Map<String, dynamic> json) {
+  return DetectionStatusUpdate(
+    _$enumDecode(_$DetectionStatusEnumMap, json['detectionStatus']),
+  );
+}
+
+Map<String, dynamic> _$DetectionStatusUpdateToJson(
+        DetectionStatusUpdate instance) =>
+    <String, dynamic>{
+      'detectionStatus': _$DetectionStatusEnumMap[instance.detectionStatus],
+    };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$DetectionStatusEnumMap = {
+  DetectionStatus.Fail: 'FAIL',
+  DetectionStatus.Success: 'SUCCESS',
+  DetectionStatus.CameraTooHigh: 'CAMERA_TOO_HIGH',
+  DetectionStatus.FallbackSuccess: 'FALLBACK_SUCCESS',
+  DetectionStatus.PartialObject: 'PARTIAL_OBJECT',
+  DetectionStatus.CameraAtAngle: 'CAMERA_AT_ANGLE',
+  DetectionStatus.CameraTooNear: 'CAMERA_TOO_NEAR',
+  DetectionStatus.DocumentTooCloseToEdge: 'DOCUMENT_TOO_CLOSE_TO_EDGE',
+};

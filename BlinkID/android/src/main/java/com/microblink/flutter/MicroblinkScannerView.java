@@ -1,37 +1,31 @@
 package com.microblink.flutter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Size;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.DefaultLifecycleObserver;
+import androidx.camera.core.AspectRatio;
+import androidx.camera.core.CameraSelector;
+import androidx.camera.core.ImageAnalysis;
+import androidx.camera.core.Preview;
+import androidx.camera.core.UseCaseGroup;
+import androidx.camera.view.PreviewView;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LifecycleRegistry;
+import androidx.lifecycle.Observer;
 
-import com.microblink.MicroblinkSDK;
-import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.flutter.recognizers.RecognizerSerializers;
-import com.microblink.metadata.MetadataCallbacks;
-import com.microblink.metadata.recognition.FirstSideRecognitionCallback;
-import com.microblink.recognition.RecognitionSuccessType;
-import com.microblink.util.RecognizerCompatibility;
-import com.microblink.util.RecognizerCompatibilityStatus;
-import com.microblink.view.CameraEventsListener;
-import com.microblink.view.recognition.RecognizerRunnerView;
-import com.microblink.view.recognition.ScanResultListener;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.microblink.view.recognition.DetectionStatus;
 
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
@@ -39,127 +33,124 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
 
-class MicroblinkScannerView implements PlatformView, LifecycleOwner {
-    MicroblinkScannerView(@NonNull final Context context, int id, @Nullable Map<String, Object> creationParams, BinaryMessenger messenger, ActivityPluginBinding activityPluginBinding) {
+class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkScanner.Callbacks,
+        Camera.InitializationCallbacks {
+    private final LifecycleRegistry lifecycleRegistry = new LifecycleRegistry(this);
+    private final MethodChannel methodChannel;
+    private final PreviewView view;
+    private final MicroblinkScanner scanner;
+    private final ScheduledExecutorService backgroundExecutor =
+            Executors.newSingleThreadScheduledExecutor();
+    private final Executor mainThreadExecutor = new Executor() {
+        private final Handler handler = new Handler(Looper.getMainLooper());
+
+        @Override
+        public void execute(@NonNull Runnable runnable) {
+            handler.post(runnable);
+        }
+    };
+
+    /**
+     * @param creationParams structure: { "overlaySettings": { "useFrontCamera": false },
+     *                       "licenseKey": "...", "recognizerCollection": {...} }
+     */
+    @SuppressLint("NewApi")
+    MicroblinkScannerView(@NonNull Context context, int id,
+            @Nullable final Map<String, Object> creationParams, BinaryMessenger messenger,
+            ActivityPluginBinding activityPluginBinding) {
         methodChannel = new MethodChannel(messenger, "MicroblinkScannerWidget/" + id);
 
-        checkSupportForBlinkId(activityPluginBinding.getActivity());
+        MicroblinkScanner.Callbacks scannerCallbacks = this;
+        scanner = new MicroblinkScanner(
+                activityPluginBinding.getActivity(),
+                creationParams,
+                scannerCallbacks
+        );
 
-        MicroblinkSDK.setLicenseKey((String) creationParams.get("licenseKey"), activityPluginBinding.getActivity());
+        view = new PreviewView(context);
+        PreviewView.LayoutParams matchParent = new PreviewView.LayoutParams(
+                PreviewView.LayoutParams.MATCH_PARENT,
+                PreviewView.LayoutParams.MATCH_PARENT
+        );
+        view.setLayoutParams(matchParent);
+        if (useFrontFacingCamera(creationParams)) mirrorPreview();
 
-        recognizerBundle = getRecognizerBundle(creationParams);
+        LifecycleOwner lifecycleOwner = this;
+        Camera.InitializationCallbacks initializationCallbacks = this;
+        Camera.init(
+                context,
+                lifecycleOwner,
+                mainThreadExecutor,
+                createPreviewAndAnalysisUseCaseGroup(view, backgroundExecutor, scanner),
+                getCameraSelector(creationParams),
+                initializationCallbacks
+        );
+    }
 
-        recognizerRunnerView = new RecognizerRunnerView(activityPluginBinding.getActivity());
-
-        lifecycleRegistry = new LifecycleRegistry(this);
-
-        recognizerRunnerView.setRecognizerBundle(recognizerBundle);
-
-        recognizerRunnerView.setScanResultListener(createScanResultListener(context));
-        recognizerRunnerView.setCameraEventsListener(cameraEventsListener);
-
-        recognizerRunnerView.setLifecycle(lifecycleRegistry);
-        MetadataCallbacks callbacks = new MetadataCallbacks();
-        callbacks.setFirstSideRecognitionCallback(new FirstSideRecognitionCallback() {
+    @SuppressLint("NewApi")
+    private void mirrorPreview() {
+        // To be able to mirror preview. See https://stackoverflow.com/a/65583947/7408927.
+        view.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
+        view.getPreviewStreamState().observe(this, new Observer<PreviewView.StreamState>() {
             @Override
-            public void onFirstSideRecognitionFinished() {
-                Handler mainHandler = new Handler(context.getMainLooper());
-                Runnable myRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        methodChannel.invokeMethod("onFirstSideRecognitionFinished", null);
-                    }
-                };
-                mainHandler.post(myRunnable);
+            public void onChanged(PreviewView.StreamState streamState) {
+                if (streamState == PreviewView.StreamState.STREAMING) view.setScaleX(-1F);
             }
         });
-        recognizerRunnerView.setMetadataCallbacks(callbacks);
-
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
     }
 
-    private final LifecycleRegistry lifecycleRegistry;
-    private final MethodChannel methodChannel;
-    private final RecognizerRunnerView recognizerRunnerView;
-    private final RecognizerBundle recognizerBundle;
-
-    private ScanResultListener createScanResultListener(final Context context) {
-        return new ScanResultListener() {
-        @Override
-        public void onScanningDone(@NonNull RecognitionSuccessType recognitionSuccessType) {
-            Handler mainHandler = new Handler(context.getMainLooper());
-            Runnable myRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    JSONArray resultJsonArray = RecognizerSerializers.INSTANCE.serializeRecognizerResults(recognizerBundle.getRecognizers());
-//                    sendMessage(resultJsonArray.toString());
-                    methodChannel.invokeMethod("onFinishScanning", resultJsonArray.toString());
-                }
-            };
-            mainHandler.post(myRunnable);
+    @SuppressLint("NewApi")
+    private CameraSelector getCameraSelector(Map<String, Object> creationParams) {
+        if (useFrontFacingCamera(creationParams)) {
+            return CameraSelector.DEFAULT_FRONT_CAMERA;
+        } else {
+            return CameraSelector.DEFAULT_BACK_CAMERA;
         }
-
-        @Override
-        public void onUnrecoverableError(@NonNull Throwable throwable) {
-            sendMessage("onUnrecoverableError: " + throwable.toString());
-        }
-    };
     }
 
-    private final CameraEventsListener cameraEventsListener = new CameraEventsListener() {
-        @Override
-        public void onCameraPreviewStarted() {
-            sendMessage("onCameraPreviewStarted");
-        }
+    private boolean useFrontFacingCamera(Map<String, Object> creationParams) {
+        @SuppressWarnings("unchecked") final Map<String, Object> overlaySettings =
+                (Map<String, Object>) creationParams.get("overlaySettings");
 
-        @Override
-        public void onCameraPreviewStopped() {
-            sendMessage("onCameraPreviewStopped");
-        }
+        return (boolean) overlaySettings.get("useFrontCamera");
+    }
 
-        @Override
-        public void onError(@NonNull Throwable throwable) {
-            sendMessage("onError " + throwable.toString());
-        }
+    @SuppressLint("NewApi")
+    UseCaseGroup createPreviewAndAnalysisUseCaseGroup(
+            PreviewView view,
+            Executor analysisExecutor,
+            ImageAnalysis.Analyzer analyzer
+    ) {
+        Preview previewUseCase = new Preview.Builder()
+                .setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                .build();
+        previewUseCase.setSurfaceProvider(view.getSurfaceProvider());
 
-        @Override
-        public void onCameraPermissionDenied() {
-            sendMessage("onCameraPermissionDenied");
-        }
+        ImageAnalysis imageAnalysisUseCase = new ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                .setOutputImageFormat(ImageAnalysis.OUTPUT_IMAGE_FORMAT_RGBA_8888)
+                // actual resolution selected by CameraX may differ, but it will be close to it
+                .setTargetResolution(new Size(1920, 1080))
+                .build();
+        imageAnalysisUseCase.setAnalyzer(analysisExecutor, analyzer);
 
-        @Override
-        public void onAutofocusFailed() {
-            sendMessage("onAutofocusFailed");
-        }
-
-        @Override
-        public void onAutofocusStarted(Rect[] areas) {
-        }
-
-        @Override
-        public void onAutofocusStopped(Rect[] areas) {
-        }
-    };
-
-    private RecognizerBundle getRecognizerBundle(Map<String, Object> creationParams) {
-        JSONObject jsonRecognizerCollection = new JSONObject((Map) creationParams.get("recognizerCollection"));
-
-        return RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+        return new UseCaseGroup.Builder()
+                .addUseCase(previewUseCase)
+                .addUseCase(imageAnalysisUseCase)
+                .build();
     }
 
     @NonNull
     @Override
     public View getView() {
-        recognizerRunnerView.resumeScanning(true);
-
-        return recognizerRunnerView;
+        return view;
     }
 
     @Override
     public void dispose() {
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_DESTROY);
+        scanner.dispose();
+        backgroundExecutor.shutdown();
     }
 
     @NonNull
@@ -167,22 +158,45 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner {
     public Lifecycle getLifecycle() {
         return lifecycleRegistry;
     }
-    
-    private void sendMessage(String message) {
-        methodChannel.invokeMethod("sendMessage", message);
+
+    @Override
+    public void onBoundToLifecycle() {
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
     }
-    
-    private void checkSupportForBlinkId(Context context) {
-        RecognizerCompatibilityStatus status = RecognizerCompatibility.getRecognizerCompatibilityStatus(context);
-        
-        if (status == RecognizerCompatibilityStatus.RECOGNIZER_SUPPORTED) {
-            sendMessage("BlinkID is supported!");
-        } else if (status == RecognizerCompatibilityStatus.NO_CAMERA) {
-            sendMessage("BlinkID is supported only via Direct API!");
-        } else if (status == RecognizerCompatibilityStatus.PROCESSOR_ARCHITECTURE_NOT_SUPPORTED) {
-            sendMessage("BlinkID is not supported on current processor architecture!");
-        } else {
-            sendMessage("BlinkID is not supported! Reason: " + status.name());
-        }
+
+    @Override
+    public void onFirstSideScanned() {
+        sendToMethodChannel("onFirstSideScanned", null);
+    }
+
+    @Override
+    public void onDetectionStatusUpdated(final DetectionStatus detectionStatus) {
+        sendToMethodChannel(
+                "onDetectionStatusUpdate",
+                String.format("{\"%s\": \"%s\"}", "detectionStatus", detectionStatus.name())
+        );
+    }
+
+    @Override
+    public void onScanned(final String result) {
+        sendToMethodChannel("onFinishScanning", result);
+    }
+
+    @Override
+    public void onError(final Throwable throwable) {
+        sendToMethodChannel("onError", throwable.toString());
+    }
+
+    private void sendToMethodChannel(final String method, @Nullable final Object argument) {
+        mainThreadExecutor.execute(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        methodChannel.invokeMethod(method, argument);
+                    }
+                }
+        );
     }
 }

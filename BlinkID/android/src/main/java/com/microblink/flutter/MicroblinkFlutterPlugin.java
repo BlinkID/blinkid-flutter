@@ -59,56 +59,52 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
   // pre-Flutter-1.12 Android projects.
   public static void registerWith(Registrar registrar) {
     final MicroblinkFlutterPlugin plugin = new MicroblinkFlutterPlugin();
-    plugin.setupPlugin(registrar.activity(), registrar.messenger(), registrar.platformViewRegistry());
+    plugin.setupPlugin(registrar.activity(), registrar.messenger());
     registrar.addActivityResultListener(plugin);
   }
 
   private FlutterPluginBinding flutterPluginBinding;
-  
+
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
       flutterPluginBinding = binding;
-      
+
       setupPlugin(
               binding.getApplicationContext(),
-              binding.getBinaryMessenger(),
-              binding.getPlatformViewRegistry()
+              binding.getBinaryMessenger()
       );
   }
 
-  private void setupPlugin(Context context, BinaryMessenger messenger, PlatformViewRegistry platformViewRegistry) {
+  private void setupPlugin(Context context, BinaryMessenger messenger) {
     if (context != null) {
       this.context = context;
     }
 
     this.channel = new MethodChannel(messenger, CHANNEL);
     this.channel.setMethodCallHandler(this);
-
-//    platformViewRegistry.registerViewFactory("MicroblinkScannerView", new MicroblinkScannerViewFactory(messenger));
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    setLicense((Map)call.argument(ARG_LICENSE));
+      setLicense((Map)call.argument(ARG_LICENSE));
 
-    if (call.method.equals(METHOD_SCAN)) {
-      pendingResult = result;
+      if (call.method.equals(METHOD_SCAN)) {
+          pendingResult = result;
 
-      JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
-      JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
+          JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
+          JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
 
-      mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-      UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
+          mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+          UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
 
-      startScanning(SCAN_REQ_CODE, uiSettings);
+          startScanning(SCAN_REQ_CODE, uiSettings);
 
-    } else {
-      result.notImplemented();
-    }
+      } else {
+          result.notImplemented();
+      }
   }
 
-
-  @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
   private void setLicense(Map licenseMap) {
       MicroblinkSDK.setShowTrialLicenseWarning((boolean)licenseMap.getOrDefault(ARG_SHOW_LICENSE_WARNING, true));
 
@@ -147,7 +143,10 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
       activity = binding.getActivity();
       binding.addActivityResultListener(this);
 
-      flutterPluginBinding.getPlatformViewRegistry().registerViewFactory("MicroblinkScannerView", new MicroblinkScannerViewFactory(flutterPluginBinding.getBinaryMessenger(), binding));
+      flutterPluginBinding.getPlatformViewRegistry().registerViewFactory(
+              "MicroblinkScannerView",
+              new MicroblinkScannerViewFactory(flutterPluginBinding.getBinaryMessenger(), binding)
+      );
   }
 
   @Override
@@ -168,7 +167,7 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
       if (pendingResult == null) {
           return true;
       }
-      
+
       if (resultCode == Activity.RESULT_OK) {
           if (requestCode == SCAN_REQ_CODE  && mRecognizerBundle != null) {
               mRecognizerBundle.loadFromIntent(data);
