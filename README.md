@@ -90,5 +90,5 @@ To set camera permission usage message, open `NameOfYourProject/ios/Runner.xcwor
 `Privacy - Camera Usage Description`.
 
 ## Licensing
-- [Generate](https://microblink.com/login?url=/customer/generatedemolicence) a **free trial license key** to start using the SDK in your app (registration required)
+- A valid license key is required to initialize scanning. You can request a **free trial license key**, after you register, at [Microblink Developer Hub](https://account.microblink.com/signin)
 - Get information about pricing and licensing of [BlinkID](https://microblink.com/blinkid)
