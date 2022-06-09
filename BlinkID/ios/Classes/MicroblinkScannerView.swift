@@ -72,7 +72,7 @@ class MicroblinkScannerView: NSObject,
             return
         }
         
-        self.channel.invokeMethod("onDetectionStatusUpdated", arguments: "{\"detectionStatus\": \"\(encodedStatus)\"}")
+        self.channel.invokeMethod("onDetectionStatusUpdate", arguments: "{\"detectionStatus\": \"\(encodedStatus)\"}")
     }
     
     private let controller = UIViewController()
