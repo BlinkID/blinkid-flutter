@@ -12,6 +12,7 @@ DocumentOverlaySettings _$DocumentOverlaySettingsFromJson(
     ..overlaySettingsType = json['overlaySettingsType'] as String?
     ..useFrontCamera = json['useFrontCamera'] as bool
     ..enableBeep = json['enableBeep'] as bool
+    ..flipFrontCamera = json['flipFrontCamera'] as bool
     ..language = json['language'] as String?
     ..country = json['country'] as String?;
 }
@@ -22,6 +23,7 @@ Map<String, dynamic> _$DocumentOverlaySettingsToJson(
       'overlaySettingsType': instance.overlaySettingsType,
       'useFrontCamera': instance.useFrontCamera,
       'enableBeep': instance.enableBeep,
+      'flipFrontCamera': instance.flipFrontCamera,
       'language': instance.language,
       'country': instance.country,
     };
@@ -32,6 +34,7 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
     ..overlaySettingsType = json['overlaySettingsType'] as String?
     ..useFrontCamera = json['useFrontCamera'] as bool
     ..enableBeep = json['enableBeep'] as bool
+    ..flipFrontCamera = json['flipFrontCamera'] as bool
     ..language = json['language'] as String?
     ..country = json['country'] as String?
     ..firstSideInstructionsText = json['firstSideInstructionsText'] as String?
@@ -62,6 +65,7 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'overlaySettingsType': instance.overlaySettingsType,
       'useFrontCamera': instance.useFrontCamera,
       'enableBeep': instance.enableBeep,
+      'flipFrontCamera': instance.flipFrontCamera,
       'language': instance.language,
       'country': instance.country,
       'firstSideInstructionsText': instance.firstSideInstructionsText,
@@ -90,6 +94,7 @@ DocumentVerificationOverlaySettings
     ..overlaySettingsType = json['overlaySettingsType'] as String?
     ..useFrontCamera = json['useFrontCamera'] as bool
     ..enableBeep = json['enableBeep'] as bool
+    ..flipFrontCamera = json['flipFrontCamera'] as bool
     ..language = json['language'] as String?
     ..country = json['country'] as String?
     ..firstSideSplashMessage = json['firstSideSplashMessage'] as String?
@@ -106,6 +111,7 @@ Map<String, dynamic> _$DocumentVerificationOverlaySettingsToJson(
       'overlaySettingsType': instance.overlaySettingsType,
       'useFrontCamera': instance.useFrontCamera,
       'enableBeep': instance.enableBeep,
+      'flipFrontCamera': instance.flipFrontCamera,
       'language': instance.language,
       'country': instance.country,
       'firstSideSplashMessage': instance.firstSideSplashMessage,

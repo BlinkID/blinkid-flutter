@@ -35,14 +35,13 @@ public class MicroblinkScanner implements ImageAnalysis.Analyzer {
 
     MicroblinkScanner(
             Context context,
-            Map<String, Object> creationParams,
+            MicroblinkCreationParams creationParams,
             MicroblinkScanner.Callbacks callbacks
     ) {
-        setLicense(context, (String) creationParams.get("licenseKey"));
+        setLicense(context, creationParams.licenseKey);
 
         this.callbacks = callbacks;
-
-        recognizerBundle = createRecognizerBundle(creationParams);
+        recognizerBundle = createRecognizerBundle((Map<String, Object>) creationParams.recognizerCollection);
         recognizerRunner = createRecognizer(context, recognizerBundle);
         recognizerRunner.setMetadataCallbacks(createMetadataCallbacks(callbacks));
     }
@@ -106,9 +105,9 @@ public class MicroblinkScanner implements ImageAnalysis.Analyzer {
         MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
     }
 
-    private RecognizerBundle createRecognizerBundle(Map<String, Object> creationParams) {
-        @SuppressWarnings("rawtypes") JSONObject jsonRecognizerCollection = new JSONObject(
-                (Map) creationParams.get("recognizerCollection"));
+    private RecognizerBundle createRecognizerBundle(Map<String, Object> recognizerCollection) {
+        JSONObject jsonRecognizerCollection = new JSONObject(
+                recognizerCollection);
 
         return RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(
                 jsonRecognizerCollection);

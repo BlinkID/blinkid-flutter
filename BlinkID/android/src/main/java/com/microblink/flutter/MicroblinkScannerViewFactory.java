@@ -18,7 +18,7 @@ class MicroblinkScannerViewFactory extends PlatformViewFactory {
     private final ActivityPluginBinding activityPluginBinding;
 
     MicroblinkScannerViewFactory(BinaryMessenger messenger,
-            ActivityPluginBinding activityPluginBinding) {
+                                 ActivityPluginBinding activityPluginBinding) {
         super(StandardMessageCodec.INSTANCE);
 
         this.messenger = messenger;
@@ -28,9 +28,12 @@ class MicroblinkScannerViewFactory extends PlatformViewFactory {
     @NonNull
     @Override
     public PlatformView create(@NonNull Context context, int id, @Nullable Object args) {
-        final Map<String, Object> creationParams = (Map<String, Object>) args;
-
-        return new MicroblinkScannerView(context, id, creationParams, messenger,
-                activityPluginBinding);
+        return new MicroblinkScannerView(
+                context,
+                id,
+                new MicroblinkCreationParams((Map<String, Object>) args),
+                messenger,
+                activityPluginBinding
+        );
     }
 }

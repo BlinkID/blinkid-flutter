@@ -12,6 +12,7 @@ OverlaySettings _$OverlaySettingsFromJson(Map<String, dynamic> json) {
   )
     ..useFrontCamera = json['useFrontCamera'] as bool
     ..enableBeep = json['enableBeep'] as bool
+    ..flipFrontCamera = json['flipFrontCamera'] as bool
     ..language = json['language'] as String?
     ..country = json['country'] as String?;
 }
@@ -21,6 +22,7 @@ Map<String, dynamic> _$OverlaySettingsToJson(OverlaySettings instance) =>
       'overlaySettingsType': instance.overlaySettingsType,
       'useFrontCamera': instance.useFrontCamera,
       'enableBeep': instance.enableBeep,
+      'flipFrontCamera': instance.flipFrontCamera,
       'language': instance.language,
       'country': instance.country,
     };

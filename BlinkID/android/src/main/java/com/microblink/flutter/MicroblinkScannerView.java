@@ -22,7 +22,6 @@ import androidx.lifecycle.Observer;
 
 import com.microblink.view.recognition.DetectionStatus;
 
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -51,12 +50,11 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
     };
 
     /**
-     * @param creationParams structure: { "overlaySettings": { "useFrontCamera": false },
+     * @param creationParams structure: { "overlaySettings": { "useFrontCamera": false, "flipFrontCamera": false },
      *                       "licenseKey": "...", "recognizerCollection": {...} }
      */
     @SuppressLint("NewApi")
-    MicroblinkScannerView(@NonNull Context context, int id,
-            @Nullable final Map<String, Object> creationParams, BinaryMessenger messenger,
+    MicroblinkScannerView(@NonNull Context context, int id, final MicroblinkCreationParams creationParams, BinaryMessenger messenger,
             ActivityPluginBinding activityPluginBinding) {
         methodChannel = new MethodChannel(messenger, "MicroblinkScannerWidget/" + id);
 
@@ -73,7 +71,7 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
                 PreviewView.LayoutParams.MATCH_PARENT
         );
         view.setLayoutParams(matchParent);
-        if (useFrontFacingCamera(creationParams)) mirrorPreview();
+        if (shouldFlipView(creationParams.overlaySettings)) mirrorPreview();
 
         LifecycleOwner lifecycleOwner = this;
         Camera.InitializationCallbacks initializationCallbacks = this;
@@ -82,7 +80,7 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
                 lifecycleOwner,
                 mainThreadExecutor,
                 createPreviewAndAnalysisUseCaseGroup(view, backgroundExecutor, scanner),
-                getCameraSelector(creationParams),
+                getCameraSelector(creationParams.overlaySettings),
                 initializationCallbacks
         );
     }
@@ -100,19 +98,16 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
     }
 
     @SuppressLint("NewApi")
-    private CameraSelector getCameraSelector(Map<String, Object> creationParams) {
-        if (useFrontFacingCamera(creationParams)) {
+    private CameraSelector getCameraSelector(OverlaySettings settings) {
+        if (settings.useFrontCamera) {
             return CameraSelector.DEFAULT_FRONT_CAMERA;
         } else {
             return CameraSelector.DEFAULT_BACK_CAMERA;
         }
     }
 
-    private boolean useFrontFacingCamera(Map<String, Object> creationParams) {
-        @SuppressWarnings("unchecked") final Map<String, Object> overlaySettings =
-                (Map<String, Object>) creationParams.get("overlaySettings");
-
-        return (boolean) overlaySettings.get("useFrontCamera");
+    private boolean shouldFlipView(OverlaySettings settings) {
+        return settings.useFrontCamera && settings.flipFrontCamera;
     }
 
     @SuppressLint("NewApi")
