@@ -6,162 +6,169 @@ part 'usdl_recognizer.g.dart';
 
 /// Result object for UsdlRecognizer.
 class UsdlRecognizerResult extends RecognizerResult {
-    /// Array of elements that are not part of AAMVA standard and are specific to each US state.
-    List<String>? optionalElements;
+  /// Array of elements that are not part of AAMVA standard and are specific to each US state.
+  List<String>? optionalElements;
 
-    /// The raw bytes contained inside 2D barcode.
-    String? rawData;
+  /// The raw bytes contained inside 2D barcode.
+  String? rawData;
 
-    /// Raw string inside 2D barcode.
-    String? rawStringData;
+  /// Raw string inside 2D barcode.
+  String? rawStringData;
 
-    /// True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e.
-    bool? uncertain;
+  /// True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e.
+  bool? uncertain;
 
-    /// Fields inside US Driver's licence. Available Keys are listed in UsdlKeys enum.
-    List<String>? fields;
+  /// Fields inside US Driver's licence. Available Keys are listed in UsdlKeys enum.
+  List<String>? fields;
 
-    /// The first name of the United States driver license owner.
-    String? firstName;
+  /// The first name of the United States driver license owner.
+  String? firstName;
 
-    /// The middle name of the United States driver license owner.
-    String? middleName;
+  /// The middle name of the United States driver license owner.
+  String? middleName;
 
-    /// The last name of the United States driver license owner.
-    String? lastName;
+  /// The last name of the United States driver license owner.
+  String? lastName;
 
-    /// The full name of the United States driver license owner.
-    String? fullName;
+  /// The full name of the United States driver license owner.
+  String? fullName;
 
-    /// The name suffix of the United States driver license owner.
-    String? nameSuffix;
+  /// The name suffix of the United States driver license owner.
+  String? nameSuffix;
 
-    /// The full address of the United States driver license owner.
-    String? address;
+  /// The full address of the United States driver license owner.
+  String? address;
 
-    /// The document number of the United States driver license.
-    String? documentNumber;
+  /// The document number of the United States driver license.
+  String? documentNumber;
 
-    /// The sex of the United States driver license owner.
-    String? sex;
+  /// The sex of the United States driver license owner.
+  String? sex;
 
-    /// The restrictions to driving privileges for the United States driver license owner.
-    String? restrictions;
+  /// The restrictions to driving privileges for the United States driver license owner.
+  String? restrictions;
 
-    /// The additional privileges granted to the United States driver license owner.
-    String? endorsements;
+  /// The additional privileges granted to the United States driver license owner.
+  String? endorsements;
 
-    /// The type of vehicle the driver license owner has privilege to drive.
-    String? vehicleClass;
+  /// The type of vehicle the driver license owner has privilege to drive.
+  String? vehicleClass;
 
-    /// The date of birth of the United States driver license owner.
-    Date? dateOfBirth;
+  /// The date of birth of the United States driver license owner.
+  Date? dateOfBirth;
 
-    /// The date of issue of the United States driver license.
-    Date? dateOfIssue;
+  /// The date of issue of the United States driver license.
+  Date? dateOfIssue;
 
-    /// The date of expiry of the United States driver license.
-    Date? dateOfExpiry;
+  /// The date of expiry of the United States driver license.
+  Date? dateOfExpiry;
 
-    /// The current age of the document owner in years. It is calculated difference
-    /// between now and date of birth. Now is current time on the device.
-    /// @return current age of the document owner in years or -1 if date of birth is unknown.
-    int? age;
+  /// The current age of the document owner in years. It is calculated difference
+  /// between now and date of birth. Now is current time on the device.
+  /// @return current age of the document owner in years or -1 if date of birth is unknown.
+  int? age;
 
-    /// The street address portion of the United States driver license owner.
-    String? street;
+  /// The street address portion of the United States driver license owner.
+  String? street;
 
-    /// The postal code address portion of the United States driver license owner.
-    String? postalCode;
+  /// The postal code address portion of the United States driver license owner.
+  String? postalCode;
 
-    /// The city address portion of the United States driver license owner.
-    String? city;
+  /// The city address portion of the United States driver license owner.
+  String? city;
 
-    /// The jurisdiction code address portion of the United States driver license owner.
-    String? jurisdiction;
+  /// The jurisdiction code address portion of the United States driver license owner.
+  String? jurisdiction;
 
-    UsdlRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
+  UsdlRecognizerResult(Map<String, dynamic> nativeResult)
+      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+    this.optionalElements = List<String>.from(nativeResult['optionalElements']);
 
-        this.optionalElements = List<String>.from(nativeResult['optionalElements']);
+    this.rawData = nativeResult['rawData'];
 
-        this.rawData = nativeResult['rawData'];
+    this.rawStringData = nativeResult['rawStringData'];
 
-        this.rawStringData = nativeResult['rawStringData'];
+    this.uncertain = nativeResult['uncertain'];
 
-        this.uncertain = nativeResult['uncertain'];
+    this.fields = nativeResult['fields'] != null
+        ? List<String>.from(nativeResult['fields'])
+        : null;
 
-        this.fields = nativeResult['fields'] != null ? List<String>.from(nativeResult['fields']) : null;
+    this.firstName = nativeResult['firstName'];
 
-        this.firstName = nativeResult['firstName'];
+    this.middleName = nativeResult['middleName'];
 
-        this.middleName = nativeResult['middleName'];
+    this.lastName = nativeResult['lastName'];
 
-        this.lastName = nativeResult['lastName'];
+    this.fullName = nativeResult['fullName'];
 
-        this.fullName = nativeResult['fullName'];
+    this.nameSuffix = nativeResult['nameSuffix'];
 
-        this.nameSuffix = nativeResult['nameSuffix'];
+    this.address = nativeResult['address'];
 
-        this.address = nativeResult['address'];
+    this.documentNumber = nativeResult['documentNumber'];
 
-        this.documentNumber = nativeResult['documentNumber'];
+    this.sex = nativeResult['sex'];
 
-        this.sex = nativeResult['sex'];
+    this.restrictions = nativeResult['restrictions'];
 
-        this.restrictions = nativeResult['restrictions'];
+    this.endorsements = nativeResult['endorsements'];
 
-        this.endorsements = nativeResult['endorsements'];
+    this.vehicleClass = nativeResult['vehicleClass'];
 
-        this.vehicleClass = nativeResult['vehicleClass'];
+    this.dateOfBirth = nativeResult['dateOfBirth'] != null
+        ? new Date(Map<String, dynamic>.from(nativeResult['dateOfBirth']))
+        : null;
 
-        this.dateOfBirth = nativeResult['dateOfBirth'] != null ? new Date(Map<String, dynamic>.from(nativeResult['dateOfBirth'])) : null;
+    this.dateOfIssue = nativeResult['dateOfIssue'] != null
+        ? new Date(Map<String, dynamic>.from(nativeResult['dateOfIssue']))
+        : null;
 
-        this.dateOfIssue = nativeResult['dateOfIssue'] != null ? new Date(Map<String, dynamic>.from(nativeResult['dateOfIssue'])) : null;
+    this.dateOfExpiry = nativeResult['dateOfExpiry'] != null
+        ? new Date(Map<String, dynamic>.from(nativeResult['dateOfExpiry']))
+        : null;
 
-        this.dateOfExpiry = nativeResult['dateOfExpiry'] != null ? new Date(Map<String, dynamic>.from(nativeResult['dateOfExpiry'])) : null;
+    this.age = nativeResult['age'];
 
-        this.age = nativeResult['age'];
+    this.street = nativeResult['street'];
 
-        this.street = nativeResult['street'];
+    this.postalCode = nativeResult['postalCode'];
 
-        this.postalCode = nativeResult['postalCode'];
+    this.city = nativeResult['city'];
 
-        this.city = nativeResult['city'];
-
-        this.jurisdiction = nativeResult['jurisdiction'];
-    }
+    this.jurisdiction = nativeResult['jurisdiction'];
+  }
 }
 
 /// Recognizer that scan 2D barcodes from United States Driver License.
 @JsonSerializable()
 class UsdlRecognizer extends Recognizer {
+  /// Allow scanning PDF417 barcodes which don't have quiet zone
+  bool nullQuietZoneAllowed = true;
 
-    /// Allow scanning PDF417 barcodes which don't have quiet zone
-    bool nullQuietZoneAllowed = true;
+  /// Enable decoding of non-standard PDF417 barcodes, but without
+  bool uncertainDecoding = true;
 
-    /// Enable decoding of non-standard PDF417 barcodes, but without
-    bool uncertainDecoding = true;
+  /// Enables parsing of compact barcode encoding format
+  bool enableCompactParser = false;
 
-    /// Enables parsing of compact barcode encoding format
-    bool enableCompactParser = false;
+  UsdlRecognizer() : super('UsdlRecognizer');
 
-    UsdlRecognizer(): super('UsdlRecognizer');
+  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
+    return UsdlRecognizerResult(nativeResult);
+  }
 
-    RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
-        return UsdlRecognizerResult(nativeResult);
-    }
-
-    factory UsdlRecognizer.fromJson(Map<String, dynamic> json) => _$UsdlRecognizerFromJson(json);
-
-    Map<String, dynamic> toJson() => _$UsdlRecognizerToJson(this);
+  factory UsdlRecognizer.fromJson(Map<String, dynamic> json) =>
+      _$UsdlRecognizerFromJson(json);
+  Map<String, dynamic> toJson() => _$UsdlRecognizerToJson(this);
 }
 
 enum UsdlKeys {
-    //==============================================================/
-    //============== 1. DETERMINING BARCODE VERSION ================/
-    //==============================================================/
+  //==============================================================/
+  //============== 1. DETERMINING BARCODE VERSION ================/
+  //==============================================================/
 
-    /**
+  /**
      Mandatory on all driver's licenses. All barcodes which are using 3-track magnetic
      stripe encoding used in the interest of smoothing a transition from legacy documents
      shall be designated as "Magnetic". All barcodes which are using compact encoding
@@ -170,9 +177,9 @@ enum UsdlKeys {
      Administrators (AAMVA) Card Design Standard from AAMVA DL/ID-2000 standard to DL/ID-2013
      shall be designated as "AAMVA".
      */
-    DocumentType,
+  DocumentType,
 
-    /**
+  /**
      Mandatory on all driver's licenses.
 
      AAMVA Version Number: This is a decimal value between 0 and 99 that
@@ -196,28 +203,28 @@ enum UsdlKeys {
      If document type is not "AAMVA", this field defines version number of the
      given document type's standard.
      */
-    StandardVersionNumber,
+  StandardVersionNumber,
 
-    //==============================================================/
-    //==========          2. PERSONAL DATA KEYS          ===========/
-    //==============================================================/
+  //==============================================================/
+  //==========          2. PERSONAL DATA KEYS          ===========/
+  //==============================================================/
 
-    /**
+  /**
      Mandatory on all AAMVA, Magnetic and Compact barcodes.
 
      Family name of the cardholder. (Family name is sometimes also called "last name" or "surname.")
      Collect full name for record, print as many characters as possible on portrait side of DL/ID.
      */
-    CustomerFamilyName,
+  CustomerFamilyName,
 
-    /**
+  /**
      Mandatory on all AAMVA, Magnetic and Compact barcodes.
 
      First name of the cardholder.
      */
-    CustomerFirstName,
+  CustomerFirstName,
 
-    /**
+  /**
      Mandatory on all AAMVA, Magnetic and Compact barcodes.
 
      Full name of the individual holding the Driver License or ID.
@@ -234,24 +241,24 @@ enum UsdlKeys {
 
      If indvidual has more than one middle name they are separated with space.
      */
-    CustomerFullName,
+  CustomerFullName,
 
-    /**
+  /**
      Mandatory on all AAMVA, Magentic and Compact barcodes.
 
      Date on which the cardholder was born. (MMDDCCYY format)
      */
-    DateOfBirth,
+  DateOfBirth,
 
-    /**
+  /**
      Mandatory on all AAMVA, Magentic barcodes.
      Optional on Compact barcodes.
 
      Gender of the cardholder. 1 = male, 2 = female.
      */
-    Sex,
+  Sex,
 
-    /**
+  /**
      Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 barcodes.
      Optional on AAMVA 01, Magnetic and Compact barcodes.
 
@@ -269,9 +276,9 @@ enum UsdlKeys {
      DIC    Dichromatic
      UNK    Unknown
      */
-    EyeColor,
+  EyeColor,
 
-    /**
+  /**
      Mandatory on all AAMVA and Magnetic barcodes.
 
      On compact barcodes, use kFullAddress.
@@ -280,27 +287,27 @@ enum UsdlKeys {
      The place where the registered driver of a vehicle (individual or corporation)
      may be contacted such as a house number, street address etc.
      */
-    AddressStreet,
+  AddressStreet,
 
-    /**
+  /**
      Mandatory on all AAMVA and Magnetic barcodes.
 
      On compact barcodes, use kFullAddress.
 
      City portion of the cardholder address.
      */
-    AddressCity,
+  AddressCity,
 
-    /**
+  /**
      Mandatory on all AAMVA and Magnetic barcodes.
 
      On compact barcodes, use kFullAddress.
 
      State portion of the cardholder address.
      */
-    AddressJurisdictionCode,
+  AddressJurisdictionCode,
 
-    /**
+  /**
      Mandatory on all AAMVA and Magnetic barcodes.
 
      On compact barcodes, use kFullAddress.
@@ -309,9 +316,9 @@ enum UsdlKeys {
      trailing portion of the postal code in the U.S. is not known, zeros can be used
      to fill the trailing set of numbers up to nine (9) digits.
      */
-    AddressPostalCode,
+  AddressPostalCode,
 
-    /**
+  /**
      Mandatory on all AAMVA and Magnetic barcodes.
      Optional on Compact barcodes.
 
@@ -327,9 +334,9 @@ enum UsdlKeys {
      ZIP - Postal Code (optional)
 
      */
-    FullAddress,
+  FullAddress,
 
-    /**
+  /**
      Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
      Optional on AAMVA 01 and Magnetic barcodes.
 
@@ -341,36 +348,36 @@ enum UsdlKeys {
      Centimeters (cm): number of centimeters followed by " cm"
      example: 181 centimeters = "181 cm"
      */
-    Height,
+  Height,
 
-    /**
+  /**
      Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
      Optional on AAMVA 01 and Magnetic barcodes.
 
      Height of cardholder in Inches.
      Example: 5'9'' = "69".
      */
-    HeightIn,
+  HeightIn,
 
-    /**
+  /**
      Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 Compact barcodes.
      Optional on AAMVA 01 and Magnetic barcodes.
 
      Height of cardholder in Centimeters.
      Example: 180 Centimeters = "180".
      */
-    HeightCm,
+  HeightCm,
 
-    /**
+  /**
      Mandatory on AAMVA 04, 05, 06, 07, 08.
      Optional on AAMVA 01, 02, 03, Magnetic and Compcat barcodes.
 
      Middle name(s) of the cardholder. In the case of multiple middle names they
      shall be separated by space " ".
      */
-    CustomerMiddleName,
+  CustomerMiddleName,
 
-    /**
+  /**
      Optional on all AAMVA, Magnetic and Compact barcodes.
 
      Bald, black, blonde, brown, gray, red/auburn, sandy, white, unknown. If the issuing
@@ -388,9 +395,9 @@ enum UsdlKeys {
      WHI    White
      UNK    Unknown
      */
-    HairColor,
+  HairColor,
 
-    /**
+  /**
      Mandatory on AAMVA 02 barcodes.
      Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
 
@@ -408,9 +415,9 @@ enum UsdlKeys {
      - 8TH or VIII (Eighth)
      - 9TH or IX (Ninth)
      */
-    NameSuffix,
+  NameSuffix,
 
-    /**
+  /**
      Optional on all AAMVA and Compact barcodes.
 
      Other name by which cardholder is known. ALTERNATIVE NAME(S) of the individual
@@ -428,26 +435,26 @@ enum UsdlKeys {
 
      If indvidual has more than one AKA middle name they are separated with space.
      */
-    // internal node: Filled by DataExpander
-    AKAFullName,
+  // internal node: Filled by DataExpander
+  AKAFullName,
 
-    /**
+  /**
      Optional on all AAMVA and Compact barcodes.
 
      Other family name by which cardholder is known.
      */
-    // internal node: Filled by DataExpander
-    AKAFamilyName,
+  // internal node: Filled by DataExpander
+  AKAFamilyName,
 
-    /**
+  /**
      Optional on all AAMVA and Compact barcodes.
 
      Other given name by which cardholder is known
      */
-    // internal node: Filled by DataExpander
-    AKAGivenName,
+  // internal node: Filled by DataExpander
+  AKAGivenName,
 
-    /**
+  /**
      Optional on all AAMVA and Compact barcodes.
 
      Other suffix by which cardholder is known.
@@ -466,10 +473,10 @@ enum UsdlKeys {
      8TH        Eighth
      9TH        Ninth
      */
-    // internal node: Filled by DataExpander
-    AKASuffixName,
+  // internal node: Filled by DataExpander
+  AKASuffixName,
 
-    /**
+  /**
      Mandatory on AAMVA 02 barcodes.
      Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
 
@@ -485,77 +492,77 @@ enum UsdlKeys {
      8 = 128 – 145 kg (281 – 320 lbs)
      9 = 146+ kg (321+ lbs)
      */
-    // internal note: Filled by DataExpander
-    WeightRange,
+  // internal note: Filled by DataExpander
+  WeightRange,
 
-    /**
+  /**
      Mandatory on AAMVA 02 barcodes.
      Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
 
      Cardholder weight in pounds Example: 185 lb = "185"
      */
-    // internal note: Filled by DataExpander
-    WeightPounds,
+  // internal note: Filled by DataExpander
+  WeightPounds,
 
-    /**
+  /**
      Mandatory on AAMVA 02 barcodes.
      Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
 
      Cardholder weight in kilograms Example: 84 kg = "084"
      */
-    // internal note: Filled by DataExpander
-    WeightKilograms,
+  // internal note: Filled by DataExpander
+  WeightKilograms,
 
-    /**
+  /**
      Mandatory on all AAMVA and Compact barcodes
 
      The number assigned or calculated by the issuing authority.
      */
-    CustomerIdNumber,
+  CustomerIdNumber,
 
-    /**
+  /**
      Mandatory on AAMVA 04, 05, 06, 07, 08 barcodes.
      Optional on Compact barcodes.
 
      A code that indicates whether a field has been truncated (T), has not been
      truncated (N), or – unknown whether truncated (U).
      */
-    FamilyNameTruncation,
+  FamilyNameTruncation,
 
-    /**
+  /**
      Mandatory on AAMVA 04, 05, 06, 07, 08 barcodes.
      Optional on Compact barcodes.
 
      A code that indicates whether a field has been truncated (T), has not been
      truncated (N), or – unknown whether truncated (U).
      */
-    FirstNameTruncation,
+  FirstNameTruncation,
 
-    /**
+  /**
      Mandatory on AAMVA 04, 05, 06, 07, 08
 
      A code that indicates whether a field has been truncated (T), has not been
      truncated (N), or – unknown whether truncated (U).
      */
-    MiddleNameTruncation,
+  MiddleNameTruncation,
 
-    /**
+  /**
      Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes
 
      Country and municipality and/or state/province
      */
-    PlaceOfBirth,
+  PlaceOfBirth,
 
-    /**
+  /**
      Optional on all AAMVA barcodes
 
      On Compact barcodes, use kFullAddress
 
      Second line of street portion of the cardholder address.
      */
-    AddressStreet2,
+  AddressStreet2,
 
-    /**
+  /**
      Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes
 
      Codes for race or ethnicity of the cardholder, as defined in ANSI D20.
@@ -580,58 +587,58 @@ enum UsdlKeys {
      U      Unknown
 
      */
-    RaceEthnicity,
+  RaceEthnicity,
 
-    /**
+  /**
      Optional on AAMVA 01
 
      PREFIX to Driver Name. Freeform as defined by issuing jurisdiction.
      */
-    NamePrefix,
+  NamePrefix,
 
-    /**
+  /**
      Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
 
      Country in which DL/ID is issued. U.S. = USA, Canada = CAN.
      */
-    CountryIdentification,
+  CountryIdentification,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Driver Residence Street Address 1.
      */
-    ResidenceStreetAddress,
+  ResidenceStreetAddress,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Driver Residence Street Address 2.
      */
-    ResidenceStreetAddress2,
+  ResidenceStreetAddress2,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Driver Residence City
      */
-    ResidenceCity,
+  ResidenceCity,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Driver Residence Jurisdiction Code.
      */
-    ResidenceJurisdictionCode,
+  ResidenceJurisdictionCode,
 
-    /**
+  /**
      Optional on AAMVA 01 barcodes.
 
      Driver Residence Postal Code.
      */
-    ResidencePostalCode,
+  ResidencePostalCode,
 
-    /**
+  /**
      Optional on AAMVA 01 barcodes.
 
      Full residence address of the individual holding the Driver License or ID.
@@ -645,93 +652,93 @@ enum UsdlKeys {
      , (required if other address portions follow, otherwise optional)
      Residence ZIP - Residence Postal Code (optional)
      */
-    ResidenceFullAddress,
+  ResidenceFullAddress,
 
-    /**
+  /**
      Optional on AAMVA 05, 06, 07, 08
 
      Date on which the cardholder turns 18 years old. (MMDDCCYY format)
      */
-    Under18,
+  Under18,
 
-    /**
+  /**
      Optional on AAMVA 05, 06, 07, 08
 
      Date on which the cardholder turns 19 years old. (MMDDCCYY format)
      */
-    Under19,
+  Under19,
 
-    /**
+  /**
      Optional on AAMVA 05, 06, 07, 08
 
      Date on which the cardholder turns 21 years old. (MMDDCCYY format)
      */
-    Under21,
+  Under21,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      The number assigned to an individual by the Social Security Administration.
      */
-    SocialSecurityNumber,
+  SocialSecurityNumber,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Driver "AKA" Social Security Number. FORMAT SAME AS DRIVER SOC SEC NUM. ALTERNATIVE NUMBERS(S) used as SS NUM.
      */
-    AKASocialSecurityNumber,
+  AKASocialSecurityNumber,
 
-    /**
+  /**
      Optional on AAMVA 01
 
      ALTERNATIVE MIDDLE NAME(s) or INITIALS of the individual holding the Driver License or ID.
      Hyphenated names acceptable, spaces between names acceptable, but no other
      use of special symbols
      */
-    AKAMiddleName,
+  AKAMiddleName,
 
-    /**
+  /**
      Optional on AAMVA 01
 
      ALTERNATIVE PREFIX to Driver Name. Freeform as defined by issuing jurisdiction.
      */
-    AKAPrefixName,
+  AKAPrefixName,
 
-    /**
+  /**
      Optional on AAMVA 01, 06, 07, 08
 
      Field that indicates that the cardholder is an organ donor = "1".
      */
-    OrganDonor,
+  OrganDonor,
 
-    /**
+  /**
      Optional on AAMVA 07, 08
 
      Field that indicates that the cardholder is a veteran = "1"
      */
-    Veteran,
+  Veteran,
 
-    /**
+  /**
      Optional on AAMVA 01. (MMDDCCYY format)
 
      ALTERNATIVE DATES(S) given as date of birth.
      */
-    AKADateOfBirth,
+  AKADateOfBirth,
 
-    //==============================================================/
-    //==========          3. LICENSE DATA KEYS          ============/
-    //==============================================================/
+  //==============================================================/
+  //==========          3. LICENSE DATA KEYS          ============/
+  //==============================================================/
 
-    /**
+  /**
      Mandatory on all AAMVA, Magnetic and Compact barcodes.
 
      This number uniquely identifies the issuing jurisdiction and can
      be obtained by contacting the ISO Issuing Authority (AAMVA)
      */
-    IssuerIdentificationNumber,
+  IssuerIdentificationNumber,
 
-    /**
+  /**
      Mandatory on all AAMVA, Magnetic and Compact barcodes.
 
      If document is non expiring than "Non expiring" is written in this field.
@@ -739,10 +746,10 @@ enum UsdlKeys {
      Date on which the driving and identification privileges granted by the document are
      no longer valid. (MMDDCCYY format)
      */
-    // internal note: Filled by DataExpander
-    DocumentExpirationDate,
+  // internal note: Filled by DataExpander
+  DocumentExpirationDate,
 
-    /**
+  /**
      Mandatory on all AAMVA and Compact barcodes.
      Optional on Magnetic barcodes.
 
@@ -755,26 +762,26 @@ enum UsdlKeys {
      within each AAMVA version (above) must be noted, beginning with Jurisdiction
      Version 00.
      */
-    JurisdictionVersionNumber,
+  JurisdictionVersionNumber,
 
-    /**
+  /**
      Mandatory on all AAMVA and Magnetic barcodes.
 
      Jurisdiction-specific vehicle class / group code, designating the type
      of vehicle the cardholder has privilege to drive.
      */
-    JurisdictionVehicleClass,
+  JurisdictionVehicleClass,
 
-    /**
+  /**
      Mandatory on all AAMVA barcodes.
      Optional on Magnetic barcodes.
 
      Jurisdiction-specific codes that represent restrictions to driving
      privileges (such as airbrakes, automatic transmission, daylight only, etc.).
      */
-    JurisdictionRestrictionCodes,
+  JurisdictionRestrictionCodes,
 
-    /**
+  /**
      Mandatory on all AAMVA barcodes.
      Optional on Magnetic barcodes.
 
@@ -782,26 +789,26 @@ enum UsdlKeys {
      granted to the cardholder beyond the vehicle class (such as transportation of
      passengers, hazardous materials, operation of motorcycles, etc.).
      */
-    JurisdictionEndorsementCodes,
+  JurisdictionEndorsementCodes,
 
-    /**
+  /**
      Mandatory on all AAMVA and Compact barcodes.
 
      Date on which the document was issued. (MMDDCCYY format)
      */
-    // internal note: Filled by DataExpander
-    DocumentIssueDate,
+  // internal note: Filled by DataExpander
+  DocumentIssueDate,
 
-    /**
+  /**
      Mandatory on AAMVA versions 02 and 03.
 
      Federally established codes for vehicle categories, endorsements, and restrictions
      that are generally applicable to commercial motor vehicles. If the vehicle is not a
      commercial vehicle, "NONE" is to be entered.
      */
-    FederalCommercialVehicleCodes,
+  FederalCommercialVehicleCodes,
 
-    /**
+  /**
      Optional on all AAMVA barcodes.
      Mandatory on Compact barcodes.
 
@@ -814,25 +821,25 @@ enum UsdlKeys {
      one jurisdiction (e.g. California, Colorado, Connecticut) then other data, like
      the IIN or address, must be examined to determine the jurisdiction.
      */
-    IssuingJurisdiction,
+  IssuingJurisdiction,
 
-    /**
+  /**
      Optional on all AAMVA barcodes.
      Mandatory on Compact barcodes.
 
      Standard vehicle classification code(s) for cardholder. This data element is a
      placeholder for future efforts to standardize vehicle classifications.
      */
-    StandardVehicleClassification,
+  StandardVehicleClassification,
 
-    /**
+  /**
      Optional on all AAMVA and Magnetic barcodes.
 
      Name of issuing jurisdiction, for example: Alabama, Alaska ...
      */
-    IssuingJurisdictionName,
+  IssuingJurisdictionName,
 
-    /**
+  /**
      Optional on all AAMVA barcodes.
 
      Standard endorsement code(s) for cardholder. See codes in D20. This data element is a
@@ -858,9 +865,9 @@ enum UsdlKeys {
      X      Combined Tank/HAZ-MAT - This endorsement may be issued to any driver who qualifies for
      both the N and H endorsements.
      */
-    StandardEndorsementCode,
+  StandardEndorsementCode,
 
-    /**
+  /**
      Optional on all AAMVA barcodes
 
      Standard restriction code(s) for cardholder. See codes in D20. This data element is a placeholder
@@ -884,48 +891,48 @@ enum UsdlKeys {
      V      Medical Variance Documentation Required
      W      Farm Waiver
      */
-    StandardRestrictionCode,
+  StandardRestrictionCode,
 
-    /**
+  /**
      Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes
 
      Text that explains the jurisdiction-specific code(s) for classifications
      of vehicles cardholder is authorized to drive.
      */
-    JurisdictionVehicleClassificationDescription,
+  JurisdictionVehicleClassificationDescription,
 
-    /**
+  /**
      Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes
 
      Text that explains the jurisdiction-specific code(s) that indicates additional
      driving privileges granted to the cardholder beyond the vehicle class.
      */
-    JurisdictionEndorsmentCodeDescription,
+  JurisdictionEndorsmentCodeDescription,
 
-    /**
+  /**
      Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes
 
      Text describing the jurisdiction-specific restriction code(s) that curtail driving privileges.
      */
-    JurisdictionRestrictionCodeDescription,
+  JurisdictionRestrictionCodeDescription,
 
-    /**
+  /**
      Optional on AAMVA 02, 03, 04, 05, 06, 07, 08
 
      A string of letters and/or numbers that is affixed to the raw materials (card stock,
      laminate, etc.) used in producing driver licenses and ID cards. (DHS recommended field)
      */
-    InventoryControlNumber,
+  InventoryControlNumber,
 
-    /**
+  /**
      Optional on AAMVA 04, 05, 06, 07, 08 and Compact barcodes
 
      DHS required field that indicates date of the most recent version change or
      modification to the visible format of the DL/ID (MMDDCCYY format)
      */
-    CardRevisionDate,
+  CardRevisionDate,
 
-    /**
+  /**
      Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Magnetic barcodes.
      Optional and Compact barcodes
 
@@ -933,124 +940,124 @@ enum UsdlKeys {
      from others that may have been issued in the past. This number may serve multiple
      purposes of document discrimination, audit information number, and/or inventory control.
      */
-    DocumentDiscriminator,
+  DocumentDiscriminator,
 
-    /**
+  /**
      Optional on AAMVA 04, 05, 06, 07, 08 and Compact barcodes
 
      DHS required field that indicates that the cardholder has temporary lawful status = "1".
      */
-    LimitedDurationDocument,
+  LimitedDurationDocument,
 
-    /**
+  /**
      Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes
 
      A string of letters and/or numbers that identifies when, where, and by whom a driver
      license/ID card was made. If audit information is not used on the card or the MRT, it
      must be included in the driver record.
      */
-    AuditInformation,
+  AuditInformation,
 
-    /**
+  /**
      Optional on AAMVA 04, 05, 06, 07, 08 and Compact barcodes
 
      DHS required field that indicates compliance: "M" = materially compliant,
      "F" = fully compliant, and, "N" = non-compliant.
      */
-    ComplianceType,
+  ComplianceType,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Issue Timestamp. A string used by some jurisdictions to validate the document against their data base.
      */
-    IssueTimestamp,
+  IssueTimestamp,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Driver Permit Expiration Date. MMDDCCYY format. Date permit expires.
      */
-    PermitExpirationDate,
+  PermitExpirationDate,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Type of permit.
      */
-    PermitIdentifier,
+  PermitIdentifier,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Driver Permit Issue Date. MMDDCCYY format. Date permit was issued.
      */
-    PermitIssueDate,
+  PermitIssueDate,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Number of duplicate cards issued for a license or ID if any.
      */
-    NumberOfDuplicates,
+  NumberOfDuplicates,
 
-    /**
+  /**
      Optional on AAMVA 04, 05, 06, 07, 08 and Compact barcodes
 
      Date on which the hazardous material endorsement granted by the document is
      no longer valid. (MMDDCCYY format)
      */
-    HAZMATExpirationDate,
+  HAZMATExpirationDate,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Medical Indicator/Codes.
      STATE SPECIFIC. Freeform, Standard "TBD"
      */
-    MedicalIndicator,
+  MedicalIndicator,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      Non-Resident Indicator. "Y". Used by some jurisdictions to indicate holder of the document is a non-resident.
      */
-    NonResident,
+  NonResident,
 
-    /**
+  /**
      Optional on AAMVA version 01.
 
      A number or alphanumeric string used by some jurisdictions to identify a "customer" across multiple data bases.
      */
-    UniqueCustomerId,
+  UniqueCustomerId,
 
-    /**
+  /**
      Optional on compact barcodes.
 
      Document discriminator.
      */
-    DataDiscriminator,
+  DataDiscriminator,
 
-    /**
+  /**
      Optional on Magnetic barcodes.
 
      Month on which the driving and identification privileges granted by the document are
      no longer valid. (MMYY format)
      */
-    DocumentExpirationMonth,
+  DocumentExpirationMonth,
 
-    /**
+  /**
      Optional on Magnetic barcodes.
 
      Field that indicates that the driving and identification privileges granted by the
      document are nonexpiring = "1".
      */
-    DocumentNonexpiring,
+  DocumentNonexpiring,
 
-    /**
+  /**
      Optional on Magnetic barcodes.
 
      Security version beeing used.
      */
-    SecurityVersion
+  SecurityVersion
 }
