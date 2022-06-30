@@ -23,7 +23,7 @@ class _MyAppState extends State<MyApp> {
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38JVOIaKMxwPcbCIyP0vUvPF24aRSqLbl1Ietp3U7rXGfntq9kYtaEtu+SiPPkcbc3UtQH7hP7rgKHUK1+quHABe591IAnoFo7Aw0tfInuVQelUFsaxt0dGWMJgsNO+ujO+P4KsguSQdxI1eZPK+kEHXQbU3WzbeHJjmOUJwqM+0uC6y+Hp/aIlELYc5+n+K5enPZHIC+TtZB1mcSGZp2Ytqd7Aw7GOdCTQM8wrKIDIDYuzc3cv0DTKIoSEhdJZwY9r+jVzGyV4N0R8OlW9Av5kSZhc+YMj1R82RZ3jYCZGPLVQ+s2Ia5iF783NmG1srXLMm0GdGnW/7";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license = "sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9U3OJtAYGbizcXhV5K1maxiDMJFmnmLT3IzuOot5d+g5HVnoLFduWFtl9egla46EkGtuAdJd1p0a67N0Q2JnbcTqZB5h6ksNpjPsrmcY9OLjmlul2n9rcunJkM1cxu96HES75tdPBQvPz+WBbdx8Tz1y8ZyW7sNjqzemaZ5oqGZEQPj/NrWl2nHjeFxectQG9iOVTmHUNaSPZN4bsYYAeD7v6bGrXG2sv1FrkMjPIQ7Ic50r/drJmq+qhMNPZOJ+M9PfyO5zGuZN+uChv5k4lxcRRZ/sYgxNvuA6plBiFcg3uYugkuIDTD1fVyCYE5BSUzOGQjyacgH";
+      license = 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9XHO8NDZ5etowTvAoM3PXg5QKNOMEzS+WzcCNYkGg0p7csI0R/oydYtBy2pDTTG1MHqYaFvnxUnpSu1mcXUVUOiddboBBWBXu6Z9Pq5iYIdZ3/HuZFmW1V4PK7S0WiUzzlYDHFNMH+KnaDNnJawX7D7X1S7i9KriklziYyNkX59wv1uOaExxS7FuftzTBtqxMjzOmuwglSXXzrqUE4uwNnAijs9b9Jqr/2Y72qkE+SiBY45N5E0BLpG9ex0NFT/uiLhmd1BEZBrKWouCOPogSmKBE30mawHpesSS/4XsjAZH8a5FqQdsL4QXbeYeHsAcSyDhoiwPw0="';
     } else {
       license = "";
     }
