@@ -35,6 +35,9 @@ popd
 # enter into ios project folder
 pushd ios
 
+#Force minimal iOS version
+sed -i '' "s/# platform :ios, '9.0'/platform :ios, '12.0'/" Podfile
+
 # install pod
 pod install
 
