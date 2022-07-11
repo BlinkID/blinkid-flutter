@@ -132,10 +132,10 @@ class _MyAppState extends State<MyApp> {
       return "";
     }
 
-    return buildResult(result.dateOfBirth?.name, "Date of birth") +
-        buildResult(result.dateOfExpiry?.name, "Date Of Expiry") +
-        buildResult(result.documentNumber?.name, "Document Number") +
-        buildResult(result.dataMatchResult?.name, "Data Match Result");
+    return buildResult(result.dateOfBirth?.toString(), "Date of birth") +
+        buildResult(result.dateOfExpiry?.toString(), "Date Of Expiry") +
+        buildResult(result.documentNumber?.toString(), "Document Number") +
+        buildResult(result.dataMatchResult?.toString(), "Data Match Result");
   }
 
   String getPassportResultString(BlinkIdCombinedRecognizerResult? result) {
