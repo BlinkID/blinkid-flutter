@@ -72,6 +72,5 @@ class MrtdRecognizer extends Recognizer {
     }
 
     factory MrtdRecognizer.fromJson(Map<String, dynamic> json) => _$MrtdRecognizerFromJson(json);
-
     Map<String, dynamic> toJson() => _$MrtdRecognizerToJson(this);
 }

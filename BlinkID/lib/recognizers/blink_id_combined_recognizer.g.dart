@@ -27,8 +27,8 @@ BlinkIdCombinedRecognizer _$BlinkIdCombinedRecognizerFromJson(
     ..returnFaceImage = json['returnFaceImage'] as bool
     ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
     ..returnSignatureImage = json['returnSignatureImage'] as bool
+    ..saveCameraFrames = json['saveCameraFrames'] as bool
     ..scanCroppedDocumentImage = json['scanCroppedDocumentImage'] as bool
-    ..signResult = json['signResult'] as bool
     ..signatureImageDpi = json['signatureImageDpi'] as int
     ..skipUnsupportedBack = json['skipUnsupportedBack'] as bool
     ..validateResultCharacters = json['validateResultCharacters'] as bool;
@@ -54,8 +54,8 @@ Map<String, dynamic> _$BlinkIdCombinedRecognizerToJson(
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
       'returnSignatureImage': instance.returnSignatureImage,
+      'saveCameraFrames': instance.saveCameraFrames,
       'scanCroppedDocumentImage': instance.scanCroppedDocumentImage,
-      'signResult': instance.signResult,
       'signatureImageDpi': instance.signatureImageDpi,
       'skipUnsupportedBack': instance.skipUnsupportedBack,
       'validateResultCharacters': instance.validateResultCharacters,

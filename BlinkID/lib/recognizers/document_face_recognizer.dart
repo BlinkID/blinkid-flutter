@@ -87,6 +87,5 @@ class DocumentFaceRecognizer extends Recognizer {
     }
 
     factory DocumentFaceRecognizer.fromJson(Map<String, dynamic> json) => _$DocumentFaceRecognizerFromJson(json);
-
     Map<String, dynamic> toJson() => _$DocumentFaceRecognizerToJson(this);
 }

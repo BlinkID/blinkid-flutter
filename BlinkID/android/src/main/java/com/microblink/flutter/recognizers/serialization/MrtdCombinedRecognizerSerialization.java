@@ -22,7 +22,6 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
         recognizer.setNumStableDetectionsThreshold(jsonObject.optInt("numStableDetectionsThreshold", 6));
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
-        recognizer.setSignResult(jsonObject.optBoolean("signResult", false));
         return recognizer;
     }
 
@@ -32,8 +31,6 @@ public final class MrtdCombinedRecognizerSerialization implements RecognizerSeri
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
-            jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
-            jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fullDocumentBackImage", SerializationUtils.encodeImageBase64(result.getFullDocumentBackImage()));

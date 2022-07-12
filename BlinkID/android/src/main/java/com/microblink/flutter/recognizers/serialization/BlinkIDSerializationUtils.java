@@ -4,6 +4,8 @@ import com.microblink.flutter.SerializationUtils;
 
 import com.microblink.entities.recognizers.blinkid.mrtd.MrzResult;
 import com.microblink.entities.recognizers.blinkid.generic.DriverLicenseDetailedInfo;
+import com.microblink.entities.recognizers.blinkid.generic.DataMatchDetailedInfo;
+import com.microblink.entities.recognizers.blinkid.generic.VehicleClassInfo;
 import com.microblink.entities.recognizers.blinkid.generic.classinfo.ClassInfo;
 import com.microblink.entities.recognizers.blinkid.generic.imageanalysis.ImageAnalysisResult;
 import com.microblink.entities.recognizers.blinkid.generic.viz.VizResult;
@@ -52,7 +54,30 @@ public abstract class BlinkIDSerializationUtils {
         jsonDriverLicenseDetailedInfo.put("endorsements", dlDetailedInfo.getEndorsements());
         jsonDriverLicenseDetailedInfo.put("vehicleClass", dlDetailedInfo.getVehicleClass());
         jsonDriverLicenseDetailedInfo.put("conditions", dlDetailedInfo.getConditions());
+        JSONArray vehicleClassesInfo = new JSONArray();
+        for (int i = 0; i < dlDetailedInfo.getVehicleClassesInfo().length; ++i) {
+            vehicleClassesInfo.put(serializeVehicleClassInfo(dlDetailedInfo.getVehicleClassesInfo()[i]));
+        }
+        jsonDriverLicenseDetailedInfo.put("vehicleClassesInfo", vehicleClassesInfo);
         return jsonDriverLicenseDetailedInfo;
+    }
+
+    public static JSONObject serializeDataMatchDetailedInfo(DataMatchDetailedInfo dmDetailedInfo) throws JSONException {
+        JSONObject jsonDataMatchDetailedInfo = new JSONObject();
+        jsonDataMatchDetailedInfo.put("dataMatchResult", SerializationUtils.serializeEnum(dmDetailedInfo.getDataMatchResult()));
+        jsonDataMatchDetailedInfo.put("dateOfExpiry", SerializationUtils.serializeEnum(dmDetailedInfo.getDateOfExpiry()));
+        jsonDataMatchDetailedInfo.put("dateOfBirth", SerializationUtils.serializeEnum(dmDetailedInfo.getDateOfBirth()));
+        jsonDataMatchDetailedInfo.put("documentNumber", SerializationUtils.serializeEnum(dmDetailedInfo.getDocumentNumber()));
+        return jsonDataMatchDetailedInfo;
+    }
+
+    public static JSONObject serializeVehicleClassInfo(VehicleClassInfo vehicleClassInfo) throws JSONException {
+        JSONObject jsonVehicleClassInfo = new JSONObject();
+        jsonVehicleClassInfo.put("vehicleClass", vehicleClassInfo.getVehicleClass());
+        jsonVehicleClassInfo.put("licenceType", vehicleClassInfo.getLicenceType());
+        jsonVehicleClassInfo.put("effectiveDate", SerializationUtils.serializeDate(vehicleClassInfo.getEffectiveDate().getDate()));
+        jsonVehicleClassInfo.put("expiryDate", SerializationUtils.serializeDate(vehicleClassInfo.getExpiryDate().getDate()));
+        return jsonVehicleClassInfo;
     }
 
     public static JSONObject serializeClassInfo(ClassInfo classInfo) throws JSONException {

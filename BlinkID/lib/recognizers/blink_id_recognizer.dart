@@ -13,6 +13,9 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     ///The additional name information of the document owner. 
     String? additionalNameInformation;
     
+    ///The one more additional address information of the document owner. 
+    String? additionalOptionalAddressInformation;
+    
     ///The address of the document owner. 
     String? address;
     
@@ -21,8 +24,14 @@ class BlinkIdRecognizerResult extends RecognizerResult {
     /// @return current age of the document owner in years or -1 if date of birth is unknown. 
     int? age;
     
+    ///The barcode raw camera frame. 
+    String? barcodeCameraFrame;
+    
     ///Defines the data extracted from the barcode. 
     BarcodeResult? barcodeResult;
+    
+    ///The raw camera frame. 
+    String? cameraFrame;
     
     ///The classification information. 
     ClassInfo? classInfo;
@@ -141,11 +150,17 @@ class BlinkIdRecognizerResult extends RecognizerResult {
         
         this.additionalNameInformation = nativeResult["additionalNameInformation"];
         
+        this.additionalOptionalAddressInformation = nativeResult["additionalOptionalAddressInformation"];
+        
         this.address = nativeResult["address"];
         
         this.age = nativeResult["age"];
         
+        this.barcodeCameraFrame = nativeResult["barcodeCameraFrame"];
+        
         this.barcodeResult = nativeResult["barcodeResult"] != null ? BarcodeResult(Map<String, dynamic>.from(nativeResult["barcodeResult"])) : null;
+        
+        this.cameraFrame = nativeResult["cameraFrame"];
         
         this.classInfo = nativeResult["classInfo"] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult["classInfo"])) : null;
         
@@ -292,6 +307,12 @@ class BlinkIdRecognizer extends Recognizer {
     /// 
     bool returnSignatureImage = false;
     
+    ///Configure the recognizer to save the raw camera frames.
+    /// This significantly increases memory consumption.
+    /// 
+    /// 
+    bool saveCameraFrames = false;
+    
     ///Configure the recognizer to only work on already cropped and dewarped images.
     /// This only works for still images - video feeds will ignore this setting.
     /// 
@@ -317,6 +338,5 @@ class BlinkIdRecognizer extends Recognizer {
     }
 
     factory BlinkIdRecognizer.fromJson(Map<String, dynamic> json) => _$BlinkIdRecognizerFromJson(json);
-
     Map<String, dynamic> toJson() => _$BlinkIdRecognizerToJson(this);
 }

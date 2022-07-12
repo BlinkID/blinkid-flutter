@@ -7,12 +7,6 @@ part 'mrtd_combined_recognizer.g.dart';
 /// Result object for MrtdCombinedRecognizer.
 class MrtdCombinedRecognizerResult extends RecognizerResult {
     
-    ///Digital signature of the recognition result. Available only if enabled with signResult property. 
-    String? digitalSignature;
-    
-    ///Version of the digital signature. Available only if enabled with signResult property. 
-    int? digitalSignatureVersion;
-    
     ///Returns DataMatchResultSuccess if data from scanned parts/sides of the document match,
     /// DataMatchResultFailed otherwise. For example if date of expiry is scanned from the front and back side
     /// of the document and values do not match, this method will return DataMatchResultFailed. Result will
@@ -36,10 +30,6 @@ class MrtdCombinedRecognizerResult extends RecognizerResult {
     bool? scanningFirstSideDone;
     
     MrtdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
-        
-        this.digitalSignature = nativeResult["digitalSignature"];
-        
-        this.digitalSignatureVersion = nativeResult["digitalSignatureVersion"];
         
         this.documentDataMatch = DataMatchResult.values[nativeResult["documentDataMatch"]];
         
@@ -120,11 +110,6 @@ class MrtdCombinedRecognizer extends Recognizer {
     /// 
     bool returnFullDocumentImage = false;
     
-    ///Whether or not recognition result should be signed.
-    /// 
-    /// 
-    bool signResult = false;
-    
     MrtdCombinedRecognizer(): super('MrtdCombinedRecognizer');
 
     RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
@@ -132,6 +117,5 @@ class MrtdCombinedRecognizer extends Recognizer {
     }
 
     factory MrtdCombinedRecognizer.fromJson(Map<String, dynamic> json) => _$MrtdCombinedRecognizerFromJson(json);
-
     Map<String, dynamic> toJson() => _$MrtdCombinedRecognizerToJson(this);
 }
