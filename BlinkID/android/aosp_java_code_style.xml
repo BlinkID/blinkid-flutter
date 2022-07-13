@@ -1,5 +1,5 @@
-# Taken from:
-# https://github.com/aosp-mirror/platform_development/blob/master/ide/intellij/codestyles/AndroidStyle.xml
+<!--Taken from:
+https://github.com/aosp-mirror/platform_development/blob/master/ide/intellij/codestyles/AndroidStyle.xml-->
 <code_scheme name="aosp_java_code_style">
   <option name="JAVA_INDENT_OPTIONS">
     <value>

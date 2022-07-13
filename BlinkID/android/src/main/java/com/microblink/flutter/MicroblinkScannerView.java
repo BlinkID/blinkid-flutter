@@ -50,11 +50,13 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
     };
 
     /**
-     * @param creationParams structure: { "overlaySettings": { "useFrontCamera": false, "flipFrontCamera": false },
-     *                       "licenseKey": "...", "recognizerCollection": {...} }
+     * @param creationParams structure: { "overlaySettings": { "useFrontCamera": false,
+     *                       "flipFrontCamera": false }, "licenseKey": "...",
+     *                       "recognizerCollection": {...} }
      */
     @SuppressLint("NewApi")
-    MicroblinkScannerView(@NonNull Context context, int id, final MicroblinkCreationParams creationParams, BinaryMessenger messenger,
+    MicroblinkScannerView(@NonNull Context context, int id,
+            final MicroblinkCreationParams creationParams, BinaryMessenger messenger,
             ActivityPluginBinding activityPluginBinding) {
         methodChannel = new MethodChannel(messenger, "MicroblinkScannerWidget/" + id);
 
