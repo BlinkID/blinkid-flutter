@@ -73,6 +73,11 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
                 PreviewView.LayoutParams.MATCH_PARENT
         );
         view.setLayoutParams(matchParent);
+
+        // For proper layout and possibility to mirror the preview.
+        // See https://stackoverflow.com/a/65583947/7408927.
+        view.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
+
         if (shouldFlipView(creationParams.overlaySettings)) mirrorPreview();
 
         LifecycleOwner lifecycleOwner = this;
@@ -89,8 +94,6 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
 
     @SuppressLint("NewApi")
     private void mirrorPreview() {
-        // To be able to mirror preview. See https://stackoverflow.com/a/65583947/7408927.
-        view.setImplementationMode(PreviewView.ImplementationMode.COMPATIBLE);
         view.getPreviewStreamState().observe(this, new Observer<PreviewView.StreamState>() {
             @Override
             public void onChanged(PreviewView.StreamState streamState) {
