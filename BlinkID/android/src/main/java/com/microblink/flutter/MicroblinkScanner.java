@@ -71,10 +71,11 @@ public class MicroblinkScanner implements ImageAnalysis.Analyzer {
                             RecognizerSerializers.INSTANCE.serializeRecognizerResults(
                                     recognizerBundle.getRecognizers());
                     callbacks.onScanned(resultJsonArray.toString());
+                } else {
+                    recognizerRunner.resetRecognitionState();
                 }
 
                 imageProxy.close();
-                recognizerRunner.resetRecognitionState();
             }
 
             @Override
