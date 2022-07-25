@@ -66,11 +66,15 @@ public class MicroblinkScanner implements ImageAnalysis.Analyzer {
             @SuppressLint("NewApi")
             @Override
             public void onScanningDone(@NonNull RecognitionSuccessType recognitionSuccessType) {
-                JSONArray resultJsonArray =
-                        RecognizerSerializers.INSTANCE.serializeRecognizerResults(
-                                recognizerBundle.getRecognizers());
-                callbacks.onScanned(resultJsonArray.toString());
+                if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
+                    JSONArray resultJsonArray =
+                            RecognizerSerializers.INSTANCE.serializeRecognizerResults(
+                                    recognizerBundle.getRecognizers());
+                    callbacks.onScanned(resultJsonArray.toString());
+                }
+
                 imageProxy.close();
+                recognizerRunner.resetRecognitionState();
             }
 
             @Override
