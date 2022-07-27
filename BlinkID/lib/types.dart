@@ -1541,6 +1541,7 @@ enum Region {
     QuintanaRooBenitoJuarez,
     QuintanaRoo,
     QuintanaRooSolidaridad,
+    QuintanaRooCozumel,
     Tlaxcala
 }
 
@@ -1594,7 +1595,10 @@ enum Type {
     TribalId,
     VeteranId,
     CitizenshipCertificate,
-    MyNumberCard
+    MyNumberCard,
+    ConsularPassport,
+    MinorsPassport,
+    MinorsPublicServicesCard
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
