@@ -27,7 +27,6 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonObject.optBoolean("returnSignatureImage", false));
         recognizer.setScanCroppedDocumentImage(jsonObject.optBoolean("scanCroppedDocumentImage", false));
-        recognizer.setSignResult(jsonObject.optBoolean("signResult", false));
         recognizer.setSignatureImageDpi(jsonObject.optInt("signatureImageDpi", 250));
         recognizer.setSkipUnsupportedBack(jsonObject.optBoolean("skipUnsupportedBack", false));
         recognizer.setValidateResultCharacters(jsonObject.optBoolean("validateResultCharacters", true));
@@ -53,8 +52,6 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
             jsonResult.put("dateOfIssue", SerializationUtils.serializeDate(result.getDateOfIssue()));
-            jsonResult.put("digitalSignature", SerializationUtils.encodeByteArrayToBase64(result.getDigitalSignature()));
-            jsonResult.put("digitalSignatureVersion", (int)result.getDigitalSignatureVersion());
             jsonResult.put("documentAdditionalNumber", result.getDocumentAdditionalNumber());
             jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
             jsonResult.put("documentNumber", result.getDocumentNumber());
