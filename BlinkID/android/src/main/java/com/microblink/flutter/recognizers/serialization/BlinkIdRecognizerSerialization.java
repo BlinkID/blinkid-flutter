@@ -24,6 +24,7 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonObject.optBoolean("returnSignatureImage", false));
+        recognizer.setSaveCameraFrames(jsonObject.optBoolean("saveCameraFrames", false));
         recognizer.setScanCroppedDocumentImage(jsonObject.optBoolean("scanCroppedDocumentImage", false));
         recognizer.setSignatureImageDpi(jsonObject.optInt("signatureImageDpi", 250));
         recognizer.setValidateResultCharacters(jsonObject.optBoolean("validateResultCharacters", true));
@@ -38,9 +39,12 @@ public final class BlinkIdRecognizerSerialization implements RecognizerSerializa
             SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
             jsonResult.put("additionalAddressInformation", result.getAdditionalAddressInformation());
             jsonResult.put("additionalNameInformation", result.getAdditionalNameInformation());
+            jsonResult.put("additionalOptionalAddressInformation", result.getAdditionalOptionalAddressInformation());
             jsonResult.put("address", result.getAddress());
             jsonResult.put("age", result.getAge());
+            jsonResult.put("barcodeCameraFrame", SerializationUtils.encodeImageBase64(result.getBarcodeCameraFrame()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
+            jsonResult.put("cameraFrame", SerializationUtils.encodeImageBase64(result.getCameraFrame()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));

@@ -1,3 +1,11 @@
+## 5.18.0
+
+We have updated the plugin to [Android SDK v5.18.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.18.0) and [iOS SDK v5.18.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.18.0)
+
+## 5.17.0
+
+We have updated the plugin to [Android SDK v5.17.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.17.0) and [iOS SDK v5.17.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.17.0)
+
 ## 5.15.1
 
 We have updated the plugin to [Android SDK v5.15.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.15.0) and [iOS SDK v5.15.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.15.0)

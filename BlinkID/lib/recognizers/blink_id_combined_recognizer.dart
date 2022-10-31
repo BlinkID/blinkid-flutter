@@ -15,6 +15,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///The additional name information of the document owner. 
     String? additionalNameInformation;
     
+    ///The one more additional address information of the document owner. 
+    String? additionalOptionalAddressInformation;
+    
     ///The address of the document owner. 
     String? address;
     
@@ -22,6 +25,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     /// between now and date of birth. Now is current time on the device.
     /// @return current age of the document owner in years or -1 if date of birth is unknown. 
     int? age;
+    
+    ///The back raw camera frame. 
+    String? backCameraFrame;
     
     ///Defines possible color and moire statuses determined from scanned back image. 
     ImageAnalysisResult? backImageAnalysisResult;
@@ -32,11 +38,17 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     ///Defines the data extracted from the back side visual inspection zone. 
     VizResult? backVizResult;
     
+    ///The barcode raw camera frame. 
+    String? barcodeCameraFrame;
+    
     ///Defines the data extracted from the barcode. 
     BarcodeResult? barcodeResult;
     
     ///The classification information. 
     ClassInfo? classInfo;
+    
+    ///Detailed info on data match. 
+    DataMatchDetailedInfo? dataMatchDetailedInfo;
     
     ///The date of birth of the document owner. 
     Date? dateOfBirth;
@@ -49,12 +61,6 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
     ///The date of issue of the document. 
     Date? dateOfIssue;
-    
-    ///Digital signature of the recognition result. Available only if enabled with signResult property. 
-    String? digitalSignature;
-    
-    ///Version of the digital signature. Available only if enabled with signResult property. 
-    int? digitalSignatureVersion;
     
     ///The additional number of the document. 
     String? documentAdditionalNumber;
@@ -94,6 +100,9 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
     
     ///The first name of the document owner. 
     String? firstName;
+    
+    ///The front raw camera frame. 
+    String? frontCameraFrame;
     
     ///Defines possible color and moire statuses determined from scanned front image. 
     ImageAnalysisResult? frontImageAnalysisResult;
@@ -198,9 +207,13 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         
         this.additionalNameInformation = nativeResult["additionalNameInformation"];
         
+        this.additionalOptionalAddressInformation = nativeResult["additionalOptionalAddressInformation"];
+        
         this.address = nativeResult["address"];
         
         this.age = nativeResult["age"];
+        
+        this.backCameraFrame = nativeResult["backCameraFrame"];
         
         this.backImageAnalysisResult = nativeResult["backImageAnalysisResult"] != null ? ImageAnalysisResult(Map<String, dynamic>.from(nativeResult["backImageAnalysisResult"])) : null;
         
@@ -208,9 +221,13 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         
         this.backVizResult = nativeResult["backVizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["backVizResult"])) : null;
         
+        this.barcodeCameraFrame = nativeResult["barcodeCameraFrame"];
+        
         this.barcodeResult = nativeResult["barcodeResult"] != null ? BarcodeResult(Map<String, dynamic>.from(nativeResult["barcodeResult"])) : null;
         
         this.classInfo = nativeResult["classInfo"] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult["classInfo"])) : null;
+        
+        this.dataMatchDetailedInfo = nativeResult["dataMatchDetailedInfo"] != null ? DataMatchDetailedInfo(Map<String, dynamic>.from(nativeResult["dataMatchDetailedInfo"])) : null;
         
         this.dateOfBirth = nativeResult["dateOfBirth"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
         
@@ -219,10 +236,6 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         this.dateOfExpiryPermanent = nativeResult["dateOfExpiryPermanent"];
         
         this.dateOfIssue = nativeResult["dateOfIssue"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfIssue"])) : null;
-        
-        this.digitalSignature = nativeResult["digitalSignature"];
-        
-        this.digitalSignatureVersion = nativeResult["digitalSignatureVersion"];
         
         this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"];
         
@@ -243,6 +256,8 @@ class BlinkIdCombinedRecognizerResult extends RecognizerResult {
         this.fathersName = nativeResult["fathersName"];
         
         this.firstName = nativeResult["firstName"];
+        
+        this.frontCameraFrame = nativeResult["frontCameraFrame"];
         
         this.frontImageAnalysisResult = nativeResult["frontImageAnalysisResult"] != null ? ImageAnalysisResult(Map<String, dynamic>.from(nativeResult["frontImageAnalysisResult"])) : null;
         
@@ -395,16 +410,17 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     /// 
     bool returnSignatureImage = false;
     
+    ///Configure the recognizer to save the raw camera frames.
+    /// This significantly increases memory consumption.
+    /// 
+    /// 
+    bool saveCameraFrames = false;
+    
     ///Configure the recognizer to only work on already cropped and dewarped images.
     /// This only works for still images - video feeds will ignore this setting.
     /// 
     /// 
     bool scanCroppedDocumentImage = false;
-    
-    ///Whether or not recognition result should be signed.
-    /// 
-    /// 
-    bool signResult = false;
     
     ///Property for setting DPI for signature images
     /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
@@ -430,7 +446,6 @@ class BlinkIdCombinedRecognizer extends Recognizer {
     }
 
     factory BlinkIdCombinedRecognizer.fromJson(Map<String, dynamic> json) => _$BlinkIdCombinedRecognizerFromJson(json);
-
     Map<String, dynamic> toJson() => _$BlinkIdCombinedRecognizerToJson(this);
 }
 

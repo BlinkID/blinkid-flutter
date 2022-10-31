@@ -26,6 +26,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
         recognizer.setReturnFullDocumentImage(jsonObject.optBoolean("returnFullDocumentImage", false));
         recognizer.setReturnSignatureImage(jsonObject.optBoolean("returnSignatureImage", false));
+        recognizer.setSaveCameraFrames(jsonObject.optBoolean("saveCameraFrames", false));
         recognizer.setScanCroppedDocumentImage(jsonObject.optBoolean("scanCroppedDocumentImage", false));
         recognizer.setSignatureImageDpi(jsonObject.optInt("signatureImageDpi", 250));
         recognizer.setSkipUnsupportedBack(jsonObject.optBoolean("skipUnsupportedBack", false));
@@ -41,13 +42,17 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
             jsonResult.put("additionalAddressInformation", result.getAdditionalAddressInformation());
             jsonResult.put("additionalNameInformation", result.getAdditionalNameInformation());
+            jsonResult.put("additionalOptionalAddressInformation", result.getAdditionalOptionalAddressInformation());
             jsonResult.put("address", result.getAddress());
             jsonResult.put("age", result.getAge());
+            jsonResult.put("backCameraFrame", SerializationUtils.encodeImageBase64(result.getBackCameraFrame()));
             jsonResult.put("backImageAnalysisResult", BlinkIDSerializationUtils.serializeImageAnalysisResult(result.getBackImageAnalysisResult()));
             jsonResult.put("backProcessingStatus", SerializationUtils.serializeEnum(result.getBackProcessingStatus()));
             jsonResult.put("backVizResult", BlinkIDSerializationUtils.serializeVizResult(result.getBackVizResult()));
+            jsonResult.put("barcodeCameraFrame", SerializationUtils.encodeImageBase64(result.getBarcodeCameraFrame()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
+            jsonResult.put("dataMatchDetailedInfo", BlinkIDSerializationUtils.serializeDataMatchDetailedInfo(result.getDataMatchDetailedInfo()));
             jsonResult.put("dateOfBirth", SerializationUtils.serializeDate(result.getDateOfBirth()));
             jsonResult.put("dateOfExpiry", SerializationUtils.serializeDate(result.getDateOfExpiry()));
             jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
@@ -62,6 +67,7 @@ public final class BlinkIdCombinedRecognizerSerialization implements RecognizerS
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
             jsonResult.put("fathersName", result.getFathersName());
             jsonResult.put("firstName", result.getFirstName());
+            jsonResult.put("frontCameraFrame", SerializationUtils.encodeImageBase64(result.getFrontCameraFrame()));
             jsonResult.put("frontImageAnalysisResult", BlinkIDSerializationUtils.serializeImageAnalysisResult(result.getFrontImageAnalysisResult()));
             jsonResult.put("frontProcessingStatus", SerializationUtils.serializeEnum(result.getFrontProcessingStatus()));
             jsonResult.put("frontVizResult", BlinkIDSerializationUtils.serializeVizResult(result.getFrontVizResult()));

@@ -21,8 +21,7 @@ MrtdCombinedRecognizer _$MrtdCombinedRecognizerFromJson(
         json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
     ..numStableDetectionsThreshold = json['numStableDetectionsThreshold'] as int
     ..returnFaceImage = json['returnFaceImage'] as bool
-    ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
-    ..signResult = json['signResult'] as bool;
+    ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool;
 }
 
 Map<String, dynamic> _$MrtdCombinedRecognizerToJson(
@@ -40,7 +39,6 @@ Map<String, dynamic> _$MrtdCombinedRecognizerToJson(
       'numStableDetectionsThreshold': instance.numStableDetectionsThreshold,
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
-      'signResult': instance.signResult,
     };
 
 K _$enumDecode<K, V>(

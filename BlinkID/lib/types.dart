@@ -81,6 +81,26 @@ enum BarcodeType {
         PDF417
 }
 
+/// Gives more info on data match
+class DataMatchDetailedInfo {
+
+    ///  Data match result
+    DataMatchResult? dataMatchResult;
+    /// Date of birth result
+    DataMatchResult? dateOfBirth;
+    /// Date of expiry result
+    DataMatchResult? dateOfExpiry;
+    /// Document number result
+    DataMatchResult? documentNumber;
+
+    DataMatchDetailedInfo(Map<String, dynamic> nativeDataMatchDetailedInfo) {
+        this.dataMatchResult = DataMatchResult.values[nativeDataMatchDetailedInfo['dataMatchResult']];
+        this.dateOfBirth = DataMatchResult.values[nativeDataMatchDetailedInfo['dateOfBirth']];
+        this.dateOfExpiry = DataMatchResult.values[nativeDataMatchDetailedInfo['dateOfExpiry']];
+        this.documentNumber = DataMatchResult.values[nativeDataMatchDetailedInfo['documentNumber']];
+    }
+}
+
 /// Represents data extracted from the Driver's license.
 class DriverLicenseDetailedInfo {
 
@@ -92,13 +112,36 @@ class DriverLicenseDetailedInfo {
     String? vehicleClass;
     /// The driver license conditions.
     String? conditions;
+    /// The additional information on vehicle class.
+    List<VehicleClassInfo>? vehicleClassesInfo;
 
     DriverLicenseDetailedInfo(Map<String, dynamic> nativeDriverLicenseDetailedInfo) {
         this.restrictions = nativeDriverLicenseDetailedInfo['restrictions'];
         this.endorsements = nativeDriverLicenseDetailedInfo['endorsements'];
         this.vehicleClass = nativeDriverLicenseDetailedInfo['vehicleClass'];
         this.conditions = nativeDriverLicenseDetailedInfo['conditions'];
+        this.vehicleClassesInfo = nativeDriverLicenseDetailedInfo['vehicleClassesInfo'] != null
+            ? List<VehicleClassInfo>.from(nativeDriverLicenseDetailedInfo['vehicleClassesInfo'].map ((v) => VehicleClassInfo(v))) : null;
     }
+}
+
+class VehicleClassInfo{
+  /// The type of driver licence.
+  String? licenceType;
+  /// The type of vehicle the driver license owner has privilege to drive.
+  String? vehicleClass;
+  /// The date since licence is effective.
+  Date? effectiveDate;
+  /// The date of expiry of licence.
+  Date? expiryDate;
+
+   VehicleClassInfo(Map<String, dynamic> nativeVehicleClassInfo) {
+        this.licenceType = nativeVehicleClassInfo['licenceType'];
+        this.vehicleClass = nativeVehicleClassInfo['vehicleClass'];
+        this.effectiveDate = nativeVehicleClassInfo['effectiveDate'] != null ? Date(Map<String, dynamic>.from(nativeVehicleClassInfo['effectiveDate'])) : null;
+        this.expiryDate = nativeVehicleClassInfo['expiryDate'] != null ? Date(Map<String, dynamic>.from(nativeVehicleClassInfo['expiryDate'])) : null;
+    }
+
 }
 
 /// Represents the classification information.
@@ -1495,7 +1538,11 @@ enum Region {
     BajaCaliforniaSur,
     Campeche,
     Colima,
-    QuintanaRooBenitoJuarez
+    QuintanaRooBenitoJuarez,
+    QuintanaRoo,
+    QuintanaRooSolidaridad,
+    QuintanaRooCozumel,
+    Tlaxcala
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
@@ -1547,7 +1594,11 @@ enum Type {
     RefugeeId,
     TribalId,
     VeteranId,
-    CitizenshipCertificate
+    CitizenshipCertificate,
+    MyNumberCard,
+    ConsularPassport,
+    MinorsPassport,
+    MinorsPublicServicesCard
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -1709,7 +1760,6 @@ class RecognitionModeFilter {
     RecognitionModeFilter();
 
     factory RecognitionModeFilter.fromJson(Map<String, dynamic> json) => _$RecognitionModeFilterFromJson(json);
-
     Map<String, dynamic> toJson() => _$RecognitionModeFilterToJson(this);
 }
 
@@ -2042,7 +2092,6 @@ class ImageExtensionFactors {
     ImageExtensionFactors();
 
     factory ImageExtensionFactors.fromJson(Map<String, dynamic> json) => _$ImageExtensionFactorsFromJson(json);
-
     Map<String, dynamic> toJson() => _$ImageExtensionFactorsToJson(this);
 }
 

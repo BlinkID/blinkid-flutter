@@ -224,6 +224,5 @@ class IdBarcodeRecognizer extends Recognizer {
     }
 
     factory IdBarcodeRecognizer.fromJson(Map<String, dynamic> json) => _$IdBarcodeRecognizerFromJson(json);
-
     Map<String, dynamic> toJson() => _$IdBarcodeRecognizerToJson(this);
 }

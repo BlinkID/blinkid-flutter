@@ -16,8 +16,7 @@ PassportRecognizer _$PassportRecognizerFromJson(Map<String, dynamic> json) {
     ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
         json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
     ..returnFaceImage = json['returnFaceImage'] as bool
-    ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
-    ..signResult = json['signResult'] as bool;
+    ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool;
 }
 
 Map<String, dynamic> _$PassportRecognizerToJson(PassportRecognizer instance) =>
@@ -31,5 +30,4 @@ Map<String, dynamic> _$PassportRecognizerToJson(PassportRecognizer instance) =>
           instance.fullDocumentImageExtensionFactors.toJson(),
       'returnFaceImage': instance.returnFaceImage,
       'returnFullDocumentImage': instance.returnFullDocumentImage,
-      'signResult': instance.signResult,
     };

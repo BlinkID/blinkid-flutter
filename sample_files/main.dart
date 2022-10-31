@@ -21,9 +21,9 @@ class _MyAppState extends State<MyApp> {
   Future<void> scan() async {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38JVOIaKMxwPcbCIyP0vUvPF24aRSqLbl1Ietp3U7rXGfntq9kYtaEtu+SiPPkcbc3UtQH7hP7rgKHUK1+quHABe591IAnoFo7Aw0tfInuVQelUFsaxt0dGWMJgsNO+ujO+P4KsguSQdxI1eZPK+kEHXQbU3WzbeHJjmOUJwqM+0uC6y+Hp/aIlELYc5+n+K5enPZHIC+TtZB1mcSGZp2Ytqd7Aw7GOdCTQM8wrKIDIDYuzc3cv0DTKIoSEhdJZwY9r+jVzGyV4N0R8OlW9Av5kSZhc+YMj1R82RZ3jYCZGPLVQ+s2Ia5iF783NmG1srXLMm0GdGnW/7";
+      license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38KlPT6KM+UJDQdN/SAHFAZ01OkKGZK3G9/8TBMB8CENetCSID4rpPfLLlEG1h13PSdPx9lykeNJevouXPk9C1yZSX/l1F5w+fj7Jio4y8+lmLEEjvOL1/tEHkzw4E3pow1ne1N9Y4IPe2+84XY4d0/YfalJO+baAOtd9ecCZ25p+iJ5unkgwOE3hfo2Xd7kyzQnGftxws3wBc/IxBG7Avx/v7wL/ks4oJIMptBrPCxD8vVkqKPNB6SRAcwqRoishwQC9CyzILD4h+lNh+HM/XBLBOnFEDtXY3YRsBbWTiu4nOJmH84n11qnthrNxdkpqnozP6a7s4HvDA==";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license = "sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9U3OJtAYGbizcXhV5K1maxiDMJFmnmLT3IzuOot5d+g5HVnoLFduWFtl9egla46EkGtuAdJd1p0a67N0Q2JnbcTqZB5h6ksNpjPsrmcY9OLjmlul2n9rcunJkM1cxu96HES75tdPBQvPz+WBbdx8Tz1y8ZyW7sNjqzemaZ5oqGZEQPj/NrWl2nHjeFxectQG9iOVTmHUNaSPZN4bsYYAeD7v6bGrXG2sv1FrkMjPIQ7Ic50r/drJmq+qhMNPZOJ+M9PfyO5zGuZN+uChv5k4lxcRRZ/sYgxNvuA6plBiFcg3uYugkuIDTD1fVyCYE5BSUzOGQjyacgH";
+      license = 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9XHPeNBZ8SdUyn2cTOLJBfTXzw6PyBVyxUnOiqBBEXQ4C9Kbfh0bTMiI/T/WKiv7eC/tbkkrDTdqLtrG790DcI0GtXs0hsPZgMfRH9t67tZJYjv2MSftS4M+LznoPkcUQSY6oKxcZkzn9+MhTDiTdpefJdzjSG/n+xQcQMsx5vgIuHWiE+UtLHzhLiLszApK4pWUba8PWRsgn7c5R1IruXoe9p4yNuIZWgJIKaID5pCX5UY/kTTR4stvjxrpouoM+9S14veMocRCoFyJqquLmgQQqL4KiWIQpFEvtuQfh3IoAJ0wksNOXv+k9pc54PPihTU5knQp4KQvA==';
     } else {
       license = "";
     }
@@ -87,7 +87,8 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.race, "Race") +
         buildResult(result.religion, "Religion") +
         buildResult(result.residentialStatus, "Residential Status") +
-        buildDriverLicenceResult(result.driverLicenseDetailedInfo);
+        buildDriverLicenceResult(result.driverLicenseDetailedInfo) + 
+        buildDataMatchDetailedInfoResult(result.dataMatchDetailedInfo);
   }
 
   String buildResult(String? result, String propertyName) {
@@ -124,6 +125,17 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.endorsements, "Endorsements") +
         buildResult(result.vehicleClass, "Vehicle class") +
         buildResult(result.conditions, "Conditions");
+  }
+
+  String buildDataMatchDetailedInfoResult(DataMatchDetailedInfo? result) {
+    if (result == null) {
+      return "";
+    }
+
+    return buildResult(result.dateOfBirth?.toString(), "Date of birth") +
+        buildResult(result.dateOfExpiry?.toString(), "Date Of Expiry") +
+        buildResult(result.documentNumber?.toString(), "Document Number") +
+        buildResult(result.dataMatchResult?.toString(), "Data Match Result");
   }
 
   String getPassportResultString(BlinkIdCombinedRecognizerResult? result) {

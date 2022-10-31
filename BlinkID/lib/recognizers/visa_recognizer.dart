@@ -72,6 +72,5 @@ class VisaRecognizer extends Recognizer {
     }
 
     factory VisaRecognizer.fromJson(Map<String, dynamic> json) => _$VisaRecognizerFromJson(json);
-
     Map<String, dynamic> toJson() => _$VisaRecognizerToJson(this);
 }

@@ -16,8 +16,8 @@ UsdlCombinedRecognizer _$UsdlCombinedRecognizerFromJson(
     ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
     ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
         json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
-    ..numStableDetectionsThreshold = json['numStableDetectionsThreshold'] as int
-    ..signResult = json['signResult'] as bool;
+    ..numStableDetectionsThreshold =
+        json['numStableDetectionsThreshold'] as int;
 }
 
 Map<String, dynamic> _$UsdlCombinedRecognizerToJson(
@@ -31,5 +31,4 @@ Map<String, dynamic> _$UsdlCombinedRecognizerToJson(
       'fullDocumentImageExtensionFactors':
           instance.fullDocumentImageExtensionFactors.toJson(),
       'numStableDetectionsThreshold': instance.numStableDetectionsThreshold,
-      'signResult': instance.signResult,
     };
