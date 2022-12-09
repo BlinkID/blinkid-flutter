@@ -108,6 +108,8 @@ class MicroblinkScannerView: NSObject,
         
         MBOverlaySerializationUtils.extractCommonOverlaySettings(jsonSettings, overlaySettings: settings)
         
+        settings.cameraSettings.cameraPreset = MBCameraPreset.presetPhoto
+        
         let overlayViewController = CustomOverlayViewController.init(recognizerCollection: self.recognizerCollection!,
                                                                      cameraSettings: settings.cameraSettings)
         overlayViewController.delegate = self
@@ -186,6 +188,7 @@ class CustomOverlayViewController : MBCustomOverlayViewController,
             DispatchQueue.main.async(execute: {() -> Void in
                 let results = self.recognizerCollection.recognizerList.map({ return $0.serializeResult() })
                 self.delegate?.onFinishScanning(results: results)
+                recognizerRunnerViewController.resumeScanningAndResetState(true)
             })
         }
     }
