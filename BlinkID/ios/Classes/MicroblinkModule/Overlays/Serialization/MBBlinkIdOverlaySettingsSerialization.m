@@ -29,6 +29,7 @@
 -(MBOverlayViewController *) createOverlayViewController:(NSDictionary *)jsonOverlaySettings recognizerCollection:(MBRecognizerCollection*)recognizerCollection delegate:(id<MBOverlayViewControllerDelegate>) delegate {
     // no settings deserialized at the moment
     MBBlinkIdOverlaySettings *sett = [[MBBlinkIdOverlaySettings alloc] init];
+    sett.cameraSettings.cameraPreset = MBCameraPreset4K;
     self.delegate = delegate;
     [MBOverlaySerializationUtils extractCommonOverlaySettings:jsonOverlaySettings overlaySettings:sett];
 
