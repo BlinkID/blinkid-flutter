@@ -585,6 +585,7 @@ const _nationalityToCountryMap = {
     'CYPRIOT': 'CY',
     'CZECH': 'CZ',
     'DANISH': 'DK',
+    'DEUTSCH': 'DE',
     'DJIBOUTIAN': 'DJ',
     'DOMINICAN': 'DO',
     'DUTCH': 'NL',
