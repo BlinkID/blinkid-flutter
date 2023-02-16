@@ -1,3 +1,7 @@
+## 5.18.1
+
+- Fix for building APKs in release mode
+
 ## 5.18.0
 
 We have updated the plugin to [Android SDK v5.18.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.18.0) and [iOS SDK v5.18.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.18.0)
