@@ -74,7 +74,8 @@ RecognizerCollection _$RecognizerCollectionFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$RecognizerCollectionToJson(
         RecognizerCollection instance) =>
     <String, dynamic>{
-      'recognizerArray': instance.recognizerArray,
+      'recognizerArray':
+          instance.recognizerArray.map((e) => e.toJson()).toList(),
       'allowMultipleResults': instance.allowMultipleResults,
       'milisecondsBeforeTimeout': instance.milisecondsBeforeTimeout,
     };
