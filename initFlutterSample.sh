@@ -11,7 +11,7 @@ flutter create -a java --org com.microblink $appName
 # enter into demo project folder
 pushd $appName
 
-IS_LOCAL_BUILD=false || exit 1
+IS_LOCAL_BUILD=true || exit 1
 if [ "$IS_LOCAL_BUILD" = true ]; then
   # add blinkid_flutter dependency with local path to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:\n    path: ..\/BlinkID/" pubspec.yaml
@@ -36,7 +36,7 @@ popd
 pushd ios
 
 #Force minimal iOS version
-sed -i '' "s/# platform :ios, '9.0'/platform :ios, '12.0'/" Podfile
+sed -i '' "s/# platform :ios, '11.0'/platform :ios, '13.0'/" Podfile
 
 # install pod
 pod install

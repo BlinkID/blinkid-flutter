@@ -27,13 +27,13 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     String? city;
     
     ///The date of birth of the document owner. 
-    Date? dateOfBirth;
+    DateResult? dateOfBirth;
     
     ///The date of expiry of the document. 
-    Date? dateOfExpiry;
+    DateResult? dateOfExpiry;
     
     ///The date of issue of the document. 
-    Date? dateOfIssue;
+    DateResult? dateOfIssue;
     
     ///The additional number of the document. 
     String? documentAdditionalNumber;
@@ -145,11 +145,11 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.city = nativeResult["city"];
         
-        this.dateOfBirth = nativeResult["dateOfBirth"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
+        this.dateOfBirth = nativeResult["dateOfBirth"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
         
-        this.dateOfExpiry = nativeResult["dateOfExpiry"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfExpiry"])) : null;
+        this.dateOfExpiry = nativeResult["dateOfExpiry"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfExpiry"])) : null;
         
-        this.dateOfIssue = nativeResult["dateOfIssue"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfIssue"])) : null;
+        this.dateOfIssue = nativeResult["dateOfIssue"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfIssue"])) : null;
         
         this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"];
         

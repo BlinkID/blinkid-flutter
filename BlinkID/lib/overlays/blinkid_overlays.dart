@@ -63,7 +63,7 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// document side.
   String? retryButtonText;
 
-  /// If true, BlinkIdCombinedRecognizer will check if sides do match when scanning is finished
+  /// If true, BlinkIdMultiSideRecognizer will check if sides do match when scanning is finished
   /// Default: true
   bool requireDocumentSidesDataMatch = true;
 
@@ -133,5 +133,6 @@ class DocumentVerificationOverlaySettings extends OverlaySettings {
   factory DocumentVerificationOverlaySettings.fromJson(
           Map<String, dynamic> json) =>
       _$DocumentVerificationOverlaySettingsFromJson(json);
-  Map<String, dynamic> toJson() => _$DocumentVerificationOverlaySettingsToJson(this);
+  Map<String, dynamic> toJson() =>
+      _$DocumentVerificationOverlaySettingsToJson(this);
 }

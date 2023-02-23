@@ -6,10 +6,8 @@ part of 'id_barcode_recognizer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-IdBarcodeRecognizer _$IdBarcodeRecognizerFromJson(Map<String, dynamic> json) {
-  return IdBarcodeRecognizer()
-    ..recognizerType = json['recognizerType'] as String;
-}
+IdBarcodeRecognizer _$IdBarcodeRecognizerFromJson(Map<String, dynamic> json) =>
+    IdBarcodeRecognizer()..recognizerType = json['recognizerType'] as String;
 
 Map<String, dynamic> _$IdBarcodeRecognizerToJson(
         IdBarcodeRecognizer instance) =>

@@ -10,7 +10,7 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
   /// false otherwise. For example if date of expiry is scanned from the front and back side
   /// of the document and values do not match, this method will return false. Result will
   /// be true only if scanned values for all fields that are compared are the same.
-  DataMatchResult? documentDataMatch;
+  DataMatchState? documentDataMatch;
 
   /// face image from the document if enabled with returnFaceImage property.
   String? faceImage;
@@ -87,7 +87,7 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
   UsdlCombinedRecognizerResult(Map<String, dynamic> nativeResult)
       : super(RecognizerResultState.values[nativeResult['resultState']]) {
     this.documentDataMatch =
-        DataMatchResult.values[nativeResult["documentDataMatch"]];
+        DataMatchState.values[nativeResult["documentDataMatch"]];
 
     this.faceImage = nativeResult['faceImage'];
 
