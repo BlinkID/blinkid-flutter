@@ -1,8 +1,8 @@
-package com.microblink.flutter.recognizers.serialization;
+package com.microblink.blinkid.flutter.recognizers.serialization;
 
-import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.flutter.recognizers.RecognizerSerialization;
-import com.microblink.flutter.SerializationUtils;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
+import com.microblink.blinkid.flutter.recognizers.RecognizerSerialization;
+import com.microblink.blinkid.flutter.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +11,7 @@ public final class PassportRecognizerSerialization implements RecognizerSerializ
 
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonObject) {
-        com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer();
+        com.microblink.blinkid.entities.recognizers.blinkid.passport.PassportRecognizer recognizer = new com.microblink.blinkid.entities.recognizers.blinkid.passport.PassportRecognizer();
         recognizer.setAnonymizeNetherlandsMrz(jsonObject.optBoolean("anonymizeNetherlandsMrz", true));
         recognizer.setDetectGlare(jsonObject.optBoolean("detectGlare", true));
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
@@ -24,7 +24,7 @@ public final class PassportRecognizerSerialization implements RecognizerSerializ
 
     @Override
     public JSONObject serializeResult(Recognizer<?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer)recognizer).getResult();
+        com.microblink.blinkid.entities.recognizers.blinkid.passport.PassportRecognizer.Result result = ((com.microblink.blinkid.entities.recognizers.blinkid.passport.PassportRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
@@ -45,6 +45,6 @@ public final class PassportRecognizerSerialization implements RecognizerSerializ
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.passport.PassportRecognizer.class;
+        return com.microblink.blinkid.entities.recognizers.blinkid.passport.PassportRecognizer.class;
     }
 }

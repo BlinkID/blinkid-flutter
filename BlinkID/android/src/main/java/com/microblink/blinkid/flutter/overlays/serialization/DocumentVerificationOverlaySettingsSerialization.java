@@ -1,16 +1,16 @@
-package com.microblink.flutter.overlays.serialization;
+package com.microblink.blinkid.flutter.overlays.serialization;
 
 import android.content.Context;
 
-import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.fragment.overlay.blinkid.legacy.documentverification.LegacyDocumentVerificationOverlayStrings;
-import com.microblink.uisettings.LegacyDocumentVerificationUISettings;
-import com.microblink.uisettings.UISettings;
-import com.microblink.flutter.overlays.OverlaySettingsSerialization;
+import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
+import com.microblink.blinkid.fragment.overlay.blinkid.legacy.documentverification.LegacyDocumentVerificationOverlayStrings;
+import com.microblink.blinkid.uisettings.LegacyDocumentVerificationUISettings;
+import com.microblink.blinkid.uisettings.UISettings;
+import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerialization;
 
 import org.json.JSONObject;
 
-import static com.microblink.flutter.SerializationUtils.getStringFromJSONObject;
+import static com.microblink.blinkid.flutter.SerializationUtils.getStringFromJSONObject;
 
 public final class DocumentVerificationOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override

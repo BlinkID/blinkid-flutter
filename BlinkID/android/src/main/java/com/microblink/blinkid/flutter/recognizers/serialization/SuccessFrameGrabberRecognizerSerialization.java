@@ -1,10 +1,10 @@
-package com.microblink.flutter.recognizers.serialization;
+package com.microblink.blinkid.flutter.recognizers.serialization;
 
-import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.entities.recognizers.successframe.SuccessFrameGrabberRecognizer;
-import com.microblink.flutter.recognizers.RecognizerSerialization;
-import com.microblink.flutter.recognizers.RecognizerSerializers;
-import com.microblink.flutter.SerializationUtils;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
+import com.microblink.blinkid.entities.recognizers.successframe.SuccessFrameGrabberRecognizer;
+import com.microblink.blinkid.flutter.recognizers.RecognizerSerialization;
+import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers;
+import com.microblink.blinkid.flutter.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;

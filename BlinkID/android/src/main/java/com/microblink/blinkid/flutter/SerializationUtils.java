@@ -1,17 +1,17 @@
-package com.microblink.flutter;
+package com.microblink.blinkid.flutter;
 
 import android.graphics.Bitmap;
 import android.util.Base64;
 
-import com.microblink.entities.recognizers.Recognizer;
-//import com.microblink.entities.parsers.Parser;
-import com.microblink.geometry.Point;
-import com.microblink.geometry.Quadrilateral;
-import com.microblink.image.Image;
-import com.microblink.results.date.Date;
-import com.microblink.results.date.DateResult;
-import com.microblink.entities.Entity;
-import com.microblink.entities.recognizers.blinkid.imageoptions.extension.ImageExtensionFactors;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
+//import com.microblink.blinkid.entities.parsers.Parser;
+import com.microblink.blinkid.geometry.Point;
+import com.microblink.blinkid.geometry.Quadrilateral;
+import com.microblink.blinkid.image.Image;
+import com.microblink.blinkid.results.date.SimpleDate;
+import com.microblink.blinkid.results.date.Date;
+import com.microblink.blinkid.entities.Entity;
+import com.microblink.blinkid.entities.recognizers.blinkid.imageoptions.extension.ImageExtensionFactors;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +33,7 @@ public abstract class SerializationUtils {
         jsonObject.put("resultState", serializeEnum(result.getResultState()));
     }*/
 
-    public static JSONObject serializeDate( @Nullable  Date date ) throws JSONException {
+    public static JSONObject serializeSimpleDate( @Nullable  SimpleDate date ) throws JSONException {
         if (date != null ) {
             JSONObject jsonDate = new JSONObject();
             jsonDate.put("day", date.getDay());
@@ -45,11 +45,11 @@ public abstract class SerializationUtils {
         }
     }
 
-    public static JSONObject serializeDate(@Nullable DateResult dateResult) throws JSONException {
+    public static JSONObject serializeDate(@Nullable Date dateResult) throws JSONException {
         if (dateResult == null) {
             return null;
         } else {
-            return serializeDate(dateResult.getDate());
+            return serializeSimpleDate(dateResult.getDate());
         }
     }
 

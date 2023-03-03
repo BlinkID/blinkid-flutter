@@ -1,8 +1,8 @@
-package com.microblink.flutter.recognizers;
+package com.microblink.blinkid.flutter.recognizers;
 
-import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.flutter.recognizers.serialization.*;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
+import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
+import com.microblink.blinkid.flutter.recognizers.serialization.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,8 +23,8 @@ public enum RecognizerSerializers {
 
     RecognizerSerializers() {
         registerMapping(new SuccessFrameGrabberRecognizerSerialization());
-        registerMapping(new BlinkIdCombinedRecognizerSerialization());
-        registerMapping(new BlinkIdRecognizerSerialization());
+        registerMapping(new BlinkIdMultiSideRecognizerSerialization());
+        registerMapping(new BlinkIdSingleSideRecognizerSerialization());
         registerMapping(new DocumentFaceRecognizerSerialization());
         registerMapping(new IdBarcodeRecognizerSerialization());
         registerMapping(new MrtdCombinedRecognizerSerialization());

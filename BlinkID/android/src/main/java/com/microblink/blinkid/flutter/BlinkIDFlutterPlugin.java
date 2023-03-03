@@ -1,4 +1,4 @@
-package com.microblink.flutter;
+package com.microblink.blinkid.flutter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,22 +17,22 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
-import com.microblink.MicroblinkSDK;
-import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.entities.recognizers.RecognizerBundle;
-import com.microblink.intent.IntentDataTransferMode;
-import com.microblink.uisettings.UISettings;
-import com.microblink.uisettings.ActivityRunner;
+import com.microblink.blinkid.MicroblinkSDK;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
+import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
+import com.microblink.blinkid.intent.IntentDataTransferMode;
+import com.microblink.blinkid.uisettings.UISettings;
+import com.microblink.blinkid.uisettings.ActivityRunner;
 
-import com.microblink.flutter.recognizers.RecognizerSerializers;
-import com.microblink.flutter.overlays.OverlaySettingsSerializers;
+import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers;
+import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerializers;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
 
-public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener, ActivityAware {
+public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, PluginRegistry.ActivityResultListener, ActivityAware {
 
   private static final String CHANNEL = "blinkid_scanner";
 
@@ -57,7 +57,7 @@ public class MicroblinkFlutterPlugin implements FlutterPlugin, MethodCallHandler
   // This static function is optional and equivalent to onAttachedToEngine. It supports the old
   // pre-Flutter-1.12 Android projects.
   public static void registerWith(Registrar registrar) {
-    final MicroblinkFlutterPlugin plugin = new MicroblinkFlutterPlugin();
+    final BlinkIDFlutterPlugin plugin = new BlinkIDFlutterPlugin();
     plugin.setupPlugin(registrar.activity(), registrar.messenger());
     registrar.addActivityResultListener(plugin);
   }

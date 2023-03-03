@@ -1,32 +1,41 @@
-package com.microblink.flutter.recognizers.serialization;
+package com.microblink.blinkid.flutter.recognizers.serialization;
 
-import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlKeys;
-import com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer;
-import com.microblink.flutter.recognizers.RecognizerSerialization;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
+import com.microblink.blinkid.entities.recognizers.blinkbarcode.usdl.UsdlKeys;
+import com.microblink.blinkid.entities.recognizers.blinkid.usdl.UsdlCombinedRecognizer;
+import com.microblink.blinkid.flutter.recognizers.RecognizerSerialization;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.microblink.flutter.SerializationUtils;
+import com.microblink.blinkid.flutter.SerializationUtils;
 
-public final class UsdlRecognizerSerialization implements RecognizerSerialization {
+public final class UsdlCombinedRecognizerSerialization implements RecognizerSerialization {
 
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonRecognizer) {
-        com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer recognizer = new com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer();
-        recognizer.setNullQuietZoneAllowed(jsonRecognizer.optBoolean("nullQuietZoneAllowed", true));
-        recognizer.setUncertainDecoding(jsonRecognizer.optBoolean("uncertainDecoding", true));
+        UsdlCombinedRecognizer recognizer = new UsdlCombinedRecognizer();
+        recognizer.setFaceImageDpi(jsonRecognizer.optInt("faceImageDpi", 250));
+        recognizer.setFullDocumentImageDpi(jsonRecognizer.optInt("fullDocumentImageDpi", 250));
+        recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonRecognizer.optJSONObject("fullDocumentImageExtensionFactors")));
+        recognizer.setNumStableDetectionsThreshold(jsonRecognizer.optInt("numStableDetectionsThreshold", 6));
+        recognizer.setReturnFaceImage(jsonRecognizer.optBoolean("returnFaceImage", false));
+        recognizer.setReturnFullDocumentImage(jsonRecognizer.optBoolean("returnFullDocumentImage", false));
         return recognizer;
     }
 
     @Override
     public JSONObject serializeResult(Recognizer<?> recognizer) {
-        UsdlRecognizer.Result result = ((UsdlRecognizer)recognizer).getResult();
+        UsdlCombinedRecognizer.Result result = ((UsdlCombinedRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
+            jsonResult.put("documentDataMatch", SerializationUtils.serializeEnum(result.getDocumentDataMatch()));
+            jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
+            jsonResult.put("fullDocumentImage", SerializationUtils.encodeImageBase64(result.getFullDocumentImage()));
+            jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
+
             jsonResult.put("optionalElements", SerializationUtils.serializeStringArray(result.getOptionalElements()));
             jsonResult.put("rawData", SerializationUtils.encodeByteArrayToBase64(result.getRawData()));
             jsonResult.put("rawStringData", result.getRawStringData());
@@ -54,7 +63,7 @@ public final class UsdlRecognizerSerialization implements RecognizerSerializatio
         return jsonResult;
     }
 
-    private JSONArray serializeFields(UsdlRecognizer.Result result) {
+    private JSONArray serializeFields(UsdlCombinedRecognizer.Result result) {
         JSONArray fieldsArr = new JSONArray();
         for (int i = 0; i < UsdlKeys.values().length; ++i) {
             fieldsArr.put(result.getField(UsdlKeys.values()[i]));
@@ -64,11 +73,11 @@ public final class UsdlRecognizerSerialization implements RecognizerSerializatio
 
     @Override
     public String getJsonName() {
-        return "UsdlRecognizer";
+        return "UsdlCombinedRecognizer";
     }
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkbarcode.usdl.UsdlRecognizer.class;
+        return com.microblink.blinkid.entities.recognizers.blinkid.usdl.UsdlCombinedRecognizer.class;
     }
 }

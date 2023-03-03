@@ -1,8 +1,8 @@
-package com.microblink.flutter.recognizers.serialization;
+package com.microblink.blinkid.flutter.recognizers.serialization;
 
-import com.microblink.entities.recognizers.Recognizer;
-import com.microblink.flutter.recognizers.RecognizerSerialization;
-import com.microblink.flutter.SerializationUtils;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
+import com.microblink.blinkid.flutter.recognizers.RecognizerSerialization;
+import com.microblink.blinkid.flutter.SerializationUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,13 +11,13 @@ public final class IdBarcodeRecognizerSerialization implements RecognizerSeriali
 
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonObject) {
-        com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer recognizer = new com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer();
+        com.microblink.blinkid.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer recognizer = new com.microblink.blinkid.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer();
         return recognizer;
     }
 
     @Override
     public JSONObject serializeResult(Recognizer<?> recognizer) {
-        com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer.Result result = ((com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer)recognizer).getResult();
+        com.microblink.blinkid.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer.Result result = ((com.microblink.blinkid.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer)recognizer).getResult();
         JSONObject jsonResult = new JSONObject();
         try {
             SerializationUtils.addCommonRecognizerResultData(jsonResult, result);
@@ -72,6 +72,6 @@ public final class IdBarcodeRecognizerSerialization implements RecognizerSeriali
 
     @Override
     public Class<?> getRecognizerClass() {
-        return com.microblink.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer.class;
+        return com.microblink.blinkid.entities.recognizers.blinkid.idbarcode.IdBarcodeRecognizer.class;
     }
 }

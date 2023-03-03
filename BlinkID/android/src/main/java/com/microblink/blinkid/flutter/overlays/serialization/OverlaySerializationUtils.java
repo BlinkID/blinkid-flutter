@@ -1,9 +1,9 @@
-package com.microblink.flutter.overlays.serialization;
+package com.microblink.blinkid.flutter.overlays.serialization;
 
-import com.microblink.uisettings.UISettings;
-import com.microblink.uisettings.options.BeepSoundUIOptions;
-import com.microblink.uisettings.CameraSettings;
-import com.microblink.hardware.camera.CameraType;
+import com.microblink.blinkid.uisettings.UISettings;
+import com.microblink.blinkid.uisettings.options.BeepSoundUIOptions;
+import com.microblink.blinkid.uisettings.CameraSettings;
+import com.microblink.blinkid.hardware.camera.CameraType;
 import com.microblink.flutter.R;
 
 import org.json.JSONObject;

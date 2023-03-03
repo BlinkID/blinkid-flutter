@@ -1,6 +1,6 @@
-package com.microblink.flutter.recognizers;
+package com.microblink.blinkid.flutter.recognizers;
 
-import com.microblink.entities.recognizers.Recognizer;
+import com.microblink.blinkid.entities.recognizers.Recognizer;
 
 import org.json.JSONObject;
 
