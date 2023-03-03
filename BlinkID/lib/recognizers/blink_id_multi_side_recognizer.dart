@@ -47,7 +47,7 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     ClassInfo? classInfo;
     
     ///Info on whether the data extracted from front image matches the data extracted from the back image. 
-    DataMatchResult? dataMatch;
+    DataMatchResult? dataMatchResult;
     
     ///The date of birth of the document owner. 
     DateResult? dateOfBirth;
@@ -197,7 +197,7 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         
         this.classInfo = nativeResult["classInfo"] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult["classInfo"])) : null;
         
-        this.dataMatch = nativeResult["dataMatch"] != null ? DataMatchResult(Map<String, dynamic>.from(nativeResult["dataMatch"])) : null;
+        this.dataMatchResult = nativeResult["dataMatchResult"] != null ? DataMatchResult(Map<String, dynamic>.from(nativeResult["dataMatchResult"])) : null;
         
         this.dateOfBirth = nativeResult["dateOfBirth"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
         

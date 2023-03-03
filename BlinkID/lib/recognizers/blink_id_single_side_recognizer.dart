@@ -7,7 +7,7 @@ part 'blink_id_single_side_recognizer.g.dart';
 /// Result object for BlinkIdSingleSideRecognizer.
 class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     
-    ///The additional name information of the document owner. 
+    ///The additional address information of the document owner. 
     StringResult? additionalAddressInformation;
     
     ///The additional name information of the document owner. 
