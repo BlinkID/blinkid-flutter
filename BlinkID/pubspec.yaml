@@ -26,7 +26,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.microblink.flutter
+        package: com.microblink.blinkid.flutter
         pluginClass: BlinkIDFlutterPlugin
       ios:
         pluginClass: BlinkIDFlutterPlugin

@@ -25,7 +25,7 @@ class _MyAppState extends State<MyApp> {
           "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38LVO6iNNLvwTdq8BXiJ5UonUGzXseoV2n66Da5wNIZLr1ZBRlnFt2rbdnzzt/qU/fcwoCOqO8Zs2aUb2Psx4KutvE2SPyDiBo2Ko6yiA/P54/B8Jh8sEVWrLT341QghRicpTDbfiuJLtQ6HyCUrQOd28fxlwulwrZhqdyHmVJVQ6S4Gu2Dxd5dxt3LiIcZ0JeOjNKaPtc4Qnz7BYI2nQ5VfW2V2gYRIsvTzjgvT1AM2OibUXY0HeY4CTZ0BHwPVKTkQVnE39cOJST5k9JtZoZV086L2elpxizJueRIh4J8IzopUIFEFwq70cBj17Qr5gtc=";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license =
-          'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9W3O7VHZ8FVY7cZiOjFE+9MkPHIhu5WMqlyimm2xmm3jLvuCtTH9Z2uD2gPAN9deZff9iozb5Ug7WRW7SUQnzjq6SPUJ/jQD7Ah223tqAbe7BEwOdhSMT9d0+rOpRMHPds/0fNlSiKAwmc1qW3rLs19gBMhHyyJm2zFSOJwzykmKF92LzJJc1J3By2Ejii/J4WAF8wATkViHtxVNvavuFEGeCnT5qM1NsBh+wVhjgPNPySwyc1I2qhqxIWQDM7kwHijglUDxHGBHKxBWCewWJBBEpFjr/3WtLBbhDzrBP3uYmNXs8kdMutA9/GqtZWX1oI=';
+          'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9W3O0VDY2v860Cyg0fJ3RhWpGsVuHQAL3ku7rb+BKQ2Hh4aUi73Z5bmO0/e1+rnVm1tZzt43W7lFlTYp4e6q/hE8/53bZjjVR4y5Ul0wWNQ0MVEkG0pkWxQsdBFdghIXZfyYuUm8wV2XOoQYnOMA3A2eAB+SCZ61x24jbE+PcXEL040OUlLQBnmBa0eg4Vc4mTGiMav6vXWlZ4vwfutINk6a9R0WPK2v3sUyKy5ybvo8PsysOlB9U7anR0AsM4GZ0qgS4REWy5Q3QGzl34AoMgHpceAJsHv7VRBki4lg8z/vu5GGlH52R6+63eBzzTxoy4=';
     } else {
       license = "";
     }
@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.religion, "Religion") +
         buildResult(result.residentialStatus, "Residential Status") +
         buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
-        buildDataMatchResult(result.dataMatchResult);
+        buildDataMatchResult(result.dataMatch);
   }
 
   String buildResult(StringResult? result, String propertyName) {
@@ -110,6 +110,28 @@ class _MyAppState extends State<MyApp> {
     }
 
     return buildResult(result!.originalDateStringResult, propertyName);
+  }
+
+  String buildAdditionalProcessingInfoResult(AdditionalProcessingInfo? result, String propertyName) {
+    if (result == null) {
+      return "empty";
+    }
+
+    final missingMandatoryFields = result.missingMandatoryFields;
+    String returnString = "";
+
+    if(missingMandatoryFields!.isNotEmpty) {
+
+      returnString = propertyName + ":\n";
+
+      for(var i=0;i<missingMandatoryFields.length;i++)
+      {
+        returnString += missingMandatoryFields[i].name + "\n";
+      }
+
+    }
+
+    return returnString;
   }
 
   String buildStringResult(String? result, String propertyName) {
