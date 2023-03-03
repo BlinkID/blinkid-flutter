@@ -1674,8 +1674,11 @@ enum Region {
     QuintanaRooBenitoJuarez,
     QuintanaRoo,
     QuintanaRooSolidaridad,
+    Tlaxcala,
     QuintanaRooCozumel,
-    Tlaxcala
+    SaoPaolo,
+    RioDeJaneiro,
+    RioGrandeDoSul
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
@@ -1731,7 +1734,8 @@ enum Type {
     MyNumberCard,
     ConsularPassport,
     MinorsPassport,
-    MinorsPublicServicesCard
+    MinorsPublicServicesCard,
+    DrivingPriviligeCard
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).

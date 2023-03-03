@@ -13,27 +13,23 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The address of the document owner. 
     String? address;
     
-    ///The current age of the document owner in years. It is calculated difference
-    /// between now and date of birth. Now is current time on the device.
-    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
+    ///The current age of the document owner in years. It is calculated difference 
     int? age;
     
-    ///Type of the barcode scanned
-    /// 
-    ///  @return Type of the barcode 
+    ///The format of the scanned barcode. 
     BarcodeType? barcodeType;
     
     ///The city address portion of the document owner. 
     String? city;
     
     ///The date of birth of the document owner. 
-    DateResult? dateOfBirth;
+    Date? dateOfBirth;
     
     ///The date of expiry of the document. 
-    DateResult? dateOfExpiry;
+    Date? dateOfExpiry;
     
     ///The date of issue of the document. 
-    DateResult? dateOfIssue;
+    Date? dateOfIssue;
     
     ///The additional number of the document. 
     String? documentAdditionalNumber;
@@ -41,9 +37,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The document number. 
     String? documentNumber;
     
-    ///The document type deduced from the recognized barcode
-    /// 
-    ///  @return Type of the document 
+    ///The document type deduced from the recognized barcode 
     IdBarcodeDocumentType? documentType;
     
     ///The employer of the document owner. 
@@ -52,18 +46,10 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The additional privileges granted to the driver license owner. 
     String? endorsements;
     
-    ///Checks whether the document has expired or not by comparing the current
-    /// time on the device with the date of expiry.
-    /// 
-    /// @return true if the document has expired, false in following cases:
-    /// document does not expire (date of expiry is permanent)
-    /// date of expiry has passed
-    /// date of expiry is unknown and it is not permanent 
+    ///Checks whether the document has expired or not by comparing the current 
     bool? expired;
     
-    ///Document specific extended elements that contain all barcode fields in their original form.
-    /// 
-    /// Currently this is only filled for AAMVACompliant documents. 
+    ///Document specific extended elements that contain all barcode fields in their original form. 
     BarcodeElements? extendedElements;
     
     ///The first name of the document owner. 
@@ -105,13 +91,13 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The race of the document owner. 
     String? race;
     
-    ///Byte array with result of the scan 
+    ///The raw bytes contained inside barcode. 
     String? rawData;
     
     ///The religion of the document owner. 
     String? religion;
     
-    ///The residential stauts of the document owner. 
+    ///The residential status of the document owner. 
     String? residentialStatus;
     
     ///The restrictions to driving privileges for the driver license owner. 
@@ -123,11 +109,10 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     ///The street address portion of the document owner. 
     String? street;
     
-    ///Retrieves string content of scanned data 
+    ///String representation of data inside barcode. 
     String? stringData;
     
-    ///Flag indicating uncertain scanning data
-    /// E.g obtained from damaged barcode. 
+    ///True if returned result is uncertain, i.e. if scanned barcode was incomplete (i.e. 
     bool? uncertain;
     
     ///The type of vehicle the driver license owner has privilege to drive. 
@@ -145,11 +130,11 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
         
         this.city = nativeResult["city"];
         
-        this.dateOfBirth = nativeResult["dateOfBirth"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
+        this.dateOfBirth = nativeResult["dateOfBirth"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
         
-        this.dateOfExpiry = nativeResult["dateOfExpiry"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfExpiry"])) : null;
+        this.dateOfExpiry = nativeResult["dateOfExpiry"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfExpiry"])) : null;
         
-        this.dateOfIssue = nativeResult["dateOfIssue"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfIssue"])) : null;
+        this.dateOfIssue = nativeResult["dateOfIssue"] != null ? Date(Map<String, dynamic>.from(nativeResult["dateOfIssue"])) : null;
         
         this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"];
         
