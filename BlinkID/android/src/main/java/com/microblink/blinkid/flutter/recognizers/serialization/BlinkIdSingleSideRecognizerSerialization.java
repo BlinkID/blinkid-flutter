@@ -15,7 +15,7 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
         recognizer.setAllowBlurFilter(jsonObject.optBoolean("allowBlurFilter", true));
         recognizer.setAllowUnparsedMrzResults(jsonObject.optBoolean("allowUnparsedMrzResults", false));
         recognizer.setAllowUnverifiedMrzResults(jsonObject.optBoolean("allowUnverifiedMrzResults", true));
-        recognizer.setAnonymizationMode(com.microblink.blinkid.entities.recognizers.blinkid.generic.AnonymizationMode.values()[jsonObject.optInt("anonymizationMode", 4) - 1]);
+        recognizer.setAnonymizationMode(com.microblink.blinkid.entities.recognizers.blinkid.generic.AnonymizationMode.values()[jsonObject.optInt("anonymizationMode", 4)]);
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
