@@ -198,6 +198,7 @@
     [jsonResult setValue:[NSNumber numberWithBool:self.result.scanningFirstSideDone] forKey:@"scanningFirstSideDone"];
     [jsonResult setValue:[MBSerializationUtils serializeMBStringResult:self.result.sex] forKey:@"sex"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.signatureImage] forKey:@"signatureImage"];
+    [jsonResult setValue:[NSNumber numberWithInteger:self.result.version] forKey:@"version"];
 
     return jsonResult;
 }

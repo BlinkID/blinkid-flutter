@@ -91,7 +91,7 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.religion, "Religion") +
         buildResult(result.residentialStatus, "Residential Status") +
         buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
-        buildDataMatchResult(result.dataMatch);
+        buildDataMatchResult(result.dataMatchResult);
   }
 
   String buildResult(StringResult? result, String propertyName) {
@@ -112,7 +112,8 @@ class _MyAppState extends State<MyApp> {
     return buildResult(result!.originalDateStringResult, propertyName);
   }
 
-  String buildAdditionalProcessingInfoResult(AdditionalProcessingInfo? result, String propertyName) {
+  String buildAdditionalProcessingInfoResult(
+      AdditionalProcessingInfo? result, String propertyName) {
     if (result == null) {
       return "empty";
     }
@@ -120,15 +121,12 @@ class _MyAppState extends State<MyApp> {
     final missingMandatoryFields = result.missingMandatoryFields;
     String returnString = "";
 
-    if(missingMandatoryFields!.isNotEmpty) {
-
+    if (missingMandatoryFields!.isNotEmpty) {
       returnString = propertyName + ":\n";
 
-      for(var i=0;i<missingMandatoryFields.length;i++)
-      {
+      for (var i = 0; i < missingMandatoryFields.length; i++) {
         returnString += missingMandatoryFields[i].name + "\n";
       }
-
     }
 
     return returnString;
