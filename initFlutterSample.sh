@@ -36,7 +36,7 @@ popd
 pushd ios
 
 #Force minimal iOS version
-sed -i '' "s/# platform :ios, '9.0'/platform :ios, '12.0'/" Podfile
+sed -i '' "s/# platform :ios, '11.0'/platform :ios, '13.0'/" Podfile
 
 # install pod
 pod install
@@ -59,9 +59,10 @@ popd
 cp ../sample_files/main.dart lib/
 
 #update compile and target sdk versions to 31, add android:exported="true" to manifest
-sed -i '' 's#compileSdkVersion 30#compileSdkVersion 31#g' ./android/app/build.gradle
-sed -i '' 's#targetSdkVersion 30#targetSdkVersion 31#g' ./android/app/build.gradle
-sed -i '' 's#android:name=".MainActivity"#android:name=".MainActivity" android:exported="true"#g' ./android/app/src/main/AndroidManifest.xml
+sed -i '' 's#compileSdkVersion flutter.compileSdkVersion#compileSdkVersion 33#g' ./android/app/build.gradle
+sed -i '' 's#targetSdkVersion flutter.targetSdkVersion#targetSdkVersion 33#g' ./android/app/build.gradle
+sed -i '' 's#minSdkVersion flutter.minSdkVersion#minSdkVersion 21#g' ./android/app/build.gradle
+#sed -i '' 's#android:name=".MainActivity"#android:name=".MainActivity" android:exported="true"#g' ./android/app/src/main/AndroidManifest.xml
 
 echo ""
 echo "Go to Flutter project folder: cd $appName"

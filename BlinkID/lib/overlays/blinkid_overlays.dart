@@ -63,7 +63,7 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// document side.
   String? retryButtonText;
 
-  /// If true, BlinkIdCombinedRecognizer will check if sides do match when scanning is finished
+  /// If true, BlinkIdMultiSideRecognizer will check if sides do match when scanning is finished
   /// Default: true
   bool requireDocumentSidesDataMatch = true;
 
@@ -98,7 +98,7 @@ class BlinkIdOverlaySettings extends OverlaySettings {
 }
 
 /// Class for setting up document verification overlay.
-/// Document verification overlay is best suited for combined recognizers - recognizer that perform scanning of both sides of ID documents.
+/// Document verification overlay is best suited for multi side recognizers - recognizer that perform scanning of both sides of ID documents.
 @JsonSerializable()
 class DocumentVerificationOverlaySettings extends OverlaySettings {
   /// String: splash message that is shown before scanning the first side of the document, while starting camera.
@@ -133,5 +133,6 @@ class DocumentVerificationOverlaySettings extends OverlaySettings {
   factory DocumentVerificationOverlaySettings.fromJson(
           Map<String, dynamic> json) =>
       _$DocumentVerificationOverlaySettingsFromJson(json);
-  Map<String, dynamic> toJson() => _$DocumentVerificationOverlaySettingsToJson(this);
+          Map<String, dynamic> toJson() =>
+      _$DocumentVerificationOverlaySettingsToJson(this);
 }

@@ -32,8 +32,12 @@
         MBBaseOverlaySettings *baseOverlaySettings = (MBBaseOverlaySettings*)overlaySettings;
         {
             id enableBeep = [jsonOverlaySettings objectForKey:@"enableBeep"];
-            if (enableBeep != nil && ![(NSNumber*)enableBeep boolValue]) {
-                baseOverlaySettings.soundFilePath = @"";
+            if ([enableBeep isKindOfClass:NSNumber.class]) {
+                if (((NSNumber*)enableBeep).boolValue) {
+                    baseOverlaySettings.soundFilePath = [[MBMicroblinkApp sharedInstance].resourcesBundle pathForResource:@"PPbeep" ofType:@"wav"];
+                } else {
+                    baseOverlaySettings.soundFilePath = @"";
+                }
             }
         }
     }

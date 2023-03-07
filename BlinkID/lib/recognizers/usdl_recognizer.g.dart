@@ -6,13 +6,12 @@ part of 'usdl_recognizer.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UsdlRecognizer _$UsdlRecognizerFromJson(Map<String, dynamic> json) {
-  return UsdlRecognizer()
-    ..recognizerType = json['recognizerType'] as String
-    ..nullQuietZoneAllowed = json['nullQuietZoneAllowed'] as bool
-    ..uncertainDecoding = json['uncertainDecoding'] as bool
-    ..enableCompactParser = json['enableCompactParser'] as bool;
-}
+UsdlRecognizer _$UsdlRecognizerFromJson(Map<String, dynamic> json) =>
+    UsdlRecognizer()
+      ..recognizerType = json['recognizerType'] as String
+      ..nullQuietZoneAllowed = json['nullQuietZoneAllowed'] as bool
+      ..uncertainDecoding = json['uncertainDecoding'] as bool
+      ..enableCompactParser = json['enableCompactParser'] as bool;
 
 Map<String, dynamic> _$UsdlRecognizerToJson(UsdlRecognizer instance) =>
     <String, dynamic>{

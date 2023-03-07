@@ -53,6 +53,88 @@ class Quadrilateral {
     }
 }
 
+enum AlphabetType {
+  Latin,
+  Arabic,
+  Cyrillic
+}
+
+/// Represents strings for three alphabets
+class StringResult {
+    ///  All strings separated by new line
+    String? description;
+    /// Strings per alphabet
+    Map<AlphabetType, String?> stringsByAlphabet = Map<AlphabetType, String?>();
+
+    StringResult(Map<String, dynamic> nativeStringResult) {
+        this.description = nativeStringResult['description'];
+        this.stringsByAlphabet[AlphabetType.Latin] = nativeStringResult['latin'];
+        this.stringsByAlphabet[AlphabetType.Arabic] = nativeStringResult['arabic'];
+        this.stringsByAlphabet[AlphabetType.Cyrillic] = nativeStringResult['cyrillic'];
+    }
+}
+
+enum FieldType {
+    AdditionalAddressInformation,
+    AdditionalNameInformation,
+    AdditionalOptionalAddressInformation,
+    AdditionalPersonalIdNumber,
+    Address,
+    ClassEffectiveDate,
+    ClassExpiryDate,
+    Conditions,
+    DateOfBirth,
+    DateOfExpiry,
+    DateOfIssue,
+    DocumentAdditionalNumber,
+    DocumentOptionalAdditionalNumber,
+    DocumentNumber,
+    Employer,
+    Endorsements,
+    FathersName,
+    FirstName,
+    FullName,
+    IssuingAuthority,
+    LastName,
+    LicenceType,
+    LocalizedName,
+    MaritalStatus,
+    MothersName,
+    Mrz,
+    Nationality,
+    PersonalIdNumber,
+    PlaceOfBirth,
+    Profession,
+    Race,
+    Religion,
+    ResidentialStatus,
+    Restrictions,
+    Sex,
+    VehicleClass
+}
+
+class AdditionalProcessingInfo {
+  List<FieldType>? missingMandatoryFields;
+  List<FieldType>? invalidCharacterFields;
+  List<FieldType>? extraPresentFields;
+
+  AdditionalProcessingInfo(Map<String, dynamic> nativeAdditionalProcessingInfo) {
+        this.missingMandatoryFields = List<FieldType>.from(nativeAdditionalProcessingInfo['missingMandatoryFields'].map ((v) => FieldType.values[v]));
+        this.invalidCharacterFields = List<FieldType>.from(nativeAdditionalProcessingInfo['invalidCharacterFields'].map ((v) => FieldType.values[v]));
+        this.extraPresentFields = List<FieldType>.from(nativeAdditionalProcessingInfo['extraPresentFields'].map ((v) => FieldType.values[v]));
+    }
+}
+
+class DateResult {
+  Date? date;
+  StringResult? originalDateStringResult;
+
+  DateResult(Map<String, dynamic> nativeDateResult) {
+      this.date = Date(nativeDateResult);
+      this.originalDateStringResult = createStringResult(nativeDateResult, 'originalDateStringResult');
+  }
+}
+
 /// Represents the type of scanned barcode
 enum BarcodeType {
         /// No barcode was scanned
@@ -82,50 +164,82 @@ enum BarcodeType {
 }
 
 /// Gives more info on data match
-class DataMatchDetailedInfo {
+class DataMatchResult {
 
-    ///  Data match result
-    DataMatchResult? dataMatchResult;
+    ///  State for the whole document result
+    DataMatchState? stateForWholeDocument;
     /// Date of birth result
-    DataMatchResult? dateOfBirth;
+    DataMatchState? dateOfBirth;
     /// Date of expiry result
-    DataMatchResult? dateOfExpiry;
+    DataMatchState? dateOfExpiry;
     /// Document number result
-    DataMatchResult? documentNumber;
+    DataMatchState? documentNumber;
 
-    DataMatchDetailedInfo(Map<String, dynamic> nativeDataMatchDetailedInfo) {
-        this.dataMatchResult = DataMatchResult.values[nativeDataMatchDetailedInfo['dataMatchResult']];
-        this.dateOfBirth = DataMatchResult.values[nativeDataMatchDetailedInfo['dateOfBirth']];
-        this.dateOfExpiry = DataMatchResult.values[nativeDataMatchDetailedInfo['dateOfExpiry']];
-        this.documentNumber = DataMatchResult.values[nativeDataMatchDetailedInfo['documentNumber']];
+    DataMatchResult(Map<String, dynamic> nativeDataMatchResult) {
+        this.stateForWholeDocument = DataMatchState.values[nativeDataMatchResult['stateForWholeDocument']];
+        this.dateOfBirth = DataMatchState.values[nativeDataMatchResult['states'][0]['state']];
+        this.dateOfExpiry = DataMatchState.values[nativeDataMatchResult['states'][1]['state']];
+        this.documentNumber = DataMatchState.values[nativeDataMatchResult['states'][2]['state']];
     }
+}
+
+/// Represents data extracted from the Driver's license barcode.
+class BarcodeDriverLicenseDetailedInfo {
+  ///  Restrictions to driving privileges for the driver license owner.
+  String? restrictions;
+
+  /// Additional privileges granted to the driver license owner.
+  String? endorsements;
+
+  /// The type of vehicle the driver license owner has privilege to drive.
+  String? vehicleClass;
+
+  /// The driver license conditions.
+  String? conditions;
+
+  /// The additional information on vehicle class.
+  List<BarcodeVehicleClassInfo>? vehicleClassesInfo;
+
+  BarcodeDriverLicenseDetailedInfo(
+      Map<String, dynamic> nativeDriverLicenseDetailedInfo) {
+    this.restrictions = nativeDriverLicenseDetailedInfo['restrictions'];
+    this.endorsements = nativeDriverLicenseDetailedInfo['endorsements'];
+    this.vehicleClass = nativeDriverLicenseDetailedInfo['vehicleClass'];
+    this.conditions = nativeDriverLicenseDetailedInfo['conditions'];
+    this.vehicleClassesInfo =
+        nativeDriverLicenseDetailedInfo['vehicleClassesInfo'] != null
+            ? List<BarcodeVehicleClassInfo>.from(
+                nativeDriverLicenseDetailedInfo['vehicleClassesInfo']
+                    .map((v) => BarcodeVehicleClassInfo(v)))
+            : null;
+  }
 }
 
 /// Represents data extracted from the Driver's license.
 class DriverLicenseDetailedInfo {
 
     ///  Restrictions to driving privileges for the driver license owner.
-    String? restrictions;
+    StringResult? restrictions;
     /// Additional privileges granted to the driver license owner.
-    String? endorsements;
+    StringResult? endorsements;
     /// The type of vehicle the driver license owner has privilege to drive.
-    String? vehicleClass;
+    StringResult? vehicleClass;
     /// The driver license conditions.
-    String? conditions;
+    StringResult? conditions;
     /// The additional information on vehicle class.
     List<VehicleClassInfo>? vehicleClassesInfo;
 
     DriverLicenseDetailedInfo(Map<String, dynamic> nativeDriverLicenseDetailedInfo) {
-        this.restrictions = nativeDriverLicenseDetailedInfo['restrictions'];
-        this.endorsements = nativeDriverLicenseDetailedInfo['endorsements'];
-        this.vehicleClass = nativeDriverLicenseDetailedInfo['vehicleClass'];
-        this.conditions = nativeDriverLicenseDetailedInfo['conditions'];
+        this.restrictions = createStringResult(nativeDriverLicenseDetailedInfo, 'restrictions');
+        this.endorsements = createStringResult(nativeDriverLicenseDetailedInfo, 'endorsements');
+        this.vehicleClass = createStringResult(nativeDriverLicenseDetailedInfo, 'vehicleClass');
+        this.conditions = createStringResult(nativeDriverLicenseDetailedInfo, 'conditions');
         this.vehicleClassesInfo = nativeDriverLicenseDetailedInfo['vehicleClassesInfo'] != null
             ? List<VehicleClassInfo>.from(nativeDriverLicenseDetailedInfo['vehicleClassesInfo'].map ((v) => VehicleClassInfo(v))) : null;
     }
 }
 
-class VehicleClassInfo{
+class BarcodeVehicleClassInfo{
   /// The type of driver licence.
   String? licenceType;
   /// The type of vehicle the driver license owner has privilege to drive.
@@ -135,11 +249,30 @@ class VehicleClassInfo{
   /// The date of expiry of licence.
   Date? expiryDate;
 
-   VehicleClassInfo(Map<String, dynamic> nativeVehicleClassInfo) {
+   BarcodeVehicleClassInfo(Map<String, dynamic> nativeVehicleClassInfo) {
         this.licenceType = nativeVehicleClassInfo['licenceType'];
         this.vehicleClass = nativeVehicleClassInfo['vehicleClass'];
         this.effectiveDate = nativeVehicleClassInfo['effectiveDate'] != null ? Date(Map<String, dynamic>.from(nativeVehicleClassInfo['effectiveDate'])) : null;
         this.expiryDate = nativeVehicleClassInfo['expiryDate'] != null ? Date(Map<String, dynamic>.from(nativeVehicleClassInfo['expiryDate'])) : null;
+    }
+
+}
+
+class VehicleClassInfo{
+  /// The type of driver licence.
+  StringResult? licenceType;
+  /// The type of vehicle the driver license owner has privilege to drive.
+  StringResult? vehicleClass;
+  /// The date since licence is effective.
+  DateResult? effectiveDate;
+  /// The date of expiry of licence.
+  DateResult? expiryDate;
+
+   VehicleClassInfo(Map<String, dynamic> nativeVehicleClassInfo) {
+        this.licenceType = createStringResult(nativeVehicleClassInfo,'licenceType');
+        this.vehicleClass = createStringResult(nativeVehicleClassInfo,'vehicleClass');
+        this.effectiveDate = nativeVehicleClassInfo['effectiveDate'] != null ? DateResult(Map<String, dynamic>.from(nativeVehicleClassInfo['effectiveDate'])) : null;
+        this.expiryDate = nativeVehicleClassInfo['expiryDate'] != null ? DateResult(Map<String, dynamic>.from(nativeVehicleClassInfo['expiryDate'])) : null;
     }
 
 }
@@ -1144,7 +1277,7 @@ enum BarcodeElementKey {
         SecurityVersion
 }
 
-/// Defines possible color statuses determined from scanned image scanned with BlinkID or BlinkID Combined Recognizer
+/// Defines possible color statuses determined from scanned image scanned with BlinkID or BlinkID MultiSide Recognizer
 enum DocumentImageColorStatus {
     /// Determining image color status was not performed
     NotAvailable,
@@ -1164,7 +1297,7 @@ enum ImageAnalysisDetectionStatus {
     Detected
 }
 
-/// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
+/// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Country {
     None,
     Albania,
@@ -1423,7 +1556,7 @@ enum Country {
     Zimbabwe
 }
 
-/// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
+/// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Region {
     None,
     Alabama,
@@ -1541,11 +1674,14 @@ enum Region {
     QuintanaRooBenitoJuarez,
     QuintanaRoo,
     QuintanaRooSolidaridad,
+    Tlaxcala,
     QuintanaRooCozumel,
-    Tlaxcala
+    SaoPaolo,
+    RioDeJaneiro,
+    RioGrandeDoSul
 }
 
-/// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID Combined Recognizer
+/// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Type {
     None,
     ConsularId,
@@ -1598,7 +1734,8 @@ enum Type {
     MyNumberCard,
     ConsularPassport,
     MinorsPassport,
-    MinorsPublicServicesCard
+    MinorsPublicServicesCard,
+    DrivingPriviligeCard
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -1940,7 +2077,7 @@ class BarcodeResult {
     /// The jurisdiction code address portion of the document owner.
     String? jurisdiction;
     /// The driver license detailed info.
-    DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
+    BarcodeDriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     /// Flag that indicates if barcode result is empty
     bool? empty;
     /// Document specific extended elements that contain all barcode fields in their original form. Currently this is only filled for AAMVACompliant documents.
@@ -1977,7 +2114,7 @@ class BarcodeResult {
         this.postalCode = nativeBarcodeResult['postalCode'];
         this.city = nativeBarcodeResult['city'];
         this.jurisdiction = nativeBarcodeResult['jurisdiction'];
-        this.driverLicenseDetailedInfo = nativeBarcodeResult['driverLicenseDetailedInfo'] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeBarcodeResult['driverLicenseDetailedInfo'])) : null;
+        this.driverLicenseDetailedInfo = nativeBarcodeResult['driverLicenseDetailedInfo'] != null ? BarcodeDriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeBarcodeResult['driverLicenseDetailedInfo'])) : null;
         this.empty = nativeBarcodeResult['empty'];
         this.extendedElements = nativeBarcodeResult['extendedElements'] != null ? BarcodeElements(Map<String, dynamic>.from(nativeBarcodeResult['extendedElements'])) : null;
     }
@@ -1986,89 +2123,93 @@ class BarcodeResult {
 class VizResult {
 
     /// The first name of the document owner.
-    String? firstName;
+    StringResult? firstName;
     /// The last name of the document owner.
-    String? lastName;
+    StringResult? lastName;
     /// The full name of the document owner.
-    String? fullName;
+    StringResult? fullName;
     /// The additional name information of the document owner.
-    String? additionalNameInformation;
+    StringResult? additionalNameInformation;
     /// The localized name of the document owner.
-    String? localizedName;
+    StringResult? localizedName;
     /// The address of the document owner.
-    String? address;
+    StringResult? address;
     /// The additional address information of the document owner.
-    String? additionalAddressInformation;
+    StringResult? additionalAddressInformation;
     /// The place of birth of the document owner.
-    String? placeOfBirth;
+    StringResult? placeOfBirth;
     /// The nationality of the documet owner.
-    String? nationality;
+    StringResult? nationality;
     /// The race of the document owner.
-    String? race;
+    StringResult? race;
     /// The religion of the document owner.
-    String? religion;
+    StringResult? religion;
     /// The profession of the document owner.
-    String? profession;
+    StringResult? profession;
     /// The marital status of the document owner.
-    String? maritalStatus;
+    StringResult? maritalStatus;
     /// The residential stauts of the document owner.
-    String? residentialStatus;
+    StringResult? residentialStatus;
     /// The employer of the document owner.
-    String? employer;
+    StringResult? employer;
     /// The sex of the document owner.
-    String? sex;
+    StringResult? sex;
     /// The date of birth of the document owner.
-    Date? dateOfBirth;
+    DateResult? dateOfBirth;
     /// The date of issue of the document.
-    Date? dateOfIssue;
+    DateResult? dateOfIssue;
     /// The date of expiry of the document.
-    Date? dateOfExpiry;
+    DateResult? dateOfExpiry;
     /// The document number.
-    String? documentNumber;
+    StringResult? documentNumber;
     /// The personal identification number.
-    String? personalIdNumber;
+    StringResult? personalIdNumber;
     /// The additional number of the document.
-    String? documentAdditionalNumber;
+    StringResult? documentAdditionalNumber;
     /// The additional personal identification number.
-    String? additionalPersonalIdNumber;
+    StringResult? additionalPersonalIdNumber;
     /// The issuing authority of the document.
-    String? issuingAuthority;
+    StringResult? issuingAuthority;
     /// The driver license detailed info.
     DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     /// Flag that indicates if barcode result is empty
     bool? empty;
     /// The one more additional number of the document.
-    String? documentOptionalAdditionalNumber;
+    StringResult? documentOptionalAdditionalNumber;
 
     VizResult(Map<String, dynamic> nativeVizResult) {
-        this.firstName = nativeVizResult['firstName'];
-        this.lastName = nativeVizResult['lastName'];
-        this.fullName = nativeVizResult['fullName'];
-        this.additionalNameInformation = nativeVizResult['additionalNameInformation'];
-        this.localizedName = nativeVizResult['localizedName'];
-        this.address = nativeVizResult['address'];
-        this.additionalAddressInformation = nativeVizResult['additionalAddressInformation'];
-        this.placeOfBirth = nativeVizResult['placeOfBirth'];
-        this.nationality = nativeVizResult['nationality'];
-        this.race = nativeVizResult['race'];
-        this.religion = nativeVizResult['religion'];
-        this.profession = nativeVizResult['profession'];
-        this.maritalStatus = nativeVizResult['maritalStatus'];
-        this.residentialStatus = nativeVizResult['residentialStatus'];
-        this.employer = nativeVizResult['employer'];
-        this.sex = nativeVizResult['sex'];
-        this.dateOfBirth = nativeVizResult['dateOfBirth'] != null ? Date(Map<String, dynamic>.from(nativeVizResult['dateOfBirth'])) : null;
-        this.dateOfIssue = nativeVizResult['dateOfIssue'] != null ? Date(Map<String, dynamic>.from(nativeVizResult['dateOfIssue'])) : null;
-        this.dateOfExpiry = nativeVizResult['dateOfExpiry'] != null ? Date(Map<String, dynamic>.from(nativeVizResult['dateOfExpiry'])) : null;
-        this.documentNumber = nativeVizResult['documentNumber'];
-        this.personalIdNumber = nativeVizResult['personalIdNumber'];
-        this.documentAdditionalNumber = nativeVizResult['documentAdditionalNumber'];
-        this.additionalPersonalIdNumber = nativeVizResult['additionalPersonalIdNumber'];
-        this.issuingAuthority = nativeVizResult['issuingAuthority'];
+        this.firstName = createStringResult(nativeVizResult, 'firstName');
+        this.lastName = createStringResult(nativeVizResult, 'lastName');
+        this.fullName = createStringResult(nativeVizResult, 'fullName');
+        this.additionalNameInformation = createStringResult(nativeVizResult, 'additionalNameInformation');
+        this.localizedName = createStringResult(nativeVizResult, 'localizedName');
+        this.address = createStringResult(nativeVizResult, 'address');
+        this.additionalAddressInformation = createStringResult(nativeVizResult, 'additionalAddressInformation');
+        this.placeOfBirth = createStringResult(nativeVizResult, 'placeOfBirth');
+        this.nationality = createStringResult(nativeVizResult, 'nationality');
+        this.race = createStringResult(nativeVizResult, 'race');
+        this.religion = createStringResult(nativeVizResult, 'religion');
+        this.profession = createStringResult(nativeVizResult, 'profession');
+        this.maritalStatus = createStringResult(nativeVizResult, 'maritalStatus');
+        this.residentialStatus = createStringResult(nativeVizResult, 'residentialStatus');
+        this.employer = createStringResult(nativeVizResult, 'employer');
+        this.sex = createStringResult(nativeVizResult, 'sex');
+        this.dateOfBirth = nativeVizResult['dateOfBirth'] != null ? DateResult(Map<String, dynamic>.from(nativeVizResult['dateOfBirth'])) : null;
+        this.dateOfIssue = nativeVizResult['dateOfIssue'] != null ? DateResult(Map<String, dynamic>.from(nativeVizResult['dateOfIssue'])) : null;
+        this.dateOfExpiry = nativeVizResult['dateOfExpiry'] != null ? DateResult(Map<String, dynamic>.from(nativeVizResult['dateOfExpiry'])) : null;
+        this.documentNumber = createStringResult(nativeVizResult, 'documentNumber');
+        this.personalIdNumber = createStringResult(nativeVizResult, 'personalIdNumber');
+        this.documentAdditionalNumber = createStringResult(nativeVizResult, 'documentAdditionalNumber');
+        this.additionalPersonalIdNumber = createStringResult(nativeVizResult, 'additionalPersonalIdNumber');
+        this.issuingAuthority = createStringResult(nativeVizResult, 'issuingAuthority');
         this.driverLicenseDetailedInfo = nativeVizResult['driverLicenseDetailedInfo'] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeVizResult['driverLicenseDetailedInfo'])) : null;
         this.empty = nativeVizResult['empty'];
-        this.documentOptionalAdditionalNumber = nativeVizResult['documentOptionalAdditionalNumber'];
+        this.documentOptionalAdditionalNumber = createStringResult(nativeVizResult, 'documentOptionalAdditionalNumber');
     }
+}
+
+StringResult? createStringResult(Map<String, dynamic> result, String propertyName) {
+    return result[propertyName] != null ? StringResult(Map<String, dynamic>.from(result[propertyName])) : null;
 }
 
 
@@ -2096,7 +2237,7 @@ class ImageExtensionFactors {
 }
 
 /// Result of the data matching algorithm for scanned parts/sides of the document.
-enum DataMatchResult {
+enum DataMatchState {
     /// Data matching has not been performed.
     NotPerformed,
     /// Data does not match.
