@@ -63,8 +63,8 @@ Map<String, dynamic> _$BlinkIdMultiSideRecognizerToJson(
     };
 
 const _$AnonymizationModeEnumMap = {
-  AnonymizationMode.None: 1,
-  AnonymizationMode.ImageOnly: 2,
-  AnonymizationMode.ResultFieldsOnly: 3,
-  AnonymizationMode.FullResult: 4,
+  AnonymizationMode.None: 0,
+  AnonymizationMode.ImageOnly: 1,
+  AnonymizationMode.ResultFieldsOnly: 2,
+  AnonymizationMode.FullResult: 3,
 };
