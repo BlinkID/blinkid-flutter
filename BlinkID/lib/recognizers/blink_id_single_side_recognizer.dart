@@ -22,19 +22,21 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The address of the document owner. 
     StringResult? address;
     
-    ///The current age of the document owner in years. It is calculated difference 
+    ///The current age of the document owner in years. It is calculated difference
+    /// between now and date of birth. Now is current time on the device.
+    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
     int? age;
     
-    ///Barcode camera frame. 
+    ///The barcode raw camera frame. 
     String? barcodeCameraFrame;
     
-    ///The data extracted from the barcode. 
+    ///Defines the data extracted from the barcode. 
     BarcodeResult? barcodeResult;
     
-    ///Camera frame. 
+    ///The raw camera frame. 
     String? cameraFrame;
     
-    ///The document class information. 
+    ///The classification information. 
     ClassInfo? classInfo;
     
     ///The date of birth of the document owner. 
@@ -64,25 +66,31 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The employer of the document owner. 
     StringResult? employer;
     
-    ///Checks whether the document has expired or not by comparing the current 
+    ///Checks whether the document has expired or not by comparing the current
+    /// time on the device with the date of expiry.
+    /// 
+    /// @return true if the document has expired, false in following cases:
+    /// document does not expire (date of expiry is permanent)
+    /// date of expiry has passed
+    /// date of expiry is unknown and it is not permanent 
     bool? expired;
     
-    ///Face image from the document 
+    ///face image from the document if enabled with returnFaceImage property. 
     String? faceImage;
     
-    ///The fathers name of the document owner. 
+    ///The father's name of the document owner. 
     StringResult? fathersName;
     
     ///The first name of the document owner. 
     StringResult? firstName;
     
-    ///Image of the full document 
+    ///full document image if enabled with returnFullDocumentImage property. 
     String? fullDocumentImage;
     
     ///The full name of the document owner. 
     StringResult? fullName;
     
-    ///Image analysis result for the scanned document image 
+    ///Defines possible color and moire statuses determined from scanned image. 
     ImageAnalysisResult? imageAnalysisResult;
     
     ///The issuing authority of the document. 
@@ -97,10 +105,10 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The marital status of the document owner. 
     StringResult? maritalStatus;
     
-    ///The mothers name of the document owner. 
+    ///The mother's name of the document owner. 
     StringResult? mothersName;
     
-    ///The data extracted from the machine readable zone. 
+    ///The data extracted from the machine readable zone 
     MrzResult? mrzResult;
     
     ///The nationality of the documet owner. 
@@ -112,7 +120,7 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The place of birth of the document owner. 
     StringResult? placeOfBirth;
     
-    ///Status of the last recognition process. 
+    ///Defines status of the last recognition process. 
     ProcessingStatus? processingStatus;
     
     ///The profession of the document owner. 
@@ -133,10 +141,10 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The sex of the document owner. 
     StringResult? sex;
     
-    ///Signature image from the document 
+    ///image of the signature if enabled with returnSignatureImage property. 
     String? signatureImage;
     
-    ///The data extracted from the visual inspection zone. 
+    ///Defines the data extracted from the visual inspection zone 
     VizResult? vizResult;
     
     BlinkIdSingleSideRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
@@ -233,56 +241,99 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
 }
 
 
-///Generic BlinkID single side recognizer.
+///The Blink ID Recognizer is used for scanning Blink ID.
 @JsonSerializable()
 class BlinkIdSingleSideRecognizer extends Recognizer {
     
-    ///Skip processing of the blurred frames.
+    ///Defines whether blured frames filtering is allowed
+    /// 
+    /// 
     bool allowBlurFilter = true;
     
-    ///Allow reading of non-standard MRZ (Machine Readable Zone). Only raw MRZ result is returned.
+    ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
+    /// 
+    /// 
     bool allowUnparsedMrzResults = false;
     
-    ///Allow reading of standard MRZ (Machine Readable Zone) which gets successfully parsed,
+    ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed
+    /// Unverified MRZ is parsed, but check digits are incorrect
+    /// 
+    /// 
     bool allowUnverifiedMrzResults = true;
     
-    ///Redact specific fields based on requirements or laws regarding a specific document.
+    ///Defines whether sensitive data should be removed from images, result fields or both.
+    /// The setting only applies to certain documents
+    /// 
+    /// 
     AnonymizationMode anonymizationMode = AnonymizationMode.FullResult;
     
-    ///The DPI (Dots Per Inch) for face image that should be returned.
+    ///Property for setting DPI for face images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int faceImageDpi = 250;
     
-    ///The DPI (Dots Per Inch) for full document image that should be returned.
+    ///Property for setting DPI for full document images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int fullDocumentImageDpi = 250;
     
-    ///The extension factors for full document image.
+    ///Image extension factors for full document image.
+    /// 
+    /// @see ImageExtensionFactors
+    /// 
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
     
-    ///Minimum required distance between the edge of the scanning frame and the document.
+    ///Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
+    /// padding edge and image edge are the same.
+    /// Recommended value is 0.02f.
+    /// 
+    /// 
     double paddingEdge = 0.0;
     
-    ///Currently set recognition mode filter.
+    ///Enable or disable recognition of specific document groups supported by the current license.
+    /// 
+    /// 
     RecognitionModeFilter recognitionModeFilter = RecognitionModeFilter();
     
-    ///Defines whether face image will be available in result.
+    ///Sets whether face image from ID card should be extracted
+    /// 
+    /// 
     bool returnFaceImage = false;
     
-    ///Defines whether full document image will be available in
+    ///Sets whether full document image of ID card should be extracted.
+    /// 
+    /// 
     bool returnFullDocumentImage = false;
     
-    ///Defines whether signature image will be available in result.
+    ///Sets whether signature image from ID card should be extracted.
+    /// 
+    /// 
     bool returnSignatureImage = false;
     
-    ///Save the raw camera frames at the moment of the data extraction or timeout.
+    ///Configure the recognizer to save the raw camera frames.
+    /// This significantly increases memory consumption.
+    /// 
+    /// 
     bool saveCameraFrames = false;
     
-    ///Process only cropped document images with corrected perspective (frontal images of a document).
+    ///Configure the recognizer to only work on already cropped and dewarped images.
+    /// This only works for still images - video feeds will ignore this setting.
+    /// 
+    /// 
     bool scanCroppedDocumentImage = false;
     
-    ///The DPI (Dots Per Inch) for signature image that should be returned.
+    ///Property for setting DPI for signature images
+    /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
+    /// 
+    /// 
     int signatureImageDpi = 250;
     
-    ///Allow only results containing expected characters for a given field.
+    ///Defines whether result characters validatation is performed.
+    /// If a result member contains invalid character, the result state cannot be valid
+    /// 
+    /// 
     bool validateResultCharacters = true;
     
     BlinkIdSingleSideRecognizer(): super('BlinkIdSingleSideRecognizer');
