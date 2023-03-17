@@ -12,7 +12,7 @@ public final class DocumentFaceRecognizerSerialization implements RecognizerSeri
     @Override
     public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.blinkid.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer recognizer = new com.microblink.blinkid.entities.recognizers.blinkid.documentface.DocumentFaceRecognizer();
-        recognizer.setDetectorType(com.microblink.blinkid.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 1)]);
+        recognizer.setDetectorType(com.microblink.blinkid.entities.recognizers.blinkid.documentface.DocumentFaceDetectorType.values()[jsonObject.optInt("detectorType", 0)]);
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
