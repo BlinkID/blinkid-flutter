@@ -60,10 +60,10 @@ public abstract class BlinkIDSerializationUtils {
 
     public static JSONObject serializeDriverLicenseDetailedInfo(DriverLicenseDetailedInfo dlDetailedInfo) throws JSONException {
         JSONObject jsonDriverLicenseDetailedInfo = new JSONObject();
-        jsonDriverLicenseDetailedInfo.put("restrictions", dlDetailedInfo.getRestrictions());
-        jsonDriverLicenseDetailedInfo.put("endorsements", dlDetailedInfo.getEndorsements());
-        jsonDriverLicenseDetailedInfo.put("vehicleClass", dlDetailedInfo.getVehicleClass());
-        jsonDriverLicenseDetailedInfo.put("conditions", dlDetailedInfo.getConditions());
+        jsonDriverLicenseDetailedInfo.put("restrictions", serializeStringResult(dlDetailedInfo.getRestrictions()));
+        jsonDriverLicenseDetailedInfo.put("endorsements", serializeStringResult(dlDetailedInfo.getEndorsements()));
+        jsonDriverLicenseDetailedInfo.put("vehicleClass", serializeStringResult(dlDetailedInfo.getVehicleClass()));
+        jsonDriverLicenseDetailedInfo.put("conditions", serializeStringResult(dlDetailedInfo.getConditions()));
         JSONArray vehicleClassesInfo = new JSONArray();
         for (int i = 0; i < dlDetailedInfo.getVehicleClassesInfo().length; ++i) {
             vehicleClassesInfo.put(serializeVehicleClassInfo(dlDetailedInfo.getVehicleClassesInfo()[i]));
@@ -74,10 +74,10 @@ public abstract class BlinkIDSerializationUtils {
 
     public static JSONObject serializeVehicleClassInfo(VehicleClassInfo vehicleClassInfo) throws JSONException {
         JSONObject jsonVehicleClassInfo = new JSONObject();
-        jsonVehicleClassInfo.put("vehicleClass", vehicleClassInfo.getVehicleClass());
-        jsonVehicleClassInfo.put("licenceType", vehicleClassInfo.getLicenceType());
-        jsonVehicleClassInfo.put("effectiveDate", SerializationUtils.serializeSimpleDate(vehicleClassInfo.getEffectiveDate().getDate()));
-        jsonVehicleClassInfo.put("expiryDate", SerializationUtils.serializeSimpleDate(vehicleClassInfo.getExpiryDate().getDate()));
+        jsonVehicleClassInfo.put("vehicleClass", serializeStringResult(vehicleClassInfo.getVehicleClass()));
+        jsonVehicleClassInfo.put("licenceType", serializeStringResult(vehicleClassInfo.getLicenceType()));
+        jsonVehicleClassInfo.put("effectiveDate", serializeDateResult(vehicleClassInfo.getEffectiveDate().getDate()));
+        jsonVehicleClassInfo.put("expiryDate", serializeDateResult(vehicleClassInfo.getExpiryDate().getDate()));
         return jsonVehicleClassInfo;
     }
 
