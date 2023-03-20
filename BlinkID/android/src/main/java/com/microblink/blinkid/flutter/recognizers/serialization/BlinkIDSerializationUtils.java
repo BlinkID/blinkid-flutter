@@ -76,8 +76,8 @@ public abstract class BlinkIDSerializationUtils {
         JSONObject jsonVehicleClassInfo = new JSONObject();
         jsonVehicleClassInfo.put("vehicleClass", serializeStringResult(vehicleClassInfo.getVehicleClass()));
         jsonVehicleClassInfo.put("licenceType", serializeStringResult(vehicleClassInfo.getLicenceType()));
-        jsonVehicleClassInfo.put("effectiveDate", serializeDateResult(vehicleClassInfo.getEffectiveDate().getDate()));
-        jsonVehicleClassInfo.put("expiryDate", serializeDateResult(vehicleClassInfo.getExpiryDate().getDate()));
+        jsonVehicleClassInfo.put("effectiveDate", serializeDateResult(vehicleClassInfo.getEffectiveDate()));
+        jsonVehicleClassInfo.put("expiryDate", serializeDateResult(vehicleClassInfo.getExpiryDate()));
         return jsonVehicleClassInfo;
     }
 
