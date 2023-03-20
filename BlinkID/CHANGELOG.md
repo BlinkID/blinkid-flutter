@@ -1,3 +1,6 @@
+## 6.1.2
+- Fixed date and `documentDataMatch` errors
+
 ## 6.1.1
 - Updated to [Android SDK v6.1.1](https://github.com/BlinkID/blinkid-android/releases/tag/v6.1.1) and [iOS SDK v6.1.2](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.1.2)
 
