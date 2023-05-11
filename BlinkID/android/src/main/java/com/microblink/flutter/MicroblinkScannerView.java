@@ -28,6 +28,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.platform.PlatformView;
 
@@ -56,8 +57,8 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
      */
     @SuppressLint("NewApi")
     MicroblinkScannerView(@NonNull Context context, int id,
-            final MicroblinkCreationParams creationParams, BinaryMessenger messenger,
-            ActivityPluginBinding activityPluginBinding) {
+                          final MicroblinkCreationParams creationParams, BinaryMessenger messenger,
+                          ActivityPluginBinding activityPluginBinding) {
         methodChannel = new MethodChannel(messenger, "MicroblinkScannerWidget/" + id);
 
         MicroblinkScanner.Callbacks scannerCallbacks = this;
@@ -180,8 +181,25 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
     }
 
     @Override
-    public void onScanned(final String result) {
-        sendToMethodChannel("onFinishScanning", result);
+    public void onScanned(final String result, final Callback callback) {
+        methodChannel.setMethodCallHandler(new MethodChannel.MethodCallHandler() {
+            @Override
+            public void onMethodCall(@NonNull MethodCall methodCall, @NonNull MethodChannel.Result result) {
+                if (methodCall.method.equals("resumeScanning")) {
+                    callback.onResumeScanning();
+                } else {
+                    result.notImplemented();
+                }
+            }
+        });
+        mainThreadExecutor.execute(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        methodChannel.invokeMethod("onFinishScanning", result);
+                    }
+                }
+        );
     }
 
     @Override

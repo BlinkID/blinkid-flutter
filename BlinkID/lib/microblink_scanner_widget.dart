@@ -5,10 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-typedef MicroblinkScannerResultCallback = void Function(
-  List<RecognizerResult>?,
-);
-
 class MicroblinkScannerWidget extends StatefulWidget {
   const MicroblinkScannerWidget({
     Key? key,
@@ -24,24 +20,28 @@ class MicroblinkScannerWidget extends StatefulWidget {
   final RecognizerCollection collection;
   final OverlaySettings settings;
   final String licenseKey;
+
+  /// This function is called when Microblink has a result that is not unsuccessful.
+  /// During execution of this function no scanning would be done. The returned value controls whether scanning would
+  /// be resumed. If it returns true, scanning would be resumed. If false, scanning would not be resumed and client
+  /// is expected to dispose of this Widget.
   final MicroblinkScannerResultCallback onResult;
   final ValueChanged<String> onError;
   final VoidCallback onFirstSideScanned;
   final ValueChanged<DetectionStatus> onDetectionStatusUpdate;
 
   @override
-  State<MicroblinkScannerWidget> createState() =>
-      _MicroblinkScannerWidgetState();
+  State<MicroblinkScannerWidget> createState() => _MicroblinkScannerWidgetState();
 }
 
 class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
   late MethodChannel channel;
 
-  void _onFinishScanning(MethodCall call) {
+  Future<void> _onFinishScanning(MethodCall call) async {
     final List? jsonResults = jsonDecode(call.arguments);
 
     if (jsonResults == null) {
-      widget.onResult(null);
+      if (await widget.onResult(null)) channel.invokeMethod('resumeScanning');
 
       return;
     }
@@ -56,7 +56,7 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
       }
     }
 
-    widget.onResult(results);
+    if (await widget.onResult(results)) channel.invokeMethod('resumeScanning');
   }
 
   void _onDetectionStatusUpdate(MethodCall call) {
@@ -118,3 +118,7 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
     }
   }
 }
+
+typedef MicroblinkScannerResultCallback = Future<bool> Function(
+  List<RecognizerResult>?,
+);
