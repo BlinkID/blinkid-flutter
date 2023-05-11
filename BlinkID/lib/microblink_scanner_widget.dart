@@ -11,6 +11,8 @@ class MicroblinkScannerWidget extends StatefulWidget {
     required this.collection,
     required this.settings,
     required this.licenseKey,
+    required this.onScan,
+    required this.onScanDone,
     required this.onResult,
     required this.onError,
     required this.onFirstSideScanned,
@@ -20,6 +22,17 @@ class MicroblinkScannerWidget extends StatefulWidget {
   final RecognizerCollection collection;
   final OverlaySettings settings;
   final String licenseKey;
+
+  /// Called on every image frame that is passed to Microblink for recognition.
+  ///
+  /// Supposed to be used to track the real usage of Microblink recognition engine.
+  final VoidCallback onScan;
+
+  /// Called when Microblink has done the recognition of the image frame.
+  ///
+  /// Mind that this is not the state of some individual recognizer, but the state of the overall image recognition
+  /// operation.
+  final ValueSetter<RecognizerResultState> onScanDone;
 
   /// This function is called when Microblink has a result that is not unsuccessful.
   /// During execution of this function no scanning would be done. The returned value controls whether scanning would
@@ -68,7 +81,12 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
   void _createChannel(int viewId) {
     channel = MethodChannel('MicroblinkScannerWidget/$viewId')
       ..setMethodCallHandler((call) async {
-        if (call.method == 'onFinishScanning') {
+        if (call.method == 'onScan') {
+          widget.onScan();
+        } else if (call.method == 'onScanDone') {
+          final name = call.arguments as String;
+          widget.onScanDone(RecognizerResultState.values.byName(name));
+        } else if (call.method == 'onFinishScanning') {
           _onFinishScanning(call);
         } else if (call.method == 'onClose') {
           widget.onResult(null);

@@ -56,6 +56,7 @@ public class MicroblinkScanner implements ImageAnalysis.Analyzer {
 
             recognizerRunner.recognizeBitmap(bitmap, Orientation.ORIENTATION_LANDSCAPE_RIGHT,
                     createScanResultListener(image));
+            callbacks.onRecognizeBitmap();
         } else {
             image.close();
         }
@@ -66,6 +67,7 @@ public class MicroblinkScanner implements ImageAnalysis.Analyzer {
             @SuppressLint("NewApi")
             @Override
             public void onScanningDone(@NonNull RecognitionSuccessType recognitionSuccessType) {
+                callbacks.onScanningDone(recognitionSuccessType);
                 if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
                     JSONArray resultJsonArray =
                             RecognizerSerializers.INSTANCE.serializeRecognizerResults(
@@ -168,6 +170,10 @@ public class MicroblinkScanner implements ImageAnalysis.Analyzer {
         void onFirstSideScanned();
 
         void onDetectionStatusUpdated(DetectionStatus detectionStatus);
+
+        void onRecognizeBitmap();
+
+        void onScanningDone(RecognitionSuccessType recognitionSuccessType);
 
         void onScanned(String result, Callback callback);
 
