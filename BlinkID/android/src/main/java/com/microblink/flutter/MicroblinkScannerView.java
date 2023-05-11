@@ -190,11 +190,6 @@ class MicroblinkScannerView implements PlatformView, LifecycleOwner, MicroblinkS
     }
 
     @Override
-    public void onRecognizeBitmap() {
-        sendToMethodChannel("onScan", null);
-    }
-
-    @Override
     public void onScanningDone(RecognitionSuccessType recognitionSuccessType) {
         String name = nameMap.get(recognitionSuccessType);
         sendToMethodChannel("onScanDone", name);
