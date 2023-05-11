@@ -27,8 +27,74 @@ public class MicroblinkScannerViewFactory: NSObject, FlutterPlatformViewFactory 
 }
 
 class MicroblinkScannerView: NSObject,
-                             FlutterPlatformView,
-                             CustomOverlayViewControllerDelegate {
+                             FlutterPlatformView {
+    
+    private let controller = UIViewController()
+    private let channel: FlutterMethodChannel
+    private var recognizerCollection: MBRecognizerCollection?
+    private var overlayViewController: CustomOverlayViewController?
+    
+    init(
+        frame: CGRect,
+        viewIdentifier viewId: Int64,
+        arguments args: Any?,
+        binaryMessenger messenger: FlutterBinaryMessenger
+    ) {
+        controller.view = UIView()
+        self.channel = FlutterMethodChannel(name: "MicroblinkScannerWidget/" + String(viewId), binaryMessenger: messenger)
+        let arguments = args as! [AnyHashable : Any]
+        MBMicroblinkSDK.shared().setLicenseKey(arguments["licenseKey"] as! String, errorCallback: { _ in })
+        
+        let recognizerCollectionDict = arguments["recognizerCollection"] as! [AnyHashable : Any]
+        self.recognizerCollection = MBRecognizerSerializers.sharedInstance().deserializeRecognizerCollection(recognizerCollectionDict)!
+        
+        super.init()
+        
+        
+        self.channel.setMethodCallHandler(methodHandler)
+        let settingsDict = arguments["overlaySettings"] as! [AnyHashable : Any]
+        self.prepare(frame: frame, jsonSettings: settingsDict)
+    }
+    
+    func view() -> UIView {
+        return controller.view
+    }
+    
+    func prepare(frame: CGRect, jsonSettings: [AnyHashable : Any]) {
+        let settings = MBOverlaySettings()
+        
+        MBOverlaySerializationUtils.extractCommonOverlaySettings(jsonSettings, overlaySettings: settings)
+        
+        settings.cameraSettings.cameraPreset = MBCameraPreset.presetPhoto
+        
+        let overlayViewController = CustomOverlayViewController.init(recognizerCollection: self.recognizerCollection!,
+                                                                     cameraSettings: settings.cameraSettings)
+        overlayViewController.delegate = self
+        
+        let recognizerController = MBViewControllerFactory.recognizerRunnerViewController(withOverlayViewController: overlayViewController)!
+        
+        self.overlayViewController = overlayViewController
+        
+        recognizerController.view.frame = frame
+        controller.view.addSubview(recognizerController.view)
+        controller.addChild(recognizerController)
+        recognizerController.didMove(toParent: controller)
+    }
+    
+    private func methodHandler(_ call: FlutterMethodCall, _ result: @escaping FlutterResult){
+        switch(call.method){
+        case "resumeScanning":
+            self.overlayViewController?.resumeScanning()
+            result(nil)
+        default:
+            result(FlutterError(code: "Unsupported", message: "\(call.method) is not supported.", details: call))
+        }
+        
+    }
+    
+}
+
+extension MicroblinkScannerView: CustomOverlayViewControllerDelegate {
     func onClose() {
         self.channel.invokeMethod("onClose", arguments: nil)
     }
@@ -74,53 +140,6 @@ class MicroblinkScannerView: NSObject,
         
         self.channel.invokeMethod("onDetectionStatusUpdate", arguments: "{\"detectionStatus\": \"\(encodedStatus)\"}")
     }
-    
-    private let controller = UIViewController()
-    private let channel: FlutterMethodChannel
-    private var recognizerCollection: MBRecognizerCollection?
-    
-    init(
-        frame: CGRect,
-        viewIdentifier viewId: Int64,
-        arguments args: Any?,
-        binaryMessenger messenger: FlutterBinaryMessenger
-    ) {
-        controller.view = UIView()
-        self.channel = FlutterMethodChannel(name: "MicroblinkScannerWidget/" + String(viewId), binaryMessenger: messenger)
-        let arguments = args as! [AnyHashable : Any]
-        MBMicroblinkSDK.shared().setLicenseKey(arguments["licenseKey"] as! String, errorCallback: { _ in })
-        
-        let recognizerCollectionDict = arguments["recognizerCollection"] as! [AnyHashable : Any]
-        self.recognizerCollection = MBRecognizerSerializers.sharedInstance().deserializeRecognizerCollection(recognizerCollectionDict)!
-        
-        super.init()
-        
-        let settingsDict = arguments["overlaySettings"] as! [AnyHashable : Any]
-        self.prepare(frame: frame, jsonSettings: settingsDict)
-    }
-    
-    func view() -> UIView {
-        return controller.view
-    }
-    
-    func prepare(frame: CGRect, jsonSettings: [AnyHashable : Any]) {
-        let settings = MBOverlaySettings()
-        
-        MBOverlaySerializationUtils.extractCommonOverlaySettings(jsonSettings, overlaySettings: settings)
-        
-        settings.cameraSettings.cameraPreset = MBCameraPreset.presetPhoto
-        
-        let overlayViewController = CustomOverlayViewController.init(recognizerCollection: self.recognizerCollection!,
-                                                                     cameraSettings: settings.cameraSettings)
-        overlayViewController.delegate = self
-        
-        let recognizerController = MBViewControllerFactory.recognizerRunnerViewController(withOverlayViewController: overlayViewController)!
-        recognizerController.view.frame = frame
-        controller.view.addSubview(recognizerController.view)
-        controller.addChild(recognizerController)
-        recognizerController.didMove(toParent: controller)
-    }
-    
 }
 
 protocol CustomOverlayViewControllerDelegate {
@@ -135,6 +154,20 @@ class CustomOverlayViewController : MBCustomOverlayViewController,
                                     MBScanningRecognizerRunnerViewControllerDelegate,
                                     MBFirstSideFinishedRecognizerRunnerViewControllerDelegate,
                                     MBDetectionRecognizerRunnerViewControllerDelegate, MBRecognizerRunnerViewControllerDelegate {
+    var delegate: CustomOverlayViewControllerDelegate?
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    override init(recognizerCollection: MBRecognizerCollection, cameraSettings: MBCameraSettings) {
+        super.init(recognizerCollection: recognizerCollection, cameraSettings: cameraSettings)
+        self.scanningRecognizerRunnerViewControllerDelegate = self
+        self.recognizerRunnerViewControllerDelegate = self
+        self.metadataDelegates.detectionRecognizerRunnerViewControllerDelegate = self
+        self.metadataDelegates.firstSideFinishedRecognizerRunnerViewControllerDelegate = self
+    }
+    
     func recognizerRunnerViewControllerUnauthorizedCamera(_ recognizerRunnerViewController: UIViewController & MBRecognizerRunnerViewController) {}
     
     func recognizerRunnerViewController(_ recognizerRunnerViewController: UIViewController & MBRecognizerRunnerViewController,
@@ -156,18 +189,6 @@ class CustomOverlayViewController : MBCustomOverlayViewController,
     
     func recognizerRunnerViewControllerDidStopScanning(_ recognizerRunnerViewController: UIViewController & MBRecognizerRunnerViewController) {}
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    override init(recognizerCollection: MBRecognizerCollection, cameraSettings: MBCameraSettings) {
-        super.init(recognizerCollection: recognizerCollection, cameraSettings: cameraSettings)
-        self.scanningRecognizerRunnerViewControllerDelegate = self
-        self.recognizerRunnerViewControllerDelegate = self
-        self.metadataDelegates.detectionRecognizerRunnerViewControllerDelegate = self
-        self.metadataDelegates.firstSideFinishedRecognizerRunnerViewControllerDelegate = self
-    }
-    
     func recognizerRunnerViewControllerDidFinishRecognition(ofFirstSide recognizerRunnerViewController: UIViewController & MBRecognizerRunnerViewController) {
         DispatchQueue.main.async {
             self.delegate?.onFirstSideScanned()
@@ -188,10 +209,11 @@ class CustomOverlayViewController : MBCustomOverlayViewController,
             DispatchQueue.main.async(execute: {() -> Void in
                 let results = self.recognizerCollection.recognizerList.map({ return $0.serializeResult() })
                 self.delegate?.onFinishScanning(results: results)
-                recognizerRunnerViewController.resumeScanningAndResetState(true)
             })
         }
     }
     
-    var delegate: CustomOverlayViewControllerDelegate?
+    func resumeScanning() { recognizerRunnerViewController?.resumeScanningAndResetState(true)}
+    
+    
 }
