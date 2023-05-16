@@ -46,7 +46,7 @@ the application from VSCode, Android Studio or Xcode.
 Future<void> scan() async {
     List<RecognizerResult> results;
     
-    Recognizer recognizer = BlinkIdCombinedRecognizer();
+    Recognizer recognizer = BlinkIdMultiSideRecognizer();
     OverlaySettings settings = BlinkIdOverlaySettings();
 
     // set your license
