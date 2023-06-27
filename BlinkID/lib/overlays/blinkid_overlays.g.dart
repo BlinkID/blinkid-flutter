@@ -7,15 +7,14 @@ part of 'blinkid_overlays.dart';
 // **************************************************************************
 
 DocumentOverlaySettings _$DocumentOverlaySettingsFromJson(
-    Map<String, dynamic> json) {
-  return DocumentOverlaySettings()
-    ..overlaySettingsType = json['overlaySettingsType'] as String?
-    ..useFrontCamera = json['useFrontCamera'] as bool
-    ..enableBeep = json['enableBeep'] as bool
-    ..flipFrontCamera = json['flipFrontCamera'] as bool
-    ..language = json['language'] as String?
-    ..country = json['country'] as String?;
-}
+        Map<String, dynamic> json) =>
+    DocumentOverlaySettings()
+      ..overlaySettingsType = json['overlaySettingsType'] as String?
+      ..useFrontCamera = json['useFrontCamera'] as bool
+      ..enableBeep = json['enableBeep'] as bool
+      ..flipFrontCamera = json['flipFrontCamera'] as bool
+      ..language = json['language'] as String?
+      ..country = json['country'] as String?;
 
 Map<String, dynamic> _$DocumentOverlaySettingsToJson(
         DocumentOverlaySettings instance) =>
@@ -29,35 +28,35 @@ Map<String, dynamic> _$DocumentOverlaySettingsToJson(
     };
 
 BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
-    Map<String, dynamic> json) {
-  return BlinkIdOverlaySettings()
-    ..overlaySettingsType = json['overlaySettingsType'] as String?
-    ..useFrontCamera = json['useFrontCamera'] as bool
-    ..enableBeep = json['enableBeep'] as bool
-    ..flipFrontCamera = json['flipFrontCamera'] as bool
-    ..language = json['language'] as String?
-    ..country = json['country'] as String?
-    ..firstSideInstructionsText = json['firstSideInstructionsText'] as String?
-    ..flipInstructions = json['flipInstructions'] as String?
-    ..errorMoveCloser = json['errorMoveCloser'] as String?
-    ..errorMoveFarther = json['errorMoveFarther'] as String?
-    ..sidesNotMatchingTitle = json['sidesNotMatchingTitle'] as String?
-    ..sidesNotMatchingMessage = json['sidesNotMatchingMessage'] as String?
-    ..unsupportedDocumentTitle = json['unsupportedDocumentTitle'] as String?
-    ..unsupportedDocumentMessage = json['unsupportedDocumentMessage'] as String?
-    ..recognitionTimeoutTitle = json['recognitionTimeoutTitle'] as String?
-    ..recognitionTimeoutMessage = json['recognitionTimeoutMessage'] as String?
-    ..retryButtonText = json['retryButtonText'] as String?
-    ..requireDocumentSidesDataMatch =
-        json['requireDocumentSidesDataMatch'] as bool
-    ..showNotSupportedDialog = json['showNotSupportedDialog'] as bool
-    ..showFlashlightWarning = json['showFlashlightWarning'] as bool
-    ..backSideScanningTimeoutMilliseconds =
-        json['backSideScanningTimeoutMilliseconds'] as int
-    ..scanBarcodeText = json['scanBarcodeText'] as String?
-    ..errorDocumentTooCloseToEdge =
-        json['errorDocumentTooCloseToEdge'] as String?;
-}
+        Map<String, dynamic> json) =>
+    BlinkIdOverlaySettings()
+      ..overlaySettingsType = json['overlaySettingsType'] as String?
+      ..useFrontCamera = json['useFrontCamera'] as bool
+      ..enableBeep = json['enableBeep'] as bool
+      ..flipFrontCamera = json['flipFrontCamera'] as bool
+      ..language = json['language'] as String?
+      ..country = json['country'] as String?
+      ..firstSideInstructionsText = json['firstSideInstructionsText'] as String?
+      ..flipInstructions = json['flipInstructions'] as String?
+      ..errorMoveCloser = json['errorMoveCloser'] as String?
+      ..errorMoveFarther = json['errorMoveFarther'] as String?
+      ..sidesNotMatchingTitle = json['sidesNotMatchingTitle'] as String?
+      ..sidesNotMatchingMessage = json['sidesNotMatchingMessage'] as String?
+      ..unsupportedDocumentTitle = json['unsupportedDocumentTitle'] as String?
+      ..unsupportedDocumentMessage =
+          json['unsupportedDocumentMessage'] as String?
+      ..recognitionTimeoutTitle = json['recognitionTimeoutTitle'] as String?
+      ..recognitionTimeoutMessage = json['recognitionTimeoutMessage'] as String?
+      ..retryButtonText = json['retryButtonText'] as String?
+      ..requireDocumentSidesDataMatch =
+          json['requireDocumentSidesDataMatch'] as bool
+      ..showNotSupportedDialog = json['showNotSupportedDialog'] as bool
+      ..showFlashlightWarning = json['showFlashlightWarning'] as bool
+      ..backSideScanningTimeoutMilliseconds =
+          json['backSideScanningTimeoutMilliseconds'] as int
+      ..scanBarcodeText = json['scanBarcodeText'] as String?
+      ..errorDocumentTooCloseToEdge =
+          json['errorDocumentTooCloseToEdge'] as String?;
 
 Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
         BlinkIdOverlaySettings instance) =>
@@ -89,21 +88,21 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
     };
 
 DocumentVerificationOverlaySettings
-    _$DocumentVerificationOverlaySettingsFromJson(Map<String, dynamic> json) {
-  return DocumentVerificationOverlaySettings()
-    ..overlaySettingsType = json['overlaySettingsType'] as String?
-    ..useFrontCamera = json['useFrontCamera'] as bool
-    ..enableBeep = json['enableBeep'] as bool
-    ..flipFrontCamera = json['flipFrontCamera'] as bool
-    ..language = json['language'] as String?
-    ..country = json['country'] as String?
-    ..firstSideSplashMessage = json['firstSideSplashMessage'] as String?
-    ..secondSideSplashMessage = json['secondSideSplashMessage'] as String?
-    ..scanningDoneSplashMessage = json['scanningDoneSplashMessage'] as String?
-    ..firstSideInstructions = json['firstSideInstructions'] as String?
-    ..secondSideInstructions = json['secondSideInstructions'] as String?
-    ..glareMessage = json['glareMessage'] as String?;
-}
+    _$DocumentVerificationOverlaySettingsFromJson(Map<String, dynamic> json) =>
+        DocumentVerificationOverlaySettings()
+          ..overlaySettingsType = json['overlaySettingsType'] as String?
+          ..useFrontCamera = json['useFrontCamera'] as bool
+          ..enableBeep = json['enableBeep'] as bool
+          ..flipFrontCamera = json['flipFrontCamera'] as bool
+          ..language = json['language'] as String?
+          ..country = json['country'] as String?
+          ..firstSideSplashMessage = json['firstSideSplashMessage'] as String?
+          ..secondSideSplashMessage = json['secondSideSplashMessage'] as String?
+          ..scanningDoneSplashMessage =
+              json['scanningDoneSplashMessage'] as String?
+          ..firstSideInstructions = json['firstSideInstructions'] as String?
+          ..secondSideInstructions = json['secondSideInstructions'] as String?
+          ..glareMessage = json['glareMessage'] as String?;
 
 Map<String, dynamic> _$DocumentVerificationOverlaySettingsToJson(
         DocumentVerificationOverlaySettings instance) =>

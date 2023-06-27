@@ -6,16 +6,15 @@ part of 'overlay_settings.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-OverlaySettings _$OverlaySettingsFromJson(Map<String, dynamic> json) {
-  return OverlaySettings(
-    json['overlaySettingsType'] as String?,
-  )
-    ..useFrontCamera = json['useFrontCamera'] as bool
-    ..enableBeep = json['enableBeep'] as bool
-    ..flipFrontCamera = json['flipFrontCamera'] as bool
-    ..language = json['language'] as String?
-    ..country = json['country'] as String?;
-}
+OverlaySettings _$OverlaySettingsFromJson(Map<String, dynamic> json) =>
+    OverlaySettings(
+      json['overlaySettingsType'] as String?,
+    )
+      ..useFrontCamera = json['useFrontCamera'] as bool
+      ..enableBeep = json['enableBeep'] as bool
+      ..flipFrontCamera = json['flipFrontCamera'] as bool
+      ..language = json['language'] as String?
+      ..country = json['country'] as String?;
 
 Map<String, dynamic> _$OverlaySettingsToJson(OverlaySettings instance) =>
     <String, dynamic>{

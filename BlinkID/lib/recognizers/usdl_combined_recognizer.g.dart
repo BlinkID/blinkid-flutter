@@ -7,18 +7,17 @@ part of 'usdl_combined_recognizer.dart';
 // **************************************************************************
 
 UsdlCombinedRecognizer _$UsdlCombinedRecognizerFromJson(
-    Map<String, dynamic> json) {
-  return UsdlCombinedRecognizer()
-    ..recognizerType = json['recognizerType'] as String
-    ..faceImageDpi = json['faceImageDpi'] as int
-    ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
-    ..returnFaceImage = json['returnFaceImage'] as bool
-    ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
-    ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
-        json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
-    ..numStableDetectionsThreshold =
-        json['numStableDetectionsThreshold'] as int;
-}
+        Map<String, dynamic> json) =>
+    UsdlCombinedRecognizer()
+      ..recognizerType = json['recognizerType'] as String
+      ..faceImageDpi = json['faceImageDpi'] as int
+      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..returnFaceImage = json['returnFaceImage'] as bool
+      ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
+      ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
+          json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
+      ..numStableDetectionsThreshold =
+          json['numStableDetectionsThreshold'] as int;
 
 Map<String, dynamic> _$UsdlCombinedRecognizerToJson(
         UsdlCombinedRecognizer instance) =>

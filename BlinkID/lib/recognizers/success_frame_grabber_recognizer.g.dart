@@ -7,11 +7,10 @@ part of 'success_frame_grabber_recognizer.dart';
 // **************************************************************************
 
 SuccessFrameGrabberRecognizer _$SuccessFrameGrabberRecognizerFromJson(
-    Map<String, dynamic> json) {
-  return SuccessFrameGrabberRecognizer(
-    Recognizer.fromJson(json['slaveRecognizer'] as Map<String, dynamic>),
-  )..recognizerType = json['recognizerType'] as String;
-}
+        Map<String, dynamic> json) =>
+    SuccessFrameGrabberRecognizer(
+      Recognizer.fromJson(json['slaveRecognizer'] as Map<String, dynamic>),
+    )..recognizerType = json['recognizerType'] as String;
 
 Map<String, dynamic> _$SuccessFrameGrabberRecognizerToJson(
         SuccessFrameGrabberRecognizer instance) =>

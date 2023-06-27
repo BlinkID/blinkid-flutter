@@ -1,5 +1,6 @@
-import '../recognizer.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../recognizer.dart';
 
 part 'success_frame_grabber_recognizer.g.dart';
 
@@ -11,8 +12,7 @@ class SuccessFrameGrabberRecognizerResult extends RecognizerResult {
   /// RecognizerResult of the slave recognizer
   RecognizerResult slaveRecognizerResult;
 
-  SuccessFrameGrabberRecognizerResult(
-      Map<String, dynamic> nativeResult, this.slaveRecognizerResult)
+  SuccessFrameGrabberRecognizerResult(Map<String, dynamic> nativeResult, this.slaveRecognizerResult)
       : super(RecognizerResultState.values[nativeResult['resultState']]) {
     /// Camera frame at the time slave recognizer finished recognition
     this.successFrame = nativeResult['successFrame'];
@@ -25,18 +25,11 @@ class SuccessFrameGrabberRecognizerResult extends RecognizerResult {
 class SuccessFrameGrabberRecognizer extends Recognizer {
   Recognizer slaveRecognizer;
 
-  SuccessFrameGrabberRecognizer(this.slaveRecognizer)
-      : super('SuccessFrameGrabberRecognizer') {
-    if (!(this.slaveRecognizer is Recognizer)) {
-      throw Exception("Slave recognizer must be Recognizer!");
-    }
-  }
+  SuccessFrameGrabberRecognizer(this.slaveRecognizer) : super('SuccessFrameGrabberRecognizer');
 
   RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
-    return SuccessFrameGrabberRecognizerResult(
-        nativeResult,
-        this.slaveRecognizer.createResultFromNative(
-            Map<String, dynamic>.from(nativeResult['slaveRecognizerResult'])));
+    return SuccessFrameGrabberRecognizerResult(nativeResult,
+        this.slaveRecognizer.createResultFromNative(Map<String, dynamic>.from(nativeResult['slaveRecognizerResult'])));
   }
 
   factory SuccessFrameGrabberRecognizer.fromJson(Map<String, dynamic> json) =>
