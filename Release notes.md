@@ -1,3 +1,21 @@
+# Changelog
+
+## 6.1.2
+
+- Fixed date and `documentDataMatch` errors
+
+## 6.1.1
+
+- Updated to [Android SDK v6.1.1](https://github.com/BlinkID/blinkid-android/releases/tag/v6.1.1) and [iOS SDK v6.1.2](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.1.2)
+
+## 6.1.0
+
+- Updated to [Android SDK v6.1.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.1.0) and [iOS SDK v6.1.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.1.1)
+
+## 5.18.1
+
+- Fix for building APKs in release mode
+
 ## 5.18.0
 
 We have updated the plugin to [Android SDK v5.18.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.18.0) and [iOS SDK v5.18.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.18.0)
@@ -23,7 +41,6 @@ We have updated the plugin to [Android SDK v5.13.0](https://github.com/BlinkID/b
 We have updated the plugin to [Android SDK v5.12.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.12.0) and [iOS SDK v5.12.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.12.0)
 
 We also migrated the plugin to sound null safety, which requires you to use Dart 2.12 or newer in your project.
-
 
 ## 5.11.0
 

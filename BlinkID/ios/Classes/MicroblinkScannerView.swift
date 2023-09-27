@@ -117,7 +117,7 @@ extension MicroblinkScannerView: CustomOverlayViewControllerDelegate {
         let encodedStatus: String = {switch status {
         case .cameraAtAngle:
             return "CAMERA_AT_ANGLE"
-        case .fail:
+        case .init(rawValue: 0):
             return "FAIL"
         case .success:
             return "SUCCESS"

@@ -2,13 +2,15 @@ group 'com.microblink.flutter'
 version '1.0'
 
 buildscript {
+    ext.kotlin_version = '1.5.20'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.0'
+        classpath 'com.android.tools.build:gradle:3.5.4'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
@@ -21,12 +23,16 @@ rootProject.allprojects {
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    compileSdk 34
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 21
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -34,20 +40,19 @@ android {
 }
 
 dependencies {
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.0-alpha05"
-
-    implementation('com.microblink:blinkid:5.20.0@aar') {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0-alpha02"
+    implementation('com.microblink:blinkid:6.1.1@aar') {
         transitive = true
     }
     //implementation files('/home/droid/dev/flutter/bin/cache/artifacts/engine/android-x86/flutter.jar')
 
-    implementation "androidx.lifecycle:lifecycle-livedata:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
 
-    def camerax_version = "1.2.0"
+    def camerax_version = "1.2.3"
     implementation "androidx.camera:camera-core:${camerax_version}"
     implementation "androidx.camera:camera-camera2:${camerax_version}"
     implementation "androidx.camera:camera-lifecycle:${camerax_version}"
-
     implementation "androidx.camera:camera-view:${camerax_version}"
 }
 

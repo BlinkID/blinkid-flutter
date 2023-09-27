@@ -21,27 +21,28 @@ class _MyAppState extends State<MyApp> {
   Future<void> scan() async {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license = "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38KlPT6KM+UJDQdN/SAHFAZ01OkKGZK3G9/8TBMB8CENetCSID4rpPfLLlEG1h13PSdPx9lykeNJevouXPk9C1yZSX/l1F5w+fj7Jio4y8+lmLEEjvOL1/tEHkzw4E3pow1ne1N9Y4IPe2+84XY4d0/YfalJO+baAOtd9ecCZ25p+iJ5unkgwOE3hfo2Xd7kyzQnGftxws3wBc/IxBG7Avx/v7wL/ks4oJIMptBrPCxD8vVkqKPNB6SRAcwqRoishwQC9CyzILD4h+lNh+HM/XBLBOnFEDtXY3YRsBbWTiu4nOJmH84n11qnthrNxdkpqnozP6a7s4HvDA==";
+      license =
+          "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38LVO6iNNLvwTdq8BXiJ5UonUGzXseoV2n66Da5wNIZLr1ZBRlnFt2rbdnzzt/qU/fcwoCOqO8Zs2aUb2Psx4KutvE2SPyDiBo2Ko6yiA/P54/B8Jh8sEVWrLT341QghRicpTDbfiuJLtQ6HyCUrQOd28fxlwulwrZhqdyHmVJVQ6S4Gu2Dxd5dxt3LiIcZ0JeOjNKaPtc4Qnz7BYI2nQ5VfW2V2gYRIsvTzjgvT1AM2OibUXY0HeY4CTZ0BHwPVKTkQVnE39cOJST5k9JtZoZV086L2elpxizJueRIh4J8IzopUIFEFwq70cBj17Qr5gtc=";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license = 'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9XHPeNBZ8SdUyn2cTOLJBfTXzw6PyBVyxUnOiqBBEXQ4C9Kbfh0bTMiI/T/WKiv7eC/tbkkrDTdqLtrG790DcI0GtXs0hsPZgMfRH9t67tZJYjv2MSftS4M+LznoPkcUQSY6oKxcZkzn9+MhTDiTdpefJdzjSG/n+xQcQMsx5vgIuHWiE+UtLHzhLiLszApK4pWUba8PWRsgn7c5R1IruXoe9p4yNuIZWgJIKaID5pCX5UY/kTTR4stvjxrpouoM+9S14veMocRCoFyJqquLmgQQqL4KiWIQpFEvtuQfh3IoAJ0wksNOXv+k9pc54PPihTU5knQp4KQvA==';
+      license =
+          'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9W3O0VDY2v860Cyg0fJ3RhWpGsVuHQAL3ku7rb+BKQ2Hh4aUi73Z5bmO0/e1+rnVm1tZzt43W7lFlTYp4e6q/hE8/53bZjjVR4y5Ul0wWNQ0MVEkG0pkWxQsdBFdghIXZfyYuUm8wV2XOoQYnOMA3A2eAB+SCZ61x24jbE+PcXEL040OUlLQBnmBa0eg4Vc4mTGiMav6vXWlZ4vwfutINk6a9R0WPK2v3sUyKy5ybvo8PsysOlB9U7anR0AsM4GZ0qgS4REWy5Q3QGzl34AoMgHpceAJsHv7VRBki4lg8z/vu5GGlH52R6+63eBzzTxoy4=';
     } else {
       license = "";
     }
 
-    var idRecognizer = BlinkIdCombinedRecognizer();
+    var idRecognizer = BlinkIdMultiSideRecognizer();
     idRecognizer.returnFullDocumentImage = true;
     idRecognizer.returnFaceImage = true;
 
     BlinkIdOverlaySettings settings = BlinkIdOverlaySettings();
 
-    var results = await MicroblinkScanner.scanWithCamera(
-        RecognizerCollection([idRecognizer]), settings, license);
+    var results = await MicroblinkScanner.scanWithCamera(RecognizerCollection([idRecognizer]), settings, license);
 
     if (!mounted) return;
 
     if (results.length == 0) return;
     for (var result in results) {
-      if (result is BlinkIdCombinedRecognizerResult) {
+      if (result is BlinkIdMultiSideRecognizerResult) {
         if (result.mrzResult?.documentType == MrtdDocumentType.Passport) {
           _resultString = getPassportResultString(result);
         } else {
@@ -60,18 +61,16 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  String getIdResultString(BlinkIdCombinedRecognizerResult result) {
+  String getIdResultString(BlinkIdMultiSideRecognizerResult result) {
     return buildResult(result.firstName, "First name") +
         buildResult(result.lastName, "Last name") +
         buildResult(result.fullName, "Full name") +
         buildResult(result.localizedName, "Localized name") +
         buildResult(result.additionalNameInformation, "Additional name info") +
         buildResult(result.address, "Address") +
-        buildResult(
-            result.additionalAddressInformation, "Additional address info") +
+        buildResult(result.additionalAddressInformation, "Additional address info") +
         buildResult(result.documentNumber, "Document number") +
-        buildResult(
-            result.documentAdditionalNumber, "Additional document number") +
+        buildResult(result.documentAdditionalNumber, "Additional document number") +
         buildResult(result.sex, "Sex") +
         buildResult(result.issuingAuthority, "Issuing authority") +
         buildResult(result.nationality, "Nationality") +
@@ -79,19 +78,55 @@ class _MyAppState extends State<MyApp> {
         buildIntResult(result.age, "Age") +
         buildDateResult(result.dateOfIssue, "Date of issue") +
         buildDateResult(result.dateOfExpiry, "Date of expiry") +
-        buildResult(result.dateOfExpiryPermanent.toString(),
-            "Date of expiry permanent") +
+        "Date of expiry permanent: " +
+        result.dateOfExpiryPermanent.toString() +
+        "\n" +
         buildResult(result.maritalStatus, "Martial status") +
         buildResult(result.personalIdNumber, "Personal Id Number") +
         buildResult(result.profession, "Profession") +
         buildResult(result.race, "Race") +
         buildResult(result.religion, "Religion") +
         buildResult(result.residentialStatus, "Residential Status") +
-        buildDriverLicenceResult(result.driverLicenseDetailedInfo) + 
-        buildDataMatchDetailedInfoResult(result.dataMatchDetailedInfo);
+        buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
+        buildDataMatchResult(result.dataMatchResult);
   }
 
-  String buildResult(String? result, String propertyName) {
+  String buildResult(StringResult? result, String propertyName) {
+    if (result == null || result.description == null || result!.description!.isEmpty) {
+      return "";
+    }
+
+    return propertyName + ": " + result.description! + "\n";
+  }
+
+  String buildDateResult(DateResult? result, String propertyName) {
+    if (result == null || result!.date == null || result.date!.year == 0) {
+      return "";
+    }
+
+    return buildResult(result!.originalDateStringResult, propertyName);
+  }
+
+  String buildAdditionalProcessingInfoResult(AdditionalProcessingInfo? result, String propertyName) {
+    if (result == null) {
+      return "empty";
+    }
+
+    final missingMandatoryFields = result.missingMandatoryFields;
+    String returnString = "";
+
+    if (missingMandatoryFields!.isNotEmpty) {
+      returnString = propertyName + ":\n";
+
+      for (var i = 0; i < missingMandatoryFields.length; i++) {
+        returnString += missingMandatoryFields[i].name + "\n";
+      }
+    }
+
+    return returnString;
+  }
+
+  String buildStringResult(String? result, String propertyName) {
     if (result == null || result.isEmpty) {
       return "";
     }
@@ -99,21 +134,12 @@ class _MyAppState extends State<MyApp> {
     return propertyName + ": " + result + "\n";
   }
 
-  String buildDateResult(Date? result, String propertyName) {
-    if (result == null || result.year == 0) {
-      return "";
-    }
-
-    return buildResult(
-        "${result.day}.${result.month}.${result.year}", propertyName);
-  }
-
   String buildIntResult(int? result, String propertyName) {
     if (result == null || result < 0) {
       return "";
     }
 
-    return buildResult(result.toString(), propertyName);
+    return propertyName + ": " + result.toString() + "\n";
   }
 
   String buildDriverLicenceResult(DriverLicenseDetailedInfo? result) {
@@ -127,20 +153,19 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.conditions, "Conditions");
   }
 
-  String buildDataMatchDetailedInfoResult(DataMatchDetailedInfo? result) {
+  String buildDataMatchResult(DataMatchResult? result) {
     if (result == null) {
       return "";
     }
 
-    return buildResult(result.dateOfBirth?.toString(), "Date of birth") +
-        buildResult(result.dateOfExpiry?.toString(), "Date Of Expiry") +
-        buildResult(result.documentNumber?.toString(), "Document Number") +
-        buildResult(result.dataMatchResult?.toString(), "Data Match Result");
+    return buildStringResult(result.dateOfBirth.toString(), "Date of birth") +
+        buildStringResult(result.dateOfExpiry.toString(), "Date Of Expiry") +
+        buildStringResult(result.documentNumber.toString(), "Document Number") +
+        buildStringResult(result.stateForWholeDocument.toString(), "State For Whole Document");
   }
 
-  String getPassportResultString(BlinkIdCombinedRecognizerResult? result) {
-
-    if(result == null){
+  String getPassportResultString(BlinkIdMultiSideRecognizerResult? result) {
+    if (result == null) {
       return "";
     }
 
@@ -169,8 +194,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Widget fullDocumentFrontImage = Container();
-    if (_fullDocumentFrontImageBase64 != null &&
-        _fullDocumentFrontImageBase64 != "") {
+    if (_fullDocumentFrontImageBase64 != null && _fullDocumentFrontImageBase64 != "") {
       fullDocumentFrontImage = Column(
         children: <Widget>[
           Text("Document Front Image:"),
@@ -184,8 +208,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     Widget fullDocumentBackImage = Container();
-    if (_fullDocumentBackImageBase64 != null &&
-        _fullDocumentBackImageBase64 != "") {
+    if (_fullDocumentBackImageBase64 != null && _fullDocumentBackImageBase64 != "") {
       fullDocumentBackImage = Column(
         children: <Widget>[
           Text("Document Back Image:"),
@@ -222,9 +245,9 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             children: <Widget>[
               Padding(
-                  child: RaisedButton(
-                    child: Text("Scan"),
+                  child: ElevatedButton(
                     onPressed: () => scan(),
+                    child: Text("Scan"),
                   ),
                   padding: EdgeInsets.only(bottom: 16.0)),
               Text(_resultString),

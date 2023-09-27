@@ -1,4 +1,4 @@
-import '../overlay_settings.dart';
+import 'package:blinkid_flutter/overlay_settings.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'blinkid_overlays.g.dart';
@@ -9,8 +9,8 @@ part 'blinkid_overlays.g.dart';
 class DocumentOverlaySettings extends OverlaySettings {
   DocumentOverlaySettings() : super('DocumentOverlaySettings');
 
-  factory DocumentOverlaySettings.fromJson(Map<String, dynamic> json) =>
-      _$DocumentOverlaySettingsFromJson(json);
+  factory DocumentOverlaySettings.fromJson(Map<String, dynamic> json) => _$DocumentOverlaySettingsFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$DocumentOverlaySettingsToJson(this);
 }
 
@@ -18,6 +18,10 @@ class DocumentOverlaySettings extends OverlaySettings {
 /// BlinkId overlay is best suited for recognizers that perform ID document scanning.
 @JsonSerializable()
 class BlinkIdOverlaySettings extends OverlaySettings {
+  BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
+
+  factory BlinkIdOverlaySettings.fromJson(Map<String, dynamic> json) => _$BlinkIdOverlaySettingsFromJson(json);
+
   /// String: message that is shown while scanning first side of the document.
   /// If null, default value will be used.
   String? firstSideInstructionsText;
@@ -63,7 +67,7 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// document side.
   String? retryButtonText;
 
-  /// If true, BlinkIdCombinedRecognizer will check if sides do match when scanning is finished
+  /// If true, BlinkIdMultiSideRecognizer will check if sides do match when scanning is finished
   /// Default: true
   bool requireDocumentSidesDataMatch = true;
 
@@ -89,18 +93,19 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Instructions for the user to move the document from the edge.
   /// If null, default value will be used.
   String? errorDocumentTooCloseToEdge;
-
-  BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
-
-  factory BlinkIdOverlaySettings.fromJson(Map<String, dynamic> json) =>
-      _$BlinkIdOverlaySettingsFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$BlinkIdOverlaySettingsToJson(this);
 }
 
 /// Class for setting up document verification overlay.
-/// Document verification overlay is best suited for combined recognizers - recognizer that perform scanning of both sides of ID documents.
+/// Document verification overlay is best suited for multi side recognizers - recognizer that perform scanning of both sides of ID documents.
 @JsonSerializable()
 class DocumentVerificationOverlaySettings extends OverlaySettings {
+  DocumentVerificationOverlaySettings() : super('DocumentVerificationOverlaySettings');
+
+  factory DocumentVerificationOverlaySettings.fromJson(Map<String, dynamic> json) =>
+      _$DocumentVerificationOverlaySettingsFromJson(json);
+
   /// String: splash message that is shown before scanning the first side of the document, while starting camera.
   /// If null, default value will be used.
   String? firstSideSplashMessage;
@@ -127,11 +132,6 @@ class DocumentVerificationOverlaySettings extends OverlaySettings {
   /// If null, default value will be used.
   String? glareMessage;
 
-  DocumentVerificationOverlaySettings()
-      : super('DocumentVerificationOverlaySettings');
-
-  factory DocumentVerificationOverlaySettings.fromJson(
-          Map<String, dynamic> json) =>
-      _$DocumentVerificationOverlaySettingsFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$DocumentVerificationOverlaySettingsToJson(this);
 }

@@ -42,7 +42,7 @@ Map<String, dynamic> _$MrtdCombinedRecognizerToJson(
     };
 
 const _$DocumentFaceDetectorTypeEnumMap = {
-  DocumentFaceDetectorType.TD1: 1,
-  DocumentFaceDetectorType.TD2: 2,
-  DocumentFaceDetectorType.PassportsAndVisas: 3,
+  DocumentFaceDetectorType.TD1: 0,
+  DocumentFaceDetectorType.TD2: 1,
+  DocumentFaceDetectorType.PassportsAndVisas: 2,
 };
