@@ -7,6 +7,7 @@ import com.microblink.blinkid.entities.recognizers.Recognizer;
 //import com.microblink.blinkid.entities.parsers.Parser;
 import com.microblink.blinkid.geometry.Point;
 import com.microblink.blinkid.geometry.Quadrilateral;
+import com.microblink.blinkid.geometry.Rectangle;
 import com.microblink.blinkid.image.Image;
 import com.microblink.blinkid.results.date.SimpleDate;
 import com.microblink.blinkid.results.date.Date;
@@ -106,6 +107,17 @@ public abstract class SerializationUtils {
         jsonQuad.put("lowerLeft", serializePoint(quad.getLowerLeft()));
         jsonQuad.put("lowerRight", serializePoint(quad.getLowerRight()));
         return jsonQuad;
+    }
+
+    public static JSONObject serializeRectangle(Rectangle rectangle) throws JSONException {
+        JSONObject jsonRectangle = new JSONObject();
+        if (rectangle != null) {
+            jsonRectangle.put("x", rectangle.getX());
+            jsonRectangle.put("y", rectangle.getY());
+            jsonRectangle.put("height", rectangle.getHeight());
+            jsonRectangle.put("width", rectangle.getWidth());
+        }
+        return jsonRectangle;
     }
 
     public static String getStringFromJSONObject(JSONObject map, String key) {
