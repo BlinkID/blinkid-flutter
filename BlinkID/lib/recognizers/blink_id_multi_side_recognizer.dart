@@ -241,9 +241,9 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         
         this.faceImage = nativeResult["faceImage"];
         
-        this.faceImageLocation = nativeResult["faceImageLocation"];
+        this.faceImageLocation = nativeResult["faceImageLocation"] != null ? Rectangle(Map<String, dynamic>.from(nativeResult["faceImageLocation"])) : null;
         
-        this.faceImageSide = nativeResult["faceImageSide"];
+        this.faceImageSide = DocumentSide.values[nativeResult["faceImageSide"]];
         
         this.fathersName = nativeResult["fathersName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["fathersName"])) : null;
         
@@ -311,7 +311,7 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
     
     ///Additional anonymization settings.
 
-    ClassAnonymizationSettings additionalAnonymization = [];
+    List<ClassAnonymizationSettings> additionalAnonymization = [];
     
     ///Defines whether blured frames filtering is allowed
     /// 
