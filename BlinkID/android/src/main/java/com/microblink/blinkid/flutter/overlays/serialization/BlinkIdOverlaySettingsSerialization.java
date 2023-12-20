@@ -28,6 +28,18 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         boolean showFlashlightWarning = jsonUISettings.optBoolean("showFlashlightWarning", true);
         settings.setShowFlashlightWarning(showFlashlightWarning);
 
+        boolean showMandatoryFieldsMissing = jsonUISettings.optBoolean("showMandatoryFieldsMissing", true);
+        settings.setShowMandatoryFieldsMissing(showMandatoryFieldsMissing);
+
+        boolean showOnboardingInfo = jsonUISettings.optBoolean("showOnboardingInfo", true);
+        settings.setShowOnboardingInfo(showOnboardingInfo);
+
+        boolean showIntroductionDialog = jsonUISettings.optBoolean("showIntroductionDialog", false);
+        settings.setShowIntroductionDialog(showIntroductionDialog);
+
+        long onboardingButtonTooltipDelay = jsonUISettings.optLong("onboardingButtonTooltipDelay", 1200);
+        settings.setShowTooltipTimeIntervalMs(onboardingButtonTooltipDelay);
+
         long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
         settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
 

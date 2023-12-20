@@ -77,6 +77,26 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Default: true
   bool showFlashlightWarning = true;
 
+  /// Define the configuration of the missing mandatory fields feedback during scanning. If disabled, general message is presented.
+  ///
+  /// Default: true
+  bool showMandatoryFieldsMissing = true;
+
+  ///Define if the onboarding info element will be displayed.
+  ///
+  /// Default: true
+  bool showOnboardingInfo = true;
+
+  /// Define whether introduction dialog is turned on by default.
+  /// 
+  /// Default: false
+  bool showIntroductionDialog = false;
+
+  /// Option to configure onboarding button tooltip delay time.
+  ///
+  /// Default: 12000
+  int onboardingButtonTooltipDelay = 12000;
+
   /// Option to configure back side scanning timeout.
   ///
   /// Default: 17000
@@ -85,6 +105,7 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Message that is shown while scanning the barcode.
   /// If null, default value will be used.
   String? scanBarcodeText;
+
 
   /// Instructions for the user to move the document from the edge.
   /// If null, default value will be used.

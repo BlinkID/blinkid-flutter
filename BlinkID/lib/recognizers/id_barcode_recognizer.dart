@@ -7,49 +7,49 @@ part 'id_barcode_recognizer.g.dart';
 /// Result object for IdBarcodeRecognizer.
 class IdBarcodeRecognizerResult extends RecognizerResult {
     
-    ///The additional name information of the document owner. 
+    ///The additional name information of the document owner.
     String? additionalNameInformation;
     
-    ///The address of the document owner. 
+    ///The address of the document owner.
     String? address;
     
     ///The current age of the document owner in years. It is calculated difference
     /// between now and date of birth. Now is current time on the device.
-    /// @return current age of the document owner in years or -1 if date of birth is unknown. 
+    /// @return current age of the document owner in years or -1 if date of birth is unknown.
     int? age;
     
     ///Type of the barcode scanned
     /// 
-    ///  @return Type of the barcode 
+    ///  @return Type of the barcode
     BarcodeType? barcodeType;
     
-    ///The city address portion of the document owner. 
+    ///The city address portion of the document owner.
     String? city;
     
-    ///The date of birth of the document owner. 
+    ///The date of birth of the document owner.
     Date? dateOfBirth;
     
-    ///The date of expiry of the document. 
+    ///The date of expiry of the document.
     Date? dateOfExpiry;
     
-    ///The date of issue of the document. 
+    ///The date of issue of the document.
     Date? dateOfIssue;
     
-    ///The additional number of the document. 
+    ///The additional number of the document.
     String? documentAdditionalNumber;
     
-    ///The document number. 
+    ///The document number.
     String? documentNumber;
     
     ///The document type deduced from the recognized barcode
     /// 
-    ///  @return Type of the document 
+    ///  @return Type of the document
     IdBarcodeDocumentType? documentType;
     
-    ///The employer of the document owner. 
+    ///The employer of the document owner.
     String? employer;
     
-    ///The additional privileges granted to the driver license owner. 
+    ///The additional privileges granted to the driver license owner.
     String? endorsements;
     
     ///Checks whether the document has expired or not by comparing the current
@@ -58,79 +58,79 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
     /// @return true if the document has expired, false in following cases:
     /// document does not expire (date of expiry is permanent)
     /// date of expiry has passed
-    /// date of expiry is unknown and it is not permanent 
+    /// date of expiry is unknown and it is not permanent
     bool? expired;
     
     ///Document specific extended elements that contain all barcode fields in their original form.
     /// 
-    /// Currently this is only filled for AAMVACompliant documents. 
+    /// Currently this is only filled for AAMVACompliant documents.
     BarcodeElements? extendedElements;
     
-    ///The first name of the document owner. 
+    ///The first name of the document owner.
     String? firstName;
     
-    ///The full name of the document owner. 
+    ///The full name of the document owner.
     String? fullName;
     
-    ///The issuing authority of the document. 
+    ///The issuing authority of the document.
     String? issuingAuthority;
     
-    ///The jurisdiction code address portion of the document owner. 
+    ///The jurisdiction code address portion of the document owner.
     String? jurisdiction;
     
-    ///The last name of the document owner. 
+    ///The last name of the document owner.
     String? lastName;
     
-    ///The marital status of the document owner. 
+    ///The marital status of the document owner.
     String? maritalStatus;
     
-    ///The middle name of the document owner. 
+    ///The middle name of the document owner.
     String? middleName;
     
-    ///The nationality of the documet owner. 
+    ///The nationality of the documet owner.
     String? nationality;
     
-    ///The personal identification number. 
+    ///The personal identification number.
     String? personalIdNumber;
     
-    ///The place of birth of the document owner. 
+    ///The place of birth of the document owner.
     String? placeOfBirth;
     
-    ///The postal code address portion of the document owner. 
+    ///The postal code address portion of the document owner.
     String? postalCode;
     
-    ///The profession of the document owner. 
+    ///The profession of the document owner.
     String? profession;
     
-    ///The race of the document owner. 
+    ///The race of the document owner.
     String? race;
     
-    ///Byte array with result of the scan 
+    ///Byte array with result of the scan
     String? rawData;
     
-    ///The religion of the document owner. 
+    ///The religion of the document owner.
     String? religion;
     
-    ///The residential stauts of the document owner. 
+    ///The residential stauts of the document owner.
     String? residentialStatus;
     
-    ///The restrictions to driving privileges for the driver license owner. 
+    ///The restrictions to driving privileges for the driver license owner.
     String? restrictions;
     
-    ///The sex of the document owner. 
+    ///The sex of the document owner.
     String? sex;
     
-    ///The street address portion of the document owner. 
+    ///The street address portion of the document owner.
     String? street;
     
-    ///Retrieves string content of scanned data 
+    ///Retrieves string content of scanned data
     String? stringData;
     
     ///Flag indicating uncertain scanning data
-    /// E.g obtained from damaged barcode. 
+    /// E.g obtained from damaged barcode.
     bool? uncertain;
     
-    ///The type of vehicle the driver license owner has privilege to drive. 
+    ///The type of vehicle the driver license owner has privilege to drive.
     String? vehicleClass;
     
     IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
