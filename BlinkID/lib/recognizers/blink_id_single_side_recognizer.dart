@@ -82,7 +82,7 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     Rectangle? faceImageLocation;
     
     ///side of document that face image is located on if enabled with returnFaceImage property.
-    Side? faceImageSide;
+    DocumentSide? faceImageSide;
     
     ///The father's name of the document owner.
     StringResult? fathersName;
