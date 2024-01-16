@@ -52,6 +52,11 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
           json['requireDocumentSidesDataMatch'] as bool
       ..showNotSupportedDialog = json['showNotSupportedDialog'] as bool
       ..showFlashlightWarning = json['showFlashlightWarning'] as bool
+      ..showMandatoryFieldsMissing = json['showMandatoryFieldsMissing'] as bool
+      ..showOnboardingInfo = json['showOnboardingInfo'] as bool
+      ..showIntroductionDialog = json['showIntroductionDialog'] as bool
+      ..onboardingButtonTooltipDelay =
+          json['onboardingButtonTooltipDelay'] as int
       ..backSideScanningTimeoutMilliseconds =
           json['backSideScanningTimeoutMilliseconds'] as int
       ..scanBarcodeText = json['scanBarcodeText'] as String?
@@ -81,6 +86,10 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'requireDocumentSidesDataMatch': instance.requireDocumentSidesDataMatch,
       'showNotSupportedDialog': instance.showNotSupportedDialog,
       'showFlashlightWarning': instance.showFlashlightWarning,
+      'showMandatoryFieldsMissing': instance.showMandatoryFieldsMissing,
+      'showOnboardingInfo': instance.showOnboardingInfo,
+      'showIntroductionDialog': instance.showIntroductionDialog,
+      'onboardingButtonTooltipDelay': instance.onboardingButtonTooltipDelay,
       'backSideScanningTimeoutMilliseconds':
           instance.backSideScanningTimeoutMilliseconds,
       'scanBarcodeText': instance.scanBarcodeText,

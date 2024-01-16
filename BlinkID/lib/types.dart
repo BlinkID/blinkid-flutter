@@ -58,59 +58,164 @@ class Quadrilateral {
 
 enum AlphabetType { Latin, Arabic, Cyrillic }
 
-/// Represents strings for three alphabets
+/// Represents rectangle location of each document field
+class Rectangle {
+  /// x location
+  double? x;
+
+  /// y location
+  double? y;
+
+  /// rectangle width
+  double? width;
+
+  /// rectangle height
+  double? height;
+
+  Rectangle(Map<String, dynamic> nativeRect) {
+    this.x = nativeRect['x'] != null ? nativeRect['x'] * 1.0 : null;
+    this.y = nativeRect['y'] != null ? nativeRect['y'] * 1.0 : null;
+    this.width = nativeRect['width'] != null ? nativeRect['width'] * 1.0 : null;
+    this.height = nativeRect['height'] != null ? nativeRect['height'] * 1.0 : null;
+  }
+}
+
+///Represents document field location for three alphabets
+class Location {
+  Rectangle? latin;
+  Rectangle? arabic;
+  Rectangle? cyrillic;
+
+  Location(Map<String, dynamic> nativeLocation) {
+    this.latin = Rectangle(Map<String, dynamic>.from(nativeLocation['latin']));
+    this.arabic = Rectangle(Map<String, dynamic>.from(nativeLocation['arabic']));
+    this.cyrillic = Rectangle(Map<String, dynamic>.from(nativeLocation['cyrillic']));
+  }
+}
+
+///Represents document side for document field for three alphabets
+class Side {
+  DocumentSide? latin;
+  DocumentSide? arabic;
+  DocumentSide? cyrillic;
+
+  Side(Map<String, dynamic> nativeSide) {
+    this.latin = DocumentSide.values[nativeSide['latin']];
+    this.arabic = DocumentSide.values[nativeSide['arabic']];
+    this.cyrillic = DocumentSide.values[nativeSide['cyrillic']];
+  }
+}
+
+/// Represents string results for three alphabets
 class StringResult {
   ///  All strings separated by new line
   String? description;
 
-  /// Strings per alphabet
-  Map<AlphabetType, String?> stringsByAlphabet = Map<AlphabetType, String?>();
+  /// String for field in latin alphabet
+  String? latin;
+
+  /// String for field in arabic alphabet
+  String? arabic;
+
+  /// String for field in cyrillic alphabet
+  String? cyrillic;
+
+  /// Document field location
+  Location? location;
+
+  /// Document field side
+  Side? side;
 
   StringResult(Map<String, dynamic> nativeStringResult) {
     this.description = nativeStringResult['description'];
-    this.stringsByAlphabet[AlphabetType.Latin] = nativeStringResult['latin'];
-    this.stringsByAlphabet[AlphabetType.Arabic] = nativeStringResult['arabic'];
-    this.stringsByAlphabet[AlphabetType.Cyrillic] = nativeStringResult['cyrillic'];
+    this.latin = nativeStringResult['latin'];
+    this.arabic = nativeStringResult['arabic'];
+    this.cyrillic = nativeStringResult['cyrillic'];
+    this.location = nativeStringResult['location'] != null
+        ? Location(Map<String, dynamic>.from(nativeStringResult['location']))
+        : null;
+    this.side =
+        nativeStringResult['location'] != null ? Side(Map<String, dynamic>.from(nativeStringResult['side'])) : null;
   }
 }
 
 enum FieldType {
+  @JsonValue(0)
   AdditionalAddressInformation,
+  @JsonValue(1)
   AdditionalNameInformation,
+  @JsonValue(2)
   AdditionalOptionalAddressInformation,
+  @JsonValue(3)
   AdditionalPersonalIdNumber,
+  @JsonValue(4)
   Address,
+  @JsonValue(5)
   ClassEffectiveDate,
+  @JsonValue(6)
   ClassExpiryDate,
+  @JsonValue(7)
   Conditions,
+  @JsonValue(8)
   DateOfBirth,
+  @JsonValue(9)
   DateOfExpiry,
+  @JsonValue(10)
   DateOfIssue,
+  @JsonValue(11)
   DocumentAdditionalNumber,
+  @JsonValue(12)
   DocumentOptionalAdditionalNumber,
+  @JsonValue(13)
   DocumentNumber,
+  @JsonValue(14)
   Employer,
+  @JsonValue(15)
   Endorsements,
+  @JsonValue(16)
   FathersName,
+  @JsonValue(17)
   FirstName,
+  @JsonValue(18)
   FullName,
+  @JsonValue(19)
   IssuingAuthority,
+  @JsonValue(20)
   LastName,
+  @JsonValue(21)
   LicenceType,
+  @JsonValue(22)
   LocalizedName,
+  @JsonValue(23)
   MaritalStatus,
+  @JsonValue(24)
   MothersName,
+  @JsonValue(25)
   Mrz,
+  @JsonValue(26)
   Nationality,
+  @JsonValue(27)
   PersonalIdNumber,
+  @JsonValue(28)
   PlaceOfBirth,
+  @JsonValue(29)
   Profession,
+  @JsonValue(30)
   Race,
+  @JsonValue(31)
   Religion,
+  @JsonValue(32)
   ResidentialStatus,
+  @JsonValue(33)
   Restrictions,
+  @JsonValue(34)
   Sex,
-  VehicleClass
+  @JsonValue(35)
+  VehicleClass,
+  @JsonValue(36)
+  BloodType,
+  @JsonValue(37)
+  Sponsor
 }
 
 class AdditionalProcessingInfo {
@@ -130,11 +235,17 @@ class AdditionalProcessingInfo {
 
 class DateResult {
   Date? date;
+
+  /// original date string
   StringResult? originalDateStringResult;
+
+  /// is filled by domain knowledge
+  bool? isFilledByDomainKnowledge;
 
   DateResult(Map<String, dynamic> nativeDateResult) {
     this.date = Date(nativeDateResult);
     this.originalDateStringResult = createStringResult(nativeDateResult, 'originalDateStringResult');
+    this.isFilledByDomainKnowledge = nativeDateResult["isFilledByDomainKnowledge"];
   }
 }
 
@@ -177,6 +288,7 @@ enum BarcodeType {
   PDF417
 }
 
+/// Gives more info on data match
 class DataMatchResult {
   ///  State for the whole document result
   DataMatchState? stateForWholeDocument;
@@ -1143,445 +1255,934 @@ enum ImageAnalysisDetectionStatus {
   Detected
 }
 
+/// Defines possible document card rotation positions
+enum CardRotation {
+  /// Zero degrees
+  Zero,
+
+  /// Clockwise 90 degrees
+  Clockwise90,
+
+  /// Counter clockwise 90 degrees
+  CounterClockwise90,
+
+  ///Upside down
+  UpsideDown,
+
+  ///Card rotation was not performed
+  None
+}
+
 /// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Country {
+  @JsonValue(0)
   None,
+  @JsonValue(1)
   Albania,
+  @JsonValue(2)
   Algeria,
+  @JsonValue(3)
   Argentina,
+  @JsonValue(4)
   Australia,
+  @JsonValue(5)
   Austria,
+  @JsonValue(6)
   Azerbaijan,
+  @JsonValue(7)
   Bahrain,
+  @JsonValue(8)
   Bangladesh,
+  @JsonValue(9)
   Belgium,
+  @JsonValue(10)
   BosniaAndHerzegovina,
+  @JsonValue(11)
   Brunei,
+  @JsonValue(12)
   Bulgaria,
+  @JsonValue(13)
   Cambodia,
+  @JsonValue(14)
   Canada,
+  @JsonValue(15)
   Chile,
+  @JsonValue(16)
   Colombia,
+  @JsonValue(17)
   CostaRica,
+  @JsonValue(18)
   Croatia,
+  @JsonValue(19)
   Cyprus,
+  @JsonValue(20)
   Czechia,
+  @JsonValue(21)
   Denmark,
+  @JsonValue(22)
   DominicanRepublic,
+  @JsonValue(23)
   Egypt,
+  @JsonValue(24)
   Estonia,
+  @JsonValue(25)
   Finland,
+  @JsonValue(26)
   France,
+  @JsonValue(27)
   Georgia,
+  @JsonValue(28)
   Germany,
+  @JsonValue(29)
   Ghana,
+  @JsonValue(30)
   Greece,
+  @JsonValue(31)
   Guatemala,
+  @JsonValue(32)
   HongKong,
+  @JsonValue(33)
   Hungary,
+  @JsonValue(34)
   India,
+  @JsonValue(35)
   Indonesia,
+  @JsonValue(36)
   Ireland,
+  @JsonValue(37)
   Israel,
+  @JsonValue(38)
   Italy,
+  @JsonValue(39)
   Jordan,
+  @JsonValue(40)
   Kazakhstan,
+  @JsonValue(41)
   Kenya,
+  @JsonValue(42)
   Kosovo,
+  @JsonValue(43)
   Kuwait,
+  @JsonValue(44)
   Latvia,
+  @JsonValue(45)
   Lithuania,
+  @JsonValue(46)
   Malaysia,
+  @JsonValue(47)
   Maldives,
+  @JsonValue(48)
   Malta,
+  @JsonValue(49)
   Mauritius,
+  @JsonValue(50)
   Mexico,
+  @JsonValue(51)
   Morocco,
+  @JsonValue(52)
   Netherlands,
+  @JsonValue(53)
   NewZealand,
+  @JsonValue(54)
   Nigeria,
+  @JsonValue(55)
   Pakistan,
+  @JsonValue(56)
   Panama,
+  @JsonValue(57)
   Paraguay,
+  @JsonValue(58)
   Philippines,
+  @JsonValue(59)
   Poland,
+  @JsonValue(60)
   Portugal,
+  @JsonValue(61)
   PuertoRico,
+  @JsonValue(62)
   Qatar,
+  @JsonValue(63)
   Romania,
+  @JsonValue(64)
   Russia,
+  @JsonValue(65)
   SaudiArabia,
+  @JsonValue(66)
   Serbia,
+  @JsonValue(67)
   Singapore,
+  @JsonValue(68)
   Slovakia,
+  @JsonValue(69)
   Slovenia,
+  @JsonValue(70)
   SouthAfrica,
+  @JsonValue(71)
   Spain,
+  @JsonValue(72)
   Sweden,
+  @JsonValue(73)
   Switzerland,
+  @JsonValue(74)
   Taiwan,
+  @JsonValue(75)
   Thailand,
+  @JsonValue(76)
   Tunisia,
+  @JsonValue(77)
   Turkey,
+  @JsonValue(78)
   UAE,
+  @JsonValue(79)
   Uganda,
+  @JsonValue(80)
   UK,
+  @JsonValue(81)
   Ukraine,
+  @JsonValue(82)
   Usa,
+  @JsonValue(83)
   Vietnam,
+  @JsonValue(84)
   Brazil,
+  @JsonValue(85)
   Norway,
+  @JsonValue(86)
   Oman,
+  @JsonValue(87)
   Ecuador,
+  @JsonValue(88)
   ElSalvador,
+  @JsonValue(89)
   SriLanka,
+  @JsonValue(90)
   Peru,
+  @JsonValue(91)
   Uruguay,
+  @JsonValue(92)
   Bahamas,
+  @JsonValue(93)
   Bermuda,
+  @JsonValue(94)
   Bolivia,
+  @JsonValue(95)
   China,
+  @JsonValue(96)
   EuropeanUnion,
+  @JsonValue(97)
   Haiti,
+  @JsonValue(98)
   Honduras,
+  @JsonValue(99)
   Iceland,
+  @JsonValue(100)
   Japan,
+  @JsonValue(101)
   Luxembourg,
+  @JsonValue(102)
   Montenegro,
+  @JsonValue(103)
   Nicaragua,
+  @JsonValue(104)
   SouthKorea,
+  @JsonValue(105)
   Venezuela,
+  @JsonValue(106)
   Afghanistan,
+  @JsonValue(107)
   AlandIslands,
+  @JsonValue(108)
   AmericanSamoa,
+  @JsonValue(109)
   Andorra,
+  @JsonValue(110)
   Angola,
+  @JsonValue(111)
   Anguilla,
+  @JsonValue(112)
   Antarctica,
+  @JsonValue(113)
   AntiguaAndBarbuda,
+  @JsonValue(114)
   Armenia,
+  @JsonValue(115)
   Aruba,
+  @JsonValue(116)
   BailiwickOfGuernsey,
+  @JsonValue(117)
   BailiwickOfJersey,
+  @JsonValue(118)
   Barbados,
+  @JsonValue(119)
   Belarus,
+  @JsonValue(120)
   Belize,
+  @JsonValue(121)
   Benin,
+  @JsonValue(122)
   Bhutan,
+  @JsonValue(123)
   BonaireSaintEustatiusAndSaba,
+  @JsonValue(124)
   Botswana,
+  @JsonValue(125)
   BouvetIsland,
+  @JsonValue(126)
   BritishIndianOceanTerritory,
+  @JsonValue(127)
   BurkinaFaso,
+  @JsonValue(128)
   Burundi,
+  @JsonValue(129)
   Cameroon,
+  @JsonValue(130)
   CapeVerde,
+  @JsonValue(131)
   CaribbeanNetherlands,
+  @JsonValue(132)
   CaymanIslands,
+  @JsonValue(133)
   CentralAfricanRepublic,
+  @JsonValue(134)
   Chad,
+  @JsonValue(135)
   ChristmasIsland,
+  @JsonValue(136)
   CocosIslands,
+  @JsonValue(137)
   Comoros,
+  @JsonValue(138)
   Congo,
+  @JsonValue(139)
   CookIslands,
+  @JsonValue(140)
   Cuba,
+  @JsonValue(141)
   Curacao,
+  @JsonValue(142)
   DemocraticRepublicOfTheCongo,
+  @JsonValue(143)
   Djibouti,
+  @JsonValue(144)
   Dominica,
+  @JsonValue(145)
   EastTimor,
+  @JsonValue(146)
   EquatorialGuinea,
+  @JsonValue(147)
   Eritrea,
+  @JsonValue(148)
   Ethiopia,
+  @JsonValue(149)
   FalklandIslands,
+  @JsonValue(150)
   FaroeIslands,
+  @JsonValue(151)
   FederatedStatesOfMicronesia,
+  @JsonValue(152)
   Fiji,
+  @JsonValue(153)
   FrenchGuiana,
+  @JsonValue(154)
   FrenchPolynesia,
+  @JsonValue(155)
   FrenchSouthernTerritories,
+  @JsonValue(156)
   Gabon,
+  @JsonValue(157)
   Gambia,
+  @JsonValue(158)
   Gibraltar,
+  @JsonValue(159)
   Greenland,
+  @JsonValue(160)
   Grenada,
+  @JsonValue(161)
   Guadeloupe,
+  @JsonValue(162)
   Guam,
+  @JsonValue(163)
   Guinea,
+  @JsonValue(164)
   GuineaBissau,
+  @JsonValue(165)
   Guyana,
+  @JsonValue(166)
   HeardIslandAndMcdonaldIslands,
+  @JsonValue(167)
   Iran,
+  @JsonValue(168)
   Iraq,
+  @JsonValue(169)
   IsleOfMan,
+  @JsonValue(170)
   IvoryCoast,
+  @JsonValue(171)
   Jamaica,
+  @JsonValue(172)
   Kiribati,
+  @JsonValue(173)
   Kyrgyzstan,
+  @JsonValue(183)
   Laos,
+  @JsonValue(184)
   Lebanon,
+  @JsonValue(185)
   Lesotho,
+  @JsonValue(186)
   Liberia,
+  @JsonValue(187)
   Libya,
+  @JsonValue(188)
   Liechtenstein,
+  @JsonValue(189)
   Macau,
+  @JsonValue(190)
   Madagascar,
+  @JsonValue(191)
   Malawi,
+  @JsonValue(192)
   Mali,
+  @JsonValue(193)
   MarshallIslands,
+  @JsonValue(194)
   Martinique,
+  @JsonValue(195)
   Mauritania,
+  @JsonValue(196)
   Mayotte,
+  @JsonValue(197)
   Moldova,
+  @JsonValue(198)
   Monaco,
+  @JsonValue(199)
   Mongolia,
+  @JsonValue(200)
   Montserrat,
+  @JsonValue(201)
   Mozambique,
+  @JsonValue(202)
   Myanmar,
+  @JsonValue(203)
   Namibia,
+  @JsonValue(204)
   Nauru,
+  @JsonValue(205)
   Nepal,
+  @JsonValue(206)
   NewCaledonia,
+  @JsonValue(207)
   Niger,
+  @JsonValue(208)
   Niue,
+  @JsonValue(209)
   NorfolkIsland,
+  @JsonValue(210)
   NorthernCyprus,
+  @JsonValue(211)
   NorthernMarianaIslands,
+  @JsonValue(212)
   NorthKorea,
+  @JsonValue(213)
   NorthMacedonia,
+  @JsonValue(214)
   Palau,
+  @JsonValue(215)
   Palestine,
+  @JsonValue(216)
   PapuaNewGuinea,
+  @JsonValue(217)
   Pitcairn,
+  @JsonValue(218)
   Reunion,
+  @JsonValue(219)
   Rwanda,
+  @JsonValue(220)
   SaintBarthelemy,
+  @JsonValue(221)
   SaintHelenaAscensionAndTristianDaCunha,
+  @JsonValue(222)
   SaintKittsAndNevis,
+  @JsonValue(223)
   SaintLucia,
+  @JsonValue(224)
   SaintMartin,
+  @JsonValue(225)
   SaintPierreAndMiquelon,
+  @JsonValue(226)
   SaintVincentAndTheGrenadines,
+  @JsonValue(227)
   Samoa,
+  @JsonValue(228)
   SanMarino,
+  @JsonValue(229)
   SaoTomeAndPrincipe,
+  @JsonValue(230)
   Senegal,
+  @JsonValue(231)
   Seychelles,
+  @JsonValue(232)
   SierraLeone,
+  @JsonValue(233)
   SintMaarten,
+  @JsonValue(234)
   SolomonIslands,
+  @JsonValue(235)
   Somalia,
+  @JsonValue(236)
   SouthGeorgiaAndTheSouthSandwichIslands,
+  @JsonValue(237)
   SouthSudan,
+  @JsonValue(238)
   Sudan,
+  @JsonValue(239)
   Suriname,
+  @JsonValue(240)
   SvalbardAndJanMayen,
+  @JsonValue(241)
   Eswatini,
+  @JsonValue(242)
   Syria,
+  @JsonValue(243)
   Tajikistan,
+  @JsonValue(244)
   Tanzania,
+  @JsonValue(245)
   Togo,
+  @JsonValue(246)
   Tokelau,
+  @JsonValue(247)
   Tonga,
+  @JsonValue(248)
   TrinidadAndTobago,
+  @JsonValue(249)
   Turkmenistan,
+  @JsonValue(250)
   TurksAndCaicosIslands,
+  @JsonValue(251)
   Tuvalu,
+  @JsonValue(252)
   UnitedStatesMinorOutlyingIslands,
+  @JsonValue(253)
   Uzbekistan,
+  @JsonValue(254)
   Vanuatu,
+  @JsonValue(255)
   VaticanCity,
+  @JsonValue(256)
   VirginIslandsBritish,
+  @JsonValue(257)
   VirginIslandsUs,
+  @JsonValue(258)
   WallisAndFutuna,
+  @JsonValue(259)
   WesternSahara,
+  @JsonValue(260)
   Yemen,
+  @JsonValue(261)
   Yugoslavia,
+  @JsonValue(262)
   Zambia,
-  Zimbabwe
+  @JsonValue(263)
+  Zimbabwe,
+  @JsonValue(264)
+  SchengenArea
 }
 
 /// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Region {
+  @JsonValue(0)
   None,
+  @JsonValue(1)
   Alabama,
+  @JsonValue(2)
   Alaska,
+  @JsonValue(3)
   Alberta,
+  @JsonValue(4)
   Arizona,
+  @JsonValue(5)
   Arkansas,
+  @JsonValue(6)
   AustralianCapitalTerritory,
+  @JsonValue(7)
   BritishColumbia,
+  @JsonValue(8)
   California,
+  @JsonValue(9)
   Colorado,
+  @JsonValue(10)
   Connecticut,
+  @JsonValue(11)
   Delaware,
+  @JsonValue(12)
   DistrictOfColumbia,
+  @JsonValue(13)
   Florida,
+  @JsonValue(14)
   Georgia,
+  @JsonValue(15)
   Hawaii,
+  @JsonValue(16)
   Idaho,
+  @JsonValue(17)
   Illinois,
+  @JsonValue(18)
   Indiana,
+  @JsonValue(19)
   Iowa,
+  @JsonValue(20)
   Kansas,
+  @JsonValue(21)
   Kentucky,
+  @JsonValue(22)
   Louisiana,
+  @JsonValue(23)
   Maine,
+  @JsonValue(24)
   Manitoba,
+  @JsonValue(25)
   Maryland,
+  @JsonValue(26)
   Massachusetts,
+  @JsonValue(27)
   Michigan,
+  @JsonValue(28)
   Minnesota,
+  @JsonValue(29)
   Mississippi,
+  @JsonValue(30)
   Missouri,
+  @JsonValue(31)
   Montana,
+  @JsonValue(32)
   Nebraska,
+  @JsonValue(33)
   Nevada,
+  @JsonValue(34)
   NewBrunswick,
+  @JsonValue(35)
   NewHampshire,
+  @JsonValue(36)
   NewJersey,
+  @JsonValue(37)
   NewMexico,
+  @JsonValue(38)
   NewSouthWales,
+  @JsonValue(39)
   NewYork,
+  @JsonValue(40)
   NorthernTerritory,
+  @JsonValue(41)
   NorthCarolina,
+  @JsonValue(42)
   NorthDakota,
+  @JsonValue(43)
   NovaScotia,
+  @JsonValue(44)
   Ohio,
+  @JsonValue(45)
   Oklahoma,
+  @JsonValue(46)
   Ontario,
+  @JsonValue(47)
   Oregon,
+  @JsonValue(48)
   Pennsylvania,
+  @JsonValue(49)
   Quebec,
+  @JsonValue(50)
   Queensland,
+  @JsonValue(51)
   RhodeIsland,
+  @JsonValue(52)
   Saskatchewan,
+  @JsonValue(53)
   SouthAustralia,
+  @JsonValue(54)
   SouthCarolina,
+  @JsonValue(55)
   SouthDakota,
+  @JsonValue(56)
   Tasmania,
+  @JsonValue(57)
   Tennessee,
+  @JsonValue(58)
   Texas,
+  @JsonValue(59)
   Utah,
+  @JsonValue(60)
   Vermont,
+  @JsonValue(61)
   Victoria,
+  @JsonValue(62)
   Virginia,
+  @JsonValue(63)
   Washington,
+  @JsonValue(64)
   WesternAustralia,
+  @JsonValue(65)
   WestVirginia,
+  @JsonValue(66)
   Wisconsin,
+  @JsonValue(67)
   Wyoming,
+  @JsonValue(68)
   Yukon,
+  @JsonValue(69)
   CiudadDeMexico,
+  @JsonValue(70)
   Jalisco,
+  @JsonValue(71)
   NewfoundlandAndLabrador,
+  @JsonValue(72)
   NuevoLeon,
+  @JsonValue(73)
   BajaCalifornia,
+  @JsonValue(74)
   Chihuahua,
+  @JsonValue(75)
   Guanajuato,
+  @JsonValue(76)
   Guerrero,
+  @JsonValue(77)
   Mexico,
+  @JsonValue(78)
   Michoacan,
+  @JsonValue(79)
   NewYorkCity,
+  @JsonValue(80)
   Tamaulipas,
+  @JsonValue(81)
   Veracruz,
+  @JsonValue(82)
   Chiapas,
+  @JsonValue(83)
   Coahuila,
+  @JsonValue(84)
   Durango,
+  @JsonValue(85)
   GuerreroCocula,
+  @JsonValue(86)
   GuerreroJuchitan,
+  @JsonValue(87)
   GuerreroTepecoacuilco,
+  @JsonValue(88)
   GuerreroTlacoapa,
+  @JsonValue(89)
   Gujarat,
+  @JsonValue(90)
   Hidalgo,
+  @JsonValue(91)
   Karnataka,
+  @JsonValue(92)
   Kerala,
+  @JsonValue(93)
   KhyberPakhtunkhwa,
+  @JsonValue(94)
   MadhyaPradesh,
+  @JsonValue(95)
   Maharashtra,
+  @JsonValue(96)
   Morelos,
+  @JsonValue(97)
   Nayarit,
+  @JsonValue(98)
   Oaxaca,
+  @JsonValue(99)
   Puebla,
+  @JsonValue(100)
   Punjab,
+  @JsonValue(101)
   Queretaro,
+  @JsonValue(102)
   SanLuisPotosi,
+  @JsonValue(103)
   Sinaloa,
+  @JsonValue(104)
   Sonora,
+  @JsonValue(105)
   Tabasco,
+  @JsonValue(106)
   TamilNadu,
+  @JsonValue(107)
   Yucatan,
+  @JsonValue(108)
   Zacatecas,
+  @JsonValue(109)
   Aguascalientes,
+  @JsonValue(110)
   BajaCaliforniaSur,
+  @JsonValue(111)
   Campeche,
+  @JsonValue(112)
   Colima,
+  @JsonValue(113)
   QuintanaRooBenitoJuarez,
+  @JsonValue(114)
   QuintanaRoo,
+  @JsonValue(115)
   QuintanaRooSolidaridad,
+  @JsonValue(116)
   Tlaxcala,
+  @JsonValue(117)
   QuintanaRooCozumel,
+  @JsonValue(118)
   SaoPaolo,
+  @JsonValue(119)
   RioDeJaneiro,
-  RioGrandeDoSul
+  @JsonValue(120)
+  RioGrandeDoSul,
+  @JsonValue(121)
+  NorthWestTerritories,
+  @JsonValue(122)
+  Nunavut,
+  @JsonValue(123)
+  PrinceEdwardIsland,
+  @JsonValue(124)
+  DistritoFederal,
+  @JsonValue(125)
+  Maranhao,
+  @JsonValue(126)
+  MatoGrosso,
+  @JsonValue(127)
+  MinasGerais,
+  @JsonValue(128)
+  Para,
+  @JsonValue(129)
+  Parana,
+  @JsonValue(130)
+  Pernambuco,
+  @JsonValue(131)
+  SantaCatarina
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Type {
+  @JsonValue(0)
   None,
+  @JsonValue(1)
   ConsularId,
+  @JsonValue(2)
   Dl,
+  @JsonValue(3)
   DlPublicServicesCard,
+  @JsonValue(4)
   EmploymentPass,
+  @JsonValue(5)
   FinCard,
+  @JsonValue(6)
   Id,
+  @JsonValue(7)
   MultipurposeId,
+  @JsonValue(8)
   MyKad,
+  @JsonValue(9)
   MyKid,
+  @JsonValue(10)
   MyPR,
+  @JsonValue(11)
   MyTentera,
+  @JsonValue(12)
   PanCard,
+  @JsonValue(13)
   ProfessionalId,
+  @JsonValue(14)
   PublicServicesCard,
+  @JsonValue(15)
   ResidencePermit,
+  @JsonValue(16)
   ResidentId,
+  @JsonValue(17)
   TemporaryResidencePermit,
+  @JsonValue(18)
   VoterId,
+  @JsonValue(19)
   WorkPermit,
+  @JsonValue(20)
   iKad,
+  @JsonValue(21)
   MilitaryId,
+  @JsonValue(22)
   MyKas,
+  @JsonValue(23)
   SocialSecurityCard,
+  @JsonValue(24)
   HealthInsuranceCard,
+  @JsonValue(25)
   Passport,
+  @JsonValue(26)
   SPass,
+  @JsonValue(27)
   AddressCard,
+  @JsonValue(28)
   AlienId,
+  @JsonValue(29)
   AlienPassport,
+  @JsonValue(30)
   GreenCard,
+  @JsonValue(31)
   MinorsId,
+  @JsonValue(32)
   PostalId,
+  @JsonValue(33)
   ProfessionalDl,
+  @JsonValue(34)
   TaxId,
+  @JsonValue(35)
   WeaponPermit,
+  @JsonValue(36)
   Visa,
+  @JsonValue(37)
   BorderCrossingCard,
+  @JsonValue(38)
   DriverCard,
+  @JsonValue(39)
   GlobalEntryCard,
+  @JsonValue(40)
   Mypolis,
+  @JsonValue(41)
   NexusCard,
+  @JsonValue(42)
   PassportCard,
+  @JsonValue(43)
   ProofOfAgeCard,
+  @JsonValue(44)
   RefugeeId,
+  @JsonValue(45)
   TribalId,
+  @JsonValue(46)
   VeteranId,
+  @JsonValue(47)
   CitizenshipCertificate,
+  @JsonValue(48)
   MyNumberCard,
+  @JsonValue(49)
   ConsularPassport,
+  @JsonValue(50)
   MinorsPassport,
+  @JsonValue(51)
   MinorsPublicServicesCard,
-  DrivingPriviligeCard
+  @JsonValue(52)
+  DrivingPriviligeCard,
+  @JsonValue(53)
+  AsylumRequest,
+  @JsonValue(54)
+  DriverQualificationCard,
+  @JsonValue(55)
+  ProvisionalDl,
+  @JsonValue(56)
+  RefugeePassport,
+  @JsonValue(57)
+  SpecialId,
+  @JsonValue(58)
+  UniformedServicesId,
+  @JsonValue(59)
+  ImmigrantVisa,
+  @JsonValue(60)
+  ConsularVoterId,
+  @JsonValue(61)
+  TwicCard
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -1758,6 +2359,26 @@ class RecognitionModeFilter {
   Map<String, dynamic> toJson() => _$RecognitionModeFilterToJson(this);
 }
 
+/// ClassAnonymizationSettings is used to anonymize specific documents and fields.
+/// It can be modified with countries, regions, document types and document fields.
+/// See Country, Region, Type and FieldType objects to get more information which fields can be anonymized.
+/// Setting is taken into account if AnonymizationMode is set to ImageOnly,ResultFieldsOnly or FullResult.
+@JsonSerializable()
+class ClassAnonymizationSettings {
+  Country? country;
+
+  Region? region;
+
+  Type? type;
+
+  List<FieldType> fields = [];
+
+  ClassAnonymizationSettings();
+
+  factory ClassAnonymizationSettings.fromJson(Map<String, dynamic> json) => _$ClassAnonymizationSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$ClassAnonymizationSettingsToJson(this);
+}
+
 /// Define level of anonymization performed on recognizer result
 enum AnonymizationMode {
   /// Anonymization will not be performed.
@@ -1852,6 +2473,18 @@ enum RecognitionMode {
   BarcodeId
 }
 
+/// Define document side where the document field is located
+enum DocumentSide {
+  ///The field was not detected
+  None,
+
+  ///The field is located on the front side of the document
+  Front,
+
+  ///The field is located on the back side of the document
+  Back
+}
+
 /// Defines possible color and moire statuses determined from scanned image.
 class ImageAnalysisResult {
   /// Whether the image is blurred.
@@ -1872,6 +2505,8 @@ class ImageAnalysisResult {
   /// TBarcode detection status determined from the scanned image.
   ImageAnalysisDetectionStatus? barcodeDetectionStatus;
 
+  /// Document card rotation status determined from the scanned image.
+  CardRotation? cardRotation;
   ImageAnalysisResult(Map<String, dynamic> nativeImageAnalysisResult) {
     this.blurred = nativeImageAnalysisResult['blurred'];
     this.documentImageColorStatus =
@@ -1882,6 +2517,7 @@ class ImageAnalysisResult {
     this.mrzDetectionStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['mrzDetectionStatus']];
     this.barcodeDetectionStatus =
         ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['barcodeDetectionStatus']];
+    this.cardRotation = CardRotation.values[nativeImageAnalysisResult['cardRotation']];
   }
 }
 

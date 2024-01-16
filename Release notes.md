@@ -1,5 +1,21 @@
 # Changelog
 
+## 6.4.0
+
+- We have updated the plugin to [Android SDK v6.4.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.4.0) and [iOS SDK v6.4.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.4.0)
+- Added new values to `Region` and `Type`
+- Added new `ClassAnonymizationSettings` setting that enables custom anonymization for any field per country, region, and type of document
+- Added `isFilledByDomainKnowledge` property to `DateResult` and `Date` that indicates that the date is not extracted from the image but filled based on our internal document knowledge
+- Added missing mandatory field feedback during scanning with `BlinkIdOverlay`
+- Added new result member `cardRotation` to `ImageAnalysisResult`
+
+### Breaking API changes
+
+- Change to `StringResult`
+  - The string for every document field for each alphabet can be accessed by with `latin`, `arabic` and `cyrillic` members directly.
+- Change to `BlinkIdMultiSideRecognizerResult`
+  - `dataMatchResult` is now `dataMatch`
+
 ## 6.1.2
 
 - Fixed date and `documentDataMatch` errors

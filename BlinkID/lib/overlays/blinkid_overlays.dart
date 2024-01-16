@@ -10,6 +10,7 @@ class DocumentOverlaySettings extends OverlaySettings {
   DocumentOverlaySettings() : super('DocumentOverlaySettings');
 
   factory DocumentOverlaySettings.fromJson(Map<String, dynamic> json) => _$DocumentOverlaySettingsFromJson(json);
+
   @override
   Map<String, dynamic> toJson() => _$DocumentOverlaySettingsToJson(this);
 }
@@ -21,6 +22,9 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
 
   factory BlinkIdOverlaySettings.fromJson(Map<String, dynamic> json) => _$BlinkIdOverlaySettingsFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$BlinkIdOverlaySettingsToJson(this);
 
   /// String: message that is shown while scanning first side of the document.
   /// If null, default value will be used.
@@ -81,6 +85,26 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Default: true
   bool showFlashlightWarning = true;
 
+  /// Define the configuration of the missing mandatory fields feedback during scanning. If disabled, general message is presented.
+  ///
+  /// Default: true
+  bool showMandatoryFieldsMissing = true;
+
+  ///Define if the onboarding info element will be displayed.
+  ///
+  /// Default: true
+  bool showOnboardingInfo = true;
+
+  /// Define whether introduction dialog is turned on by default.
+  ///
+  /// Default: false
+  bool showIntroductionDialog = false;
+
+  /// Option to configure onboarding button tooltip delay time.
+  ///
+  /// Default: 12000
+  int onboardingButtonTooltipDelay = 12000;
+
   /// Option to configure back side scanning timeout.
   ///
   /// Default: 17000
@@ -93,8 +117,6 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Instructions for the user to move the document from the edge.
   /// If null, default value will be used.
   String? errorDocumentTooCloseToEdge;
-  @override
-  Map<String, dynamic> toJson() => _$BlinkIdOverlaySettingsToJson(this);
 }
 
 /// Class for setting up document verification overlay.
@@ -105,6 +127,9 @@ class DocumentVerificationOverlaySettings extends OverlaySettings {
 
   factory DocumentVerificationOverlaySettings.fromJson(Map<String, dynamic> json) =>
       _$DocumentVerificationOverlaySettingsFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$DocumentVerificationOverlaySettingsToJson(this);
 
   /// String: splash message that is shown before scanning the first side of the document, while starting camera.
   /// If null, default value will be used.
@@ -131,7 +156,4 @@ class DocumentVerificationOverlaySettings extends OverlaySettings {
   /// String: glare message that is shown if glare was detected while scanning document.
   /// If null, default value will be used.
   String? glareMessage;
-
-  @override
-  Map<String, dynamic> toJson() => _$DocumentVerificationOverlaySettingsToJson(this);
 }

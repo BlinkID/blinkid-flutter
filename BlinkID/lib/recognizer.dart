@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 export 'package:blinkid_flutter/recognizers/blink_id_multi_side_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/blink_id_single_side_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/document_face_recognizer.dart';
+export 'package:blinkid_flutter/recognizers/extensions/nationality_alpha_code_extension.dart';
 export 'package:blinkid_flutter/recognizers/id_barcode_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/mrtd_combined_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/mrtd_recognizer.dart';

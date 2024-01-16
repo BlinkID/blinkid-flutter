@@ -6,58 +6,6 @@ part 'usdl_combined_recognizer.g.dart';
 
 /// Result object for UsdlCombinedRecognizer.
 class UsdlCombinedRecognizerResult extends RecognizerResult {
-  UsdlCombinedRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
-    documentDataMatch = DataMatchState.values[nativeResult['documentDataMatch']];
-
-    faceImage = nativeResult['faceImage'];
-
-    fullDocumentImage = nativeResult['fullDocumentImage'];
-
-    scanningFirstSideDone = nativeResult['scanningFirstSideDone'];
-
-    optionalElements =
-        nativeResult['optionalElements'] != null ? List<String>.from(nativeResult['optionalElements']) : null;
-
-    rawData = nativeResult['rawData'];
-
-    rawStringData = nativeResult['rawStringData'];
-
-    uncertain = nativeResult['uncertain'];
-
-    fields = nativeResult['fields'] != null ? List<String>.from(nativeResult['fields']) : null;
-
-    firstName = nativeResult['firstName'];
-
-    middleName = nativeResult['middleName'];
-
-    lastName = nativeResult['lastName'];
-
-    fullName = nativeResult['fullName'];
-
-    nameSuffix = nativeResult['nameSuffix'];
-
-    address = nativeResult['address'];
-
-    documentNumber = nativeResult['documentNumber'];
-
-    sex = nativeResult['sex'];
-
-    restrictions = nativeResult['restrictions'];
-
-    endorsements = nativeResult['endorsements'];
-
-    vehicleClass = nativeResult['vehicleClass'];
-
-    dateOfBirth = nativeResult['dateOfBirth'] != null ? Date(nativeResult['dateOfBirth']) : null;
-
-    dateOfIssue = nativeResult['dateOfIssue'] != null ? Date(nativeResult['dateOfIssue']) : null;
-
-    dateOfExpiry = nativeResult['dateOfExpiry'] != null ? Date(nativeResult['dateOfExpiry']) : null;
-
-    age = nativeResult['age'];
-  }
-
   /// Returns true if data from scanned parts/sides of the document match,
   /// false otherwise. For example if date of expiry is scanned from the front and back side
   /// of the document and values do not match, this method will return false. Result will
@@ -135,6 +83,58 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
   /// between now and date of birth. Now is current time on the device.
   /// @return current age of the document owner in years or -1 if date of birth is unknown.
   int? age;
+
+  UsdlCombinedRecognizerResult(Map<String, dynamic> nativeResult)
+      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+    this.documentDataMatch = DataMatchState.values[nativeResult["documentDataMatch"]];
+
+    this.faceImage = nativeResult['faceImage'];
+
+    this.fullDocumentImage = nativeResult['fullDocumentImage'];
+
+    this.scanningFirstSideDone = nativeResult['scanningFirstSideDone'];
+
+    this.optionalElements =
+        nativeResult['optionalElements'] != null ? List<String>.from(nativeResult['optionalElements']) : null;
+
+    this.rawData = nativeResult['rawData'];
+
+    this.rawStringData = nativeResult['rawStringData'];
+
+    this.uncertain = nativeResult['uncertain'];
+
+    this.fields = nativeResult['fields'] != null ? List<String>.from(nativeResult['fields']) : null;
+
+    this.firstName = nativeResult['firstName'];
+
+    this.middleName = nativeResult['middleName'];
+
+    this.lastName = nativeResult['lastName'];
+
+    this.fullName = nativeResult['fullName'];
+
+    this.nameSuffix = nativeResult['nameSuffix'];
+
+    this.address = nativeResult['address'];
+
+    this.documentNumber = nativeResult['documentNumber'];
+
+    this.sex = nativeResult['sex'];
+
+    this.restrictions = nativeResult['restrictions'];
+
+    this.endorsements = nativeResult['endorsements'];
+
+    this.vehicleClass = nativeResult['vehicleClass'];
+
+    this.dateOfBirth = nativeResult['dateOfBirth'] != null ? Date(nativeResult['dateOfBirth']) : null;
+
+    this.dateOfIssue = nativeResult['dateOfIssue'] != null ? Date(nativeResult['dateOfIssue']) : null;
+
+    this.dateOfExpiry = nativeResult['dateOfExpiry'] != null ? Date(nativeResult['dateOfExpiry']) : null;
+
+    this.age = nativeResult['age'];
+  }
 }
 
 ///USDL Combined Recognizer.
@@ -142,10 +142,6 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
 ///USDL Combined recognizer is used for scanning both front and back side of US Driver's License.
 @JsonSerializable()
 class UsdlCombinedRecognizer extends Recognizer {
-  UsdlCombinedRecognizer() : super('UsdlCombinedRecognizer');
-
-  factory UsdlCombinedRecognizer.fromJson(Map<String, dynamic> json) => _$UsdlCombinedRecognizerFromJson(json);
-
   /// Property for setting DPI for face images
   /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
   int faceImageDpi = 250;
@@ -166,9 +162,12 @@ class UsdlCombinedRecognizer extends Recognizer {
   /// Minimum number of stable detections required for detection to be successful.
   int numStableDetectionsThreshold = 6;
 
-  @override
-  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) =>
-      UsdlCombinedRecognizerResult(nativeResult);
-  @override
+  UsdlCombinedRecognizer() : super('UsdlCombinedRecognizer');
+
+  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
+    return UsdlCombinedRecognizerResult(nativeResult);
+  }
+
+  factory UsdlCombinedRecognizer.fromJson(Map<String, dynamic> json) => _$UsdlCombinedRecognizerFromJson(json);
   Map<String, dynamic> toJson() => _$UsdlCombinedRecognizerToJson(this);
 }

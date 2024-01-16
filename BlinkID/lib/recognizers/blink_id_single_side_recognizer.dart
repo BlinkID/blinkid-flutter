@@ -1,153 +1,12 @@
-import 'package:blinkid_flutter/recognizer.dart';
-import 'package:blinkid_flutter/types.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../recognizer.dart';
+import '../types.dart';
 
 part 'blink_id_single_side_recognizer.g.dart';
 
 /// Result object for BlinkIdSingleSideRecognizer.
 class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
-  BlinkIdSingleSideRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
-    additionalAddressInformation = nativeResult['additionalAddressInformation'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['additionalAddressInformation']))
-        : null;
-
-    additionalNameInformation = nativeResult['additionalNameInformation'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['additionalNameInformation']))
-        : null;
-
-    additionalOptionalAddressInformation = nativeResult['additionalOptionalAddressInformation'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['additionalOptionalAddressInformation']))
-        : null;
-
-    additionalProcessingInfo = nativeResult['additionalProcessingInfo'] != null
-        ? AdditionalProcessingInfo(Map<String, dynamic>.from(nativeResult['additionalProcessingInfo']))
-        : null;
-
-    address = nativeResult['address'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['address'])) : null;
-
-    age = nativeResult['age'];
-
-    barcodeCameraFrame = nativeResult['barcodeCameraFrame'];
-
-    barcodeResult = nativeResult['barcodeResult'] != null
-        ? BarcodeResult(Map<String, dynamic>.from(nativeResult['barcodeResult']))
-        : null;
-
-    cameraFrame = nativeResult['cameraFrame'];
-
-    classInfo =
-        nativeResult['classInfo'] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult['classInfo'])) : null;
-
-    dateOfBirth =
-        nativeResult['dateOfBirth'] != null ? DateResult(Map<String, dynamic>.from(nativeResult['dateOfBirth'])) : null;
-
-    dateOfExpiry = nativeResult['dateOfExpiry'] != null
-        ? DateResult(Map<String, dynamic>.from(nativeResult['dateOfExpiry']))
-        : null;
-
-    dateOfExpiryPermanent = nativeResult['dateOfExpiryPermanent'];
-
-    dateOfIssue =
-        nativeResult['dateOfIssue'] != null ? DateResult(Map<String, dynamic>.from(nativeResult['dateOfIssue'])) : null;
-
-    documentAdditionalNumber = nativeResult['documentAdditionalNumber'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['documentAdditionalNumber']))
-        : null;
-
-    documentNumber = nativeResult['documentNumber'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['documentNumber']))
-        : null;
-
-    documentOptionalAdditionalNumber = nativeResult['documentOptionalAdditionalNumber'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['documentOptionalAdditionalNumber']))
-        : null;
-
-    driverLicenseDetailedInfo = nativeResult['driverLicenseDetailedInfo'] != null
-        ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeResult['driverLicenseDetailedInfo']))
-        : null;
-
-    employer =
-        nativeResult['employer'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['employer'])) : null;
-
-    expired = nativeResult['expired'];
-
-    faceImage = nativeResult['faceImage'];
-
-    fathersName = nativeResult['fathersName'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['fathersName']))
-        : null;
-
-    firstName =
-        nativeResult['firstName'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['firstName'])) : null;
-
-    fullDocumentImage = nativeResult['fullDocumentImage'];
-
-    fullName =
-        nativeResult['fullName'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['fullName'])) : null;
-
-    imageAnalysisResult = nativeResult['imageAnalysisResult'] != null
-        ? ImageAnalysisResult(Map<String, dynamic>.from(nativeResult['imageAnalysisResult']))
-        : null;
-
-    issuingAuthority = nativeResult['issuingAuthority'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['issuingAuthority']))
-        : null;
-
-    lastName =
-        nativeResult['lastName'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['lastName'])) : null;
-
-    localizedName = nativeResult['localizedName'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['localizedName']))
-        : null;
-
-    maritalStatus = nativeResult['maritalStatus'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['maritalStatus']))
-        : null;
-
-    mothersName = nativeResult['mothersName'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['mothersName']))
-        : null;
-
-    mrzResult =
-        nativeResult['mrzResult'] != null ? MrzResult(Map<String, dynamic>.from(nativeResult['mrzResult'])) : null;
-
-    nationality = nativeResult['nationality'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['nationality']))
-        : null;
-
-    personalIdNumber = nativeResult['personalIdNumber'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['personalIdNumber']))
-        : null;
-
-    placeOfBirth = nativeResult['placeOfBirth'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['placeOfBirth']))
-        : null;
-
-    processingStatus = ProcessingStatus.values[nativeResult['processingStatus']];
-
-    profession =
-        nativeResult['profession'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['profession'])) : null;
-
-    race = nativeResult['race'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['race'])) : null;
-
-    recognitionMode = RecognitionMode.values[nativeResult['recognitionMode']];
-
-    religion =
-        nativeResult['religion'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['religion'])) : null;
-
-    residentialStatus = nativeResult['residentialStatus'] != null
-        ? StringResult(Map<String, dynamic>.from(nativeResult['residentialStatus']))
-        : null;
-
-    sex = nativeResult['sex'] != null ? StringResult(Map<String, dynamic>.from(nativeResult['sex'])) : null;
-
-    signatureImage = nativeResult['signatureImage'];
-
-    vizResult =
-        nativeResult['vizResult'] != null ? VizResult(Map<String, dynamic>.from(nativeResult['vizResult'])) : null;
-  }
-
   ///The additional address information of the document owner.
   StringResult? additionalAddressInformation;
 
@@ -219,6 +78,12 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
   ///face image from the document if enabled with returnFaceImage property.
   String? faceImage;
 
+  ///face image location from the document if enabled with returnFaceImage property.
+  Rectangle? faceImageLocation;
+
+  ///side of document that face image is located on if enabled with returnFaceImage property.
+  DocumentSide? faceImageSide;
+
   ///The father's name of the document owner.
   StringResult? fathersName;
 
@@ -287,54 +152,209 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
 
   ///Defines the data extracted from the visual inspection zone
   VizResult? vizResult;
+
+  BlinkIdSingleSideRecognizerResult(Map<String, dynamic> nativeResult)
+      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+    this.additionalAddressInformation = nativeResult["additionalAddressInformation"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["additionalAddressInformation"]))
+        : null;
+
+    this.additionalNameInformation = nativeResult["additionalNameInformation"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["additionalNameInformation"]))
+        : null;
+
+    this.additionalOptionalAddressInformation = nativeResult["additionalOptionalAddressInformation"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["additionalOptionalAddressInformation"]))
+        : null;
+
+    this.additionalProcessingInfo = nativeResult["additionalProcessingInfo"] != null
+        ? AdditionalProcessingInfo(Map<String, dynamic>.from(nativeResult["additionalProcessingInfo"]))
+        : null;
+
+    this.address =
+        nativeResult["address"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["address"])) : null;
+
+    this.age = nativeResult["age"];
+
+    this.barcodeCameraFrame = nativeResult["barcodeCameraFrame"];
+
+    this.barcodeResult = nativeResult["barcodeResult"] != null
+        ? BarcodeResult(Map<String, dynamic>.from(nativeResult["barcodeResult"]))
+        : null;
+
+    this.cameraFrame = nativeResult["cameraFrame"];
+
+    this.classInfo =
+        nativeResult["classInfo"] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult["classInfo"])) : null;
+
+    this.dateOfBirth =
+        nativeResult["dateOfBirth"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfBirth"])) : null;
+
+    this.dateOfExpiry = nativeResult["dateOfExpiry"] != null
+        ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfExpiry"]))
+        : null;
+
+    this.dateOfExpiryPermanent = nativeResult["dateOfExpiryPermanent"];
+
+    this.dateOfIssue =
+        nativeResult["dateOfIssue"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfIssue"])) : null;
+
+    this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["documentAdditionalNumber"]))
+        : null;
+
+    this.documentNumber = nativeResult["documentNumber"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["documentNumber"]))
+        : null;
+
+    this.documentOptionalAdditionalNumber = nativeResult["documentOptionalAdditionalNumber"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["documentOptionalAdditionalNumber"]))
+        : null;
+
+    this.driverLicenseDetailedInfo = nativeResult["driverLicenseDetailedInfo"] != null
+        ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeResult["driverLicenseDetailedInfo"]))
+        : null;
+
+    this.employer =
+        nativeResult["employer"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["employer"])) : null;
+
+    this.expired = nativeResult["expired"];
+
+    this.faceImage = nativeResult["faceImage"];
+
+    this.faceImageLocation = nativeResult["faceImageLocation"] != null
+        ? Rectangle(Map<String, dynamic>.from(nativeResult["faceImageLocation"]))
+        : null;
+
+    this.faceImageSide = DocumentSide.values[nativeResult["faceImageSide"]];
+
+    this.fathersName = nativeResult["fathersName"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["fathersName"]))
+        : null;
+
+    this.firstName =
+        nativeResult["firstName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["firstName"])) : null;
+
+    this.fullDocumentImage = nativeResult["fullDocumentImage"];
+
+    this.fullName =
+        nativeResult["fullName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["fullName"])) : null;
+
+    this.imageAnalysisResult = nativeResult["imageAnalysisResult"] != null
+        ? ImageAnalysisResult(Map<String, dynamic>.from(nativeResult["imageAnalysisResult"]))
+        : null;
+
+    this.issuingAuthority = nativeResult["issuingAuthority"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["issuingAuthority"]))
+        : null;
+
+    this.lastName =
+        nativeResult["lastName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["lastName"])) : null;
+
+    this.localizedName = nativeResult["localizedName"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["localizedName"]))
+        : null;
+
+    this.maritalStatus = nativeResult["maritalStatus"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["maritalStatus"]))
+        : null;
+
+    this.mothersName = nativeResult["mothersName"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["mothersName"]))
+        : null;
+
+    this.mrzResult =
+        nativeResult["mrzResult"] != null ? MrzResult(Map<String, dynamic>.from(nativeResult["mrzResult"])) : null;
+
+    this.nationality = nativeResult["nationality"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["nationality"]))
+        : null;
+
+    this.personalIdNumber = nativeResult["personalIdNumber"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["personalIdNumber"]))
+        : null;
+
+    this.placeOfBirth = nativeResult["placeOfBirth"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["placeOfBirth"]))
+        : null;
+
+    this.processingStatus = ProcessingStatus.values[nativeResult["processingStatus"]];
+
+    this.profession =
+        nativeResult["profession"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["profession"])) : null;
+
+    this.race = nativeResult["race"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["race"])) : null;
+
+    this.recognitionMode = RecognitionMode.values[nativeResult["recognitionMode"]];
+
+    this.religion =
+        nativeResult["religion"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["religion"])) : null;
+
+    this.residentialStatus = nativeResult["residentialStatus"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["residentialStatus"]))
+        : null;
+
+    this.sex = nativeResult["sex"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sex"])) : null;
+
+    this.signatureImage = nativeResult["signatureImage"];
+
+    this.vizResult =
+        nativeResult["vizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["vizResult"])) : null;
+  }
 }
 
 ///The Blink ID Recognizer is used for scanning Blink ID.
 @JsonSerializable()
 class BlinkIdSingleSideRecognizer extends Recognizer {
-  BlinkIdSingleSideRecognizer() : super('BlinkIdSingleSideRecognizer');
+  ///Additional anonymization settings.
 
-  factory BlinkIdSingleSideRecognizer.fromJson(Map<String, dynamic> json) =>
-      _$BlinkIdSingleSideRecognizerFromJson(json);
+  List<ClassAnonymizationSettings> additionalAnonymization = [];
 
   ///Defines whether blured frames filtering is allowed
   ///
   ///
+
   bool allowBlurFilter = true;
 
   ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
   ///
   ///
+
   bool allowUnparsedMrzResults = false;
 
   ///Defines whether returning unverified MRZ (Machine Readable Zone) results is allowed
   /// Unverified MRZ is parsed, but check digits are incorrect
   ///
   ///
+
   bool allowUnverifiedMrzResults = true;
 
   ///Defines whether sensitive data should be removed from images, result fields or both.
   /// The setting only applies to certain documents
   ///
   ///
+
   AnonymizationMode anonymizationMode = AnonymizationMode.FullResult;
 
   ///Property for setting DPI for face images
   /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
   ///
   ///
+
   int faceImageDpi = 250;
 
   ///Property for setting DPI for full document images
   /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
   ///
   ///
+
   int fullDocumentImageDpi = 250;
 
   ///Image extension factors for full document image.
   ///
   /// @see ImageExtensionFactors
   ///
+
   ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
 
   ///Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
@@ -342,55 +362,68 @@ class BlinkIdSingleSideRecognizer extends Recognizer {
   /// Recommended value is 0.02f.
   ///
   ///
+
   double paddingEdge = 0.0;
 
   ///Enable or disable recognition of specific document groups supported by the current license.
   ///
   ///
+
   RecognitionModeFilter recognitionModeFilter = RecognitionModeFilter();
 
   ///Sets whether face image from ID card should be extracted
   ///
   ///
+
   bool returnFaceImage = false;
 
   ///Sets whether full document image of ID card should be extracted.
   ///
   ///
+
   bool returnFullDocumentImage = false;
 
   ///Sets whether signature image from ID card should be extracted.
   ///
   ///
+
   bool returnSignatureImage = false;
 
   ///Configure the recognizer to save the raw camera frames.
   /// This significantly increases memory consumption.
   ///
   ///
+
   bool saveCameraFrames = false;
 
   ///Configure the recognizer to only work on already cropped and dewarped images.
   /// This only works for still images - video feeds will ignore this setting.
   ///
   ///
+
   bool scanCroppedDocumentImage = false;
 
   ///Property for setting DPI for signature images
   /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
   ///
   ///
+
   int signatureImageDpi = 250;
 
   ///Defines whether result characters validatation is performed.
   /// If a result member contains invalid character, the result state cannot be valid
   ///
   ///
+
   bool validateResultCharacters = true;
 
-  @override
-  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) =>
-      BlinkIdSingleSideRecognizerResult(nativeResult);
-  @override
+  BlinkIdSingleSideRecognizer() : super('BlinkIdSingleSideRecognizer');
+
+  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
+    return BlinkIdSingleSideRecognizerResult(nativeResult);
+  }
+
+  factory BlinkIdSingleSideRecognizer.fromJson(Map<String, dynamic> json) =>
+      _$BlinkIdSingleSideRecognizerFromJson(json);
   Map<String, dynamic> toJson() => _$BlinkIdSingleSideRecognizerToJson(this);
 }

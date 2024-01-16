@@ -1,6 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
+
 import '../recognizer.dart';
 import '../types.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'usdl_recognizer.g.dart';
 
@@ -90,9 +91,7 @@ class UsdlRecognizerResult extends RecognizerResult {
 
     this.uncertain = nativeResult['uncertain'];
 
-    this.fields = nativeResult['fields'] != null
-        ? List<String>.from(nativeResult['fields'])
-        : null;
+    this.fields = nativeResult['fields'] != null ? List<String>.from(nativeResult['fields']) : null;
 
     this.firstName = nativeResult['firstName'];
 
@@ -116,17 +115,14 @@ class UsdlRecognizerResult extends RecognizerResult {
 
     this.vehicleClass = nativeResult['vehicleClass'];
 
-    this.dateOfBirth = nativeResult['dateOfBirth'] != null
-        ? new Date(Map<String, dynamic>.from(nativeResult['dateOfBirth']))
-        : null;
+    this.dateOfBirth =
+        nativeResult['dateOfBirth'] != null ? new Date(Map<String, dynamic>.from(nativeResult['dateOfBirth'])) : null;
 
-    this.dateOfIssue = nativeResult['dateOfIssue'] != null
-        ? new Date(Map<String, dynamic>.from(nativeResult['dateOfIssue']))
-        : null;
+    this.dateOfIssue =
+        nativeResult['dateOfIssue'] != null ? new Date(Map<String, dynamic>.from(nativeResult['dateOfIssue'])) : null;
 
-    this.dateOfExpiry = nativeResult['dateOfExpiry'] != null
-        ? new Date(Map<String, dynamic>.from(nativeResult['dateOfExpiry']))
-        : null;
+    this.dateOfExpiry =
+        nativeResult['dateOfExpiry'] != null ? new Date(Map<String, dynamic>.from(nativeResult['dateOfExpiry'])) : null;
 
     this.age = nativeResult['age'];
 
@@ -158,8 +154,7 @@ class UsdlRecognizer extends Recognizer {
     return UsdlRecognizerResult(nativeResult);
   }
 
-  factory UsdlRecognizer.fromJson(Map<String, dynamic> json) =>
-      _$UsdlRecognizerFromJson(json);
+  factory UsdlRecognizer.fromJson(Map<String, dynamic> json) => _$UsdlRecognizerFromJson(json);
   Map<String, dynamic> toJson() => _$UsdlRecognizerToJson(this);
 }
 

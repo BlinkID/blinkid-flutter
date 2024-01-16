@@ -22,10 +22,10 @@ class _MyAppState extends State<MyApp> {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license =
-          "sRwAAAEVY29tLm1pY3JvYmxpbmsuc2FtcGxl1BIcP4FpSuS/38LVO6iNNLvwTdq8BXiJ5UonUGzXseoV2n66Da5wNIZLr1ZBRlnFt2rbdnzzt/qU/fcwoCOqO8Zs2aUb2Psx4KutvE2SPyDiBo2Ko6yiA/P54/B8Jh8sEVWrLT341QghRicpTDbfiuJLtQ6HyCUrQOd28fxlwulwrZhqdyHmVJVQ6S4Gu2Dxd5dxt3LiIcZ0JeOjNKaPtc4Qnz7BYI2nQ5VfW2V2gYRIsvTzjgvT1AM2OibUXY0HeY4CTZ0BHwPVKTkQVnE39cOJST5k9JtZoZV086L2elpxizJueRIh4J8IzopUIFEFwq70cBj17Qr5gtc=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTURNd056Y3hORFkzT1RJc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PYPwAuE88FDjP95RyiGUewj+e6SGUoHitmTt0i2T87nVbH79ynAtPdmuQV49+U4ulln6j4ku3momxVE2igI9howeOZwxK5IbpMVG3ooDibChEXUccclpCCv08w3gEUwsP7hGOIBbA4HP45vru2nkan74SUYXWVU=";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license =
-          'sRwAAAAVY29tLm1pY3JvYmxpbmsuc2FtcGxlU9kJdZhZkGlTu9W3O0VDY2v860Cyg0fJ3RhWpGsVuHQAL3ku7rb+BKQ2Hh4aUi73Z5bmO0/e1+rnVm1tZzt43W7lFlTYp4e6q/hE8/53bZjjVR4y5Ul0wWNQ0MVEkG0pkWxQsdBFdghIXZfyYuUm8wV2XOoQYnOMA3A2eAB+SCZ61x24jbE+PcXEL040OUlLQBnmBa0eg4Vc4mTGiMav6vXWlZ4vwfutINk6a9R0WPK2v3sUyKy5ybvo8PsysOlB9U7anR0AsM4GZ0qgS4REWy5Q3QGzl34AoMgHpceAJsHv7VRBki4lg8z/vu5GGlH52R6+63eBzzTxoy4=';
+          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTURNd056Y3lNRE0xTWpnc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PY6A6Eq56GBOfiH4PZYVCf1vcY3/GuHCOkdOhF5rUKHodDOB3Q01339g0q22TM/fWv5f06CvIiAamEhg1m8xAYWSQt2VVSsVJaAncz+bGexcASnuhlHA+LTLnSZGIxSgnNKBJbizQypDRsyFKKpBq7K2SfVi+gM=';
     } else {
       license = "";
     }
@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.religion, "Religion") +
         buildResult(result.residentialStatus, "Residential Status") +
         buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
-        buildDataMatchResult(result.dataMatchResult);
+        buildDataMatchResult(result.dataMatch);
   }
 
   String buildResult(StringResult? result, String propertyName) {

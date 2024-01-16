@@ -115,21 +115,21 @@ extension MicroblinkScannerView: CustomOverlayViewControllerDelegate {
     
     func onDetectionStatusUpdated(_ status: MBDetectionStatus) {
         let encodedStatus: String = {switch status {
-        case .cameraAtAngle:
+        case .cameraAngleTooSteep:
             return "CAMERA_AT_ANGLE"
         case .init(rawValue: 0):
             return "FAIL"
         case .success:
             return "SUCCESS"
-        case .cameraTooHigh:
+        case .cameraTooFar:
             return "CAMERA_TOO_HIGH"
         case .fallbackSuccess:
             return "FALLBACK_SUCCESS"
-        case .partialForm:
+        case .documentPartiallyVisible:
             return "PARTIAL_OBJECT"
-        case .cameraTooNear:
+        case .cameraTooClose:
             return "CAMERA_TOO_NEAR"
-        case .documentTooCloseToEdge:
+        case .documentTooCloseToCameraEdge:
             return "DOCUMENT_TOO_CLOSE_TO_EDGE"
         default:
             return ""

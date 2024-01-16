@@ -10,6 +10,11 @@ BlinkIdMultiSideRecognizer _$BlinkIdMultiSideRecognizerFromJson(
         Map<String, dynamic> json) =>
     BlinkIdMultiSideRecognizer()
       ..recognizerType = json['recognizerType'] as String
+      ..additionalAnonymization = (json['additionalAnonymization']
+              as List<dynamic>)
+          .map((e) =>
+              ClassAnonymizationSettings.fromJson(e as Map<String, dynamic>))
+          .toList()
       ..allowBlurFilter = json['allowBlurFilter'] as bool
       ..allowUncertainFrontSideScan =
           json['allowUncertainFrontSideScan'] as bool
@@ -39,6 +44,8 @@ Map<String, dynamic> _$BlinkIdMultiSideRecognizerToJson(
         BlinkIdMultiSideRecognizer instance) =>
     <String, dynamic>{
       'recognizerType': instance.recognizerType,
+      'additionalAnonymization':
+          instance.additionalAnonymization.map((e) => e.toJson()).toList(),
       'allowBlurFilter': instance.allowBlurFilter,
       'allowUncertainFrontSideScan': instance.allowUncertainFrontSideScan,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,

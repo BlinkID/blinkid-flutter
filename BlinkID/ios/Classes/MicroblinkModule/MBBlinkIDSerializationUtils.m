@@ -213,7 +213,8 @@
              @"documentImageMoireStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageMoireStatus)],
              @"faceDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.faceDetectionStatus)],
              @"mrzDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.mrzDetectionStatus)],
-             @"barcodeDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.barcodeDetectionStatus)]
+             @"barcodeDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.barcodeDetectionStatus)],
+             @"cardRotation" : [NSNumber numberWithInteger:(imageAnalysisResult.cardRotation)]
         };
 }
 
@@ -230,6 +231,41 @@
         recognitionModeFilter.enableFullDocumentRecognition = [[jsonRecognitionModeFilter valueForKey:@"enableFullDocumentRecognition"] boolValue];
 
         return recognitionModeFilter;
+    }
+}
+
++(MBClassAnonymizationSettings *) deserializeMBClassAnonymizationSettings:(NSDictionary *)jsonClassAnonymizationSettings {
+    if (jsonClassAnonymizationSettings == nil) {
+        return [[MBClassAnonymizationSettings alloc] init];
+    } else {
+        NSArray<NSNumber *> *fields = [jsonClassAnonymizationSettings objectForKey:@"fields"];
+        NSMutableArray<NSNumber *> *newFields = [[NSMutableArray alloc] init];
+
+        for (NSNumber *field in fields) {
+            [newFields addObject:field];
+        }
+
+        NSNumber *country = [jsonClassAnonymizationSettings valueForKey:@"country"];
+        NSNumber *region = [jsonClassAnonymizationSettings valueForKey:@"region"];
+        NSNumber *type = [jsonClassAnonymizationSettings valueForKey:@"type"];
+        
+        if (![country isEqual:[NSNull null]] && ![region isEqual:[NSNull null]] && ![type isEqual:[NSNull null]]) {
+            return [[MBClassAnonymizationSettings alloc] initWithCountry:country.integerValue region:region.integerValue type:type.integerValue fields:fields];
+        } else if (![country isEqual:[NSNull null]] && ![type isEqual:[NSNull null]]) {
+            return [[MBClassAnonymizationSettings alloc] initWithCountry:country.integerValue type:type.integerValue fields:fields];
+        } else if (![country isEqual:[NSNull null]] && ![region isEqual:[NSNull null]] ) {
+            return [[MBClassAnonymizationSettings alloc] initWithCountry:country.integerValue region:region.integerValue fields:fields];
+        } else if (![region isEqual:[NSNull null]] && ![type isEqual:[NSNull null]]) {
+            return [[MBClassAnonymizationSettings alloc] initWithRegion:region.integerValue type:type.integerValue fields:fields];
+        } else if (![country isEqual:[NSNull null]]) {
+            return [[MBClassAnonymizationSettings alloc] initWithCountry:country.integerValue fields:fields];
+        } else if (![region isEqual:[NSNull null]] ) {
+            return [[MBClassAnonymizationSettings alloc] initWithRegion:region.integerValue fields:fields];
+        } else if (![type isEqual:[NSNull null]]) {
+            return [[MBClassAnonymizationSettings alloc] initWithType:type.integerValue fields:fields];
+        }
+        
+        return [[MBClassAnonymizationSettings alloc] initWithFields:fields];
     }
 }
 
@@ -261,7 +297,8 @@
         @"day" : @(date.day),
         @"month" : @(date.month),
         @"year" : @(date.year),
-        @"originalDateString" : date.originalDateString
+        @"originalDateString" : date.originalDateString,
+        @"isFilledByDomainKnowledge" : [NSNumber numberWithBool:date.isFilledByDomainKnowledge],
     };
 }
 

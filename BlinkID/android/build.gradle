@@ -41,13 +41,13 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0-alpha02"
-    implementation('com.microblink:blinkid:6.1.1@aar') {
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"
+    implementation('com.microblink:blinkid:6.4.0@aar') {
         transitive = true
     }
     //implementation files('/home/droid/dev/flutter/bin/cache/artifacts/engine/android-x86/flutter.jar')
 
-    implementation "androidx.lifecycle:lifecycle-livedata:2.6.2"
+    implementation "androidx.lifecycle:lifecycle-livedata:2.7.0"
 
     def camerax_version = "1.2.3"
     implementation "androidx.camera:camera-core:${camerax_version}"

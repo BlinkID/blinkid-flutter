@@ -8,7 +8,6 @@ import com.microblink.blinkid.entities.recognizers.blinkid.mrtd.MrzResult;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.DriverLicenseDetailedInfo;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.barcode.BarcodeDriverLicenseDetailedInfo;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.datamatch.DataMatchResult;
-import com.microblink.blinkid.entities.recognizers.blinkid.generic.datamatch.DataMatchField;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.datamatch.FieldState;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.DateResult;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.AdditionalProcessingInfo;
@@ -23,6 +22,15 @@ import com.microblink.blinkid.entities.recognizers.blinkid.generic.barcode.Barco
 import com.microblink.blinkid.entities.recognizers.blinkid.idbarcode.BarcodeElements;
 import com.microblink.blinkid.entities.recognizers.blinkid.idbarcode.BarcodeElementKey;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.RecognitionModeFilter;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.ClassAnonymizationSettings;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.FieldType;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Country;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Region;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Type;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.Side;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.imageanalysis.CardRotation;
+
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -126,6 +134,7 @@ public abstract class BlinkIDSerializationUtils {
         JSONObject jsonDateResult = new JSONObject();
         if (dateResult != null && dateResult.getDate() != null) {
             jsonDateResult.put("originalDateStringResult", serializeStringResult(dateResult.getOriginalDateString()));
+            jsonDateResult.put("isFilledByDomainKnowledge", dateResult.isFilledByDomainKnowledge());
             jsonDateResult.put("day", dateResult.getDate().getDay());
             jsonDateResult.put("month", dateResult.getDate().getMonth());
             jsonDateResult.put("year", dateResult.getDate().getYear());
@@ -141,8 +150,34 @@ public abstract class BlinkIDSerializationUtils {
             jsonStringResult.put("arabic", stringResult.value(AlphabetType.Arabic));
             jsonStringResult.put("cyrillic", stringResult.value(AlphabetType.Cyrillic));
             jsonStringResult.put("description", stringResult.toString());
+
+            JSONObject jsonFieldLocations = new JSONObject();
+            jsonFieldLocations.put("latin",SerializationUtils.serializeRectangle(stringResult.location(AlphabetType.Latin)));
+            jsonFieldLocations.put("arabic",SerializationUtils.serializeRectangle(stringResult.location(AlphabetType.Arabic)));
+            jsonFieldLocations.put("cyrillic",SerializationUtils.serializeRectangle(stringResult.location(AlphabetType.Cyrillic)));
+            jsonStringResult.put("location", jsonFieldLocations);
+
+            JSONObject jsonDocumentSides = new JSONObject();
+            jsonDocumentSides.put("latin",serializeSide(stringResult.side(AlphabetType.Latin)));
+            jsonDocumentSides.put("arabic",serializeSide(stringResult.side(AlphabetType.Arabic)));
+            jsonDocumentSides.put("cyrillic",serializeSide(stringResult.side(AlphabetType.Cyrillic)));
+            jsonStringResult.put("side", jsonDocumentSides);
         }
         return jsonStringResult;
+    }
+
+    public static int serializeSide(Side side) {
+        if (side != null) {
+            return side.ordinal() + 1;
+        }
+        return 0;
+    }
+
+    public static int serializeCardRotation(CardRotation rotation) {
+        if (rotation != null) {
+            return rotation.ordinal();
+        }
+        return 4;
     }
 
     public static JSONObject serializeAdditionalProcessingInfo(AdditionalProcessingInfo additionalProcessingInfo) throws JSONException {
@@ -186,6 +221,7 @@ public abstract class BlinkIDSerializationUtils {
         jsonImageAnalysis.put("faceDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getFaceDetectionStatus()));
         jsonImageAnalysis.put("mrzDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getMrzDetectionStatus()));
         jsonImageAnalysis.put("barcodeDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getBarcodeDetectionStatus()));
+        jsonImageAnalysis.put("cardRotation", BlinkIDSerializationUtils.serializeCardRotation(imageAnalysisResult.getCardRotation()));
         return jsonImageAnalysis;
     }
 
@@ -198,6 +234,7 @@ public abstract class BlinkIDSerializationUtils {
         jsonViz.put("localizedName", serializeStringResult(vizResult.getLocalizedName()));
         jsonViz.put("address", serializeStringResult(vizResult.getAddress()));
         jsonViz.put("additionalAddressInformation", serializeStringResult(vizResult.getAdditionalAddressInformation()));
+        jsonViz.put("additionalOptionalAddressInformation", serializeStringResult(vizResult.getAdditionalOptionalAddressInformation()));
         jsonViz.put("placeOfBirth", serializeStringResult(vizResult.getPlaceOfBirth()));
         jsonViz.put("nationality", serializeStringResult(vizResult.getNationality()));
         jsonViz.put("race", serializeStringResult(vizResult.getRace()));
@@ -283,4 +320,49 @@ public abstract class BlinkIDSerializationUtils {
         }
     }
 
+    public static ClassAnonymizationSettings[] deserializeClassAnonymizationSettings (JSONArray jsonArray) {
+
+        if (jsonArray != null && jsonArray.length() > 0) {
+            ClassAnonymizationSettings[] classAnonymizationSettingsArray = new ClassAnonymizationSettings[jsonArray.length()];
+
+            for(int i = 0; i < jsonArray.length(); i++) {
+
+                FieldType[] fieldTypes = new FieldType[0];
+                Country country = Country.NONE;
+                Region region = Region.NONE;
+                Type type = Type.NONE;
+                try {
+                    JSONObject jsonClassAnonymizationSettings = jsonArray.getJSONObject(i);
+
+                    JSONArray fieldTypeJsonArray = jsonClassAnonymizationSettings.optJSONArray("fields");
+                    fieldTypes = new FieldType[fieldTypeJsonArray.length()];
+                    for (int x = 0; x <fieldTypeJsonArray.length(); x++) {
+                        fieldTypes[x] = FieldType.values()[fieldTypeJsonArray.getInt(x)];
+                    }
+                    try {
+                        country = Country.values()[jsonClassAnonymizationSettings.getInt("country")];
+                    } catch ( JSONException e) {
+                        country = null;
+                    }
+                    try {
+                        region = Region.values()[jsonClassAnonymizationSettings.getInt("region")];
+                    } catch ( JSONException e) {
+                        region = null;
+                    }
+                    try {
+                        type = Type.values()[jsonClassAnonymizationSettings.getInt("type")];
+                    } catch ( JSONException e) {
+                        type = null;
+                    }
+                    ClassAnonymizationSettings classAnonymizationSettings = new ClassAnonymizationSettings(country, region, type, fieldTypes);
+                    classAnonymizationSettingsArray[i] = classAnonymizationSettings;
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            return classAnonymizationSettingsArray;
+        } else {
+            return new ClassAnonymizationSettings[]{};
+        }
+    }
 }

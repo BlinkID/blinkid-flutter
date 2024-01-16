@@ -10,6 +10,11 @@ BlinkIdSingleSideRecognizer _$BlinkIdSingleSideRecognizerFromJson(
         Map<String, dynamic> json) =>
     BlinkIdSingleSideRecognizer()
       ..recognizerType = json['recognizerType'] as String
+      ..additionalAnonymization = (json['additionalAnonymization']
+              as List<dynamic>)
+          .map((e) =>
+              ClassAnonymizationSettings.fromJson(e as Map<String, dynamic>))
+          .toList()
       ..allowBlurFilter = json['allowBlurFilter'] as bool
       ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
       ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
@@ -34,6 +39,8 @@ Map<String, dynamic> _$BlinkIdSingleSideRecognizerToJson(
         BlinkIdSingleSideRecognizer instance) =>
     <String, dynamic>{
       'recognizerType': instance.recognizerType,
+      'additionalAnonymization':
+          instance.additionalAnonymization.map((e) => e.toJson()).toList(),
       'allowBlurFilter': instance.allowBlurFilter,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,
       'allowUnverifiedMrzResults': instance.allowUnverifiedMrzResults,
