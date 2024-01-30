@@ -2831,29 +2831,29 @@ enum DataMatchState {
 }
 
 enum DetectionStatus {
-  @JsonValue('FAIL')
-  Fail,
+  @JsonValue('FAILED')
+  Failed,
 
   @JsonValue('SUCCESS')
   Success,
 
-  @JsonValue('CAMERA_TOO_HIGH')
-  CameraTooHigh,
+  @JsonValue('CAMERA_TOO_FAR')
+  CameraTooFar,
 
   @JsonValue('FALLBACK_SUCCESS')
   FallbackSuccess,
 
-  @JsonValue('PARTIAL_OBJECT')
-  PartialObject,
+  @JsonValue('DOCUMENT_PARTIALLY_VISIBLE')
+  DocumentPartiallyVisible,
 
-  @JsonValue('CAMERA_AT_ANGLE')
-  CameraAtAngle,
+  @JsonValue('CAMERA_ANGLE_TOO_STEEP')
+  CameraAngleTooSteep,
 
-  @JsonValue('CAMERA_TOO_NEAR')
-  CameraTooNear,
+  @JsonValue('CAMERA_TOO_CLOSE')
+  CameraTooClose,
 
-  @JsonValue('DOCUMENT_TOO_CLOSE_TO_EDGE')
-  DocumentTooCloseToEdge,
+  @JsonValue('DOCUMENT_TOO_CLOSE_TO_CAMERA_EDGE')
+  DocumentTooCloseToCameraEdge,
 }
 
 @JsonSerializable()

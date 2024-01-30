@@ -577,12 +577,13 @@ Map<String, dynamic> _$DetectionStatusUpdateToJson(
     };
 
 const _$DetectionStatusEnumMap = {
-  DetectionStatus.Fail: 'FAIL',
+  DetectionStatus.Failed: 'FAILED',
   DetectionStatus.Success: 'SUCCESS',
-  DetectionStatus.CameraTooHigh: 'CAMERA_TOO_HIGH',
+  DetectionStatus.CameraTooFar: 'CAMERA_TOO_FAR',
   DetectionStatus.FallbackSuccess: 'FALLBACK_SUCCESS',
-  DetectionStatus.PartialObject: 'PARTIAL_OBJECT',
-  DetectionStatus.CameraAtAngle: 'CAMERA_AT_ANGLE',
-  DetectionStatus.CameraTooNear: 'CAMERA_TOO_NEAR',
-  DetectionStatus.DocumentTooCloseToEdge: 'DOCUMENT_TOO_CLOSE_TO_EDGE',
+  DetectionStatus.DocumentPartiallyVisible: 'DOCUMENT_PARTIALLY_VISIBLE',
+  DetectionStatus.CameraAngleTooSteep: 'CAMERA_ANGLE_TOO_STEEP',
+  DetectionStatus.CameraTooClose: 'CAMERA_TOO_CLOSE',
+  DetectionStatus.DocumentTooCloseToCameraEdge:
+      'DOCUMENT_TOO_CLOSE_TO_CAMERA_EDGE',
 };
