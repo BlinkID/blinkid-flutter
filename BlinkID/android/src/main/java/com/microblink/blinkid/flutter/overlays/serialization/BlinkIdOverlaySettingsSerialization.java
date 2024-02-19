@@ -8,6 +8,8 @@ import com.microblink.blinkid.uisettings.BlinkIdUISettings;
 import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerialization;
 import com.microblink.blinkid.flutter.SerializationUtils;
+import com.microblink.blinkid.locale.LanguageUtils;
+
 
 import org.json.JSONObject;
 
@@ -96,6 +98,15 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         String errorDocumentTooCloseToEdge = getStringFromJSONObject(jsonUISettings, "errorDocumentTooCloseToEdge");
         if (errorDocumentTooCloseToEdge != null) {
             overlasStringsBuilder.setErrorDocumentTooCloseToEdge(errorDocumentTooCloseToEdge);
+        }
+        String language = getStringFromJSONObject(jsonUISettings, "language");
+        if (language != null) {
+            String country = getStringFromJSONObject(jsonUISettings, "country");
+            if (country != null) {
+                LanguageUtils.setLanguageAndCountry(language, country, context);
+            } else {
+                LanguageUtils.setLanguageAndCountry(language, "", context);
+            }
         }
 
         settings.setStrings(overlasStringsBuilder.build());

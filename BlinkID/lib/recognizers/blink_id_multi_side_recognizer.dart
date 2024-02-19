@@ -66,6 +66,12 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     ///The additional number of the document.
     StringResult? documentAdditionalNumber;
     
+    ///Returns DataMatchStateSuccess if data from scanned parts/sides of the document match,
+    /// DataMatchStateFailed otherwise. For example if date of expiry is scanned from the front and back side
+    /// of the document and values do not match, this method will return DataMatchStateFailed. Result will
+    /// be DataMatchStateSuccess only if scanned values for all fields that are compared are the same.
+    DataMatchState? documentDataMatch;
+    
     ///The document number.
     StringResult? documentNumber;
     
@@ -220,7 +226,9 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         this.dateOfIssue = nativeResult["dateOfIssue"] != null ? DateResult(Map<String, dynamic>.from(nativeResult["dateOfIssue"])) : null;
         
         this.documentAdditionalNumber = nativeResult["documentAdditionalNumber"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["documentAdditionalNumber"])) : null;
-                
+        
+        this.documentDataMatch = nativeResult["documentDataMatch"] != null ? DataMatchState.values[nativeResult["documentDataMatch"]] : null;
+        
         this.documentNumber = nativeResult["documentNumber"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["documentNumber"])) : null;
         
         this.documentOptionalAdditionalNumber = nativeResult["documentOptionalAdditionalNumber"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["documentOptionalAdditionalNumber"])) : null;
@@ -235,7 +243,7 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         
         this.faceImageLocation = nativeResult["faceImageLocation"] != null ? Rectangle(Map<String, dynamic>.from(nativeResult["faceImageLocation"])) : null;
         
-        this.faceImageSide = DocumentSide.values[nativeResult["faceImageSide"]];
+        this.faceImageSide = nativeResult["faceImageSide"] != null ? DocumentSide.values[nativeResult["faceImageSide"]] : null;
         
         this.fathersName = nativeResult["fathersName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["fathersName"])) : null;
         

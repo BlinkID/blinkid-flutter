@@ -199,7 +199,7 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         
         this.faceImageLocation = nativeResult["faceImageLocation"] != null ? Rectangle(Map<String, dynamic>.from(nativeResult["faceImageLocation"])) : null;
         
-        this.faceImageSide = DocumentSide.values[nativeResult["faceImageSide"]];
+        this.faceImageSide = nativeResult["faceImageSide"] != null ? DocumentSide.values[nativeResult["faceImageSide"]] : null;
         
         this.fathersName = nativeResult["fathersName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["fathersName"])) : null;
         

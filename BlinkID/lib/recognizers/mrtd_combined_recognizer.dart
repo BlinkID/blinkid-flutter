@@ -31,7 +31,7 @@ class MrtdCombinedRecognizerResult extends RecognizerResult {
     
     MrtdCombinedRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
-        this.documentDataMatch = DataMatchState.values[nativeResult["documentDataMatch"]];
+        this.documentDataMatch = nativeResult["documentDataMatch"] != null ? DataMatchState.values[nativeResult["documentDataMatch"]] : null;
         
         this.faceImage = nativeResult["faceImage"];
         

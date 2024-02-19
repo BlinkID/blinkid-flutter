@@ -23,6 +23,8 @@ import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
 import com.microblink.blinkid.intent.IntentDataTransferMode;
 import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.uisettings.ActivityRunner;
+import com.microblink.blinkid.locale.LanguageUtils;
+
 
 import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerializers;
@@ -88,7 +90,11 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
 
       JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
       JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
-
+      try {
+          LanguageUtils.setLanguageAndCountry(jsonOverlaySettings.getString("language"),
+                  jsonOverlaySettings.getString("country"),
+                  context);
+      } catch (Exception e) {}
       mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
       UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
 

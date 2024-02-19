@@ -1373,6 +1373,16 @@ enum CardRotation {
     None
 }
 
+/// Defines possible card orientations
+enum CardOrientation {
+    /// Horizontal card orientation 
+    Horizontal,
+    /// Vertical card orientation
+    Vertical,
+    /// Detection was not performed
+    NotAvailable
+}
+
 /// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Country {
     @JsonValue(0) None,
@@ -2135,6 +2145,9 @@ class ImageAnalysisResult {
     ImageAnalysisDetectionStatus? barcodeDetectionStatus;
       /// Document card rotation status determined from the scanned image.
     CardRotation? cardRotation;
+      /// Orientation determined from the scanned image.
+    CardOrientation? cardOrientation;
+
     ImageAnalysisResult(Map<String, dynamic> nativeImageAnalysisResult) {
         this.blurred = nativeImageAnalysisResult['blurred'];
         this.documentImageColorStatus = DocumentImageColorStatus.values[nativeImageAnalysisResult['documentImageColorStatus']];
@@ -2143,6 +2156,7 @@ class ImageAnalysisResult {
         this.mrzDetectionStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['mrzDetectionStatus']];
         this.barcodeDetectionStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['barcodeDetectionStatus']];
         this.cardRotation = CardRotation.values[nativeImageAnalysisResult['cardRotation']];
+        this.cardOrientation = CardOrientation.values[nativeImageAnalysisResult['cardOrientation']];
     }
 }
 

@@ -87,7 +87,15 @@ static NSString* const kScanWithCameraMethodName = @"scanWithCamera";
     overlaySettingsDict = [self sanitizeDictionary:overlaySettingsDict];
 
     self.recognizerCollection = [[MBRecognizerSerializers sharedInstance] deserializeRecognizerCollection:recognizerCollectionDict];
-
+    
+    if (overlaySettingsDict[@"language"] != nil) {
+        if (overlaySettingsDict[@"country"] != nil && ![overlaySettingsDict[@"country"] isEqual: @""]) {
+            MBMicroblinkApp.sharedInstance.language = [[(NSString *)overlaySettingsDict[@"language"] stringByAppendingString:@"-" ] stringByAppendingString:(NSString *)overlaySettingsDict[@"country"]];
+        } else {
+            MBMicroblinkApp.sharedInstance.language = overlaySettingsDict[@"language"];
+        }
+    }
+    
     MBOverlayViewController *overlayVC = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:overlaySettingsDict recognizerCollection:self.recognizerCollection delegate:self];
 
     UIViewController<MBRecognizerRunnerViewController>* recognizerRunnerViewController = [MBViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:overlayVC];

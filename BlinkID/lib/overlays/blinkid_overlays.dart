@@ -106,10 +106,17 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// If null, default value will be used.
   String? scanBarcodeText;
 
-
   /// Instructions for the user to move the document from the edge.
   /// If null, default value will be used.
   String? errorDocumentTooCloseToEdge;
+
+    /// (optional) if default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used 
+    /// example: "en" 
+    String? language;
+
+    /// (optional) to be used with language variable, it defines the country locale 
+    /// example: "US" to use "en_US" on Android and en-US on iOS 
+    String? country;
 
   BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
 
