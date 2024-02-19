@@ -36,7 +36,7 @@ popd
 pushd ios
 
 #Force minimal iOS version
-sed -i '' "s/# platform :ios, '11.0'/platform :ios, '13.0'/" Podfile
+sed -i '' "s/# platform :ios, '12.0'/platform :ios, '13.0'/" Podfile
 
 # install pod
 pod install
