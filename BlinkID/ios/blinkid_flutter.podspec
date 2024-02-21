@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'blinkid_flutter'
-  s.version          = '6.4.0'
+  s.version          = '6.5.0'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
 A new flutter plugin project.
@@ -18,7 +18,7 @@ A new flutter plugin project.
   s.dependency 'Flutter'
   s.platform = :ios, '13.0'
 
-  s.dependency 'PPBlinkID', '~> 6.4.0'
+  s.dependency 'PPBlinkID', '~> 6.5.0'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }

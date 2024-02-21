@@ -31,8 +31,6 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..overlaySettingsType = json['overlaySettingsType'] as String?
       ..useFrontCamera = json['useFrontCamera'] as bool
       ..enableBeep = json['enableBeep'] as bool
-      ..language = json['language'] as String?
-      ..country = json['country'] as String?
       ..firstSideInstructionsText = json['firstSideInstructionsText'] as String?
       ..flipInstructions = json['flipInstructions'] as String?
       ..errorMoveCloser = json['errorMoveCloser'] as String?
@@ -58,7 +56,9 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
           json['backSideScanningTimeoutMilliseconds'] as int
       ..scanBarcodeText = json['scanBarcodeText'] as String?
       ..errorDocumentTooCloseToEdge =
-          json['errorDocumentTooCloseToEdge'] as String?;
+          json['errorDocumentTooCloseToEdge'] as String?
+      ..language = json['language'] as String?
+      ..country = json['country'] as String?;
 
 Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
         BlinkIdOverlaySettings instance) =>
@@ -66,8 +66,6 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'overlaySettingsType': instance.overlaySettingsType,
       'useFrontCamera': instance.useFrontCamera,
       'enableBeep': instance.enableBeep,
-      'language': instance.language,
-      'country': instance.country,
       'firstSideInstructionsText': instance.firstSideInstructionsText,
       'flipInstructions': instance.flipInstructions,
       'errorMoveCloser': instance.errorMoveCloser,
@@ -90,6 +88,8 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
           instance.backSideScanningTimeoutMilliseconds,
       'scanBarcodeText': instance.scanBarcodeText,
       'errorDocumentTooCloseToEdge': instance.errorDocumentTooCloseToEdge,
+      'language': instance.language,
+      'country': instance.country,
     };
 
 DocumentVerificationOverlaySettings
