@@ -439,6 +439,12 @@ const _$RegionEnumMap = {
   Region.Parana: 129,
   Region.Pernambuco: 130,
   Region.SantaCatarina: 131,
+  Region.AndhraPradesh: 132,
+  Region.Ceara: 133,
+  Region.Goias: 134,
+  Region.GuerreroAcapulcoDeJuarez: 135,
+  Region.Haryana: 136,
+  Region.Sergipe: 137,
 };
 
 const _$TypeEnumMap = {
@@ -504,6 +510,11 @@ const _$TypeEnumMap = {
   Type.ImmigrantVisa: 59,
   Type.ConsularVoterId: 60,
   Type.TwicCard: 61,
+  Type.ExitEntryPermit: 62,
+  Type.MainlandTravelPermitTaiwan: 63,
+  Type.NbiClearance: 64,
+  Type.ProofOfRegistration: 65,
+  Type.TemporaryProtectionPermit: 66,
 };
 
 const _$FieldTypeEnumMap = {

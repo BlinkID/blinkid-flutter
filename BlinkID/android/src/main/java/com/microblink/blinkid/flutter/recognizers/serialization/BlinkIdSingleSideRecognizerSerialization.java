@@ -46,6 +46,7 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
             jsonResult.put("age", result.getAge());
             jsonResult.put("barcodeCameraFrame", SerializationUtils.encodeImageBase64(result.getBarcodeCameraFrame()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
+            jsonResult.put("bloodType", BlinkIDSerializationUtils.serializeStringResult(result.getBloodType()));
             jsonResult.put("cameraFrame", SerializationUtils.encodeImageBase64(result.getCameraFrame()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
             jsonResult.put("dateOfBirth", BlinkIDSerializationUtils.serializeDateResult(result.getDateOfBirth()));
@@ -83,6 +84,7 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
             jsonResult.put("residentialStatus", BlinkIDSerializationUtils.serializeStringResult(result.getResidentialStatus()));
             jsonResult.put("sex", BlinkIDSerializationUtils.serializeStringResult(result.getSex()));
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("sponsor", BlinkIDSerializationUtils.serializeStringResult(result.getSponsor()));
             jsonResult.put("vizResult", BlinkIDSerializationUtils.serializeVizResult(result.getVizResult()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException

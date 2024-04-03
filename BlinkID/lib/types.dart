@@ -1776,7 +1776,13 @@ enum Region {
     @JsonValue(128) Para,
     @JsonValue(129) Parana,
     @JsonValue(130) Pernambuco,
-    @JsonValue(131) SantaCatarina
+    @JsonValue(131) SantaCatarina,
+    @JsonValue(132) AndhraPradesh,
+    @JsonValue(133) Ceara,
+    @JsonValue(134) Goias,
+    @JsonValue(135) GuerreroAcapulcoDeJuarez,
+    @JsonValue(136) Haryana,
+    @JsonValue(137) Sergipe,
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
@@ -1842,7 +1848,12 @@ enum Type {
     @JsonValue(58) UniformedServicesId,
     @JsonValue(59) ImmigrantVisa,
     @JsonValue(60) ConsularVoterId,
-    @JsonValue(61) TwicCard
+    @JsonValue(61) TwicCard,
+    @JsonValue(62) ExitEntryPermit,
+    @JsonValue(63) MainlandTravelPermitTaiwan,
+    @JsonValue(64) NbiClearance,
+    @JsonValue(65) ProofOfRegistration,
+    @JsonValue(66) TemporaryProtectionPermit
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).

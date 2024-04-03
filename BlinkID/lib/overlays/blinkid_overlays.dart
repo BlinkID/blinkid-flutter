@@ -110,13 +110,23 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// If null, default value will be used.
   String? errorDocumentTooCloseToEdge;
 
-    /// (optional) if default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used 
-    /// example: "en" 
-    String? language;
+  /// (optional) if default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used 
+  /// example: "en" 
+  String? language;
 
-    /// (optional) to be used with language variable, it defines the country locale 
-    /// example: "US" to use "en_US" on Android and en-US on iOS 
-    String? country;
+  /// (optional) to be used with language variable, it defines the country locale 
+  /// example: "US" to use "en_US" on Android and en-US on iOS 
+  String? country;
+
+  /// Defines whether torch button used for turning the flashlight on and off is shown on the screen during the scanning session.
+  ///
+  /// Default: true
+  bool showTorchButton = true;
+
+  /// Defines whether exit (cancel) button used for cancelling the scan is shown on the screen during the scanning session.
+  ///  
+  /// Default: true
+  bool showCancelButton = true;
 
   BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
 

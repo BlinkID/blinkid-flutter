@@ -45,6 +45,9 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     ///Defines the data extracted from the barcode.
     BarcodeResult? barcodeResult;
     
+    ///The blood type of the document owner.
+    StringResult? bloodType;
+    
     ///The classification information.
     ClassInfo? classInfo;
     
@@ -187,6 +190,9 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     ///image of the signature if enabled with returnSignatureImage property.
     String? signatureImage;
     
+    ///The sponsor of the document owner.
+    StringResult? sponsor;
+    
     BlinkIdMultiSideRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
         this.additionalAddressInformation = nativeResult["additionalAddressInformation"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["additionalAddressInformation"])) : null;
@@ -212,6 +218,8 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         this.barcodeCameraFrame = nativeResult["barcodeCameraFrame"];
         
         this.barcodeResult = nativeResult["barcodeResult"] != null ? BarcodeResult(Map<String, dynamic>.from(nativeResult["barcodeResult"])) : null;
+        
+        this.bloodType = nativeResult["bloodType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["bloodType"])) : null;
         
         this.classInfo = nativeResult["classInfo"] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult["classInfo"])) : null;
         
@@ -300,6 +308,8 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         this.sex = nativeResult["sex"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sex"])) : null;
         
         this.signatureImage = nativeResult["signatureImage"];
+        
+        this.sponsor = nativeResult["sponsor"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sponsor"])) : null;
         
     }
 }

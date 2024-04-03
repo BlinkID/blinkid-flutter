@@ -53,6 +53,7 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
             jsonResult.put("backVizResult", BlinkIDSerializationUtils.serializeVizResult(result.getBackVizResult()));
             jsonResult.put("barcodeCameraFrame", SerializationUtils.encodeImageBase64(result.getBarcodeCameraFrame()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
+            jsonResult.put("bloodType", BlinkIDSerializationUtils.serializeStringResult(result.getBloodType()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
             jsonResult.put("dataMatch", BlinkIDSerializationUtils.serializeDataMatchResult(result.getDataMatch()));
             jsonResult.put("dateOfBirth", BlinkIDSerializationUtils.serializeDateResult(result.getDateOfBirth()));
@@ -96,6 +97,7 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
             jsonResult.put("scanningFirstSideDone", result.isScanningFirstSideDone());
             jsonResult.put("sex", BlinkIDSerializationUtils.serializeStringResult(result.getSex()));
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("sponsor", BlinkIDSerializationUtils.serializeStringResult(result.getSponsor()));
         } catch (JSONException e) {
             // see https://developer.android.com/reference/org/json/JSONException
             throw new RuntimeException(e);
