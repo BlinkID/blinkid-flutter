@@ -170,7 +170,7 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
             [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"Could not decode the Base64 image!" details:nil]];
         }
     } else {
-        [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"Can not pass an empty image!" details:nil]];
+        [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"The first side is empty!" details:nil]];
     }
 }
 
@@ -192,7 +192,7 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
         if (state == MBRecognizerResultStateValid || state == MBRecognizerResultStateUncertain) {
             [self handleJsonResult];
         } else if (state == MBRecognizerResultStateEmpty) {
-            [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"Could not extract information from the input!" details:nil]];
+            [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"Could not extract the information with DirectAPI!" details:nil]];
         }
     });
 }

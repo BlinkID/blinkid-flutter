@@ -195,14 +195,14 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
                   } else if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
                       handleDirectApiResult(recognitionSuccessType);
                   } else {
-                      handleDirectApiError("Backside image is empty and could not read the information from the front side!");
+                      handleDirectApiError("Could not read the information from the front side and backside image is empty!");
                   }
               } else if (!mFirstSideScanned && recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL){
                   //singleside recognizer used
                   handleDirectApiResult(recognitionSuccessType);
               } else {
                   mFirstSideScanned = false;
-                  handleDirectApiError("Could not extract information from the input!");
+                  handleDirectApiError("Could not extract information the information with DirectAPI!");
               }
           }
           @Override
@@ -222,20 +222,19 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
 
     private void setupRecognizerRunner(JSONObject jsonRecognizerCollection, FirstSideRecognitionCallback mFirstSideRecognitionCallback) {
       if (mRecognizerRunner != null) {
-          mRecognizerRunner.resetRecognitionState(true);
-      } else {
-          mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-          try {
-              mRecognizerRunner = RecognizerRunner.getSingletonInstance();
-          } catch (Exception e) {
-              handleDirectApiError("DirectAPI not supported: " + e);
-          }
-
-          MetadataCallbacks metadataCallbacks = new MetadataCallbacks();
-          metadataCallbacks.setFirstSideRecognitionCallback(mFirstSideRecognitionCallback);
-          mRecognizerRunner.setMetadataCallbacks(metadataCallbacks);
-          mRecognizerRunner.initialize(context, mRecognizerBundle, throwable -> handleDirectApiError("Failed to initialize recognizer with DirectAPI: " + throwable.getMessage()));
+          mRecognizerRunner.terminate();
       }
+      mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+      try {
+          mRecognizerRunner = RecognizerRunner.getSingletonInstance();
+      } catch (Exception e) {
+          handleDirectApiError("DirectAPI not supported: " + e);
+      }
+
+      MetadataCallbacks metadataCallbacks = new MetadataCallbacks();
+      metadataCallbacks.setFirstSideRecognitionCallback(mFirstSideRecognitionCallback);
+      mRecognizerRunner.setMetadataCallbacks(metadataCallbacks);
+      mRecognizerRunner.initialize(context, mRecognizerBundle, throwable -> handleDirectApiError("Failed to initialize recognizer with DirectAPI: " + throwable.getMessage()));
     }
 
     private void processImage(String base64Image, ScanResultListener scanResultListener) {
