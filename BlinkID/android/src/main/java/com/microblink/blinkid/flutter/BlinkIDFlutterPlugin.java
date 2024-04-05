@@ -195,14 +195,14 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
                   } else if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
                       handleDirectApiResult(recognitionSuccessType);
                   } else {
-                      handleDirectApiError("Could not read the information from the front side and backside image is empty!");
+                      handleDirectApiError("Could not extract the information from the front side and back side is empty!");
                   }
               } else if (!mFirstSideScanned && recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL){
                   //singleside recognizer used
                   handleDirectApiResult(recognitionSuccessType);
               } else {
                   mFirstSideScanned = false;
-                  handleDirectApiError("Could not extract information the information with DirectAPI!");
+                  handleDirectApiError("Could not extract the information with DirectAPI!");
               }
           }
           @Override
@@ -216,7 +216,7 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
       if (!frontImage.isEmpty()) {
           processImage(frontImage, mScanResultListenerFrontSide);
       } else {
-          handleDirectApiError("First side image is empty!");
+          handleDirectApiError("The provided image for the 'frontImage' parameter is empty!");
       }
   }
 

@@ -170,7 +170,7 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
             [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"Could not decode the Base64 image!" details:nil]];
         }
     } else {
-        [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"The first side is empty!" details:nil]];
+        [self handleDirectApiError:[FlutterError errorWithCode:@"" message:@"The provided image for the 'frontImage' parameter is empty!" details:nil]];
     }
 }
 
