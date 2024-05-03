@@ -174,7 +174,7 @@ class _MyAppState extends State<MyApp> {
   String getIdResultString(dynamic result) {
     String recognizerResult = "";
     if (result is BlinkIdMultiSideRecognizerResult || result is BlinkIdSingleSideRecognizer) {
-        String recognizerResult = buildResult(result.firstName, "First name") +
+        recognizerResult = buildResult(result.firstName, "First name") +
         buildResult(result.lastName, "Last name") +
         buildResult(result.fullName, "Full name") +
         buildResult(result.localizedName, "Localized name") +
