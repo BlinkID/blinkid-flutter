@@ -36,7 +36,13 @@ ClassAnonymizationSettings _$ClassAnonymizationSettingsFromJson(
       ..type = $enumDecodeNullable(_$TypeEnumMap, json['type'])
       ..fields = (json['fields'] as List<dynamic>)
           .map((e) => $enumDecode(_$FieldTypeEnumMap, e))
-          .toList();
+          .toList()
+      ..documentNumberAnonymizationSettings =
+          json['documentNumberAnonymizationSettings'] == null
+              ? null
+              : DocumentNumberAnonymizationSettings.fromJson(
+                  json['documentNumberAnonymizationSettings']
+                      as Map<String, dynamic>);
 
 Map<String, dynamic> _$ClassAnonymizationSettingsToJson(
         ClassAnonymizationSettings instance) =>
@@ -45,6 +51,8 @@ Map<String, dynamic> _$ClassAnonymizationSettingsToJson(
       'region': _$RegionEnumMap[instance.region],
       'type': _$TypeEnumMap[instance.type],
       'fields': instance.fields.map((e) => _$FieldTypeEnumMap[e]!).toList(),
+      'documentNumberAnonymizationSettings':
+          instance.documentNumberAnonymizationSettings,
     };
 
 const _$CountryEnumMap = {
@@ -557,6 +565,19 @@ const _$FieldTypeEnumMap = {
   FieldType.BloodType: 36,
   FieldType.Sponsor: 37,
 };
+
+DocumentNumberAnonymizationSettings
+    _$DocumentNumberAnonymizationSettingsFromJson(Map<String, dynamic> json) =>
+        DocumentNumberAnonymizationSettings()
+          ..prefixDigitsVisible = json['prefixDigitsVisible'] as int?
+          ..suffixDigitsVisible = json['suffixDigitsVisible'] as int?;
+
+Map<String, dynamic> _$DocumentNumberAnonymizationSettingsToJson(
+        DocumentNumberAnonymizationSettings instance) =>
+    <String, dynamic>{
+      'prefixDigitsVisible': instance.prefixDigitsVisible,
+      'suffixDigitsVisible': instance.suffixDigitsVisible,
+    };
 
 ImageExtensionFactors _$ImageExtensionFactorsFromJson(
         Map<String, dynamic> json) =>

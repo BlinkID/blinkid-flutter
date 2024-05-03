@@ -4,7 +4,6 @@ import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.uisettings.options.BeepSoundUIOptions;
 import com.microblink.blinkid.uisettings.CameraSettings;
 import com.microblink.blinkid.hardware.camera.CameraType;
-//import com.microblink.blinkid.flutter.R;
 import com.microblink.flutter.R;
 
 import org.json.JSONObject;
