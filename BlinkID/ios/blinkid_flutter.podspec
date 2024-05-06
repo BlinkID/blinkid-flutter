@@ -18,7 +18,7 @@ A new flutter plugin project.
   s.dependency 'Flutter'
   s.platform = :ios, '13.0'
 
-  s.dependency 'PPBlinkID', '~> 6.7.0'
+  s.dependency 'PPBlinkID', '~> 6.7.1'
 
   # Flutter.framework does not contain a i386 slice. Only x86_64 simulators are supported.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }

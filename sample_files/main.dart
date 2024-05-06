@@ -74,50 +74,60 @@ class _MyAppState extends State<MyApp> {
     } else {
       license = "";
     }
+    try {
+      // Get the front side of the document
+      final firstImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (firstImage == null) return;
 
-    // Get the front side of the document
-    final firstImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (firstImage == null) return;
+      // Convert the picked image to the Base64 format
+      List<int> firstImageBytes = await firstImage.readAsBytes();
+      String frontImageBase64 = base64Encode(firstImageBytes);
 
-    // Convert the picked image to the Base64 format
-    List<int> firstImageBytes = await firstImage.readAsBytes();
-    String frontImageBase64 = base64Encode(firstImageBytes);
+      // Get the back side of the document
+      final secondImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (secondImage == null) return;
 
-    // Get the back side of the document
-    final secondImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (secondImage == null) return;
+      // Convert the picked image to the Base64 format
+      List<int> secondImageBytes = await secondImage.readAsBytes();
+      String backImageBase64 = base64Encode(secondImageBytes);
 
-    // Convert the picked image to the Base64 format
-    List<int> secondImageBytes = await secondImage.readAsBytes();
-    String backImageBase64 = base64Encode(secondImageBytes);
+      var idRecognizer = BlinkIdMultiSideRecognizer();
+      idRecognizer.returnFullDocumentImage = true;
+      idRecognizer.returnFaceImage = true;
 
-    var idRecognizer = BlinkIdMultiSideRecognizer();
-    idRecognizer.returnFullDocumentImage = true;
-    idRecognizer.returnFaceImage = true;
+      /// Uncomment line 100 if you're using scanWithDirectApi and you are sending cropped images for processing 
+      /// The processing will most likely not work if cropped images are being sent with the scanCroppedDocumentImage property being set to false 
+      /// idRecognizer.scanCroppedDocumentImage = true;
 
-    /// Uncomment line 100 if you're using scanWithDirectApi and you are sending cropped images for processing 
-    /// The processing will most likely not work if cropped images are being sent with the scanCroppedDocumentImage property being set to false 
-    /// idRecognizer.scanCroppedDocumentImage = true;
+      // Pass both images to the scanWithDirectApi method
+      var results = await MicroblinkScanner.scanWithDirectApi(
+          RecognizerCollection([idRecognizer]), frontImageBase64, backImageBase64, license);
 
-    // Pass both images to the scanWithDirectApi method
-    var results = await MicroblinkScanner.scanWithDirectApi(
-        RecognizerCollection([idRecognizer]), frontImageBase64, backImageBase64, license);
+      if (!mounted) return;
 
-    if (!mounted) return;
-
-    if (results.length == 0) return;
-    for (var result in results) {
-      if (result is BlinkIdMultiSideRecognizerResult) {
-        setState(() {
-          _resultString = getIdResultString(result);
-          _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage ?? "";
-          _fullDocumentBackImageBase64 = result.fullDocumentBackImage ?? "";
-          _faceImageBase64 = result.faceImage ?? "";
-        });
-
-        return;
+      if (results.length == 0) return;
+      for (var result in results) {
+        if (result is BlinkIdMultiSideRecognizerResult) {
+          setState(() {
+            _resultString = getIdResultString(result);
+            _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage ?? "";
+            _fullDocumentBackImageBase64 = result.fullDocumentBackImage ?? "";
+            _faceImageBase64 = result.faceImage ?? "";
+          });
+          return;
+        }
       }
+    } catch (directApiError) {
+        if (directApiError is PlatformException) {
+          setState(() {
+            _resultString = directApiError.message ?? "Unknown error occurred";
+            _fullDocumentFrontImageBase64 = "";
+            _fullDocumentBackImageBase64 =  "";
+            _faceImageBase64 = "";
+        });
+        } 
     }
+
   }
 
   /// BlinkID scanning with DirectAPI and the BlinkIDSingleSide recognizer.
@@ -135,24 +145,25 @@ class _MyAppState extends State<MyApp> {
       license = "";
     }
 
-    // Pick an image of the document (it can either be the front or the back side of the document)
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (image == null) return;
+    try {
+      // Pick an image of the document (it can either be the front or the back side of the document)
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
 
-    // Convert the picked image to the Base64 format
-    List<int> imageBytes = await image.readAsBytes();
-    String imageBase64 = base64Encode(imageBytes);
+      // Convert the picked image to the Base64 format
+      List<int> imageBytes = await image.readAsBytes();
+      String imageBase64 = base64Encode(imageBytes);
 
-    var idRecognizer = BlinkIdSingleSideRecognizer();
-    idRecognizer.returnFullDocumentImage = true;
-    idRecognizer.returnFaceImage = true;
+      var idRecognizer = BlinkIdSingleSideRecognizer();
+      idRecognizer.returnFullDocumentImage = true;
+      idRecognizer.returnFaceImage = true;
 
-    /// Uncomment line 152 if you're using scanWithDirectApi and you are sending a cropped image for processing 
-    /// The processing will most likely not work if a cropped image is being sent with the scanCroppedDocumentImage property being set to false
-    /// idRecognizer.scanCroppedDocumentImage = true;
+      /// Uncomment line 163 if you're using scanWithDirectApi and you are sending a cropped image for processing 
+      /// The processing will most likely not work if a cropped image is being sent with the scanCroppedDocumentImage property being set to false
+      /// idRecognizer.scanCroppedDocumentImage = true;
 
-    var results = await MicroblinkScanner.scanWithDirectApi(
-        RecognizerCollection([idRecognizer]), imageBase64, null, license);
+      var results = await MicroblinkScanner.scanWithDirectApi(
+          RecognizerCollection([idRecognizer]), imageBase64, null, license);
 
     if (!mounted) return;
 
@@ -169,11 +180,21 @@ class _MyAppState extends State<MyApp> {
         return;
       }
     }
+    } catch (directApiError) {
+        if (directApiError is PlatformException) {
+          setState(() {
+            _resultString = directApiError.message ?? "Unknown error occurred";
+            _fullDocumentFrontImageBase64 = "";
+            _fullDocumentBackImageBase64 =  "";
+            _faceImageBase64 = "";
+        });
+        } 
+    }
   }
 
   String getIdResultString(dynamic result) {
     String recognizerResult = "";
-    if (result is BlinkIdMultiSideRecognizerResult || result is BlinkIdSingleSideRecognizer) {
+    if (result is BlinkIdMultiSideRecognizerResult || result is BlinkIdSingleSideRecognizerResult) {
         recognizerResult = buildResult(result.firstName, "First name") +
         buildResult(result.lastName, "Last name") +
         buildResult(result.fullName, "Full name") +
@@ -206,7 +227,6 @@ class _MyAppState extends State<MyApp> {
             recognizerResult += buildDataMatchResult(result.dataMatch);
         }
     }
-    print(recognizerResult);
     return recognizerResult;
   }
 
