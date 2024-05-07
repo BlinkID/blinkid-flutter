@@ -63,7 +63,6 @@ class _MyAppState extends State<MyApp> {
   /// BlinkID scanning with DirectAPI and the BlinkIDMultiSide recognizer
   /// Best used for getting the information from both front and backside information from various documents
   Future<void> directApiMultiSideScan() async {
-
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license =
@@ -75,16 +74,20 @@ class _MyAppState extends State<MyApp> {
       license = "";
     }
     try {
-      // Get the front side of the document
-      final firstImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      // Get the front and the back side of the document with the pickMultiImage method
+      // First select the front and the then back side of the image
+      final images = await ImagePicker().pickMultiImage();
+
+      // Get the first selected image as the front side of the document
+      final firstImage = images[0]; 
       if (firstImage == null) return;
 
       // Convert the picked image to the Base64 format
       List<int> firstImageBytes = await firstImage.readAsBytes();
       String frontImageBase64 = base64Encode(firstImageBytes);
 
-      // Get the back side of the document
-      final secondImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      // Get the second selected image as the back side of the document
+      final secondImage = images[1];
       if (secondImage == null) return;
 
       // Convert the picked image to the Base64 format
@@ -95,7 +98,7 @@ class _MyAppState extends State<MyApp> {
       idRecognizer.returnFullDocumentImage = true;
       idRecognizer.returnFaceImage = true;
 
-      /// Uncomment line 100 if you're using scanWithDirectApi and you are sending cropped images for processing 
+      /// Uncomment line 103 if you're using scanWithDirectApi and you are sending cropped images for processing 
       /// The processing will most likely not work if cropped images are being sent with the scanCroppedDocumentImage property being set to false 
       /// idRecognizer.scanCroppedDocumentImage = true;
 
@@ -133,7 +136,6 @@ class _MyAppState extends State<MyApp> {
   /// BlinkID scanning with DirectAPI and the BlinkIDSingleSide recognizer.
   /// Best used for getting the information from only one side from various documents
   Future<void> directApiSingleSideScan() async {
-
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license =
@@ -144,7 +146,7 @@ class _MyAppState extends State<MyApp> {
     } else {
       license = "";
     }
-
+          
     try {
       // Pick an image of the document (it can either be the front or the back side of the document)
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -158,7 +160,7 @@ class _MyAppState extends State<MyApp> {
       idRecognizer.returnFullDocumentImage = true;
       idRecognizer.returnFaceImage = true;
 
-      /// Uncomment line 163 if you're using scanWithDirectApi and you are sending a cropped image for processing 
+      /// Uncomment line 165 if you're using scanWithDirectApi and you are sending a cropped image for processing 
       /// The processing will most likely not work if a cropped image is being sent with the scanCroppedDocumentImage property being set to false
       /// idRecognizer.scanCroppedDocumentImage = true;
 
@@ -306,6 +308,28 @@ class _MyAppState extends State<MyApp> {
         buildStringResult(result.stateForWholeDocument.toString(),
             "State For Whole Document");
   }
+
+
+Future<void> showAlertDialog(BuildContext context,String title, String message) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
   
   @override
   Widget build(BuildContext context) {
@@ -360,37 +384,56 @@ return MaterialApp(
     ),
     body: SingleChildScrollView(
       padding: EdgeInsets.all(16.0),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton(
-              onPressed: () => scan(),
-              child: Text("Scan with camera"),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton(
-              onPressed: () => directApiMultiSideScan(),
-              child: Text("DirectAPI MultiSide"),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 16.0),
-            child: ElevatedButton(
-              onPressed: () => directApiSingleSideScan(),
-              child: Text("DirectAPI SingleSide"),
-            ),
-          ),
-          Text(_resultString),
-          fullDocumentFrontImage,
-          fullDocumentBackImage,
-          faceImage,
-        ],
+      child: Builder(
+        builder: (BuildContext context) {
+          return Column(
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () => scan(),
+                  child: Text("Scan with camera"),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    showAlertDialog(context, 
+                    'DirectAPI MultiSide instructions',
+                    'Select two images for processing.\nThe first selected image needs to be front side of the document.\nThe second image needs to be the back side of the document.')
+                    .then((_) {
+                      directApiMultiSideScan();
+                    });
+                  },
+                  child: Text("DirectAPI MultiSide"),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      showAlertDialog(context, 
+                      'DirectAPI SingleSide instructions',
+                      'Select one image for processing.\nThe image can be either the front or the back side of the document.')
+                      .then((_) {
+                        directApiSingleSideScan();
+                      });
+                    },
+                  child: Text("DirectAPI SingleSide"),
+                ),
+              ),
+              Text(_resultString),
+              fullDocumentFrontImage,
+              fullDocumentBackImage,
+              faceImage,
+            ],
+          );
+        },
       ),
     ),
   ),
 );
   }
 }
+
