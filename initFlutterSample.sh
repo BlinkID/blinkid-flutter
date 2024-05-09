@@ -59,8 +59,8 @@ popd
 cp ../sample_files/main.dart lib/
 
 #update compile and target sdk versions to 31, add android:exported="true" to manifest
-sed -i '' 's#compileSdkVersion flutter.compileSdkVersion#compileSdkVersion 33#g' ./android/app/build.gradle
-sed -i '' 's#targetSdkVersion flutter.targetSdkVersion#targetSdkVersion 33#g' ./android/app/build.gradle
+sed -i '' 's#compileSdkVersion flutter.compileSdkVersion#compileSdkVersion 34#g' ./android/app/build.gradle
+sed -i '' 's#targetSdkVersion flutter.targetSdkVersion#targetSdkVersion 34#g' ./android/app/build.gradle
 sed -i '' 's#minSdkVersion flutter.minSdkVersion#minSdkVersion 21#g' ./android/app/build.gradle
 #sed -i '' 's#android:name=".MainActivity"#android:name=".MainActivity" android:exported="true"#g' ./android/app/src/main/AndroidManifest.xml
 

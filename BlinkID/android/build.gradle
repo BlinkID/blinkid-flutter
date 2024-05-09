@@ -1,4 +1,4 @@
-group 'com.microblink.flutter'
+group 'com.microblink.blinkid.flutter'
 version '1.0'
 
 buildscript {
@@ -23,7 +23,11 @@ rootProject.allprojects {
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 31
+    
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.microblink.blinkid.flutter'
+    }
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 21

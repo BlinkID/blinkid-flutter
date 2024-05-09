@@ -309,7 +309,6 @@ class _MyAppState extends State<MyApp> {
             "State For Whole Document");
   }
 
-
 Future<void> showAlertDialog(BuildContext context,String title, String message) async {
   await showDialog(
     context: context,
@@ -330,7 +329,6 @@ Future<void> showAlertDialog(BuildContext context,String title, String message) 
   );
 }
 
-  
   @override
   Widget build(BuildContext context) {
     Widget fullDocumentFrontImage = Container();
