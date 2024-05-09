@@ -36,7 +36,13 @@ ClassAnonymizationSettings _$ClassAnonymizationSettingsFromJson(
       ..type = $enumDecodeNullable(_$TypeEnumMap, json['type'])
       ..fields = (json['fields'] as List<dynamic>)
           .map((e) => $enumDecode(_$FieldTypeEnumMap, e))
-          .toList();
+          .toList()
+      ..documentNumberAnonymizationSettings =
+          json['documentNumberAnonymizationSettings'] == null
+              ? null
+              : DocumentNumberAnonymizationSettings.fromJson(
+                  json['documentNumberAnonymizationSettings']
+                      as Map<String, dynamic>);
 
 Map<String, dynamic> _$ClassAnonymizationSettingsToJson(
         ClassAnonymizationSettings instance) =>
@@ -45,6 +51,8 @@ Map<String, dynamic> _$ClassAnonymizationSettingsToJson(
       'region': _$RegionEnumMap[instance.region],
       'type': _$TypeEnumMap[instance.type],
       'fields': instance.fields.map((e) => _$FieldTypeEnumMap[e]!).toList(),
+      'documentNumberAnonymizationSettings':
+          instance.documentNumberAnonymizationSettings,
     };
 
 const _$CountryEnumMap = {
@@ -439,6 +447,12 @@ const _$RegionEnumMap = {
   Region.Parana: 129,
   Region.Pernambuco: 130,
   Region.SantaCatarina: 131,
+  Region.AndhraPradesh: 132,
+  Region.Ceara: 133,
+  Region.Goias: 134,
+  Region.GuerreroAcapulcoDeJuarez: 135,
+  Region.Haryana: 136,
+  Region.Sergipe: 137,
 };
 
 const _$TypeEnumMap = {
@@ -504,6 +518,11 @@ const _$TypeEnumMap = {
   Type.ImmigrantVisa: 59,
   Type.ConsularVoterId: 60,
   Type.TwicCard: 61,
+  Type.ExitEntryPermit: 62,
+  Type.MainlandTravelPermitTaiwan: 63,
+  Type.NbiClearance: 64,
+  Type.ProofOfRegistration: 65,
+  Type.TemporaryProtectionPermit: 66,
 };
 
 const _$FieldTypeEnumMap = {
@@ -546,6 +565,19 @@ const _$FieldTypeEnumMap = {
   FieldType.BloodType: 36,
   FieldType.Sponsor: 37,
 };
+
+DocumentNumberAnonymizationSettings
+    _$DocumentNumberAnonymizationSettingsFromJson(Map<String, dynamic> json) =>
+        DocumentNumberAnonymizationSettings()
+          ..prefixDigitsVisible = json['prefixDigitsVisible'] as int?
+          ..suffixDigitsVisible = json['suffixDigitsVisible'] as int?;
+
+Map<String, dynamic> _$DocumentNumberAnonymizationSettingsToJson(
+        DocumentNumberAnonymizationSettings instance) =>
+    <String, dynamic>{
+      'prefixDigitsVisible': instance.prefixDigitsVisible,
+      'suffixDigitsVisible': instance.suffixDigitsVisible,
+    };
 
 ImageExtensionFactors _$ImageExtensionFactorsFromJson(
         Map<String, dynamic> json) =>

@@ -58,7 +58,9 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..errorDocumentTooCloseToEdge =
           json['errorDocumentTooCloseToEdge'] as String?
       ..language = json['language'] as String?
-      ..country = json['country'] as String?;
+      ..country = json['country'] as String?
+      ..showTorchButton = json['showTorchButton'] as bool
+      ..showCancelButton = json['showCancelButton'] as bool;
 
 Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
         BlinkIdOverlaySettings instance) =>
@@ -90,6 +92,8 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'errorDocumentTooCloseToEdge': instance.errorDocumentTooCloseToEdge,
       'language': instance.language,
       'country': instance.country,
+      'showTorchButton': instance.showTorchButton,
+      'showCancelButton': instance.showCancelButton,
     };
 
 DocumentVerificationOverlaySettings

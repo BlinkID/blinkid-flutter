@@ -30,6 +30,7 @@ import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Reg
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.classinfo.Type;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.Side;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.imageanalysis.CardRotation;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.DocumentNumberAnonymizationSettings;
 
 
 
@@ -224,6 +225,7 @@ public abstract class BlinkIDSerializationUtils {
         jsonImageAnalysis.put("barcodeDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getBarcodeDetectionStatus()));
         jsonImageAnalysis.put("cardRotation", BlinkIDSerializationUtils.serializeCardRotation(imageAnalysisResult.getCardRotation()));
         jsonImageAnalysis.put("cardOrientation", SerializationUtils.serializeEnum(imageAnalysisResult.getCardOrientation()));
+        jsonImageAnalysis.put("realIdDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getRealIdDetectionStatus()));
         return jsonImageAnalysis;
     }
 
@@ -333,6 +335,7 @@ public abstract class BlinkIDSerializationUtils {
                 Country country = Country.NONE;
                 Region region = Region.NONE;
                 Type type = Type.NONE;
+                DocumentNumberAnonymizationSettings documentNumberAnonymizationSettings = null;
                 try {
                     JSONObject jsonClassAnonymizationSettings = jsonArray.getJSONObject(i);
 
@@ -356,7 +359,13 @@ public abstract class BlinkIDSerializationUtils {
                     } catch ( JSONException e) {
                         type = null;
                     }
-                    ClassAnonymizationSettings classAnonymizationSettings = new ClassAnonymizationSettings(country, region, type, fieldTypes);
+                    try {
+                        JSONObject jsonDocumentNumberAnonymizationSettings = jsonClassAnonymizationSettings.getJSONObject("documentNumberAnonymizationSettings");
+                        documentNumberAnonymizationSettings = deserializeDocumentNumberAnonymizationSettings(jsonDocumentNumberAnonymizationSettings);
+                    } catch (JSONException exception) {
+                        documentNumberAnonymizationSettings = null;
+                    }
+                    ClassAnonymizationSettings classAnonymizationSettings = new ClassAnonymizationSettings(country, region, type, fieldTypes, documentNumberAnonymizationSettings);
                     classAnonymizationSettingsArray[i] = classAnonymizationSettings;
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -365,6 +374,14 @@ public abstract class BlinkIDSerializationUtils {
             return classAnonymizationSettingsArray;
         } else {
             return new ClassAnonymizationSettings[]{};
+        }
+    }
+
+    private static DocumentNumberAnonymizationSettings deserializeDocumentNumberAnonymizationSettings (JSONObject jsonDocumentNumberAnonymizationSettings) {
+        try {
+            return new DocumentNumberAnonymizationSettings(jsonDocumentNumberAnonymizationSettings.getInt("prefixDigitsVisible"),jsonDocumentNumberAnonymizationSettings.getInt("suffixDigitsVisible"));
+        } catch (JSONException exception){
+            return null;
         }
     }
 }

@@ -2,6 +2,8 @@ import 'package:blinkid_flutter/microblink_scanner.dart';
 import 'package:flutter/material.dart';
 import "dart:convert";
 import "dart:async";
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,14 +20,15 @@ class _MyAppState extends State<MyApp> {
   String _fullDocumentBackImageBase64 = "";
   String _faceImageBase64 = "";
 
+  /// BlinkID scanning with camera
   Future<void> scan() async {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTURnd09EUTFNamM1TnpJc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PTYmqMAMVMiFzaNDv15W9/CxDFVRDWRjok+uP0GtswDV4XTVGmhbivKDEb9Gtk2iMzf29qFWF8aUjIES4QSQFJG0xfBXZhluSk7lt4A959aHAZ0+BWgDnqZUPJAF2jZd0Pl2Kt1oDxLtqtf8V/RR+dPYzUV0PEA=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRRM016STRPRE0zTnpVc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PT4PFNbaGYbx8lz0VdMw0rwMahZJsnnMY0+blCuN/m+QolwrXwoZIVhisfNF7p9UPmh44A6nnFILPB2z3pyoV0mmbTrZ/6/sfoWf4v2SlJjpwM5pBxCooWZr4IAmv5YT6Ef3x4iC6U1gL8zUB0T53LpWoY9+CElD";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license =
-          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTURnd09EUTNNelkxTmprc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PRIv5OawGAVdpvmuz+999CsJyIAgtV3h96BJo1Fq+xBZnKDoKhL01jBUrxC0E4+EeWoTuEtPPcDte2KHgjOP7Z4y+Mk9ihWDHTjgANWfFwG2Gd7HYJxgwcYQsTvICqS1CBklIILTfbXahwtD4ZKh0ghaxUJf7gU=';
+          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRNNE5qWXdNVEE1TURnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYrV4CMxsRU+iUM/SeDbRDbjxRQsXIYuDXKzh5n0zmLHgSdRllWR/wE/J2MZ2MkpDdegbPTLRoJV+59G9F1QY8gIW7ua07A6f7wzTGq4laEyCo+f1rOOUBTZfKBIzqUJtR9NZIkb6YMkfLY5cmmNb5vnwIM+9BNI';
     } else {
       license = "";
     }
@@ -44,14 +47,9 @@ class _MyAppState extends State<MyApp> {
     if (results.length == 0) return;
     for (var result in results) {
       if (result is BlinkIdMultiSideRecognizerResult) {
-        if (result.mrzResult?.documentType == MrtdDocumentType.Passport) {
-          _resultString = getPassportResultString(result);
-        } else {
-          _resultString = getIdResultString(result);
-        }
 
         setState(() {
-          _resultString = _resultString;
+          _resultString = getIdResultString(result);
           _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage ?? "";
           _fullDocumentBackImageBase64 = result.fullDocumentBackImage ?? "";
           _faceImageBase64 = result.faceImage ?? "";
@@ -62,8 +60,144 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  String getIdResultString(BlinkIdMultiSideRecognizerResult result) {
-    return buildResult(result.firstName, "First name") +
+  /// BlinkID scanning with DirectAPI and the BlinkIDMultiSide recognizer
+  /// Best used for getting the information from both front and backside information from various documents
+  Future<void> directApiMultiSideScan() async {
+    String license;
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      license =
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRRM016STRPRE0zTnpVc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PT4PFNbaGYbx8lz0VdMw0rwMahZJsnnMY0+blCuN/m+QolwrXwoZIVhisfNF7p9UPmh44A6nnFILPB2z3pyoV0mmbTrZ/6/sfoWf4v2SlJjpwM5pBxCooWZr4IAmv5YT6Ef3x4iC6U1gL8zUB0T53LpWoY9+CElD";
+    } else if (Theme.of(context).platform == TargetPlatform.android) {
+      license =
+          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRNNE5qWXdNVEE1TURnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYrV4CMxsRU+iUM/SeDbRDbjxRQsXIYuDXKzh5n0zmLHgSdRllWR/wE/J2MZ2MkpDdegbPTLRoJV+59G9F1QY8gIW7ua07A6f7wzTGq4laEyCo+f1rOOUBTZfKBIzqUJtR9NZIkb6YMkfLY5cmmNb5vnwIM+9BNI';
+    } else {
+      license = "";
+    }
+    try {
+      // Get the front and the back side of the document with the pickMultiImage method
+      // First select the front and the then back side of the image
+      final images = await ImagePicker().pickMultiImage();
+
+      // Get the first selected image as the front side of the document
+      final firstImage = images[0]; 
+      if (firstImage == null) return;
+
+      // Convert the picked image to the Base64 format
+      List<int> firstImageBytes = await firstImage.readAsBytes();
+      String frontImageBase64 = base64Encode(firstImageBytes);
+
+      // Get the second selected image as the back side of the document
+      final secondImage = images[1];
+      if (secondImage == null) return;
+
+      // Convert the picked image to the Base64 format
+      List<int> secondImageBytes = await secondImage.readAsBytes();
+      String backImageBase64 = base64Encode(secondImageBytes);
+
+      var idRecognizer = BlinkIdMultiSideRecognizer();
+      idRecognizer.returnFullDocumentImage = true;
+      idRecognizer.returnFaceImage = true;
+
+      /// Uncomment line 103 if you're using scanWithDirectApi and you are sending cropped images for processing 
+      /// The processing will most likely not work if cropped images are being sent with the scanCroppedDocumentImage property being set to false 
+      /// idRecognizer.scanCroppedDocumentImage = true;
+
+      // Pass both images to the scanWithDirectApi method
+      var results = await MicroblinkScanner.scanWithDirectApi(
+          RecognizerCollection([idRecognizer]), frontImageBase64, backImageBase64, license);
+
+      if (!mounted) return;
+
+      if (results.length == 0) return;
+      for (var result in results) {
+        if (result is BlinkIdMultiSideRecognizerResult) {
+          setState(() {
+            _resultString = getIdResultString(result);
+            _fullDocumentFrontImageBase64 = result.fullDocumentFrontImage ?? "";
+            _fullDocumentBackImageBase64 = result.fullDocumentBackImage ?? "";
+            _faceImageBase64 = result.faceImage ?? "";
+          });
+          return;
+        }
+      }
+    } catch (directApiError) {
+        if (directApiError is PlatformException) {
+          setState(() {
+            _resultString = directApiError.message ?? "Unknown error occurred";
+            _fullDocumentFrontImageBase64 = "";
+            _fullDocumentBackImageBase64 =  "";
+            _faceImageBase64 = "";
+        });
+        } 
+    }
+
+  }
+
+  /// BlinkID scanning with DirectAPI and the BlinkIDSingleSide recognizer.
+  /// Best used for getting the information from only one side from various documents
+  Future<void> directApiSingleSideScan() async {
+    String license;
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      license =
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRRM016STRPRE0zTnpVc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PT4PFNbaGYbx8lz0VdMw0rwMahZJsnnMY0+blCuN/m+QolwrXwoZIVhisfNF7p9UPmh44A6nnFILPB2z3pyoV0mmbTrZ/6/sfoWf4v2SlJjpwM5pBxCooWZr4IAmv5YT6Ef3x4iC6U1gL8zUB0T53LpWoY9+CElD";
+    } else if (Theme.of(context).platform == TargetPlatform.android) {
+      license =
+          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRNNE5qWXdNVEE1TURnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYrV4CMxsRU+iUM/SeDbRDbjxRQsXIYuDXKzh5n0zmLHgSdRllWR/wE/J2MZ2MkpDdegbPTLRoJV+59G9F1QY8gIW7ua07A6f7wzTGq4laEyCo+f1rOOUBTZfKBIzqUJtR9NZIkb6YMkfLY5cmmNb5vnwIM+9BNI';
+    } else {
+      license = "";
+    }
+          
+    try {
+      // Pick an image of the document (it can either be the front or the back side of the document)
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      // Convert the picked image to the Base64 format
+      List<int> imageBytes = await image.readAsBytes();
+      String imageBase64 = base64Encode(imageBytes);
+
+      var idRecognizer = BlinkIdSingleSideRecognizer();
+      idRecognizer.returnFullDocumentImage = true;
+      idRecognizer.returnFaceImage = true;
+
+      /// Uncomment line 165 if you're using scanWithDirectApi and you are sending a cropped image for processing 
+      /// The processing will most likely not work if a cropped image is being sent with the scanCroppedDocumentImage property being set to false
+      /// idRecognizer.scanCroppedDocumentImage = true;
+
+      var results = await MicroblinkScanner.scanWithDirectApi(
+          RecognizerCollection([idRecognizer]), imageBase64, null, license);
+
+    if (!mounted) return;
+
+    if (results.length == 0) return;
+    for (var result in results) {
+      if (result is BlinkIdSingleSideRecognizerResult) {
+        setState(() {
+          _resultString = getIdResultString(result);
+          _fullDocumentFrontImageBase64 = result.fullDocumentImage ?? "";
+          _fullDocumentBackImageBase64 = "";
+          _faceImageBase64 = result.faceImage ?? "";
+        });
+
+        return;
+      }
+    }
+    } catch (directApiError) {
+        if (directApiError is PlatformException) {
+          setState(() {
+            _resultString = directApiError.message ?? "Unknown error occurred";
+            _fullDocumentFrontImageBase64 = "";
+            _fullDocumentBackImageBase64 =  "";
+            _faceImageBase64 = "";
+        });
+        } 
+    }
+  }
+
+  String getIdResultString(dynamic result) {
+    String recognizerResult = "";
+    if (result is BlinkIdMultiSideRecognizerResult || result is BlinkIdSingleSideRecognizerResult) {
+        recognizerResult = buildResult(result.firstName, "First name") +
         buildResult(result.lastName, "Last name") +
         buildResult(result.fullName, "Full name") +
         buildResult(result.localizedName, "Localized name") +
@@ -90,8 +224,12 @@ class _MyAppState extends State<MyApp> {
         buildResult(result.race, "Race") +
         buildResult(result.religion, "Religion") +
         buildResult(result.residentialStatus, "Residential Status") +
-        buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
-        buildDataMatchResult(result.dataMatch);
+        buildDriverLicenceResult(result.driverLicenseDetailedInfo);
+        if (result is BlinkIdMultiSideRecognizerResult) {
+            recognizerResult += buildDataMatchResult(result.dataMatch);
+        }
+    }
+    return recognizerResult;
   }
 
   String buildResult(StringResult? result, String propertyName) {
@@ -171,32 +309,25 @@ class _MyAppState extends State<MyApp> {
             "State For Whole Document");
   }
 
-  String getPassportResultString(BlinkIdMultiSideRecognizerResult? result) {
-    if (result == null) {
-      return "";
-    }
-
-    var dateOfBirth = "";
-    if (result.mrzResult?.dateOfBirth != null) {
-      dateOfBirth = "Date of birth: ${result.mrzResult!.dateOfBirth?.day}."
-          "${result.mrzResult!.dateOfBirth?.month}."
-          "${result.mrzResult!.dateOfBirth?.year}\n";
-    }
-
-    var dateOfExpiry = "";
-    if (result.mrzResult?.dateOfExpiry != null) {
-      dateOfExpiry = "Date of expiry: ${result.mrzResult?.dateOfExpiry?.day}."
-          "${result.mrzResult?.dateOfExpiry?.month}."
-          "${result.mrzResult?.dateOfExpiry?.year}\n";
-    }
-
-    return "First name: ${result.mrzResult?.secondaryId}\n"
-        "Last name: ${result.mrzResult?.primaryId}\n"
-        "Document number: ${result.mrzResult?.documentNumber}\n"
-        "Sex: ${result.mrzResult?.gender}\n"
-        "$dateOfBirth"
-        "$dateOfExpiry";
-  }
+Future<void> showAlertDialog(BuildContext context,String title, String message) async {
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -244,27 +375,63 @@ class _MyAppState extends State<MyApp> {
       );
     }
 
-    return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: const Text("BlinkID Sample"),
-      ),
-      body: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
+return MaterialApp(
+  home: Scaffold(
+    appBar: AppBar(
+      title: const Text("BlinkID Sample"),
+    ),
+    body: SingleChildScrollView(
+      padding: EdgeInsets.all(16.0),
+      child: Builder(
+        builder: (BuildContext context) {
+          return Column(
             children: <Widget>[
               Padding(
-                  child: ElevatedButton(
-                    onPressed: () => scan(),
-                    child: Text("Scan"),
-                  ),
-                  padding: EdgeInsets.only(bottom: 16.0)),
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () => scan(),
+                  child: Text("Scan with camera"),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    showAlertDialog(context, 
+                    'DirectAPI MultiSide instructions',
+                    'Select two images for processing.\nThe first selected image needs to be front side of the document.\nThe second image needs to be the back side of the document.')
+                    .then((_) {
+                      directApiMultiSideScan();
+                    });
+                  },
+                  child: Text("DirectAPI MultiSide"),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 16.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      showAlertDialog(context, 
+                      'DirectAPI SingleSide instructions',
+                      'Select one image for processing.\nThe image can be either the front or the back side of the document.')
+                      .then((_) {
+                        directApiSingleSideScan();
+                      });
+                    },
+                  child: Text("DirectAPI SingleSide"),
+                ),
+              ),
               Text(_resultString),
               fullDocumentFrontImage,
               fullDocumentBackImage,
               faceImage,
             ],
-          )),
-    ));
+          );
+        },
+      ),
+    ),
+  ),
+);
   }
 }
+

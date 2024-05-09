@@ -1776,7 +1776,13 @@ enum Region {
     @JsonValue(128) Para,
     @JsonValue(129) Parana,
     @JsonValue(130) Pernambuco,
-    @JsonValue(131) SantaCatarina
+    @JsonValue(131) SantaCatarina,
+    @JsonValue(132) AndhraPradesh,
+    @JsonValue(133) Ceara,
+    @JsonValue(134) Goias,
+    @JsonValue(135) GuerreroAcapulcoDeJuarez,
+    @JsonValue(136) Haryana,
+    @JsonValue(137) Sergipe,
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
@@ -1842,7 +1848,12 @@ enum Type {
     @JsonValue(58) UniformedServicesId,
     @JsonValue(59) ImmigrantVisa,
     @JsonValue(60) ConsularVoterId,
-    @JsonValue(61) TwicCard
+    @JsonValue(61) TwicCard,
+    @JsonValue(62) ExitEntryPermit,
+    @JsonValue(63) MainlandTravelPermitTaiwan,
+    @JsonValue(64) NbiClearance,
+    @JsonValue(65) ProofOfRegistration,
+    @JsonValue(66) TemporaryProtectionPermit
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -2009,24 +2020,41 @@ class RecognitionModeFilter {
 
 
 /// ClassAnonymizationSettings is used to anonymize specific documents and fields.
-/// It can be modified with countries, regions, document types and document fields. 
-/// See Country, Region, Type and FieldType objects to get more information which fields can be anonymized.
+/// It can be modified with countries, regions, document types, document fields and the partial document number anonymization. 
+/// See Country, Region, Type, FieldType and DocumentNumberAnonymizationSettings objects to get more information which settings can be anonymized.
 /// Setting is taken into account if AnonymizationMode is set to ImageOnly,ResultFieldsOnly or FullResult.
 @JsonSerializable()
 class ClassAnonymizationSettings {
-
+  /// Documents from the set country will be anonymized
   Country? country;
-
+  /// Documents from the set region will be anonymized
   Region? region;
-
+  /// Document fields that will be anonymized
   Type? type;
-
+  /// Partial document number anonymization
   List<FieldType> fields = [];
+  /// Partial document number anonymization
+  DocumentNumberAnonymizationSettings? documentNumberAnonymizationSettings;
 
   ClassAnonymizationSettings();
 
   factory ClassAnonymizationSettings.fromJson(Map<String, dynamic> json) => _$ClassAnonymizationSettingsFromJson(json);
   Map<String, dynamic> toJson() => _$ClassAnonymizationSettingsToJson(this);
+}
+
+/// DocumentNumberAnonymizationSettings is implemented with ClassAnonymizationSettings class.
+/// It can partially anonymize the document number from the scanned document.
+@JsonSerializable()
+class DocumentNumberAnonymizationSettings {
+  /// Set how many digits will be visible at the beggining of the document number. */
+  int? prefixDigitsVisible = 0;
+  /// Set how many digits will be visible at the end of the document number. */
+  int? suffixDigitsVisible = 0;
+
+  DocumentNumberAnonymizationSettings();
+
+  factory DocumentNumberAnonymizationSettings.fromJson(Map<String, dynamic> json) => _$DocumentNumberAnonymizationSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$DocumentNumberAnonymizationSettingsToJson(this);
 }
 
 /// Define level of anonymization performed on recognizer result
@@ -2089,7 +2117,10 @@ enum ProcessingStatus {
     AwaitingOtherSide,
 
     /// Side not scanned.
-    NotScanned
+    NotScanned,
+    
+    /// Detection of the barcode failed.
+    BarcodeDetectionFailed
 }
 
 /// Define level of anonymization performed on recognizer result
@@ -2137,16 +2168,18 @@ class ImageAnalysisResult {
     DocumentImageColorStatus? documentImageColorStatus;
     /// The Moire pattern detection status determined from the scanned image.
     ImageAnalysisDetectionStatus? documentImageMoireStatus;
-      /// Face detection status determined from the scanned image.
+    /// Face detection status determined from the scanned image.
     ImageAnalysisDetectionStatus? faceDetectionStatus;
-      /// Mrz detection status determined from the scanned image.
+    /// Mrz detection status determined from the scanned image.
     ImageAnalysisDetectionStatus? mrzDetectionStatus;
-      /// TBarcode detection status determined from the scanned image.
+    /// Barcode detection status determined from the scanned image.
     ImageAnalysisDetectionStatus? barcodeDetectionStatus;
-      /// Document card rotation status determined from the scanned image.
+    /// Document card rotation status determined from the scanned image.
     CardRotation? cardRotation;
-      /// Orientation determined from the scanned image.
+    /// Orientation determined from the scanned image.
     CardOrientation? cardOrientation;
+    /// RealID detection status determined from the scanned image.
+    ImageAnalysisDetectionStatus? realIdDetectionStatus;
 
     ImageAnalysisResult(Map<String, dynamic> nativeImageAnalysisResult) {
         this.blurred = nativeImageAnalysisResult['blurred'];
@@ -2157,6 +2190,7 @@ class ImageAnalysisResult {
         this.barcodeDetectionStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['barcodeDetectionStatus']];
         this.cardRotation = CardRotation.values[nativeImageAnalysisResult['cardRotation']];
         this.cardOrientation = CardOrientation.values[nativeImageAnalysisResult['cardOrientation']];
+        this.realIdDetectionStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['realIdDetectionStatus']];
     }
 }
 

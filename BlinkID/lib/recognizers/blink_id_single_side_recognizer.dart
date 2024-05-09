@@ -33,6 +33,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///Defines the data extracted from the barcode.
     BarcodeResult? barcodeResult;
     
+    ///The blood type of the document owner.
+    StringResult? bloodType;
+    
     ///The raw camera frame.
     String? cameraFrame;
     
@@ -150,6 +153,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///image of the signature if enabled with returnSignatureImage property.
     String? signatureImage;
     
+    ///The sponsor of the document owner.
+    StringResult? sponsor;
+    
     ///Defines the data extracted from the visual inspection zone
     VizResult? vizResult;
     
@@ -170,6 +176,8 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         this.barcodeCameraFrame = nativeResult["barcodeCameraFrame"];
         
         this.barcodeResult = nativeResult["barcodeResult"] != null ? BarcodeResult(Map<String, dynamic>.from(nativeResult["barcodeResult"])) : null;
+        
+        this.bloodType = nativeResult["bloodType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["bloodType"])) : null;
         
         this.cameraFrame = nativeResult["cameraFrame"];
         
@@ -244,6 +252,8 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         this.sex = nativeResult["sex"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sex"])) : null;
         
         this.signatureImage = nativeResult["signatureImage"];
+        
+        this.sponsor = nativeResult["sponsor"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sponsor"])) : null;
         
         this.vizResult = nativeResult["vizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["vizResult"])) : null;
         
