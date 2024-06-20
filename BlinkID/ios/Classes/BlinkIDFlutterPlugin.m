@@ -59,8 +59,15 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
         NSDictionary *overlaySettingsDict = call.arguments[@"overlaySettings"];
         NSDictionary *licenseKeyDict = call.arguments[@"license"];
 
-        [self setLicenseKey:licenseKeyDict];
-        [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
+        @try {
+            [self setLicenseKey:licenseKeyDict];
+            [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
+        } @catch (NSException *exception) {
+            self.result([FlutterError errorWithCode:exception.name
+                                            message:exception.reason
+                                            details:exception.userInfo]);
+        }
+
     }
     else if ([kScanWithDirectApiMethodName isEqualToString:call.method]) {
         NSDictionary *recognizerCollectionDict = call.arguments[@"recognizerCollection"];
@@ -68,8 +75,15 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
         self.backImageBase64String = call.arguments[@"backImage"];
         NSDictionary *licenseKeyDict = call.arguments[@"license"];
 
-        [self setLicenseKey:licenseKeyDict];
-        [self scanWithDirectApi:recognizerCollectionDict frontImageString:frontImageBase64String];
+        @try {
+            [self setLicenseKey:licenseKeyDict];
+            [self scanWithDirectApi:recognizerCollectionDict frontImageString:frontImageBase64String];
+        } @catch (NSException *exception) {
+            self.result([FlutterError errorWithCode:exception.name
+                                            message:exception.reason
+                                            details:exception.userInfo]);
+        }
+
     }
     else {
         result(FlutterMethodNotImplemented);
