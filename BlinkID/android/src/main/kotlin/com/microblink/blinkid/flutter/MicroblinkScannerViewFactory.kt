@@ -11,11 +11,13 @@ internal class MicroblinkScannerViewFactory(
     private val messenger: BinaryMessenger,
     private val activityPluginBinding: ActivityPluginBinding
 ) : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
+
+    @Suppress("UNCHECKED_CAST")
     override fun create(context: Context, id: Int, args: Any?): PlatformView {
         return MicroblinkScannerView(
             context,
             id,
-            MicroblinkCreationParams((args as Map<String?, Any?>?)!!),
+            MicroblinkCreationParams((args as Map<String, Any?>?)!!),
             messenger,
             activityPluginBinding
         )

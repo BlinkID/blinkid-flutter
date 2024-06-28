@@ -6,6 +6,32 @@ part of 'types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Point _$PointFromJson(Map<String, dynamic> json) => Point(
+      x: (json['x'] as num).toDouble(),
+      y: (json['y'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$PointToJson(Point instance) => <String, dynamic>{
+      'x': instance.x,
+      'y': instance.y,
+    };
+
+Quadrilateral _$QuadrilateralFromJson(Map<String, dynamic> json) =>
+    Quadrilateral(
+      upperLeft: Point.fromJson(json['upperLeft'] as Map<String, dynamic>),
+      upperRight: Point.fromJson(json['upperRight'] as Map<String, dynamic>),
+      lowerLeft: Point.fromJson(json['lowerLeft'] as Map<String, dynamic>),
+      lowerRight: Point.fromJson(json['lowerRight'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$QuadrilateralToJson(Quadrilateral instance) =>
+    <String, dynamic>{
+      'upperLeft': instance.upperLeft.toJson(),
+      'upperRight': instance.upperRight.toJson(),
+      'lowerLeft': instance.lowerLeft.toJson(),
+      'lowerRight': instance.lowerRight.toJson(),
+    };
+
 RecognitionModeFilter _$RecognitionModeFilterFromJson(
         Map<String, dynamic> json) =>
     RecognitionModeFilter()
@@ -564,16 +590,19 @@ Map<String, dynamic> _$ImageExtensionFactorsToJson(
       'leftFactor': instance.leftFactor,
     };
 
-DetectionStatusUpdate _$DetectionStatusUpdateFromJson(
-        Map<String, dynamic> json) =>
-    DetectionStatusUpdate(
+DetectionUpdate _$DetectionUpdateFromJson(Map<String, dynamic> json) =>
+    DetectionUpdate(
       $enumDecode(_$DetectionStatusEnumMap, json['detectionStatus']),
+      json['displayLocation'] == null
+          ? null
+          : Quadrilateral.fromJson(
+              json['displayLocation'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$DetectionStatusUpdateToJson(
-        DetectionStatusUpdate instance) =>
+Map<String, dynamic> _$DetectionUpdateToJson(DetectionUpdate instance) =>
     <String, dynamic>{
       'detectionStatus': _$DetectionStatusEnumMap[instance.detectionStatus]!,
+      'displayLocation': instance.displayLocation?.toJson(),
     };
 
 const _$DetectionStatusEnumMap = {

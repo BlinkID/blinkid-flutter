@@ -5,12 +5,13 @@ homepage: https://microblink.com
 
 environment:
   sdk: ">=3.0.5 <4.0.0"
-  flutter: ">=3.0.0"
+  flutter: ">=3.4.0"
 
 dependencies:
   flutter:
     sdk: flutter
   json_annotation: ^4.8.1   
+  flutter_plugin_android_lifecycle: ^2.0.19
 
 dev_dependencies:
   flutter_test:

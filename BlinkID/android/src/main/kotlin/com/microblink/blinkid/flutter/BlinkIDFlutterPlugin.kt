@@ -134,13 +134,5 @@ class BlinkIDFlutterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler, Act
         private const val ARG_SHOW_LICENSE_WARNING = "showTimeLimitedLicenseKeyWarning"
         private const val ARG_RECOGNIZER_COLLECTION = "recognizerCollection"
         private const val ARG_OVERLAY_SETTINGS = "overlaySettings"
-
-        // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-        // pre-Flutter-1.12 Android projects.
-        fun registerWith(registrar: Registrar) {
-            val plugin = BlinkIDFlutterPlugin()
-            plugin.setupPlugin(registrar.activity(), registrar.messenger())
-            registrar.addActivityResultListener(plugin)
-        }
     }
 }

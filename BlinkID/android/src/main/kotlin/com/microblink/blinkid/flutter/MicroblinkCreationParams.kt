@@ -1,16 +1,20 @@
 package com.microblink.blinkid.flutter
 
-class MicroblinkCreationParams(args: Map<String?, Any?>) {
-    @JvmField
-    var overlaySettings: OverlaySettings
-    @JvmField
-    var licenseKey: String?
-    @JvmField
-    var recognizerCollection: Map<String, Any>?
+@Suppress("UNCHECKED_CAST")
+class MicroblinkCreationParams constructor(args: Map<String, Any?>) {
+    val overlaySettings: OverlaySettings
+    val licenseKey: String
+    val recognizerCollection: Map<String?, Any>
 
     init {
-        overlaySettings = OverlaySettings(args["overlaySettings"] as Map<String?, Any?>)
-        licenseKey = args["licenseKey"] as String?
-        recognizerCollection = args["recognizerCollection"] as Map<String, Any>?
+        overlaySettings = OverlaySettings(
+            args["overlaySettings"] as? Map<String, Any?> ?: mapOf(),
+            OverlaySettings(
+                useFrontCamera = false,
+                flipFrontCamera = false
+            )
+        )
+        licenseKey = args["licenseKey"] as String
+        recognizerCollection = args["recognizerCollection"] as Map<String?, Any>
     }
 }

@@ -1,13 +1,17 @@
 package com.microblink.blinkid.flutter
 
-class OverlaySettings(args: Map<String?, Any?>) {
-    @JvmField
-    var useFrontCamera: Boolean? = false
-    @JvmField
-    var flipFrontCamera: Boolean? = false
+class OverlaySettings {
+    val useFrontCamera: Boolean
+    val flipFrontCamera: Boolean
 
-    init {
-        useFrontCamera = args["useFrontCamera"] as Boolean?
-        flipFrontCamera = args["flipFrontCamera"] as Boolean?
+    constructor(args: Map<String, Any?>, defaultSettings: OverlaySettings) {
+        useFrontCamera = args["useFrontCamera"] as Boolean? ?: defaultSettings.useFrontCamera
+        flipFrontCamera = args["flipFrontCamera"] as Boolean? ?: defaultSettings.flipFrontCamera
     }
+
+    constructor(useFrontCamera: Boolean, flipFrontCamera: Boolean) {
+        this.useFrontCamera = useFrontCamera
+        this.flipFrontCamera = flipFrontCamera
+    }
+
 }

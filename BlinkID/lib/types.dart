@@ -21,39 +21,46 @@ class Date {
 }
 
 /// Represents a point in image
+@JsonSerializable()
 class Point {
+  const Point({required this.x, required this.y});
+
   /// x coordinate of the point
-  double? x;
+  final double x;
 
   /// y coordinate of the point
-  double? y;
+  final double y;
 
-  Point(Map<String, dynamic> nativePoint) {
-    this.x = nativePoint['x'] != null ? nativePoint['x'] * 1.0 : null;
-    this.y = nativePoint['y'] != null ? nativePoint['y'] * 1.0 : null;
-  }
+  factory Point.fromJson(Map<String, dynamic> json) => _$PointFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PointToJson(this);
 }
 
 /// Represents a quadrilateral location in the image
+@JsonSerializable()
 class Quadrilateral {
   /// upper left point of the quadrilateral
-  Point? upperLeft;
+  final Point upperLeft;
 
   /// upper right point of the quadrilateral
-  Point? upperRight;
+  final Point upperRight;
 
   /// lower left point of the quadrilateral
-  Point? lowerLeft;
+  final Point lowerLeft;
 
   /// lower right point of the quadrilateral
-  Point? lowerRight;
+  final Point lowerRight;
 
-  Quadrilateral(Map<String, dynamic> nativeQuad) {
-    this.upperLeft = Point(Map<String, dynamic>.from(nativeQuad['upperLeft']));
-    this.upperRight = Point(Map<String, dynamic>.from(nativeQuad['upperRight']));
-    this.lowerLeft = Point(Map<String, dynamic>.from(nativeQuad['lowerLeft']));
-    this.lowerRight = Point(Map<String, dynamic>.from(nativeQuad['lowerRight']));
-  }
+  const Quadrilateral({
+    required this.upperLeft,
+    required this.upperRight,
+    required this.lowerLeft,
+    required this.lowerRight,
+  });
+
+  factory Quadrilateral.fromJson(Map<String, dynamic> json) => _$QuadrilateralFromJson(json);
+
+  Map<String, dynamic> toJson() => _$QuadrilateralToJson(this);
 }
 
 enum AlphabetType { Latin, Arabic, Cyrillic }
@@ -2857,12 +2864,13 @@ enum DetectionStatus {
 }
 
 @JsonSerializable()
-class DetectionStatusUpdate {
+class DetectionUpdate {
   final DetectionStatus detectionStatus;
+  final Quadrilateral? displayLocation;
 
-  DetectionStatusUpdate(this.detectionStatus);
+  DetectionUpdate(this.detectionStatus, this.displayLocation);
 
-  factory DetectionStatusUpdate.fromJson(Map<String, dynamic> json) => _$DetectionStatusUpdateFromJson(json);
+  factory DetectionUpdate.fromJson(Map<String, dynamic> json) => _$DetectionUpdateFromJson(json);
 
-  Map<String, dynamic> toJson() => _$DetectionStatusUpdateToJson(this);
+  Map<String, dynamic> toJson() => _$DetectionUpdateToJson(this);
 }

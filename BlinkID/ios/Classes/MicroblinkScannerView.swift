@@ -41,7 +41,7 @@ class MicroblinkScannerView: NSObject,
         binaryMessenger messenger: FlutterBinaryMessenger
     ) {
         controller.view = UIView()
-        self.channel = FlutterMethodChannel(name: "MicroblinkScannerWidget/" + String(viewId), binaryMessenger: messenger)
+        self.channel = FlutterMethodChannel(name: "com.microblink.blinkid.flutter/MicroblinkScannerWidget/" + String(viewId), binaryMessenger: messenger)
         let arguments = args as! [AnyHashable : Any]
         MBMicroblinkSDK.shared().setLicenseKey(arguments["licenseKey"] as! String, errorCallback: { _ in })
         
@@ -112,9 +112,9 @@ extension MicroblinkScannerView: CustomOverlayViewControllerDelegate {
     func onFirstSideScanned() {
         self.channel.invokeMethod("onFirstSideScanned", arguments: nil)
     }
-    
-    func onDetectionStatusUpdated(_ status: MBDetectionStatus) {
-        let encodedStatus: String = {switch status {
+     
+    func onDetectionStatusUpdated(_ detection: MBDisplayableQuadDetection) {
+        let encodedStatus: String = {switch detection.detectionStatus {
         case .cameraAngleTooSteep:
             return "CAMERA_ANGLE_TOO_STEEP"
         case .init(rawValue: 0):
@@ -138,7 +138,15 @@ extension MicroblinkScannerView: CustomOverlayViewControllerDelegate {
             return
         }
         
-        self.channel.invokeMethod("onDetectionStatusUpdate", arguments: "{\"detectionStatus\": \"\(encodedStatus)\"}")
+        let detectionLocation = MBSerializationUtils.serializeMBQuadrangle(detection.detectionLocation)
+        let data = try? JSONSerialization.data(withJSONObject: detectionLocation, options: .prettyPrinted)
+        let encodedDetectionLocation = data == nil ? nil : String(data: data!, encoding: .utf8)
+        
+        guard let encodedDetectionLocation = encodedDetectionLocation else {
+            return
+        }
+        
+        self.channel.invokeMethod("onDetectionStatusUpdate", arguments: "{\"detectionStatus\": \"\(encodedStatus)\", \"displayLocation\": \(encodedDetectionLocation)}")
     }
 
     func onScanDone(_ state: MBRecognizerResultState) {
@@ -151,7 +159,7 @@ extension MicroblinkScannerView: CustomOverlayViewControllerDelegate {
 protocol CustomOverlayViewControllerDelegate {
     func onFinishScanning(results: [[AnyHashable : Any]?])
     func onFirstSideScanned()
-    func onDetectionStatusUpdated(_ status: MBDetectionStatus)
+    func onDetectionStatusUpdated(_ status: MBDisplayableQuadDetection)
     func onScanDone(_ state: MBRecognizerResultState)
     func onClose()
     func onError(error: Error)
@@ -205,7 +213,7 @@ class CustomOverlayViewController : MBCustomOverlayViewController,
     func recognizerRunnerViewController(_ recognizerRunnerViewController: UIViewController & MBRecognizerRunnerViewController,
                                         didFinishDetectionWithDisplayableQuad displayableQuad: MBDisplayableQuadDetection) {
         DispatchQueue.main.async {
-            self.delegate?.onDetectionStatusUpdated(displayableQuad.detectionStatus)
+            self.delegate?.onDetectionStatusUpdated(displayableQuad)
         }
     }
     

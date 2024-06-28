@@ -15,7 +15,7 @@ class MicroblinkScannerWidget extends StatefulWidget {
     required this.onResult,
     required this.onError,
     required this.onFirstSideScanned,
-    required this.onDetectionStatusUpdate,
+    required this.onDetectionUpdate,
   }) : super(key: key);
 
   final RecognizerCollection collection;
@@ -35,7 +35,7 @@ class MicroblinkScannerWidget extends StatefulWidget {
   final MicroblinkScannerResultCallback onResult;
   final ValueChanged<String> onError;
   final VoidCallback onFirstSideScanned;
-  final ValueChanged<DetectionStatus> onDetectionStatusUpdate;
+  final ValueChanged<DetectionUpdate> onDetectionUpdate;
 
   @override
   State<MicroblinkScannerWidget> createState() => _MicroblinkScannerWidgetState();
@@ -68,12 +68,13 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
 
   void _onDetectionStatusUpdate(MethodCall call) {
     final Map<String, dynamic> json = jsonDecode(call.arguments);
-    final detectionStatusUpdate = DetectionStatusUpdate.fromJson(json);
-    widget.onDetectionStatusUpdate(detectionStatusUpdate.detectionStatus);
+    final detectionStatusUpdate = DetectionUpdate.fromJson(json);
+    widget.onDetectionUpdate(detectionStatusUpdate);
   }
 
   void _createChannel(int viewId) {
-    channel = MethodChannel('MicroblinkScannerWidget/$viewId')
+    print('Creating channel for viewId: $viewId');
+    channel = MethodChannel('com.microblink.blinkid.flutter/MicroblinkScannerWidget/$viewId')
       ..setMethodCallHandler((call) async {
         if (call.method == 'onScanDone') {
           final name = call.arguments as String;
