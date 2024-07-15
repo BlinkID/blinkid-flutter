@@ -15,15 +15,20 @@ BlinkIdSingleSideRecognizer _$BlinkIdSingleSideRecognizerFromJson(
           .map((e) =>
               ClassAnonymizationSettings.fromJson(e as Map<String, dynamic>))
           .toList()
-      ..allowBlurFilter = json['allowBlurFilter'] as bool
       ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
       ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
       ..anonymizationMode =
           $enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
-      ..faceImageDpi = json['faceImageDpi'] as int
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..blurStrictnessLevel =
+          $enumDecode(_$StrictnessLevelEnumMap, json['blurStrictnessLevel'])
+      ..enableBlurFilter = json['enableBlurFilter'] as bool
+      ..enableGlareFilter = json['enableGlareFilter'] as bool
+      ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
+      ..glareStrictnessLevel =
+          $enumDecode(_$StrictnessLevelEnumMap, json['glareStrictnessLevel'])
       ..paddingEdge = (json['paddingEdge'] as num).toDouble()
       ..recognitionModeFilter = RecognitionModeFilter.fromJson(
           json['recognitionModeFilter'] as Map<String, dynamic>)
@@ -32,7 +37,7 @@ BlinkIdSingleSideRecognizer _$BlinkIdSingleSideRecognizerFromJson(
       ..returnSignatureImage = json['returnSignatureImage'] as bool
       ..saveCameraFrames = json['saveCameraFrames'] as bool
       ..scanCroppedDocumentImage = json['scanCroppedDocumentImage'] as bool
-      ..signatureImageDpi = json['signatureImageDpi'] as int
+      ..signatureImageDpi = (json['signatureImageDpi'] as num).toInt()
       ..validateResultCharacters = json['validateResultCharacters'] as bool;
 
 Map<String, dynamic> _$BlinkIdSingleSideRecognizerToJson(
@@ -40,15 +45,20 @@ Map<String, dynamic> _$BlinkIdSingleSideRecognizerToJson(
     <String, dynamic>{
       'recognizerType': instance.recognizerType,
       'additionalAnonymization': instance.additionalAnonymization,
-      'allowBlurFilter': instance.allowBlurFilter,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,
       'allowUnverifiedMrzResults': instance.allowUnverifiedMrzResults,
       'anonymizationMode':
           _$AnonymizationModeEnumMap[instance.anonymizationMode]!,
+      'blurStrictnessLevel':
+          _$StrictnessLevelEnumMap[instance.blurStrictnessLevel]!,
+      'enableBlurFilter': instance.enableBlurFilter,
+      'enableGlareFilter': instance.enableGlareFilter,
       'faceImageDpi': instance.faceImageDpi,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
           instance.fullDocumentImageExtensionFactors,
+      'glareStrictnessLevel':
+          _$StrictnessLevelEnumMap[instance.glareStrictnessLevel]!,
       'paddingEdge': instance.paddingEdge,
       'recognitionModeFilter': instance.recognitionModeFilter,
       'returnFaceImage': instance.returnFaceImage,
@@ -65,4 +75,10 @@ const _$AnonymizationModeEnumMap = {
   AnonymizationMode.ImageOnly: 1,
   AnonymizationMode.ResultFieldsOnly: 2,
   AnonymizationMode.FullResult: 3,
+};
+
+const _$StrictnessLevelEnumMap = {
+  StrictnessLevel.Strict: 0,
+  StrictnessLevel.Normal: 1,
+  StrictnessLevel.Relaxed: 2,
 };

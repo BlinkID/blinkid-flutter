@@ -1,4 +1,5 @@
 import '../overlay_settings.dart';
+import '../types.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'blinkid_overlays.g.dart';
@@ -127,6 +128,29 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   ///  
   /// Default: true
   bool showCancelButton = true;
+
+  /// String: instructions for the user when blur has been detected on the document.
+  /// If null, default value will be used.
+  String? errorBlurDetected;
+
+  /// String: instructions for the user when glare has been detected on the document.
+  /// If null, default value will be used.
+  String? errorGlareDetected;
+
+  /// Defines possible Android device camera video resolution preset.
+  ///
+  /// Default: PresetDefault
+  AndroidCameraResolutionPreset androidCameraResolutionPreset = AndroidCameraResolutionPreset.PresetDefault;
+
+  /// Defines possible iOS device camera video resolution preset.
+  ///
+  /// Default: PresetOptimal
+  iOSCameraResolutionPreset iosCameraResolutionPreset = iOSCameraResolutionPreset.PresetOptimal;
+
+  /// Option to set whether legacy camera API should be used even on Lollipop devices that support newer Camera2 API.
+  /// WARNING: This setting should only be used if the new Camera2 API is not working on the device. This setting should not be applied on all devices.
+  /// Default: false
+  bool enableAndroidLegacyCameraApi = false;
 
   BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
 

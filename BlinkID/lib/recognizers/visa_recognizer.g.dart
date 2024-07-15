@@ -10,8 +10,8 @@ VisaRecognizer _$VisaRecognizerFromJson(Map<String, dynamic> json) =>
     VisaRecognizer()
       ..recognizerType = json['recognizerType'] as String
       ..detectGlare = json['detectGlare'] as bool
-      ..faceImageDpi = json['faceImageDpi'] as int
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
       ..returnFaceImage = json['returnFaceImage'] as bool

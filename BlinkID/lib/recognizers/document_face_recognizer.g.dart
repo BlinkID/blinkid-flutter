@@ -12,12 +12,12 @@ DocumentFaceRecognizer _$DocumentFaceRecognizerFromJson(
       ..recognizerType = json['recognizerType'] as String
       ..detectorType =
           $enumDecode(_$DocumentFaceDetectorTypeEnumMap, json['detectorType'])
-      ..faceImageDpi = json['faceImageDpi'] as int
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
       ..numStableDetectionsThreshold =
-          json['numStableDetectionsThreshold'] as int
+          (json['numStableDetectionsThreshold'] as num).toInt()
       ..returnFaceImage = json['returnFaceImage'] as bool
       ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool;
 
