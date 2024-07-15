@@ -1,3 +1,30 @@
+## 6.8.0
+
+- We have updated the plugin to [Android SDK v6.8.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.8.0) and [iOS SDK v6.8.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.8.0)
+
+**Glare and blur detection**
+
+- We’ve introduced glare detection to BlinkID, which removes occlusion on document images caused by glare.
+- We’ve raised the threshold for our blur model, making it stricter. This improvement ensures that sharper images are accepted for processing.
+    - To disable the glare and blur filters, modify the `enableBlurFilter` and `enableGlareFilter` properties on the BlinkID recognizers (filters are enabled by default).
+    - The strictness level can be modified to `Strict`, `Normal` and `Relaxed` on the `glareStrictnessLevel` and `blurStrictnessLevel` properties with `StrictnessLevel`.
+    - To check if glare and blur are present on the document after the scanning process has finished, see `glareDetected` and `blurDetected` properties in `ImageAnalysisResult`.
+
+**UI Settings**
+
+- Real-time feedback during scanning includes a new UI message to help users position the document correctly and reduce glare and blur.
+    - Check `errorGlareDetected` and `errorBlurDetected` in the `BlinkIdOverlaySettings`.
+- We have added camera presets to each platform
+    - Modify `AndroidCameraResolutionPreset` and `iOSCameraResolutionPreset` in `BlinkIdOverlaySettings` to change different to camera resolutions if necessary.
+- Camera Legacy API - Android-specific
+    - We have added `enableAndroidLegacyCameraApi` property. This setting should only be used if the new Camera2 API is not working on the device, and it should not be applied to all devices.
+
+**Bug fixes**
+
+- Android-specific
+    - We have removed the package attribute from AndroidManifest.xml
+    - We have temporarily disabled haptic feedback for Android devices due to an issue with Android 5.1.
+
 ## 6.7.0
 
 - We have updated the plugin to [Android SDK v6.7.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.7.0) and [iOS SDK v6.7.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.7.0)
