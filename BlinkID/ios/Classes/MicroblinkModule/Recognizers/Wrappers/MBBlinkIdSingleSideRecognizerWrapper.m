@@ -28,12 +28,6 @@
         }
     }
     {
-        id allowBlurFilter = [jsonRecognizer valueForKey:@"allowBlurFilter"];
-        if (allowBlurFilter != nil) {
-            recognizer.allowBlurFilter = [(NSNumber *)allowBlurFilter boolValue];
-        }
-    }
-    {
         id allowUnparsedMrzResults = [jsonRecognizer valueForKey:@"allowUnparsedMrzResults"];
         if (allowUnparsedMrzResults != nil) {
             recognizer.allowUnparsedMrzResults = [(NSNumber *)allowUnparsedMrzResults boolValue];
@@ -52,6 +46,24 @@
         }
     }
     {
+        id blurStrictnessLevel = [jsonRecognizer valueForKey:@"blurStrictnessLevel"];
+        if (blurStrictnessLevel != nil) {
+            recognizer.blurStrictnessLevel = [(NSNumber *)blurStrictnessLevel unsignedIntegerValue];
+        }
+    }
+    {
+        id enableBlurFilter = [jsonRecognizer valueForKey:@"enableBlurFilter"];
+        if (enableBlurFilter != nil) {
+            recognizer.enableBlurFilter = [(NSNumber *)enableBlurFilter boolValue];
+        }
+    }
+    {
+        id enableGlareFilter = [jsonRecognizer valueForKey:@"enableGlareFilter"];
+        if (enableGlareFilter != nil) {
+            recognizer.enableGlareFilter = [(NSNumber *)enableGlareFilter boolValue];
+        }
+    }
+    {
         id faceImageDpi = [jsonRecognizer valueForKey:@"faceImageDpi"];
         if (faceImageDpi != nil) {
             recognizer.faceImageDpi = [(NSNumber *)faceImageDpi integerValue];
@@ -67,6 +79,12 @@
         id fullDocumentImageExtensionFactors = [jsonRecognizer valueForKey:@"fullDocumentImageExtensionFactors"];
         if (fullDocumentImageExtensionFactors != nil) {
             recognizer.fullDocumentImageExtensionFactors = [MBCommonSerializationUtils deserializeMBImageExtensionFactors:(NSDictionary*)fullDocumentImageExtensionFactors];
+        }
+    }
+    {
+        id glareStrictnessLevel = [jsonRecognizer valueForKey:@"glareStrictnessLevel"];
+        if (glareStrictnessLevel != nil) {
+            recognizer.glareStrictnessLevel = [(NSNumber *)glareStrictnessLevel unsignedIntegerValue];
         }
     }
     {
@@ -154,6 +172,7 @@
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.documentAdditionalNumber] forKey:@"documentAdditionalNumber"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.documentNumber] forKey:@"documentNumber"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.documentOptionalAdditionalNumber] forKey:@"documentOptionalAdditionalNumber"];
+    [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.documentSubtype] forKey:@"documentSubtype"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeDriverLicenseDetailedInfo:self.result.driverLicenseDetailedInfo] forKey:@"driverLicenseDetailedInfo"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.employer] forKey:@"employer"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.expired] forKey:@"expired"];

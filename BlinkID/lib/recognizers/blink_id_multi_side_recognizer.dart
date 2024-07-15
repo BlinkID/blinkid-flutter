@@ -81,6 +81,9 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     ///The one more additional number of the document.
     StringResult? documentOptionalAdditionalNumber;
     
+    ///The transcription of the document subtype.
+    StringResult? documentSubtype;
+    
     ///The driver license detailed info.
     DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     
@@ -241,6 +244,8 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         
         this.documentOptionalAdditionalNumber = nativeResult["documentOptionalAdditionalNumber"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["documentOptionalAdditionalNumber"])) : null;
         
+        this.documentSubtype = nativeResult["documentSubtype"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["documentSubtype"])) : null;
+        
         this.driverLicenseDetailedInfo = nativeResult["driverLicenseDetailedInfo"] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeResult["driverLicenseDetailedInfo"])) : null;
         
         this.employer = nativeResult["employer"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["employer"])) : null;
@@ -323,12 +328,6 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
 
     List<ClassAnonymizationSettings> additionalAnonymization = [];
     
-    ///Defines whether blured frames filtering is allowed
-    /// 
-    /// 
-
-    bool allowBlurFilter = true;
-    
     ///Proceed with scanning the back side even if the front side result is uncertain.
     /// This only works for still images - video feeds will ignore this setting.
     /// 
@@ -356,6 +355,24 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
 
     AnonymizationMode anonymizationMode = AnonymizationMode.FullResult;
     
+    ///Strictness level for blur detection.
+    /// 
+    /// 
+
+    StrictnessLevel blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    ///Skip processing of the blurred frames.
+    /// 
+    /// 
+
+    bool enableBlurFilter = true;
+    
+    ///Skip processing of the glared frames.
+    /// 
+    /// 
+
+    bool enableGlareFilter = true;
+    
     ///Property for setting DPI for face images
     /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
     /// 
@@ -376,6 +393,12 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
     /// 
 
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
+    
+    ///Strictness level for glare detection.
+    /// 
+    /// 
+
+    StrictnessLevel glareStrictnessLevel = StrictnessLevel.Normal;
     
     ///Configure the number of characters per field that are allowed to be inconsistent in data match.
     /// 

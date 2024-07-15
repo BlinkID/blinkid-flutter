@@ -25,10 +25,10 @@ class _MyAppState extends State<MyApp> {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRRM016STRPRE0zTnpVc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PT4PFNbaGYbx8lz0VdMw0rwMahZJsnnMY0+blCuN/m+QolwrXwoZIVhisfNF7p9UPmh44A6nnFILPB2z3pyoV0mmbTrZ/6/sfoWf4v2SlJjpwM5pBxCooWZr4IAmv5YT6Ef3x4iC6U1gL8zUB0T53LpWoY9+CElD";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhPVEU1TnpNc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaXRHMh9c3BpsrRVzD1u9+toy3Hep9m0cCAY/kOZBBu35CZm+p21zuBMoJTBu1qmrcnfQXfDdZg9ev9Vhp98Zc/hKLernpKO+Ya7SFuphmGeT7OKvObYsMynLYl/Z+207O67wD4z6uLQdaYLzOegmqAQxlAlIvbg";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license =
-          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRNNE5qWXdNVEE1TURnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYrV4CMxsRU+iUM/SeDbRDbjxRQsXIYuDXKzh5n0zmLHgSdRllWR/wE/J2MZ2MkpDdegbPTLRoJV+59G9F1QY8gIW7ua07A6f7wzTGq4laEyCo+f1rOOUBTZfKBIzqUJtR9NZIkb6YMkfLY5cmmNb5vnwIM+9BNI';
+          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhOalE0T0RRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PVJY+gDzLo739kPQWdM0fEA/P+8idXKB4sPdzN+N2m1mQFlnhaTmiTWE9V07j3eCZ2OcVjQvb/MA38TwVHVqfKdQh7BukIe6zjKJz7ETss3uoHYhrtZcaPxy3WULrs7kmWBflxMZr12NBViUCRmYfrHPNZpv8ZEv';
     } else {
       license = "";
     }
@@ -66,10 +66,10 @@ class _MyAppState extends State<MyApp> {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRRM016STRPRE0zTnpVc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PT4PFNbaGYbx8lz0VdMw0rwMahZJsnnMY0+blCuN/m+QolwrXwoZIVhisfNF7p9UPmh44A6nnFILPB2z3pyoV0mmbTrZ/6/sfoWf4v2SlJjpwM5pBxCooWZr4IAmv5YT6Ef3x4iC6U1gL8zUB0T53LpWoY9+CElD";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhPVEU1TnpNc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaXRHMh9c3BpsrRVzD1u9+toy3Hep9m0cCAY/kOZBBu35CZm+p21zuBMoJTBu1qmrcnfQXfDdZg9ev9Vhp98Zc/hKLernpKO+Ya7SFuphmGeT7OKvObYsMynLYl/Z+207O67wD4z6uLQdaYLzOegmqAQxlAlIvbg";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license =
-          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRNNE5qWXdNVEE1TURnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYrV4CMxsRU+iUM/SeDbRDbjxRQsXIYuDXKzh5n0zmLHgSdRllWR/wE/J2MZ2MkpDdegbPTLRoJV+59G9F1QY8gIW7ua07A6f7wzTGq4laEyCo+f1rOOUBTZfKBIzqUJtR9NZIkb6YMkfLY5cmmNb5vnwIM+9BNI';
+          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhOalE0T0RRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PVJY+gDzLo739kPQWdM0fEA/P+8idXKB4sPdzN+N2m1mQFlnhaTmiTWE9V07j3eCZ2OcVjQvb/MA38TwVHVqfKdQh7BukIe6zjKJz7ETss3uoHYhrtZcaPxy3WULrs7kmWBflxMZr12NBViUCRmYfrHPNZpv8ZEv';
     } else {
       license = "";
     }
@@ -139,10 +139,10 @@ class _MyAppState extends State<MyApp> {
     String license;
     if (Theme.of(context).platform == TargetPlatform.iOS) {
       license =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRRM016STRPRE0zTnpVc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PT4PFNbaGYbx8lz0VdMw0rwMahZJsnnMY0+blCuN/m+QolwrXwoZIVhisfNF7p9UPmh44A6nnFILPB2z3pyoV0mmbTrZ/6/sfoWf4v2SlJjpwM5pBxCooWZr4IAmv5YT6Ef3x4iC6U1gL8zUB0T53LpWoY9+CElD";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhPVEU1TnpNc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaXRHMh9c3BpsrRVzD1u9+toy3Hep9m0cCAY/kOZBBu35CZm+p21zuBMoJTBu1qmrcnfQXfDdZg9ev9Vhp98Zc/hKLernpKO+Ya7SFuphmGeT7OKvObYsMynLYl/Z+207O67wD4z6uLQdaYLzOegmqAQxlAlIvbg";
     } else if (Theme.of(context).platform == TargetPlatform.android) {
       license =
-          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTVRNNE5qWXdNVEE1TURnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYrV4CMxsRU+iUM/SeDbRDbjxRQsXIYuDXKzh5n0zmLHgSdRllWR/wE/J2MZ2MkpDdegbPTLRoJV+59G9F1QY8gIW7ua07A6f7wzTGq4laEyCo+f1rOOUBTZfKBIzqUJtR9NZIkb6YMkfLY5cmmNb5vnwIM+9BNI';
+          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhOalE0T0RRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PVJY+gDzLo739kPQWdM0fEA/P+8idXKB4sPdzN+N2m1mQFlnhaTmiTWE9V07j3eCZ2OcVjQvb/MA38TwVHVqfKdQh7BukIe6zjKJz7ETss3uoHYhrtZcaPxy3WULrs7kmWBflxMZr12NBViUCRmYfrHPNZpv8ZEv';
     } else {
       license = "";
     }

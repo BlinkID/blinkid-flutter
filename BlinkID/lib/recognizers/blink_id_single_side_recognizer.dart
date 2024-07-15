@@ -63,6 +63,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The one more additional number of the document.
     StringResult? documentOptionalAdditionalNumber;
     
+    ///The transcription of the document subtype.
+    StringResult? documentSubtype;
+    
     ///The driver license detailed info.
     DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     
@@ -197,6 +200,8 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         
         this.documentOptionalAdditionalNumber = nativeResult["documentOptionalAdditionalNumber"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["documentOptionalAdditionalNumber"])) : null;
         
+        this.documentSubtype = nativeResult["documentSubtype"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["documentSubtype"])) : null;
+        
         this.driverLicenseDetailedInfo = nativeResult["driverLicenseDetailedInfo"] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeResult["driverLicenseDetailedInfo"])) : null;
         
         this.employer = nativeResult["employer"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["employer"])) : null;
@@ -269,12 +274,6 @@ class BlinkIdSingleSideRecognizer extends Recognizer {
 
     List<ClassAnonymizationSettings> additionalAnonymization = [];
     
-    ///Defines whether blured frames filtering is allowed
-    /// 
-    /// 
-
-    bool allowBlurFilter = true;
-    
     ///Defines whether returning of unparsed MRZ (Machine Readable Zone) results is allowed
     /// 
     /// 
@@ -294,6 +293,24 @@ class BlinkIdSingleSideRecognizer extends Recognizer {
     /// 
 
     AnonymizationMode anonymizationMode = AnonymizationMode.FullResult;
+    
+    ///Strictness level for blur detection.
+    /// 
+    /// 
+
+    StrictnessLevel blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    ///Skip processing of the blurred frames.
+    /// 
+    /// 
+
+    bool enableBlurFilter = true;
+    
+    ///Skip processing of the glared frames.
+    /// 
+    /// 
+
+    bool enableGlareFilter = true;
     
     ///Property for setting DPI for face images
     /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
@@ -315,6 +332,12 @@ class BlinkIdSingleSideRecognizer extends Recognizer {
     /// 
 
     ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
+    
+    ///Strictness level for glare detection.
+    /// 
+    /// 
+
+    StrictnessLevel glareStrictnessLevel = StrictnessLevel.Normal;
     
     ///Pading is a minimum distance from the edge of the frame and is defined as a percentage of the frame width. Default value is 0.0f and in that case
     /// padding edge and image edge are the same.

@@ -40,7 +40,8 @@ RecognizerCollection _$RecognizerCollectionFromJson(
           .toList(),
     )
       ..allowMultipleResults = json['allowMultipleResults'] as bool
-      ..milisecondsBeforeTimeout = json['milisecondsBeforeTimeout'] as int;
+      ..milisecondsBeforeTimeout =
+          (json['milisecondsBeforeTimeout'] as num).toInt();
 
 Map<String, dynamic> _$RecognizerCollectionToJson(
         RecognizerCollection instance) =>

@@ -13,13 +13,16 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
     public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.blinkid.entities.recognizers.blinkid.generic.BlinkIdSingleSideRecognizer recognizer = new com.microblink.blinkid.entities.recognizers.blinkid.generic.BlinkIdSingleSideRecognizer();
         recognizer.setAdditionalAnonymization(BlinkIDSerializationUtils.deserializeClassAnonymizationSettings(jsonObject.optJSONArray("additionalAnonymization")));
-        recognizer.setAllowBlurFilter(jsonObject.optBoolean("allowBlurFilter", true));
         recognizer.setAllowUnparsedMrzResults(jsonObject.optBoolean("allowUnparsedMrzResults", false));
         recognizer.setAllowUnverifiedMrzResults(jsonObject.optBoolean("allowUnverifiedMrzResults", true));
         recognizer.setAnonymizationMode(com.microblink.blinkid.entities.recognizers.blinkid.generic.AnonymizationMode.values()[jsonObject.optInt("anonymizationMode", 3)]);
+        recognizer.setBlurStrictnessLevel(com.microblink.blinkid.entities.recognizers.blinkid.generic.imageanalysis.StrictnessLevel.values()[jsonObject.optInt("blurStrictnessLevel", 1)]);
+        recognizer.setEnableBlurFilter(jsonObject.optBoolean("enableBlurFilter", true));
+        recognizer.setEnableGlareFilter(jsonObject.optBoolean("enableGlareFilter", true));
         recognizer.setFaceImageDpi(jsonObject.optInt("faceImageDpi", 250));
         recognizer.setFullDocumentImageDpi(jsonObject.optInt("fullDocumentImageDpi", 250));
         recognizer.setFullDocumentImageExtensionFactors(SerializationUtils.deserializeExtensionFactors(jsonObject.optJSONObject("fullDocumentImageExtensionFactors")));
+        recognizer.setGlareStrictnessLevel(com.microblink.blinkid.entities.recognizers.blinkid.generic.imageanalysis.StrictnessLevel.values()[jsonObject.optInt("glareStrictnessLevel", 1)]);
         recognizer.setPaddingEdge((float)jsonObject.optDouble("paddingEdge", 0.0));
         recognizer.setRecognitionModeFilter(BlinkIDSerializationUtils.deserializeRecognitionModeFilter(jsonObject.optJSONObject("recognitionModeFilter")));
         recognizer.setReturnFaceImage(jsonObject.optBoolean("returnFaceImage", false));
@@ -56,6 +59,7 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
             jsonResult.put("documentAdditionalNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentAdditionalNumber()));
             jsonResult.put("documentNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentNumber()));
             jsonResult.put("documentOptionalAdditionalNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentOptionalAdditionalNumber()));
+            jsonResult.put("documentSubtype", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentSubtype()));
             jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
             jsonResult.put("employer", BlinkIDSerializationUtils.serializeStringResult(result.getEmployer()));
             jsonResult.put("expired", result.isExpired());

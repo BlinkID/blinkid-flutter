@@ -51,16 +51,25 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..showOnboardingInfo = json['showOnboardingInfo'] as bool
       ..showIntroductionDialog = json['showIntroductionDialog'] as bool
       ..onboardingButtonTooltipDelay =
-          json['onboardingButtonTooltipDelay'] as int
+          (json['onboardingButtonTooltipDelay'] as num).toInt()
       ..backSideScanningTimeoutMilliseconds =
-          json['backSideScanningTimeoutMilliseconds'] as int
+          (json['backSideScanningTimeoutMilliseconds'] as num).toInt()
       ..scanBarcodeText = json['scanBarcodeText'] as String?
       ..errorDocumentTooCloseToEdge =
           json['errorDocumentTooCloseToEdge'] as String?
       ..language = json['language'] as String?
       ..country = json['country'] as String?
       ..showTorchButton = json['showTorchButton'] as bool
-      ..showCancelButton = json['showCancelButton'] as bool;
+      ..showCancelButton = json['showCancelButton'] as bool
+      ..errorBlurDetected = json['errorBlurDetected'] as String?
+      ..errorGlareDetected = json['errorGlareDetected'] as String?
+      ..androidCameraResolutionPreset = $enumDecode(
+          _$AndroidCameraResolutionPresetEnumMap,
+          json['androidCameraResolutionPreset'])
+      ..iosCameraResolutionPreset = $enumDecode(
+          _$iOSCameraResolutionPresetEnumMap, json['iosCameraResolutionPreset'])
+      ..enableAndroidLegacyCameraApi =
+          json['enableAndroidLegacyCameraApi'] as bool;
 
 Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
         BlinkIdOverlaySettings instance) =>
@@ -94,7 +103,33 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'country': instance.country,
       'showTorchButton': instance.showTorchButton,
       'showCancelButton': instance.showCancelButton,
+      'errorBlurDetected': instance.errorBlurDetected,
+      'errorGlareDetected': instance.errorGlareDetected,
+      'androidCameraResolutionPreset': _$AndroidCameraResolutionPresetEnumMap[
+          instance.androidCameraResolutionPreset]!,
+      'iosCameraResolutionPreset': _$iOSCameraResolutionPresetEnumMap[
+          instance.iosCameraResolutionPreset]!,
+      'enableAndroidLegacyCameraApi': instance.enableAndroidLegacyCameraApi,
     };
+
+const _$AndroidCameraResolutionPresetEnumMap = {
+  AndroidCameraResolutionPreset.PresetDefault: 0,
+  AndroidCameraResolutionPreset.Preset480p: 1,
+  AndroidCameraResolutionPreset.Preset720p: 2,
+  AndroidCameraResolutionPreset.Preset1080p: 3,
+  AndroidCameraResolutionPreset.Preset2160p: 4,
+  AndroidCameraResolutionPreset.PresetMaxAvailable: 5,
+};
+
+const _$iOSCameraResolutionPresetEnumMap = {
+  iOSCameraResolutionPreset.Preset480p: 0,
+  iOSCameraResolutionPreset.Preset720p: 1,
+  iOSCameraResolutionPreset.Preset1080p: 2,
+  iOSCameraResolutionPreset.Preset4K: 3,
+  iOSCameraResolutionPreset.PresetOptimal: 4,
+  iOSCameraResolutionPreset.PresetMax: 5,
+  iOSCameraResolutionPreset.PresetPhoto: 6,
+};
 
 DocumentVerificationOverlaySettings
     _$DocumentVerificationOverlaySettingsFromJson(Map<String, dynamic> json) =>

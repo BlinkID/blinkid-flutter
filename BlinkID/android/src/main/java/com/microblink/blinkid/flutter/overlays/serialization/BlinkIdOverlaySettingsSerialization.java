@@ -9,7 +9,8 @@ import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerialization;
 import com.microblink.blinkid.flutter.SerializationUtils;
 import com.microblink.blinkid.locale.LanguageUtils;
-
+import com.microblink.blinkid.hardware.camera.VideoResolutionPreset;
+import com.microblink.blinkid.uisettings.CameraSettings;
 
 import org.json.JSONObject;
 
@@ -19,8 +20,10 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         BlinkIdUISettings settings = new BlinkIdUISettings(recognizerBundle);
+        
         OverlaySerializationUtils.extractCommonUISettings(jsonUISettings, settings);
-
+        settings.setAllowHapticFeedback(false);
+        
         boolean requireDocumentSidesDataMatch = jsonUISettings.optBoolean("requireDocumentSidesDataMatch", true);
         settings.setDocumentDataMatchRequired(requireDocumentSidesDataMatch);
 
@@ -50,6 +53,15 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
 
         long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
         settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
+
+        int videoResolutionPreset = jsonUISettings.optInt("androidCameraResolutionPreset", VideoResolutionPreset.VIDEO_RESOLUTION_DEFAULT.ordinal());
+
+        boolean androidLegacyCameraApi = jsonUISettings.optBoolean("enableAndroidLegacyCameraApi", false);
+        
+        settings.setCameraSettings(new CameraSettings.Builder()
+                .setVideoResolutionPreset(VideoResolutionPreset.values()[videoResolutionPreset])
+                .setForceLegacyApi(androidLegacyCameraApi)
+                .build());
 
         ReticleOverlayStrings.Builder overlasStringsBuilder = new ReticleOverlayStrings.Builder(context);
 
@@ -104,6 +116,14 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         String errorDocumentTooCloseToEdge = getStringFromJSONObject(jsonUISettings, "errorDocumentTooCloseToEdge");
         if (errorDocumentTooCloseToEdge != null) {
             overlasStringsBuilder.setErrorDocumentTooCloseToEdge(errorDocumentTooCloseToEdge);
+        }
+        String errorBlurDetected = getStringFromJSONObject(jsonUISettings, "errorBlurDetected");
+        if (errorBlurDetected != null) {
+            overlasStringsBuilder.setErrorBlurDetected(errorBlurDetected);
+        }
+        String errorGlareDetected = getStringFromJSONObject(jsonUISettings, "errorGlareDetected");
+        if (errorGlareDetected != null) {
+            overlasStringsBuilder.setErrorGlareDetected(errorGlareDetected);
         }
         String language = getStringFromJSONObject(jsonUISettings, "language");
         if (language != null) {

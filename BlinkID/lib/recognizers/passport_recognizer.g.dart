@@ -11,8 +11,8 @@ PassportRecognizer _$PassportRecognizerFromJson(Map<String, dynamic> json) =>
       ..recognizerType = json['recognizerType'] as String
       ..anonymizeNetherlandsMrz = json['anonymizeNetherlandsMrz'] as bool
       ..detectGlare = json['detectGlare'] as bool
-      ..faceImageDpi = json['faceImageDpi'] as int
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
       ..returnFaceImage = json['returnFaceImage'] as bool

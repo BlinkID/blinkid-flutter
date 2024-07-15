@@ -1383,6 +1383,16 @@ enum CardOrientation {
     NotAvailable
 }
 
+/// Defines possible strictness levels for blur are glare detection.
+enum StrictnessLevel {
+    /// The most strict level for blur are glare detection.
+    @JsonValue(0) Strict,
+    /// The default strictness level for blur are glare detection.
+    @JsonValue(1) Normal,
+    /// The least strict level for blur are glare detection.
+    @JsonValue(2) Relaxed
+}
+
 /// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Country {
     @JsonValue(0) None,
@@ -2161,9 +2171,6 @@ enum DocumentSide {
 
 /// Defines possible color and moire statuses determined from scanned image.
 class ImageAnalysisResult {
-
-    /// Whether the image is blurred.
-    bool? blurred;
     /// The color status determined from scanned image.
     DocumentImageColorStatus? documentImageColorStatus;
     /// The Moire pattern detection status determined from the scanned image.
@@ -2180,9 +2187,12 @@ class ImageAnalysisResult {
     CardOrientation? cardOrientation;
     /// RealID detection status determined from the scanned image.
     ImageAnalysisDetectionStatus? realIdDetectionStatus;
+    /// Indicates if blur was detected on the scanned image.
+    bool? blurDetected;
+    /// Indicates if glare was detected on the scanned image.
+    bool? glareDetected;
 
     ImageAnalysisResult(Map<String, dynamic> nativeImageAnalysisResult) {
-        this.blurred = nativeImageAnalysisResult['blurred'];
         this.documentImageColorStatus = DocumentImageColorStatus.values[nativeImageAnalysisResult['documentImageColorStatus']];
         this.documentImageMoireStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['documentImageMoireStatus']];
         this.faceDetectionStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['faceDetectionStatus']];
@@ -2191,6 +2201,8 @@ class ImageAnalysisResult {
         this.cardRotation = CardRotation.values[nativeImageAnalysisResult['cardRotation']];
         this.cardOrientation = CardOrientation.values[nativeImageAnalysisResult['cardOrientation']];
         this.realIdDetectionStatus = ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['realIdDetectionStatus']];
+        this.blurDetected = nativeImageAnalysisResult['blurDetected'];
+        this.glareDetected = nativeImageAnalysisResult['glareDetected'];
     }
 }
 
@@ -2425,4 +2437,38 @@ enum DataMatchState {
     Failed,
     /// Data match.
     Success
+}
+
+/// Defines possible Android device camera video resolution preset 
+enum AndroidCameraResolutionPreset {
+    /// Will choose camera video resolution which is best for current device.
+    @JsonValue(0) PresetDefault,
+    /// Attempts to choose camera video resolution as closely as 480p.
+    @JsonValue(1) Preset480p,
+    /// Attempts to choose camera video resolution as closely as 720p.
+    @JsonValue(2) Preset720p,
+    /// Attempts to choose camera video resolution as closely as 1080p.
+    @JsonValue(3) Preset1080p,
+    /// Attempts to choose camera video resolution as closely as 2160p.
+    @JsonValue(4) Preset2160p,
+    /// Will choose max available camera video resolution.
+    @JsonValue(5) PresetMaxAvailable
+}
+
+/// Define possible iOS device camera video resolution preset 
+enum iOSCameraResolutionPreset {
+    /// 480p video will always be used.
+    @JsonValue(0) Preset480p,
+    /// 720p video will always be used.
+    @JsonValue(1) Preset720p,
+    /// 1080p video will always be used.
+    @JsonValue(2) Preset1080p,
+    /// 4K video will always be used.
+    @JsonValue(3) Preset4K,
+    /// The library will calculate optimal resolution based on the use case and device used.
+    @JsonValue(4) PresetOptimal,
+    /// Device's maximal video resolution will be used.
+    @JsonValue(5) PresetMax,
+    /// Device's photo preview resolution will be used.
+    @JsonValue(6) PresetPhoto
 }

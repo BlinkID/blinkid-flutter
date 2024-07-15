@@ -217,7 +217,6 @@ public abstract class BlinkIDSerializationUtils {
 
     public static JSONObject serializeImageAnalysisResult(ImageAnalysisResult imageAnalysisResult) throws JSONException {
         JSONObject jsonImageAnalysis = new JSONObject();
-        jsonImageAnalysis.put("blurred", imageAnalysisResult.isBlurred());
         jsonImageAnalysis.put("documentImageColorStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getDocumentImageColorStatus()));
         jsonImageAnalysis.put("documentImageMoireStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getDocumentImageMoireStatus()));
         jsonImageAnalysis.put("faceDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getFaceDetectionStatus()));
@@ -226,6 +225,8 @@ public abstract class BlinkIDSerializationUtils {
         jsonImageAnalysis.put("cardRotation", BlinkIDSerializationUtils.serializeCardRotation(imageAnalysisResult.getCardRotation()));
         jsonImageAnalysis.put("cardOrientation", SerializationUtils.serializeEnum(imageAnalysisResult.getCardOrientation()));
         jsonImageAnalysis.put("realIdDetectionStatus", SerializationUtils.serializeEnum(imageAnalysisResult.getRealIdDetectionStatus()));
+        jsonImageAnalysis.put("blurDetected", imageAnalysisResult.isBlurDetected());
+        jsonImageAnalysis.put("glareDetected", imageAnalysisResult.isGlareDetected());
         return jsonImageAnalysis;
     }
 

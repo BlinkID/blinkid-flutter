@@ -208,7 +208,6 @@
 
 +(NSDictionary *) serializeImageAnalysisResult:(MBImageAnalysisResult *)imageAnalysisResult {
     return @{
-             @"blurred" : [NSNumber numberWithBool:imageAnalysisResult.blurred],
              @"documentImageColorStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageColorStatus)],
              @"documentImageMoireStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.documentImageMoireStatus)],
              @"faceDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.faceDetectionStatus)],
@@ -216,7 +215,10 @@
              @"barcodeDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.barcodeDetectionStatus)],
              @"cardRotation" : [NSNumber numberWithInteger:(imageAnalysisResult.cardRotation)],
              @"cardOrientation" : [NSNumber numberWithInteger:(imageAnalysisResult.cardOrientation)],
-             @"realIdDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.realIDDetectionStatus)]
+             @"realIdDetectionStatus" : [NSNumber numberWithInteger:(imageAnalysisResult.realIDDetectionStatus)],
+             @"blurDetected" : [NSNumber numberWithBool:imageAnalysisResult.blurDetected],
+             @"glareDetected" : [NSNumber numberWithBool:imageAnalysisResult.glareDetected],
+
         };
 }
 
