@@ -1,3 +1,22 @@
+## 6.9.0
+
+- We have updated the plugin to [Android SDK v6.9.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.9.0) and [iOS SDK v6.9.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.9.0)
+
+**Expanded document coverage**
+
+- All of the new documents & document versions can be seen in the release notes for native Android and iOS SDKs.
+
+**Custom mandatory fields**
+
+- We’re introducing the option to define a custom set of mandatory fields. This feature allows greater flexibility in the scanning process by enabling the extraction of only the necessary information from identity documents.
+- Custom mandatory fields can be set at the document level or applied universally to all document types.
+- Custom mandatory fields can be set with `CustomClassRules` and `DetailedFieldType`.
+
+**License keys**
+
+- The license key exceptions can now be handled properly (as shown in the sample application).
+    - The error messages are specific to each case why the license key is not valid.
+
 ## 6.8.0
 
 - We have updated the plugin to [Android SDK v6.8.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.8.0) and [iOS SDK v6.8.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.8.0)

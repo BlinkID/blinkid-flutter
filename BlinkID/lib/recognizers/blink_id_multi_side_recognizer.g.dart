@@ -23,6 +23,9 @@ BlinkIdMultiSideRecognizer _$BlinkIdMultiSideRecognizerFromJson(
           $enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
       ..blurStrictnessLevel =
           $enumDecode(_$StrictnessLevelEnumMap, json['blurStrictnessLevel'])
+      ..customClassRules = (json['customClassRules'] as List<dynamic>)
+          .map((e) => CustomClassRules.fromJson(e as Map<String, dynamic>))
+          .toList()
       ..enableBlurFilter = json['enableBlurFilter'] as bool
       ..enableGlareFilter = json['enableGlareFilter'] as bool
       ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
@@ -57,6 +60,7 @@ Map<String, dynamic> _$BlinkIdMultiSideRecognizerToJson(
           _$AnonymizationModeEnumMap[instance.anonymizationMode]!,
       'blurStrictnessLevel':
           _$StrictnessLevelEnumMap[instance.blurStrictnessLevel]!,
+      'customClassRules': instance.customClassRules,
       'enableBlurFilter': instance.enableBlurFilter,
       'enableGlareFilter': instance.enableGlareFilter,
       'faceImageDpi': instance.faceImageDpi,

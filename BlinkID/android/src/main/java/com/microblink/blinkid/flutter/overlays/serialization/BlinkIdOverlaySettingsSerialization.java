@@ -22,7 +22,6 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         BlinkIdUISettings settings = new BlinkIdUISettings(recognizerBundle);
         
         OverlaySerializationUtils.extractCommonUISettings(jsonUISettings, settings);
-        settings.setAllowHapticFeedback(false);
         
         boolean requireDocumentSidesDataMatch = jsonUISettings.optBoolean("requireDocumentSidesDataMatch", true);
         settings.setDocumentDataMatchRequired(requireDocumentSidesDataMatch);

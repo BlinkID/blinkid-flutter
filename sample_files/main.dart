@@ -19,19 +19,11 @@ class _MyAppState extends State<MyApp> {
   String _fullDocumentFrontImageBase64 = "";
   String _fullDocumentBackImageBase64 = "";
   String _faceImageBase64 = "";
+  String license = "";
 
   /// BlinkID scanning with camera
   Future<void> scan() async {
-    String license;
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhPVEU1TnpNc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaXRHMh9c3BpsrRVzD1u9+toy3Hep9m0cCAY/kOZBBu35CZm+p21zuBMoJTBu1qmrcnfQXfDdZg9ev9Vhp98Zc/hKLernpKO+Ya7SFuphmGeT7OKvObYsMynLYl/Z+207O67wD4z6uLQdaYLzOegmqAQxlAlIvbg";
-    } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license =
-          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhOalE0T0RRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PVJY+gDzLo739kPQWdM0fEA/P+8idXKB4sPdzN+N2m1mQFlnhaTmiTWE9V07j3eCZ2OcVjQvb/MA38TwVHVqfKdQh7BukIe6zjKJz7ETss3uoHYhrtZcaPxy3WULrs7kmWBflxMZr12NBViUCRmYfrHPNZpv8ZEv';
-    } else {
-      license = "";
-    }
+  try {
 
     var idRecognizer = BlinkIdMultiSideRecognizer();
     idRecognizer.returnFullDocumentImage = true;
@@ -58,21 +50,22 @@ class _MyAppState extends State<MyApp> {
         return;
       }
     }
+    } catch (scanningError) {
+        if (scanningError is PlatformException) {
+          setState(() {
+            _resultString = scanningError.message ?? "Unknown error occurred";
+            _fullDocumentFrontImageBase64 = "";
+            _fullDocumentBackImageBase64 =  "";
+            _faceImageBase64 = "";
+        });
+        } 
+    }
   }
 
   /// BlinkID scanning with DirectAPI and the BlinkIDMultiSide recognizer
   /// Best used for getting the information from both front and backside information from various documents
   Future<void> directApiMultiSideScan() async {
-    String license;
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhPVEU1TnpNc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaXRHMh9c3BpsrRVzD1u9+toy3Hep9m0cCAY/kOZBBu35CZm+p21zuBMoJTBu1qmrcnfQXfDdZg9ev9Vhp98Zc/hKLernpKO+Ya7SFuphmGeT7OKvObYsMynLYl/Z+207O67wD4z6uLQdaYLzOegmqAQxlAlIvbg";
-    } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license =
-          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhOalE0T0RRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PVJY+gDzLo739kPQWdM0fEA/P+8idXKB4sPdzN+N2m1mQFlnhaTmiTWE9V07j3eCZ2OcVjQvb/MA38TwVHVqfKdQh7BukIe6zjKJz7ETss3uoHYhrtZcaPxy3WULrs7kmWBflxMZr12NBViUCRmYfrHPNZpv8ZEv';
-    } else {
-      license = "";
-    }
+
     try {
       // Get the front and the back side of the document with the pickMultiImage method
       // First select the front and the then back side of the image
@@ -98,7 +91,7 @@ class _MyAppState extends State<MyApp> {
       idRecognizer.returnFullDocumentImage = true;
       idRecognizer.returnFaceImage = true;
 
-      /// Uncomment line 103 if you're using scanWithDirectApi and you are sending cropped images for processing 
+      /// Uncomment line 96 if you're using scanWithDirectApi and you are sending cropped images for processing 
       /// The processing will most likely not work if cropped images are being sent with the scanCroppedDocumentImage property being set to false 
       /// idRecognizer.scanCroppedDocumentImage = true;
 
@@ -136,16 +129,6 @@ class _MyAppState extends State<MyApp> {
   /// BlinkID scanning with DirectAPI and the BlinkIDSingleSide recognizer.
   /// Best used for getting the information from only one side from various documents
   Future<void> directApiSingleSideScan() async {
-    String license;
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhPVEU1TnpNc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaXRHMh9c3BpsrRVzD1u9+toy3Hep9m0cCAY/kOZBBu35CZm+p21zuBMoJTBu1qmrcnfQXfDdZg9ev9Vhp98Zc/hKLernpKO+Ya7SFuphmGeT7OKvObYsMynLYl/Z+207O67wD4z6uLQdaYLzOegmqAQxlAlIvbg";
-    } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license =
-          'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFd05ERXhOalE0T0RRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PVJY+gDzLo739kPQWdM0fEA/P+8idXKB4sPdzN+N2m1mQFlnhaTmiTWE9V07j3eCZ2OcVjQvb/MA38TwVHVqfKdQh7BukIe6zjKJz7ETss3uoHYhrtZcaPxy3WULrs7kmWBflxMZr12NBViUCRmYfrHPNZpv8ZEv';
-    } else {
-      license = "";
-    }
           
     try {
       // Pick an image of the document (it can either be the front or the back side of the document)
@@ -160,7 +143,7 @@ class _MyAppState extends State<MyApp> {
       idRecognizer.returnFullDocumentImage = true;
       idRecognizer.returnFaceImage = true;
 
-      /// Uncomment line 165 if you're using scanWithDirectApi and you are sending a cropped image for processing 
+      /// Uncomment line 148 if you're using scanWithDirectApi and you are sending a cropped image for processing 
       /// The processing will most likely not work if a cropped image is being sent with the scanCroppedDocumentImage property being set to false
       /// idRecognizer.scanCroppedDocumentImage = true;
 
@@ -331,6 +314,14 @@ Future<void> showAlertDialog(BuildContext context,String title, String message) 
 
   @override
   Widget build(BuildContext context) {
+    if (Theme.of(context).platform == TargetPlatform.iOS) {
+      license = "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFek9EVTRNVEEyTlRFc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PWEJrlgmmQ9VywX915J8m1TjF2GrO750y/ksBB6HA6EHBHcRe3cQ6hS2IL6rSnxw2rb3foQSv3L7LxjTiJiKtO23Rb5a3xHvNoe7A8BlX7iCT39OB48Cx8pkDmRFQ/vgwDrO6j4GqNCP8u//M0fMoE9XG2nI9PVY";
+    } else if (Theme.of(context).platform == TargetPlatform.android) {
+      license = 'sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTWpFek9EVTNOak0xTmpRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PWKzGRpwZ0Yg81/n2kQ09RrtiQhs5K8k+Mjawaer1MOcxgeLaIhkBn5CpPi4cbtqTdTj9h7vrE6cxFRbrqpYyfoIAAFut1hI/f7zN3CFouAebHnqS38/Ocwk8xIafUumdpdtpBtU1er+p6Z+CeUnzr6c84A9xjxK';
+    } else {
+      license = "";
+    }
+
     Widget fullDocumentFrontImage = Container();
     if (_fullDocumentFrontImageBase64 != null &&
         _fullDocumentFrontImageBase64 != "") {

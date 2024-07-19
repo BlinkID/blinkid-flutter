@@ -53,10 +53,14 @@ class Quadrilateral {
     }
 }
 
+/// AlphabetType represents all of the alphabet types that BlinkID supports extracting.
 enum AlphabetType {
-  Latin,
-  Arabic,
-  Cyrillic
+  /// The Latin alphabet type   
+  @JsonValue(0) Latin,
+  /// The Arabic alphabet type
+  @JsonValue(1) Arabic,
+  /// The Cyrillic alphabet type
+  @JsonValue(2) Cyrillic
 }
 
 /// Represents rectangle location of each document field
@@ -168,7 +172,11 @@ enum FieldType {
     @JsonValue(34) Sex,
     @JsonValue(35) VehicleClass,
     @JsonValue(36) BloodType,
-    @JsonValue(37) Sponsor
+    @JsonValue(37) Sponsor,
+    @JsonValue(38) VisaType,
+    @JsonValue(39) DocumentSubtype,
+    @JsonValue(40) Remarks,
+    @JsonValue(41) ResidencePermitType,
 }
 
 class AdditionalProcessingInfo {
@@ -1793,6 +1801,7 @@ enum Region {
     @JsonValue(135) GuerreroAcapulcoDeJuarez,
     @JsonValue(136) Haryana,
     @JsonValue(137) Sergipe,
+    @JsonValue(138) Alagos,
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
@@ -1863,7 +1872,11 @@ enum Type {
     @JsonValue(63) MainlandTravelPermitTaiwan,
     @JsonValue(64) NbiClearance,
     @JsonValue(65) ProofOfRegistration,
-    @JsonValue(66) TemporaryProtectionPermit
+    @JsonValue(66) TemporaryProtectionPermit,
+    @JsonValue(67) AfghanCitizenCard,
+    @JsonValue(68) EId,
+    @JsonValue(69) Pass,
+    @JsonValue(70) SisId,
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -2039,9 +2052,9 @@ class ClassAnonymizationSettings {
   Country? country;
   /// Documents from the set region will be anonymized
   Region? region;
-  /// Document fields that will be anonymized
+  /// Documents with this type will be anonymized
   Type? type;
-  /// Partial document number anonymization
+  /// Document fields that will be anonymized
   List<FieldType> fields = [];
   /// Partial document number anonymization
   DocumentNumberAnonymizationSettings? documentNumberAnonymizationSettings;
@@ -2065,6 +2078,42 @@ class DocumentNumberAnonymizationSettings {
 
   factory DocumentNumberAnonymizationSettings.fromJson(Map<String, dynamic> json) => _$DocumentNumberAnonymizationSettingsFromJson(json);
   Map<String, dynamic> toJson() => _$DocumentNumberAnonymizationSettingsToJson(this);
+}
+
+/// CustomClassRules represent custom rules of mandatory fields for each class of a document.
+/// Setting the fields in the CustomClassRules will make them mandatory.
+/// If CustomClassRules is not set, all of the default fields are mandatory.
+@JsonSerializable()
+class CustomClassRules {
+    /// Documents from the set country will be used with CustomClassRules
+    Country? country;
+    /// Documents from the set region will be used with CustomClassRules
+    Region? region;
+    /// Document type that will be used with CustomClassRules
+    Type? type;
+    /// An array of the document fields and alphabets that will be used with CustomClassRules. See DetailedFieldType for more information.
+    List<DetailedFieldType> detailedFieldTypes = [];
+
+    CustomClassRules();
+
+    factory CustomClassRules.fromJson(Map<String, dynamic> json) => _$CustomClassRulesFromJson(json);
+    Map<String, dynamic> toJson() => _$CustomClassRulesToJson(this);
+}
+
+
+/// DetailedFieldType represents a detailed field type used for custom mandatory fields.
+/// Used with CustomClassRules. A field type (see FieldType for all fields) along with Alphabet type (see AlphabetType for all alphabets) is required.
+@JsonSerializable()
+class DetailedFieldType { 
+    /// Field type that will be mandatory for extraction for CustomClassRules.
+    FieldType? fieldType;
+    /// Alphabet type connected with the field type that will be optional for extraction for CustomClassRules. */
+    AlphabetType? alphabetType;
+
+    DetailedFieldType();
+
+    factory DetailedFieldType.fromJson(Map<String, dynamic> json) => _$DetailedFieldTypeFromJson(json);
+    Map<String, dynamic> toJson() => _$DetailedFieldTypeToJson(this);
 }
 
 /// Define level of anonymization performed on recognizer result

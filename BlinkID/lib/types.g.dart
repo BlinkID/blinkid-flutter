@@ -453,6 +453,7 @@ const _$RegionEnumMap = {
   Region.GuerreroAcapulcoDeJuarez: 135,
   Region.Haryana: 136,
   Region.Sergipe: 137,
+  Region.Alagos: 138,
 };
 
 const _$TypeEnumMap = {
@@ -523,6 +524,10 @@ const _$TypeEnumMap = {
   Type.NbiClearance: 64,
   Type.ProofOfRegistration: 65,
   Type.TemporaryProtectionPermit: 66,
+  Type.AfghanCitizenCard: 67,
+  Type.EId: 68,
+  Type.Pass: 69,
+  Type.SisId: 70,
 };
 
 const _$FieldTypeEnumMap = {
@@ -564,6 +569,10 @@ const _$FieldTypeEnumMap = {
   FieldType.VehicleClass: 35,
   FieldType.BloodType: 36,
   FieldType.Sponsor: 37,
+  FieldType.VisaType: 38,
+  FieldType.DocumentSubtype: 39,
+  FieldType.Remarks: 40,
+  FieldType.ResidencePermitType: 41,
 };
 
 DocumentNumberAnonymizationSettings
@@ -579,6 +588,41 @@ Map<String, dynamic> _$DocumentNumberAnonymizationSettingsToJson(
       'prefixDigitsVisible': instance.prefixDigitsVisible,
       'suffixDigitsVisible': instance.suffixDigitsVisible,
     };
+
+CustomClassRules _$CustomClassRulesFromJson(Map<String, dynamic> json) =>
+    CustomClassRules()
+      ..country = $enumDecodeNullable(_$CountryEnumMap, json['country'])
+      ..region = $enumDecodeNullable(_$RegionEnumMap, json['region'])
+      ..type = $enumDecodeNullable(_$TypeEnumMap, json['type'])
+      ..detailedFieldTypes = (json['detailedFieldTypes'] as List<dynamic>)
+          .map((e) => DetailedFieldType.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$CustomClassRulesToJson(CustomClassRules instance) =>
+    <String, dynamic>{
+      'country': _$CountryEnumMap[instance.country],
+      'region': _$RegionEnumMap[instance.region],
+      'type': _$TypeEnumMap[instance.type],
+      'detailedFieldTypes': instance.detailedFieldTypes,
+    };
+
+DetailedFieldType _$DetailedFieldTypeFromJson(Map<String, dynamic> json) =>
+    DetailedFieldType()
+      ..fieldType = $enumDecodeNullable(_$FieldTypeEnumMap, json['fieldType'])
+      ..alphabetType =
+          $enumDecodeNullable(_$AlphabetTypeEnumMap, json['alphabetType']);
+
+Map<String, dynamic> _$DetailedFieldTypeToJson(DetailedFieldType instance) =>
+    <String, dynamic>{
+      'fieldType': _$FieldTypeEnumMap[instance.fieldType],
+      'alphabetType': _$AlphabetTypeEnumMap[instance.alphabetType],
+    };
+
+const _$AlphabetTypeEnumMap = {
+  AlphabetType.Latin: 0,
+  AlphabetType.Arabic: 1,
+  AlphabetType.Cyrillic: 2,
+};
 
 ImageExtensionFactors _$ImageExtensionFactorsFromJson(
         Map<String, dynamic> json) =>
