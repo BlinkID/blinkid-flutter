@@ -2105,7 +2105,7 @@ class CustomClassRules {
 /// Used with CustomClassRules. A field type (see FieldType for all fields) along with Alphabet type (see AlphabetType for all alphabets) is required.
 @JsonSerializable()
 class DetailedFieldType { 
-    /// Field type that will be optional for extraction for CustomClassRules.
+    /// Field type that will be mandatory for extraction for CustomClassRules.
     FieldType? fieldType;
     /// Alphabet type connected with the field type that will be optional for extraction for CustomClassRules. */
     AlphabetType? alphabetType;
