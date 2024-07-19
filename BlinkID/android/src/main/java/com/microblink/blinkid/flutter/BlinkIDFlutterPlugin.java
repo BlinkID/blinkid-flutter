@@ -100,8 +100,8 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
 
     if (call.method.equals(METHOD_SCAN_CAMERA)) {
-      boolean isLicenseKeyValid = setLicense((Map)call.argument(ARG_LICENSE));
       pendingResult = result;
+      boolean isLicenseKeyValid = setLicense((Map)call.argument(ARG_LICENSE));
 
       JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
       JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
