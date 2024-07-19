@@ -58,6 +58,16 @@
         }
     }
     {
+        id customClassRules = [jsonRecognizer valueForKey:@"customClassRules"];
+        if (customClassRules != nil) {
+         NSArray<NSDictionary *> *ruleClasses = customClassRules;
+            for (NSDictionary *class in ruleClasses) {
+                MBCustomClassRules *rule = [MBBlinkIDSerializationUtils deserializeMBCustomClassRules:(NSDictionary*)class];
+                [recognizer recognizerAddClassRulesToCustomClassRules:rule];
+            }
+        }
+    }
+    {
         id enableBlurFilter = [jsonRecognizer valueForKey:@"enableBlurFilter"];
         if (enableBlurFilter != nil) {
             recognizer.enableBlurFilter = [(NSNumber *)enableBlurFilter boolValue];
@@ -226,11 +236,14 @@
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.race] forKey:@"race"];
     [jsonResult setValue:[NSNumber numberWithInteger:(self.result.recognitionMode)] forKey:@"recognitionMode"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.religion] forKey:@"religion"];
+    [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.remarks] forKey:@"remarks"];
+    [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.residencePermitType] forKey:@"residencePermitType"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.residentialStatus] forKey:@"residentialStatus"];
     [jsonResult setValue:[NSNumber numberWithBool:self.result.scanningFirstSideDone] forKey:@"scanningFirstSideDone"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.sex] forKey:@"sex"];
     [jsonResult setValue:[MBSerializationUtils encodeMBImage:self.result.signatureImage] forKey:@"signatureImage"];
     [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.sponsor] forKey:@"sponsor"];
+    [jsonResult setValue:[MBBlinkIDSerializationUtils serializeMBStringResult:self.result.visaType] forKey:@"visaType"];
 
     return jsonResult;
 }

@@ -147,6 +147,12 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The religion of the document owner.
     StringResult? religion;
     
+    ///The remarks on the residence permit.
+    StringResult? remarks;
+    
+    ///The residence permit type.
+    StringResult? residencePermitType;
+    
     ///The residential stauts of the document owner.
     StringResult? residentialStatus;
     
@@ -158,6 +164,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     
     ///The sponsor of the document owner.
     StringResult? sponsor;
+    
+    ///The visa type.
+    StringResult? visaType;
     
     ///Defines the data extracted from the visual inspection zone
     VizResult? vizResult;
@@ -252,6 +261,10 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         
         this.religion = nativeResult["religion"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["religion"])) : null;
         
+        this.remarks = nativeResult["remarks"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["remarks"])) : null;
+        
+        this.residencePermitType = nativeResult["residencePermitType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["residencePermitType"])) : null;
+        
         this.residentialStatus = nativeResult["residentialStatus"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["residentialStatus"])) : null;
         
         this.sex = nativeResult["sex"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sex"])) : null;
@@ -259,6 +272,8 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         this.signatureImage = nativeResult["signatureImage"];
         
         this.sponsor = nativeResult["sponsor"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sponsor"])) : null;
+        
+        this.visaType = nativeResult["visaType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["visaType"])) : null;
         
         this.vizResult = nativeResult["vizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["vizResult"])) : null;
         
@@ -299,6 +314,10 @@ class BlinkIdSingleSideRecognizer extends Recognizer {
     /// 
 
     StrictnessLevel blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    ///Get custom class rules.
+
+    List<CustomClassRules> customClassRules = [];
     
     ///Skip processing of the blurred frames.
     /// 

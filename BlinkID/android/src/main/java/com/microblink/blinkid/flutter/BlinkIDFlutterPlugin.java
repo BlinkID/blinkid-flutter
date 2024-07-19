@@ -35,7 +35,7 @@ import com.microblink.blinkid.metadata.MetadataCallbacks;
 import com.microblink.blinkid.metadata.recognition.FirstSideRecognitionCallback;
 import com.microblink.blinkid.recognition.RecognitionSuccessType;
 import com.microblink.blinkid.view.recognition.ScanResultListener;
-
+import com.microblink.blinkid.licence.exception.LicenceKeyException;
 
 import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerializers;
@@ -61,7 +61,6 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
   private static final String ARG_OVERLAY_SETTINGS = "overlaySettings";
   private static final String ARG_FRONT_IMAGE = "frontImage";
   private static final String ARG_BACK_IMAGE = "backImage";
-
   private boolean mFirstSideScanned = false;
   private RecognizerBundle mRecognizerBundle;
   private RecognizerRunner mRecognizerRunner;
@@ -99,27 +98,29 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    setLicense((Map)call.argument(ARG_LICENSE));
 
     if (call.method.equals(METHOD_SCAN_CAMERA)) {
+      boolean isLicenseKeyValid = setLicense((Map)call.argument(ARG_LICENSE));
       pendingResult = result;
 
       JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
       JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
-      setLanguage(jsonOverlaySettings);
-      mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-      UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
-
-      startScanning(SCAN_REQ_CODE, uiSettings);
-
-      } else if (call.method.equals(METHOD_SCAN_DIRECT_API)) {
+      if (isLicenseKeyValid) {
+          setLanguage(jsonOverlaySettings);
+          mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+          UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
+          startScanning(SCAN_REQ_CODE, uiSettings);
+      }
+    } else if (call.method.equals(METHOD_SCAN_DIRECT_API)) {
         pendingResult = result;
+        boolean isLicenseKeyValid = setLicense((Map)call.argument(ARG_LICENSE));
 
         JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
         String frontImage = call.argument(ARG_FRONT_IMAGE);
         String backImage = call.argument(ARG_BACK_IMAGE);
-
-        scanWithDirectApi(jsonRecognizerCollection, frontImage, backImage);
+        if (isLicenseKeyValid) {
+            scanWithDirectApi(jsonRecognizerCollection, frontImage, backImage);
+        }
 
     } else {
       result.notImplemented();
@@ -128,7 +129,8 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
 
 
   @SuppressWarnings("unchecked")
-  private void setLicense(Map licenseMap) {
+  private boolean setLicense(Map licenseMap) {
+      boolean isLicenseKeyValid = true;
       if (licenseMap.get(ARG_SHOW_LICENSE_WARNING) != null) {
           MicroblinkSDK.setShowTrialLicenseWarning((boolean) licenseMap.get(ARG_SHOW_LICENSE_WARNING));
       } else {
@@ -139,12 +141,22 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
       String licensee = (String) licenseMap.get(ARG_LICENSEE);
 
       if (licensee == null) {
-          MicroblinkSDK.setLicenseKey(licenseKey, context);
+          try {
+              MicroblinkSDK.setLicenseKey(licenseKey, context);
+          } catch (LicenceKeyException licenceKeyException) {
+              isLicenseKeyValid = false;
+              pendingResult.error("Android license key error", licenceKeyException.getMessage(), null);
+          }
       } else {
-          MicroblinkSDK.setLicenseKey(licenseKey, licensee, context);
+          try {
+              MicroblinkSDK.setLicenseKey(licenseKey, licensee, context);
+          } catch (LicenceKeyException licenceKeyException) {
+              isLicenseKeyValid = false;
+              pendingResult.error("Android license key error", licenceKeyException.getMessage(), null);
+          }
       }
-
-      MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);  
+      MicroblinkSDK.setIntentDataTransferMode(IntentDataTransferMode.PERSISTED_OPTIMISED);
+      return isLicenseKeyValid;
   }
 
   private void setLanguage(JSONObject jsonOverlaySettings) {

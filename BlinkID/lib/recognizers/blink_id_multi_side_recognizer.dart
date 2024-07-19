@@ -180,6 +180,12 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     ///The religion of the document owner.
     StringResult? religion;
     
+    ///The remarks on the residence permit.
+    StringResult? remarks;
+    
+    ///The residence permit type.
+    StringResult? residencePermitType;
+    
     ///The residential stauts of the document owner.
     StringResult? residentialStatus;
     
@@ -195,6 +201,9 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     
     ///The sponsor of the document owner.
     StringResult? sponsor;
+    
+    ///The visa type.
+    StringResult? visaType;
     
     BlinkIdMultiSideRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
@@ -306,6 +315,10 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         
         this.religion = nativeResult["religion"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["religion"])) : null;
         
+        this.remarks = nativeResult["remarks"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["remarks"])) : null;
+        
+        this.residencePermitType = nativeResult["residencePermitType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["residencePermitType"])) : null;
+        
         this.residentialStatus = nativeResult["residentialStatus"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["residentialStatus"])) : null;
         
         this.scanningFirstSideDone = nativeResult["scanningFirstSideDone"];
@@ -315,6 +328,8 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         this.signatureImage = nativeResult["signatureImage"];
         
         this.sponsor = nativeResult["sponsor"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sponsor"])) : null;
+        
+        this.visaType = nativeResult["visaType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["visaType"])) : null;
         
     }
 }
@@ -360,6 +375,10 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
     /// 
 
     StrictnessLevel blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    ///Get custom class rules.
+
+    List<CustomClassRules> customClassRules = [];
     
     ///Skip processing of the blurred frames.
     /// 

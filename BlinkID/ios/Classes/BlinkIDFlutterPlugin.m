@@ -59,8 +59,9 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
         NSDictionary *overlaySettingsDict = call.arguments[@"overlaySettings"];
         NSDictionary *licenseKeyDict = call.arguments[@"license"];
 
-        [self setLicenseKey:licenseKeyDict];
-        [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
+        if ([self setLicenseKey:licenseKeyDict]) {
+            [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
+        }
     }
     else if ([kScanWithDirectApiMethodName isEqualToString:call.method]) {
         NSDictionary *recognizerCollectionDict = call.arguments[@"recognizerCollection"];
@@ -68,15 +69,17 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
         self.backImageBase64String = call.arguments[@"backImage"];
         NSDictionary *licenseKeyDict = call.arguments[@"license"];
 
-        [self setLicenseKey:licenseKeyDict];
-        [self scanWithDirectApi:recognizerCollectionDict frontImageString:frontImageBase64String];
+        if ([self setLicenseKey:licenseKeyDict]) {
+            [self scanWithDirectApi:recognizerCollectionDict frontImageString:frontImageBase64String];
+        }
     }
     else {
         result(FlutterMethodNotImplemented);
     }
 }
 
-- (void)setLicenseKey:(NSDictionary *)licenseKeyDict {
+- (BOOL)setLicenseKey:(NSDictionary *)licenseKeyDict {
+    __block BOOL isLicenseKeyValid = YES;
     licenseKeyDict = [self sanitizeDictionary:licenseKeyDict];
 
     if ([licenseKeyDict objectForKey:@"showTrialLicenseWarning"] != nil) {
@@ -88,11 +91,17 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
     if ([licenseKeyDict objectForKey:@"licensee"] != nil) {
         NSString *licensee = [licenseKeyDict objectForKey:@"licensee"];
         [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense andLicensee:licensee errorCallback:^(MBLicenseError licenseError) {
+            self.result([FlutterError errorWithCode:@"" message:[self licenseErrorToString:licenseError] details:nil]);
+            isLicenseKeyValid = NO;
         }];
     } else {
         [[MBMicroblinkSDK sharedInstance] setLicenseKey:iosLicense errorCallback:^(MBLicenseError licenseError) {
+            self.result([FlutterError errorWithCode:@"" message:[self licenseErrorToString:licenseError] details:nil]);
+            isLicenseKeyValid = NO;
         }];
     }
+    
+    return isLicenseKeyValid;
 }
 
 -(void)setLanguage:(NSDictionary *)overlaySettingsDict {
@@ -248,6 +257,38 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
     self.result = nil;
     self.recognizerCollection = nil;
     self.recognizerRunner = nil;
+}
+
+- (NSString *)licenseErrorToString:(MBLicenseError)licenseError {
+    switch(licenseError) {
+        case MBLicenseErrorNetworkRequired:
+            return @"iOS license error: Network required";
+            break;
+        case MBLicenseErrorUnableToDoRemoteLicenceCheck:
+            return @"iOS license error: Unable to do remote licence check";
+            break;
+        case MBLicenseErrorLicenseIsLocked:
+            return @"iOS license error: License is locked";
+            break;
+        case MBLicenseErrorLicenseCheckFailed:
+            return @"iOS license error: License check failed";
+            break;
+        case MBLicenseErrorInvalidLicense:
+            return @"iOS license error: Invalid license";
+            break;
+        case MBLicenseErrorPermissionExpired:
+            return @"iOS license error: Permission expired";
+            break;
+        case MBLicenseErrorPayloadCorrupted:
+            return @"iOS license error: Payload corrupted";
+            break;
+        case MBLicenseErrorPayloadSignatureVerificationFailed:
+            return @"iOS license error: Payload signature verification failed";
+            break;
+        case MBLicenseErrorIncorrectTokenState:
+            return @"iOS license error: Incorrect token state";
+            break;
+    }
 }
 
 @end
