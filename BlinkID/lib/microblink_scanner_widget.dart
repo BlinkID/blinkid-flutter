@@ -73,7 +73,6 @@ class _MicroblinkScannerWidgetState extends State<MicroblinkScannerWidget> {
   }
 
   void _createChannel(int viewId) {
-    print('Creating channel for viewId: $viewId');
     channel = MethodChannel('com.microblink.blinkid.flutter/MicroblinkScannerWidget/$viewId')
       ..setMethodCallHandler((call) async {
         if (call.method == 'onScanDone') {

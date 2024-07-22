@@ -11,6 +11,7 @@ import com.microblink.blinkid.entities.recognizers.Recognizer
 import com.microblink.blinkid.entities.recognizers.RecognizerBundle
 import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers
 import com.microblink.blinkid.hardware.orientation.Orientation
+import com.microblink.blinkid.image.Image
 import com.microblink.blinkid.image.ImageBuilder
 import com.microblink.blinkid.intent.IntentDataTransferMode
 import com.microblink.blinkid.metadata.MetadataCallbacks
@@ -45,44 +46,44 @@ class MicroblinkScanner internal constructor(
         if (!isPaused && recognizerRunner.currentState == RecognizerRunner.State.READY) {
             imageProxy.image?.let {
                 val image = ImageBuilder.buildImageFromCamera2Image(it, Orientation.ORIENTATION_LANDSCAPE_RIGHT, null)
-                recognizerRunner.recognizeVideoImage(image, createScanResultListener(imageProxy))
+                recognizerRunner.recognizeVideoImage(image, createScanResultListener(image, imageProxy))
             }
         } else {
             imageProxy.close()
         }
     }
 
-    private fun createScanResultListener(imageProxy: ImageProxy): ScanResultListener {
+    private fun createScanResultListener(image: Image, imageProxy: ImageProxy): ScanResultListener {
         return object : ScanResultListener {
             override fun onScanningDone(recognitionSuccessType: RecognitionSuccessType) {
+                image.dispose()
+                imageProxy.close()
                 if (recognitionSuccessType == RecognitionSuccessType.UNSUCCESSFUL) {
-                    imageProxy.close()
                     return
                 }
 
-                val recognizers = recognizerBundle.recognizers.clone()
+                val recognizers = recognizerBundle.recognizers
                 recognizers.forEach { recognizer ->
-                    val resultState = recognizer.result.clone().resultState
+                    val resultState = recognizer.result.resultState
                     callbacks.onScanningDone(resultState)
-                    if(resultState == Recognizer.Result.State.Valid){
+                    if (resultState == Recognizer.Result.State.Valid) {
                         isPaused = true
-                        callbacks.onScanned(recognizers)
-                        imageProxy.close()
+                        callbacks.onScanned(recognizers.clone())
                         return
                     }
                 }
-
-                imageProxy.close()
             }
 
             override fun onUnrecoverableError(throwable: Throwable) {
+                image.dispose()
+                imageProxy.close()
                 callbacks.onError(throwable)
                 recognizerRunner.resetRecognitionState()
             }
         }
     }
 
-    fun resume(){
+    fun resume() {
         recognizerRunner.resetRecognitionState()
         isPaused = false
     }
