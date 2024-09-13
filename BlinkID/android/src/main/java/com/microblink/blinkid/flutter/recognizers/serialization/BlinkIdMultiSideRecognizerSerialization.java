@@ -13,11 +13,13 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
     public Recognizer<?> createRecognizer(JSONObject jsonObject) {
         com.microblink.blinkid.entities.recognizers.blinkid.generic.BlinkIdMultiSideRecognizer recognizer = new com.microblink.blinkid.entities.recognizers.blinkid.generic.BlinkIdMultiSideRecognizer();
         recognizer.setAdditionalAnonymization(BlinkIDSerializationUtils.deserializeClassAnonymizationSettings(jsonObject.optJSONArray("additionalAnonymization")));
+        recognizer.setAllowBarcodeScanOnly(jsonObject.optBoolean("allowBarcodeScanOnly", false));
         recognizer.setAllowUncertainFrontSideScan(jsonObject.optBoolean("allowUncertainFrontSideScan", false));
         recognizer.setAllowUnparsedMrzResults(jsonObject.optBoolean("allowUnparsedMrzResults", false));
         recognizer.setAllowUnverifiedMrzResults(jsonObject.optBoolean("allowUnverifiedMrzResults", true));
         recognizer.setAnonymizationMode(com.microblink.blinkid.entities.recognizers.blinkid.generic.AnonymizationMode.values()[jsonObject.optInt("anonymizationMode", 3)]);
         recognizer.setBlurStrictnessLevel(com.microblink.blinkid.entities.recognizers.blinkid.generic.imageanalysis.StrictnessLevel.values()[jsonObject.optInt("blurStrictnessLevel", 1)]);
+        recognizer.setCombineFrameResults(jsonObject.optBoolean("combineFrameResults", true));
         recognizer.setCustomClassRules(BlinkIDSerializationUtils.deserializeCustomClassRules(jsonObject.optJSONArray("customClassRules")));
         recognizer.setEnableBlurFilter(jsonObject.optBoolean("enableBlurFilter", true));
         recognizer.setEnableGlareFilter(jsonObject.optBoolean("enableGlareFilter", true));
@@ -57,6 +59,7 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
             jsonResult.put("backVizResult", BlinkIDSerializationUtils.serializeVizResult(result.getBackVizResult()));
             jsonResult.put("barcodeCameraFrame", SerializationUtils.encodeImageBase64(result.getBarcodeCameraFrame()));
             jsonResult.put("barcodeResult", BlinkIDSerializationUtils.serializeBarcodeResult(result.getBarcodeResult()));
+            jsonResult.put("barcodeStepUsed", result.isBarcodeStepUsed());
             jsonResult.put("bloodType", BlinkIDSerializationUtils.serializeStringResult(result.getBloodType()));
             jsonResult.put("classInfo", BlinkIDSerializationUtils.serializeClassInfo(result.getClassInfo()));
             jsonResult.put("dataMatch", BlinkIDSerializationUtils.serializeDataMatchResult(result.getDataMatch()));

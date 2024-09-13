@@ -179,15 +179,33 @@ enum FieldType {
     @JsonValue(41) ResidencePermitType,
 }
 
+/// Represents the type of the extracted image.
+enum ImageExtractionType {
+    /// Full document image.
+    @JsonValue(0) FullDocument,
+    /// Face image.
+    @JsonValue(1) Face,
+    /// Signature image.
+    @JsonValue(2) Signature
+}
+
+/// Represents additional info on processing.
+/// Information about missing fields, invalid characters, extra presented fields for each document field and image extraction failures can be obtained. 
 class AdditionalProcessingInfo {
+  /// List of fields that were expected on the document but were missing.
   List<FieldType>? missingMandatoryFields;
+  /// List of fields that contained characters which were not expected in that field.
   List<FieldType>? invalidCharacterFields;
+  /// List of fields that weren't expected on the document but were present.
   List<FieldType>? extraPresentFields;
+  /// List of failed image extractions.
+  List<ImageExtractionType>? imageExtractionFailures;
 
   AdditionalProcessingInfo(Map<String, dynamic> nativeAdditionalProcessingInfo) {
         this.missingMandatoryFields = List<FieldType>.from(nativeAdditionalProcessingInfo['missingMandatoryFields'].map ((v) => FieldType.values[v]));
         this.invalidCharacterFields = List<FieldType>.from(nativeAdditionalProcessingInfo['invalidCharacterFields'].map ((v) => FieldType.values[v]));
         this.extraPresentFields = List<FieldType>.from(nativeAdditionalProcessingInfo['extraPresentFields'].map ((v) => FieldType.values[v]));
+        this.imageExtractionFailures = List<ImageExtractionType>.from(nativeAdditionalProcessingInfo['imageExtractionFailures'].map ((v) => ImageExtractionType.values[v]));
     }
 }
 

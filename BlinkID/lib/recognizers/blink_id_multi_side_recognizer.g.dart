@@ -15,6 +15,7 @@ BlinkIdMultiSideRecognizer _$BlinkIdMultiSideRecognizerFromJson(
           .map((e) =>
               ClassAnonymizationSettings.fromJson(e as Map<String, dynamic>))
           .toList()
+      ..allowBarcodeScanOnly = json['allowBarcodeScanOnly'] as bool
       ..allowUncertainFrontSideScan =
           json['allowUncertainFrontSideScan'] as bool
       ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
@@ -23,6 +24,7 @@ BlinkIdMultiSideRecognizer _$BlinkIdMultiSideRecognizerFromJson(
           $enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
       ..blurStrictnessLevel =
           $enumDecode(_$StrictnessLevelEnumMap, json['blurStrictnessLevel'])
+      ..combineFrameResults = json['combineFrameResults'] as bool
       ..customClassRules = (json['customClassRules'] as List<dynamic>)
           .map((e) => CustomClassRules.fromJson(e as Map<String, dynamic>))
           .toList()
@@ -53,6 +55,7 @@ Map<String, dynamic> _$BlinkIdMultiSideRecognizerToJson(
     <String, dynamic>{
       'recognizerType': instance.recognizerType,
       'additionalAnonymization': instance.additionalAnonymization,
+      'allowBarcodeScanOnly': instance.allowBarcodeScanOnly,
       'allowUncertainFrontSideScan': instance.allowUncertainFrontSideScan,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,
       'allowUnverifiedMrzResults': instance.allowUnverifiedMrzResults,
@@ -60,6 +63,7 @@ Map<String, dynamic> _$BlinkIdMultiSideRecognizerToJson(
           _$AnonymizationModeEnumMap[instance.anonymizationMode]!,
       'blurStrictnessLevel':
           _$StrictnessLevelEnumMap[instance.blurStrictnessLevel]!,
+      'combineFrameResults': instance.combineFrameResults,
       'customClassRules': instance.customClassRules,
       'enableBlurFilter': instance.enableBlurFilter,
       'enableGlareFilter': instance.enableGlareFilter,
