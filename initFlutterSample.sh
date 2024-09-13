@@ -22,9 +22,6 @@ else
   echo "Using blinkid_flutter from flutter pub"
 fi
 
-#update sdk version to 2.12 to support null safety.
-sed -in 's/sdk: ">=[0-9.]*/sdk: ">=2.12.0/' pubspec.yaml
-
 flutter pub get
 
 # enter into android project folder
@@ -58,13 +55,11 @@ popd
 
 cp ../sample_files/main.dart lib/
 
-#update compile and target sdk versions to 31, add android:exported="true" to manifest
-sed -i '' 's#compileSdkVersion flutter.compileSdkVersion#compileSdkVersion 34#g' ./android/app/build.gradle
-sed -i '' 's#targetSdkVersion flutter.targetSdkVersion#targetSdkVersion 34#g' ./android/app/build.gradle
-sed -i '' 's#minSdkVersion flutter.minSdkVersion#minSdkVersion 21#g' ./android/app/build.gradle
-#sed -i '' 's#android:name=".MainActivity"#android:name=".MainActivity" android:exported="true"#g' ./android/app/src/main/AndroidManifest.xml
-
 echo ""
 echo "Go to Flutter project folder: cd $appName"
 echo "To run on Android type: flutter run"
-echo "To run on iOS: open $appName/ios/Runner.xcworkspace; set your development team and add Privacy - Camera Usage Description & Privacy - Photo Library Usage Description keys to Runner/Info.plist file and press run"
+echo "To run on iOS:
+1. Open $appName/ios/Runner.xcworkspace
+2. Set your development team
+3. Add Privacy - Camera Usage Description & Privacy - Photo Library Usage Description keys to Runner/Info.plist file
+4. Press run"
