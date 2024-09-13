@@ -45,6 +45,14 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     ///Defines the data extracted from the barcode.
     BarcodeResult? barcodeResult;
     
+    ///This member indicates whether the barcode scanning step was utilized during the
+    /// process.
+    /// If the barcode scanning step was executed: a parsable barcode image will be stored in the
+    /// `barcodeCameraFrame`.
+    /// If the barcode scanning step was not executed: a parsable barcode image will be stored in the
+    /// `fullDocumentImage`.
+    bool? barcodeStepUsed;
+    
     ///The blood type of the document owner.
     StringResult? bloodType;
     
@@ -231,6 +239,8 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         
         this.barcodeResult = nativeResult["barcodeResult"] != null ? BarcodeResult(Map<String, dynamic>.from(nativeResult["barcodeResult"])) : null;
         
+        this.barcodeStepUsed = nativeResult["barcodeStepUsed"];
+        
         this.bloodType = nativeResult["bloodType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["bloodType"])) : null;
         
         this.classInfo = nativeResult["classInfo"] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult["classInfo"])) : null;
@@ -343,6 +353,15 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
 
     List<ClassAnonymizationSettings> additionalAnonymization = [];
     
+    ///Allows barcode recognition to proceed even if the initial extraction fails.
+    /// This only works for still images - video feeds will ignore this setting.
+    /// If the barcode recognition is successful, the recognizer will still end in a valid state.
+    /// This setting is applicable only to photo frames. For multi-side recognizers, it is permitted only for the back side.
+    /// 
+    /// 
+
+    bool allowBarcodeScanOnly = false;
+    
     ///Proceed with scanning the back side even if the front side result is uncertain.
     /// This only works for still images - video feeds will ignore this setting.
     /// 
@@ -375,6 +394,14 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
     /// 
 
     StrictnessLevel blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    ///Enables the aggregation of data from multiple frames.
+    /// Disabling this setting will yield higher-quality captured images, but it may slow down the scanning process due to the additional effort required to find the optimal frame.
+    /// Enabling this setting will simplify the extraction process, but the extracted data will be aggregated from multiple frames instead of being sourced from a single frame.
+    /// 
+    /// 
+
+    bool combineFrameResults = true;
     
     ///Get custom class rules.
 
