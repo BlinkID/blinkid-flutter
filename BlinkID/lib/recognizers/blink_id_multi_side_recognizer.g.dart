@@ -22,12 +22,12 @@ BlinkIdMultiSideRecognizer _$BlinkIdMultiSideRecognizerFromJson(
       ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
       ..anonymizationMode =
           $enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
-      ..faceImageDpi = json['faceImageDpi'] as int
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
       ..maxAllowedMismatchesPerField =
-          json['maxAllowedMismatchesPerField'] as int
+          (json['maxAllowedMismatchesPerField'] as num).toInt()
       ..paddingEdge = (json['paddingEdge'] as num).toDouble()
       ..recognitionModeFilter = RecognitionModeFilter.fromJson(
           json['recognitionModeFilter'] as Map<String, dynamic>)
@@ -36,7 +36,7 @@ BlinkIdMultiSideRecognizer _$BlinkIdMultiSideRecognizerFromJson(
       ..returnSignatureImage = json['returnSignatureImage'] as bool
       ..saveCameraFrames = json['saveCameraFrames'] as bool
       ..scanCroppedDocumentImage = json['scanCroppedDocumentImage'] as bool
-      ..signatureImageDpi = json['signatureImageDpi'] as int
+      ..signatureImageDpi = (json['signatureImageDpi'] as num).toInt()
       ..skipUnsupportedBack = json['skipUnsupportedBack'] as bool
       ..validateResultCharacters = json['validateResultCharacters'] as bool;
 

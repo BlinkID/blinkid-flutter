@@ -182,7 +182,8 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
   String? signatureImage;
 
   BlinkIdMultiSideRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
+    this.nativeResult = nativeResult;
     this.additionalAddressInformation = nativeResult["additionalAddressInformation"] != null
         ? StringResult(Map<String, dynamic>.from(nativeResult["additionalAddressInformation"]))
         : null;

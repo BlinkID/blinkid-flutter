@@ -18,11 +18,13 @@ Map<String, dynamic> _$RecognizerToJson(Recognizer instance) =>
 RecognizerResult _$RecognizerResultFromJson(Map<String, dynamic> json) =>
     RecognizerResult(
       $enumDecode(_$RecognizerResultStateEnumMap, json['resultState']),
+      nativeResult: json['nativeResult'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$RecognizerResultToJson(RecognizerResult instance) =>
     <String, dynamic>{
       'resultState': _$RecognizerResultStateEnumMap[instance.resultState]!,
+      'nativeResult': instance.nativeResult,
     };
 
 const _$RecognizerResultStateEnumMap = {
@@ -40,7 +42,8 @@ RecognizerCollection _$RecognizerCollectionFromJson(
           .toList(),
     )
       ..allowMultipleResults = json['allowMultipleResults'] as bool
-      ..milisecondsBeforeTimeout = json['milisecondsBeforeTimeout'] as int;
+      ..milisecondsBeforeTimeout =
+          (json['milisecondsBeforeTimeout'] as num).toInt();
 
 Map<String, dynamic> _$RecognizerCollectionToJson(
         RecognizerCollection instance) =>

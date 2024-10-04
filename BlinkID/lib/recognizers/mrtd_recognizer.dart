@@ -14,7 +14,7 @@ class MrtdRecognizerResult extends RecognizerResult {
   MrzResult? mrzResult;
 
   MrtdRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.fullDocumentImage = nativeResult["fullDocumentImage"];
 
     this.mrzResult =

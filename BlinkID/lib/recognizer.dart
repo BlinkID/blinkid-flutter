@@ -53,12 +53,15 @@ enum RecognizerResultState {
 /// Recognizer result contains data extracted from the image.
 @JsonSerializable()
 class RecognizerResult {
-  RecognizerResult(this.resultState);
+  RecognizerResult(this.resultState, {this.nativeResult});
 
   factory RecognizerResult.fromJson(Map<String, dynamic> json) => _$RecognizerResultFromJson(json);
 
   /// State of the result. It is always one of the values represented by RecognizerResultState enum
   RecognizerResultState resultState;
+
+  Map<String, dynamic>? nativeResult;
+
   Map<String, dynamic> toJson() => _$RecognizerResultToJson(this);
 }
 

@@ -17,7 +17,7 @@ class VisaRecognizerResult extends RecognizerResult {
   MrzResult? mrzResult;
 
   VisaRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.faceImage = nativeResult["faceImage"];
 
     this.fullDocumentImage = nativeResult["fullDocumentImage"];

@@ -82,7 +82,7 @@ class UsdlRecognizerResult extends RecognizerResult {
   String? jurisdiction;
 
   UsdlRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.optionalElements = List<String>.from(nativeResult['optionalElements']);
 
     this.rawData = nativeResult['rawData'];

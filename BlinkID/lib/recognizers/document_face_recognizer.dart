@@ -20,7 +20,7 @@ class DocumentFaceRecognizerResult extends RecognizerResult {
   String? fullDocumentImage;
 
   DocumentFaceRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.documentLocation = nativeResult["documentLocation"] != null
         ? Quadrilateral.fromJson(Map<String, dynamic>.from(nativeResult["documentLocation"]))
         : null;

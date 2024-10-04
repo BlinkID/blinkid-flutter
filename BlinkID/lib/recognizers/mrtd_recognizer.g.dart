@@ -13,7 +13,7 @@ MrtdRecognizer _$MrtdRecognizerFromJson(Map<String, dynamic> json) =>
       ..allowUnparsedResults = json['allowUnparsedResults'] as bool
       ..allowUnverifiedResults = json['allowUnverifiedResults'] as bool
       ..detectGlare = json['detectGlare'] as bool
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
       ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool;

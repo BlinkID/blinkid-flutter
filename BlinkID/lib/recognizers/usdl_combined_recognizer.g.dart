@@ -10,14 +10,14 @@ UsdlCombinedRecognizer _$UsdlCombinedRecognizerFromJson(
         Map<String, dynamic> json) =>
     UsdlCombinedRecognizer()
       ..recognizerType = json['recognizerType'] as String
-      ..faceImageDpi = json['faceImageDpi'] as int
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..returnFaceImage = json['returnFaceImage'] as bool
       ..returnFullDocumentImage = json['returnFullDocumentImage'] as bool
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
       ..numStableDetectionsThreshold =
-          json['numStableDetectionsThreshold'] as int;
+          (json['numStableDetectionsThreshold'] as num).toInt();
 
 Map<String, dynamic> _$UsdlCombinedRecognizerToJson(
         UsdlCombinedRecognizer instance) =>

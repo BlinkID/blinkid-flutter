@@ -153,8 +153,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
   ///Defines the data extracted from the visual inspection zone
   VizResult? vizResult;
 
-  BlinkIdSingleSideRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+  BlinkIdSingleSideRecognizerResult(
+    Map<String, dynamic> nativeResult,
+  ) : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.additionalAddressInformation = nativeResult["additionalAddressInformation"] != null
         ? StringResult(Map<String, dynamic>.from(nativeResult["additionalAddressInformation"]))
         : null;

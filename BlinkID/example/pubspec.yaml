@@ -1,0 +1,25 @@
+name: sample
+description: "Microblink example app."
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.4 <4.0.0"
+
+dependencies:
+  blinkid_flutter:
+    path: ../
+  cupertino_icons: ^1.0.6
+  flutter:
+    sdk: flutter
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  mews_pedantic: ^0.31.1
+
+flutter:
+  uses-material-design: true

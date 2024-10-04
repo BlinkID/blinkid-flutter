@@ -134,7 +134,7 @@ class IdBarcodeRecognizerResult extends RecognizerResult {
   String? vehicleClass;
 
   IdBarcodeRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.additionalNameInformation = nativeResult["additionalNameInformation"];
 
     this.address = nativeResult["address"];

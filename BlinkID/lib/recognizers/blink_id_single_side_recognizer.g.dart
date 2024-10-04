@@ -20,8 +20,8 @@ BlinkIdSingleSideRecognizer _$BlinkIdSingleSideRecognizerFromJson(
       ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
       ..anonymizationMode =
           $enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
-      ..faceImageDpi = json['faceImageDpi'] as int
-      ..fullDocumentImageDpi = json['fullDocumentImageDpi'] as int
+      ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
+      ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
       ..paddingEdge = (json['paddingEdge'] as num).toDouble()
@@ -32,7 +32,7 @@ BlinkIdSingleSideRecognizer _$BlinkIdSingleSideRecognizerFromJson(
       ..returnSignatureImage = json['returnSignatureImage'] as bool
       ..saveCameraFrames = json['saveCameraFrames'] as bool
       ..scanCroppedDocumentImage = json['scanCroppedDocumentImage'] as bool
-      ..signatureImageDpi = json['signatureImageDpi'] as int
+      ..signatureImageDpi = (json['signatureImageDpi'] as num).toInt()
       ..validateResultCharacters = json['validateResultCharacters'] as bool;
 
 Map<String, dynamic> _$BlinkIdSingleSideRecognizerToJson(

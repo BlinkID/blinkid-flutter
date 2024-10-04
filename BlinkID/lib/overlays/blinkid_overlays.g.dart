@@ -56,9 +56,9 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..showOnboardingInfo = json['showOnboardingInfo'] as bool
       ..showIntroductionDialog = json['showIntroductionDialog'] as bool
       ..onboardingButtonTooltipDelay =
-          json['onboardingButtonTooltipDelay'] as int
+          (json['onboardingButtonTooltipDelay'] as num).toInt()
       ..backSideScanningTimeoutMilliseconds =
-          json['backSideScanningTimeoutMilliseconds'] as int
+          (json['backSideScanningTimeoutMilliseconds'] as num).toInt()
       ..scanBarcodeText = json['scanBarcodeText'] as String?
       ..errorDocumentTooCloseToEdge =
           json['errorDocumentTooCloseToEdge'] as String?;

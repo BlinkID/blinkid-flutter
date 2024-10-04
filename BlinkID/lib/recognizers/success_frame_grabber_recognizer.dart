@@ -12,7 +12,7 @@ class SuccessFrameGrabberRecognizerResult extends RecognizerResult {
   RecognizerResult slaveRecognizerResult;
 
   SuccessFrameGrabberRecognizerResult(Map<String, dynamic> nativeResult, this.slaveRecognizerResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     /// Camera frame at the time slave recognizer finished recognition
     this.successFrame = nativeResult['successFrame'];
   }

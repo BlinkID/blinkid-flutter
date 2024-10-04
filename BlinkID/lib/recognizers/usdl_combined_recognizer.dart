@@ -85,7 +85,7 @@ class UsdlCombinedRecognizerResult extends RecognizerResult {
   int? age;
 
   UsdlCombinedRecognizerResult(Map<String, dynamic> nativeResult)
-      : super(RecognizerResultState.values[nativeResult['resultState']]) {
+      : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.documentDataMatch = DataMatchState.values[nativeResult["documentDataMatch"]];
 
     this.faceImage = nativeResult['faceImage'];
