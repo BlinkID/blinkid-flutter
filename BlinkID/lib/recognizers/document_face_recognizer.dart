@@ -22,13 +22,13 @@ class DocumentFaceRecognizerResult extends RecognizerResult {
   DocumentFaceRecognizerResult(Map<String, dynamic> nativeResult)
       : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
     this.documentLocation = nativeResult["documentLocation"] != null
-        ? Quadrilateral.fromJson(Map<String, dynamic>.from(nativeResult["documentLocation"]))
+        ? Quadrilateral(Map<String, dynamic>.from(nativeResult["documentLocation"]))
         : null;
 
     this.faceImage = nativeResult["faceImage"];
 
     this.faceLocation = nativeResult["faceLocation"] != null
-        ? Quadrilateral.fromJson(Map<String, dynamic>.from(nativeResult["faceLocation"]))
+        ? Quadrilateral(Map<String, dynamic>.from(nativeResult["faceLocation"]))
         : null;
 
     this.fullDocumentImage = nativeResult["fullDocumentImage"];
@@ -89,10 +89,6 @@ class DocumentFaceRecognizer extends Recognizer {
   bool returnFullDocumentImage = false;
 
   DocumentFaceRecognizer() : super('DocumentFaceRecognizer');
-
-  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
-    return DocumentFaceRecognizerResult(nativeResult);
-  }
 
   factory DocumentFaceRecognizer.fromJson(Map<String, dynamic> json) => _$DocumentFaceRecognizerFromJson(json);
   Map<String, dynamic> toJson() => _$DocumentFaceRecognizerToJson(this);

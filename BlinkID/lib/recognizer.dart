@@ -6,8 +6,6 @@ export 'package:blinkid_flutter/recognizers/document_face_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/extensions/nationality_alpha_code_extension.dart';
 export 'package:blinkid_flutter/recognizers/id_barcode_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/mrtd_combined_recognizer.dart';
-export 'package:blinkid_flutter/recognizers/mrtd_recognizer.dart';
-export 'package:blinkid_flutter/recognizers/passport_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/success_frame_grabber_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/usdl_combined_recognizer.dart';
 export 'package:blinkid_flutter/recognizers/usdl_recognizer.dart';

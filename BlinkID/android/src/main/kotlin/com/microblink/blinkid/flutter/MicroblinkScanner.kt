@@ -13,6 +13,7 @@ import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers
 import com.microblink.blinkid.hardware.orientation.Orientation
 import com.microblink.blinkid.image.Image
 import com.microblink.blinkid.image.ImageBuilder
+import com.microblink.blinkid.image.InputImage
 import com.microblink.blinkid.intent.IntentDataTransferMode
 import com.microblink.blinkid.metadata.MetadataCallbacks
 import com.microblink.blinkid.metadata.detection.quad.DisplayableQuadDetection
@@ -45,7 +46,7 @@ class MicroblinkScanner internal constructor(
     override fun analyze(imageProxy: ImageProxy) {
         if (!isPaused && recognizerRunner.currentState == RecognizerRunner.State.READY) {
             imageProxy.image?.let {
-                val image = ImageBuilder.buildImageFromCamera2Image(it, Orientation.ORIENTATION_LANDSCAPE_RIGHT, null)
+                val image = ImageBuilder.buildInputImageFromCamera2Image(it, Orientation.ORIENTATION_LANDSCAPE_RIGHT, null)
                 recognizerRunner.recognizeVideoImage(image, createScanResultListener(image, imageProxy))
             }
         } else {
@@ -53,10 +54,9 @@ class MicroblinkScanner internal constructor(
         }
     }
 
-    private fun createScanResultListener(image: Image, imageProxy: ImageProxy): ScanResultListener {
+    private fun createScanResultListener(image: InputImage, imageProxy: ImageProxy): ScanResultListener {
         return object : ScanResultListener {
             override fun onScanningDone(recognitionSuccessType: RecognitionSuccessType) {
-                image.dispose()
                 imageProxy.close()
                 if (recognitionSuccessType == RecognitionSuccessType.UNSUCCESSFUL) {
                     return
@@ -75,7 +75,6 @@ class MicroblinkScanner internal constructor(
             }
 
             override fun onUnrecoverableError(throwable: Throwable) {
-                image.dispose()
                 imageProxy.close()
                 callbacks.onError(throwable)
                 recognizerRunner.resetRecognitionState()

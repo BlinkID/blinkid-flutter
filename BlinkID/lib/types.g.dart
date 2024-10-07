@@ -6,32 +6,6 @@ part of 'types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Point _$PointFromJson(Map<String, dynamic> json) => Point(
-      x: (json['x'] as num).toDouble(),
-      y: (json['y'] as num).toDouble(),
-    );
-
-Map<String, dynamic> _$PointToJson(Point instance) => <String, dynamic>{
-      'x': instance.x,
-      'y': instance.y,
-    };
-
-Quadrilateral _$QuadrilateralFromJson(Map<String, dynamic> json) =>
-    Quadrilateral(
-      upperLeft: Point.fromJson(json['upperLeft'] as Map<String, dynamic>),
-      upperRight: Point.fromJson(json['upperRight'] as Map<String, dynamic>),
-      lowerLeft: Point.fromJson(json['lowerLeft'] as Map<String, dynamic>),
-      lowerRight: Point.fromJson(json['lowerRight'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$QuadrilateralToJson(Quadrilateral instance) =>
-    <String, dynamic>{
-      'upperLeft': instance.upperLeft.toJson(),
-      'upperRight': instance.upperRight.toJson(),
-      'lowerLeft': instance.lowerLeft.toJson(),
-      'lowerRight': instance.lowerRight.toJson(),
-    };
-
 RecognitionModeFilter _$RecognitionModeFilterFromJson(
         Map<String, dynamic> json) =>
     RecognitionModeFilter()
@@ -62,7 +36,13 @@ ClassAnonymizationSettings _$ClassAnonymizationSettingsFromJson(
       ..type = $enumDecodeNullable(_$TypeEnumMap, json['type'])
       ..fields = (json['fields'] as List<dynamic>)
           .map((e) => $enumDecode(_$FieldTypeEnumMap, e))
-          .toList();
+          .toList()
+      ..documentNumberAnonymizationSettings =
+          json['documentNumberAnonymizationSettings'] == null
+              ? null
+              : DocumentNumberAnonymizationSettings.fromJson(
+                  json['documentNumberAnonymizationSettings']
+                      as Map<String, dynamic>);
 
 Map<String, dynamic> _$ClassAnonymizationSettingsToJson(
         ClassAnonymizationSettings instance) =>
@@ -71,6 +51,8 @@ Map<String, dynamic> _$ClassAnonymizationSettingsToJson(
       'region': _$RegionEnumMap[instance.region],
       'type': _$TypeEnumMap[instance.type],
       'fields': instance.fields.map((e) => _$FieldTypeEnumMap[e]!).toList(),
+      'documentNumberAnonymizationSettings':
+          instance.documentNumberAnonymizationSettings?.toJson(),
     };
 
 const _$CountryEnumMap = {
@@ -465,6 +447,13 @@ const _$RegionEnumMap = {
   Region.Parana: 129,
   Region.Pernambuco: 130,
   Region.SantaCatarina: 131,
+  Region.AndhraPradesh: 132,
+  Region.Ceara: 133,
+  Region.Goias: 134,
+  Region.GuerreroAcapulcoDeJuarez: 135,
+  Region.Haryana: 136,
+  Region.Sergipe: 137,
+  Region.Alagos: 138,
 };
 
 const _$TypeEnumMap = {
@@ -530,6 +519,15 @@ const _$TypeEnumMap = {
   Type.ImmigrantVisa: 59,
   Type.ConsularVoterId: 60,
   Type.TwicCard: 61,
+  Type.ExitEntryPermit: 62,
+  Type.MainlandTravelPermitTaiwan: 63,
+  Type.NbiClearance: 64,
+  Type.ProofOfRegistration: 65,
+  Type.TemporaryProtectionPermit: 66,
+  Type.AfghanCitizenCard: 67,
+  Type.EId: 68,
+  Type.Pass: 69,
+  Type.SisId: 70,
 };
 
 const _$FieldTypeEnumMap = {
@@ -571,6 +569,60 @@ const _$FieldTypeEnumMap = {
   FieldType.VehicleClass: 35,
   FieldType.BloodType: 36,
   FieldType.Sponsor: 37,
+  FieldType.VisaType: 38,
+  FieldType.DocumentSubtype: 39,
+  FieldType.Remarks: 40,
+  FieldType.ResidencePermitType: 41,
+};
+
+DocumentNumberAnonymizationSettings
+    _$DocumentNumberAnonymizationSettingsFromJson(Map<String, dynamic> json) =>
+        DocumentNumberAnonymizationSettings()
+          ..prefixDigitsVisible = (json['prefixDigitsVisible'] as num?)?.toInt()
+          ..suffixDigitsVisible =
+              (json['suffixDigitsVisible'] as num?)?.toInt();
+
+Map<String, dynamic> _$DocumentNumberAnonymizationSettingsToJson(
+        DocumentNumberAnonymizationSettings instance) =>
+    <String, dynamic>{
+      'prefixDigitsVisible': instance.prefixDigitsVisible,
+      'suffixDigitsVisible': instance.suffixDigitsVisible,
+    };
+
+CustomClassRules _$CustomClassRulesFromJson(Map<String, dynamic> json) =>
+    CustomClassRules()
+      ..country = $enumDecodeNullable(_$CountryEnumMap, json['country'])
+      ..region = $enumDecodeNullable(_$RegionEnumMap, json['region'])
+      ..type = $enumDecodeNullable(_$TypeEnumMap, json['type'])
+      ..detailedFieldTypes = (json['detailedFieldTypes'] as List<dynamic>)
+          .map((e) => DetailedFieldType.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$CustomClassRulesToJson(CustomClassRules instance) =>
+    <String, dynamic>{
+      'country': _$CountryEnumMap[instance.country],
+      'region': _$RegionEnumMap[instance.region],
+      'type': _$TypeEnumMap[instance.type],
+      'detailedFieldTypes':
+          instance.detailedFieldTypes.map((e) => e.toJson()).toList(),
+    };
+
+DetailedFieldType _$DetailedFieldTypeFromJson(Map<String, dynamic> json) =>
+    DetailedFieldType()
+      ..fieldType = $enumDecodeNullable(_$FieldTypeEnumMap, json['fieldType'])
+      ..alphabetType =
+          $enumDecodeNullable(_$AlphabetTypeEnumMap, json['alphabetType']);
+
+Map<String, dynamic> _$DetailedFieldTypeToJson(DetailedFieldType instance) =>
+    <String, dynamic>{
+      'fieldType': _$FieldTypeEnumMap[instance.fieldType],
+      'alphabetType': _$AlphabetTypeEnumMap[instance.alphabetType],
+    };
+
+const _$AlphabetTypeEnumMap = {
+  AlphabetType.Latin: 0,
+  AlphabetType.Arabic: 1,
+  AlphabetType.Cyrillic: 2,
 };
 
 ImageExtensionFactors _$ImageExtensionFactorsFromJson(
@@ -589,30 +641,3 @@ Map<String, dynamic> _$ImageExtensionFactorsToJson(
       'downFactor': instance.downFactor,
       'leftFactor': instance.leftFactor,
     };
-
-DetectionUpdate _$DetectionUpdateFromJson(Map<String, dynamic> json) =>
-    DetectionUpdate(
-      $enumDecode(_$DetectionStatusEnumMap, json['detectionStatus']),
-      json['displayLocation'] == null
-          ? null
-          : Quadrilateral.fromJson(
-              json['displayLocation'] as Map<String, dynamic>),
-    );
-
-Map<String, dynamic> _$DetectionUpdateToJson(DetectionUpdate instance) =>
-    <String, dynamic>{
-      'detectionStatus': _$DetectionStatusEnumMap[instance.detectionStatus]!,
-      'displayLocation': instance.displayLocation?.toJson(),
-    };
-
-const _$DetectionStatusEnumMap = {
-  DetectionStatus.Failed: 'FAILED',
-  DetectionStatus.Success: 'SUCCESS',
-  DetectionStatus.CameraTooFar: 'CAMERA_TOO_FAR',
-  DetectionStatus.FallbackSuccess: 'FALLBACK_SUCCESS',
-  DetectionStatus.DocumentPartiallyVisible: 'DOCUMENT_PARTIALLY_VISIBLE',
-  DetectionStatus.CameraAngleTooSteep: 'CAMERA_ANGLE_TOO_STEEP',
-  DetectionStatus.CameraTooClose: 'CAMERA_TOO_CLOSE',
-  DetectionStatus.DocumentTooCloseToCameraEdge:
-      'DOCUMENT_TOO_CLOSE_TO_CAMERA_EDGE',
-};

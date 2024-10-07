@@ -1,0 +1,35 @@
+PODS:
+  - blinkid_flutter (6.10.0):
+    - Flutter
+    - PPBlinkID (~> 6.10.1)
+  - Flutter (1.0.0)
+  - permission_handler_apple (9.3.0):
+    - Flutter
+  - PPBlinkID (6.10.1)
+
+DEPENDENCIES:
+  - blinkid_flutter (from `.symlinks/plugins/blinkid_flutter/ios`)
+  - Flutter (from `Flutter`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+
+SPEC REPOS:
+  trunk:
+    - PPBlinkID
+
+EXTERNAL SOURCES:
+  blinkid_flutter:
+    :path: ".symlinks/plugins/blinkid_flutter/ios"
+  Flutter:
+    :path: Flutter
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
+
+SPEC CHECKSUMS:
+  blinkid_flutter: 157ea419b667b8944dc6fd30f631cb12dadbb4f7
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
+  PPBlinkID: 1d84a5d5dba294523bbc40a1081553a33427ded5
+
+PODFILE CHECKSUM: cab4c98598edf1f6efb97b20c1a490c4b33ed9fd
+
+COCOAPODS: 1.15.2

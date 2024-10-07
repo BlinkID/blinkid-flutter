@@ -30,7 +30,8 @@ class MrtdCombinedRecognizerResult extends RecognizerResult {
 
   MrtdCombinedRecognizerResult(Map<String, dynamic> nativeResult)
       : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
-    this.documentDataMatch = DataMatchState.values[nativeResult["documentDataMatch"]];
+    this.documentDataMatch =
+        nativeResult["documentDataMatch"] != null ? DataMatchState.values[nativeResult["documentDataMatch"]] : null;
 
     this.faceImage = nativeResult["faceImage"];
 
@@ -118,10 +119,6 @@ class MrtdCombinedRecognizer extends Recognizer {
   bool returnFullDocumentImage = false;
 
   MrtdCombinedRecognizer() : super('MrtdCombinedRecognizer');
-
-  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
-    return MrtdCombinedRecognizerResult(nativeResult);
-  }
 
   factory MrtdCombinedRecognizer.fromJson(Map<String, dynamic> json) => _$MrtdCombinedRecognizerFromJson(json);
   Map<String, dynamic> toJson() => _$MrtdCombinedRecognizerToJson(this);

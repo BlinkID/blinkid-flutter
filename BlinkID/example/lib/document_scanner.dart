@@ -8,13 +8,19 @@ typedef ScanResult = List<RecognizerResult>;
 extension ScanDocumentExtension on BuildContext {
   Future<ScanResult?> scanDocument() => _isPermissionGranted().then(
         (isGranted) => isGranted
-            ? showDialog(
-                context: this,
-                builder: (_) => const _DocumentScannerDialog(),
+            ? Navigator.push(
+                this,
+                MaterialPageRoute<ScanResult>(
+                  fullscreenDialog: true,
+                  builder: (BuildContext context) => const _DocumentScannerDialog(),
+                ),
               )
             : () {
                 ScaffoldMessenger.of(this).showSnackBar(
-                  const SnackBar(content: Text('Permission to use Camera is required.')),
+                  const SnackBar(
+                    content: Text('Permission to use Camera is required.'),
+                    action: SnackBarAction(label: 'Open App Settings', onPressed: openAppSettings),
+                  ),
                 );
               }(),
       );
@@ -49,44 +55,48 @@ class _DocumentScannerDialogState extends State<_DocumentScannerDialog> {
   }
 
   @override
-  Widget build(BuildContext context) => Dialog.fullscreen(
-        child: Scaffold(
-          body: Stack(
-            fit: StackFit.expand,
-            children: [
-              Positioned.fill(
-                child: ColoredBox(
-                  color: Colors.black,
-                  child: MicroblinkScannerWidget(
-                    collection: RecognizerCollection(<Recognizer>[
-                      BlinkIdMultiSideRecognizer()
-                        ..recognitionModeFilter = (RecognitionModeFilter()..enablePhotoId = false)
-                        ..skipUnsupportedBack = true
-                        ..anonymizationMode = AnonymizationMode.None,
-                    ]),
-                    onResult: (result) {
-                      if (_result != null) return Future.value(false);
-                      _result = result;
+  Widget build(BuildContext context) => Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Positioned.fill(
+              child: ColoredBox(
+                color: Colors.black,
+                child: MicroblinkScannerWidget(
+                  collection: RecognizerCollection(<Recognizer>[
+                    BlinkIdMultiSideRecognizer()
+                      ..recognitionModeFilter = (RecognitionModeFilter()..enablePhotoId = false)
+                      ..skipUnsupportedBack = true
+                      ..anonymizationMode = AnonymizationMode.None,
+                  ]),
+                  onResult: (result) {
+                    if (_result != null) return Future.value(false);
+                    _result = result;
 
-                      Navigator.of(context).pop(_result);
+                    Navigator.of(context).pop(_result);
 
-                      return Future.value(false);
-                    },
-                    onScanDone: (scanResultState) {},
-                    onError: print,
-                    licenseKey: Theme.of(context).platform.microblinkLicenseKey,
-                    onFirstSideScanned: () => _firstSideScannedNotifier.value = true,
-                    onDetectionUpdate: (update) => _detectionStatusNotifier.value = update.detectionStatus,
-                    settings: DocumentVerificationOverlaySettings()
-                      ..useFrontCamera = false
-                      ..flipFrontCamera = false,
-                  ),
+                    return Future.value(false);
+                  },
+                  onScanDone: (scanResultState) {},
+                  onError: print,
+                  licenseKey: Theme.of(context).platform.microblinkLicenseKey,
+                  onFirstSideScanned: () => _firstSideScannedNotifier.value = true,
+                  onDetectionUpdate: (update) => _detectionStatusNotifier.value = update.status,
+                  settings: DocumentVerificationOverlaySettings()
+                    ..useFrontCamera = false
+                    ..flipFrontCamera = false,
                 ),
               ),
-              Positioned(
-                left: 40,
-                right: 40,
-                top: 40,
+            ),
+            Positioned(
+              left: 40,
+              right: 40,
+              top: 40,
+              child: SafeArea(
+                left: true,
+                top: true,
+                bottom: false,
+                right: false,
                 child: Column(
                   children: [
                     ValueListenableBuilder(
@@ -113,8 +123,14 @@ class _DocumentScannerDialogState extends State<_DocumentScannerDialog> {
                   ],
                 ),
               ),
-              Align(
-                alignment: Alignment.topLeft,
+            ),
+            Align(
+              alignment: Alignment.topLeft,
+              child: SafeArea(
+                left: true,
+                top: true,
+                bottom: false,
+                right: false,
                 child: IconButton(
                   padding: const EdgeInsets.all(40),
                   icon: const Icon(
@@ -126,8 +142,8 @@ class _DocumentScannerDialogState extends State<_DocumentScannerDialog> {
                   onPressed: () => Navigator.of(context).pop(null),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       );
 }

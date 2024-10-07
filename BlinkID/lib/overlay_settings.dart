@@ -34,6 +34,5 @@ class OverlaySettings {
   OverlaySettings(this.overlaySettingsType);
 
   factory OverlaySettings.fromJson(Map<String, dynamic> json) => _$OverlaySettingsFromJson(json);
-
   Map<String, dynamic> toJson() => _$OverlaySettingsToJson(this);
 }

@@ -15,15 +15,25 @@ BlinkIdSingleSideRecognizer _$BlinkIdSingleSideRecognizerFromJson(
           .map((e) =>
               ClassAnonymizationSettings.fromJson(e as Map<String, dynamic>))
           .toList()
-      ..allowBlurFilter = json['allowBlurFilter'] as bool
+      ..allowBarcodeScanOnly = json['allowBarcodeScanOnly'] as bool
       ..allowUnparsedMrzResults = json['allowUnparsedMrzResults'] as bool
       ..allowUnverifiedMrzResults = json['allowUnverifiedMrzResults'] as bool
       ..anonymizationMode =
           $enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
+      ..blurStrictnessLevel =
+          $enumDecode(_$StrictnessLevelEnumMap, json['blurStrictnessLevel'])
+      ..combineFrameResults = json['combineFrameResults'] as bool
+      ..customClassRules = (json['customClassRules'] as List<dynamic>)
+          .map((e) => CustomClassRules.fromJson(e as Map<String, dynamic>))
+          .toList()
+      ..enableBlurFilter = json['enableBlurFilter'] as bool
+      ..enableGlareFilter = json['enableGlareFilter'] as bool
       ..faceImageDpi = (json['faceImageDpi'] as num).toInt()
       ..fullDocumentImageDpi = (json['fullDocumentImageDpi'] as num).toInt()
       ..fullDocumentImageExtensionFactors = ImageExtensionFactors.fromJson(
           json['fullDocumentImageExtensionFactors'] as Map<String, dynamic>)
+      ..glareStrictnessLevel =
+          $enumDecode(_$StrictnessLevelEnumMap, json['glareStrictnessLevel'])
       ..paddingEdge = (json['paddingEdge'] as num).toDouble()
       ..recognitionModeFilter = RecognitionModeFilter.fromJson(
           json['recognitionModeFilter'] as Map<String, dynamic>)
@@ -41,15 +51,24 @@ Map<String, dynamic> _$BlinkIdSingleSideRecognizerToJson(
       'recognizerType': instance.recognizerType,
       'additionalAnonymization':
           instance.additionalAnonymization.map((e) => e.toJson()).toList(),
-      'allowBlurFilter': instance.allowBlurFilter,
+      'allowBarcodeScanOnly': instance.allowBarcodeScanOnly,
       'allowUnparsedMrzResults': instance.allowUnparsedMrzResults,
       'allowUnverifiedMrzResults': instance.allowUnverifiedMrzResults,
       'anonymizationMode':
           _$AnonymizationModeEnumMap[instance.anonymizationMode]!,
+      'blurStrictnessLevel':
+          _$StrictnessLevelEnumMap[instance.blurStrictnessLevel]!,
+      'combineFrameResults': instance.combineFrameResults,
+      'customClassRules':
+          instance.customClassRules.map((e) => e.toJson()).toList(),
+      'enableBlurFilter': instance.enableBlurFilter,
+      'enableGlareFilter': instance.enableGlareFilter,
       'faceImageDpi': instance.faceImageDpi,
       'fullDocumentImageDpi': instance.fullDocumentImageDpi,
       'fullDocumentImageExtensionFactors':
           instance.fullDocumentImageExtensionFactors.toJson(),
+      'glareStrictnessLevel':
+          _$StrictnessLevelEnumMap[instance.glareStrictnessLevel]!,
       'paddingEdge': instance.paddingEdge,
       'recognitionModeFilter': instance.recognitionModeFilter.toJson(),
       'returnFaceImage': instance.returnFaceImage,
@@ -66,4 +85,10 @@ const _$AnonymizationModeEnumMap = {
   AnonymizationMode.ImageOnly: 1,
   AnonymizationMode.ResultFieldsOnly: 2,
   AnonymizationMode.FullResult: 3,
+};
+
+const _$StrictnessLevelEnumMap = {
+  StrictnessLevel.Strict: 0,
+  StrictnessLevel.Normal: 1,
+  StrictnessLevel.Relaxed: 2,
 };

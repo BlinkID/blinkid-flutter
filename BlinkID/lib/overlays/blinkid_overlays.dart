@@ -1,5 +1,7 @@
-import 'package:blinkid_flutter/overlay_settings.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../overlay_settings.dart';
+import '../types.dart';
 
 part 'blinkid_overlays.g.dart';
 
@@ -10,8 +12,6 @@ class DocumentOverlaySettings extends OverlaySettings {
   DocumentOverlaySettings() : super('DocumentOverlaySettings');
 
   factory DocumentOverlaySettings.fromJson(Map<String, dynamic> json) => _$DocumentOverlaySettingsFromJson(json);
-
-  @override
   Map<String, dynamic> toJson() => _$DocumentOverlaySettingsToJson(this);
 }
 
@@ -19,13 +19,6 @@ class DocumentOverlaySettings extends OverlaySettings {
 /// BlinkId overlay is best suited for recognizers that perform ID document scanning.
 @JsonSerializable()
 class BlinkIdOverlaySettings extends OverlaySettings {
-  BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
-
-  factory BlinkIdOverlaySettings.fromJson(Map<String, dynamic> json) => _$BlinkIdOverlaySettingsFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$BlinkIdOverlaySettingsToJson(this);
-
   /// String: message that is shown while scanning first side of the document.
   /// If null, default value will be used.
   String? firstSideInstructionsText;
@@ -117,20 +110,58 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Instructions for the user to move the document from the edge.
   /// If null, default value will be used.
   String? errorDocumentTooCloseToEdge;
+
+  /// (optional) if default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used
+  /// example: "en"
+  String? language;
+
+  /// (optional) to be used with language variable, it defines the country locale
+  /// example: "US" to use "en_US" on Android and en-US on iOS
+  String? country;
+
+  /// Defines whether torch button used for turning the flashlight on and off is shown on the screen during the scanning session.
+  ///
+  /// Default: true
+  bool showTorchButton = true;
+
+  /// Defines whether exit (cancel) button used for cancelling the scan is shown on the screen during the scanning session.
+  ///
+  /// Default: true
+  bool showCancelButton = true;
+
+  /// String: instructions for the user when blur has been detected on the document.
+  /// If null, default value will be used.
+  String? errorBlurDetected;
+
+  /// String: instructions for the user when glare has been detected on the document.
+  /// If null, default value will be used.
+  String? errorGlareDetected;
+
+  /// Defines possible Android device camera video resolution preset.
+  ///
+  /// Default: PresetDefault
+  AndroidCameraResolutionPreset androidCameraResolutionPreset = AndroidCameraResolutionPreset.PresetDefault;
+
+  /// Defines possible iOS device camera video resolution preset.
+  ///
+  /// Default: PresetOptimal
+  iOSCameraResolutionPreset iosCameraResolutionPreset = iOSCameraResolutionPreset.PresetOptimal;
+
+  /// Option to set whether legacy camera API should be used even on Lollipop devices that support newer Camera2 API.
+  /// WARNING: This setting should only be used if the new Camera2 API is not working on the device. This setting should not be applied on all devices.
+  /// Default: false
+  bool enableAndroidLegacyCameraApi = false;
+
+  BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
+
+  factory BlinkIdOverlaySettings.fromJson(Map<String, dynamic> json) => _$BlinkIdOverlaySettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$BlinkIdOverlaySettingsToJson(this);
 }
 
 /// Class for setting up document verification overlay.
 /// Document verification overlay is best suited for multi side recognizers - recognizer that perform scanning of both sides of ID documents.
 @JsonSerializable()
 class DocumentVerificationOverlaySettings extends OverlaySettings {
-  DocumentVerificationOverlaySettings() : super('DocumentVerificationOverlaySettings');
-
-  factory DocumentVerificationOverlaySettings.fromJson(Map<String, dynamic> json) =>
-      _$DocumentVerificationOverlaySettingsFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() => _$DocumentVerificationOverlaySettingsToJson(this);
-
   /// String: splash message that is shown before scanning the first side of the document, while starting camera.
   /// If null, default value will be used.
   String? firstSideSplashMessage;
@@ -156,4 +187,10 @@ class DocumentVerificationOverlaySettings extends OverlaySettings {
   /// String: glare message that is shown if glare was detected while scanning document.
   /// If null, default value will be used.
   String? glareMessage;
+
+  DocumentVerificationOverlaySettings() : super('DocumentVerificationOverlaySettings');
+
+  factory DocumentVerificationOverlaySettings.fromJson(Map<String, dynamic> json) =>
+      _$DocumentVerificationOverlaySettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$DocumentVerificationOverlaySettingsToJson(this);
 }

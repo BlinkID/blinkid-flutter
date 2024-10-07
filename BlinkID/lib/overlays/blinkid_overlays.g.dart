@@ -34,8 +34,6 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..useFrontCamera = json['useFrontCamera'] as bool
       ..enableBeep = json['enableBeep'] as bool
       ..flipFrontCamera = json['flipFrontCamera'] as bool
-      ..language = json['language'] as String?
-      ..country = json['country'] as String?
       ..firstSideInstructionsText = json['firstSideInstructionsText'] as String?
       ..flipInstructions = json['flipInstructions'] as String?
       ..errorMoveCloser = json['errorMoveCloser'] as String?
@@ -61,7 +59,20 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
           (json['backSideScanningTimeoutMilliseconds'] as num).toInt()
       ..scanBarcodeText = json['scanBarcodeText'] as String?
       ..errorDocumentTooCloseToEdge =
-          json['errorDocumentTooCloseToEdge'] as String?;
+          json['errorDocumentTooCloseToEdge'] as String?
+      ..language = json['language'] as String?
+      ..country = json['country'] as String?
+      ..showTorchButton = json['showTorchButton'] as bool
+      ..showCancelButton = json['showCancelButton'] as bool
+      ..errorBlurDetected = json['errorBlurDetected'] as String?
+      ..errorGlareDetected = json['errorGlareDetected'] as String?
+      ..androidCameraResolutionPreset = $enumDecode(
+          _$AndroidCameraResolutionPresetEnumMap,
+          json['androidCameraResolutionPreset'])
+      ..iosCameraResolutionPreset = $enumDecode(
+          _$iOSCameraResolutionPresetEnumMap, json['iosCameraResolutionPreset'])
+      ..enableAndroidLegacyCameraApi =
+          json['enableAndroidLegacyCameraApi'] as bool;
 
 Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
         BlinkIdOverlaySettings instance) =>
@@ -70,8 +81,6 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'useFrontCamera': instance.useFrontCamera,
       'enableBeep': instance.enableBeep,
       'flipFrontCamera': instance.flipFrontCamera,
-      'language': instance.language,
-      'country': instance.country,
       'firstSideInstructionsText': instance.firstSideInstructionsText,
       'flipInstructions': instance.flipInstructions,
       'errorMoveCloser': instance.errorMoveCloser,
@@ -94,7 +103,37 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
           instance.backSideScanningTimeoutMilliseconds,
       'scanBarcodeText': instance.scanBarcodeText,
       'errorDocumentTooCloseToEdge': instance.errorDocumentTooCloseToEdge,
+      'language': instance.language,
+      'country': instance.country,
+      'showTorchButton': instance.showTorchButton,
+      'showCancelButton': instance.showCancelButton,
+      'errorBlurDetected': instance.errorBlurDetected,
+      'errorGlareDetected': instance.errorGlareDetected,
+      'androidCameraResolutionPreset': _$AndroidCameraResolutionPresetEnumMap[
+          instance.androidCameraResolutionPreset]!,
+      'iosCameraResolutionPreset': _$iOSCameraResolutionPresetEnumMap[
+          instance.iosCameraResolutionPreset]!,
+      'enableAndroidLegacyCameraApi': instance.enableAndroidLegacyCameraApi,
     };
+
+const _$AndroidCameraResolutionPresetEnumMap = {
+  AndroidCameraResolutionPreset.PresetDefault: 0,
+  AndroidCameraResolutionPreset.Preset480p: 1,
+  AndroidCameraResolutionPreset.Preset720p: 2,
+  AndroidCameraResolutionPreset.Preset1080p: 3,
+  AndroidCameraResolutionPreset.Preset2160p: 4,
+  AndroidCameraResolutionPreset.PresetMaxAvailable: 5,
+};
+
+const _$iOSCameraResolutionPresetEnumMap = {
+  iOSCameraResolutionPreset.Preset480p: 0,
+  iOSCameraResolutionPreset.Preset720p: 1,
+  iOSCameraResolutionPreset.Preset1080p: 2,
+  iOSCameraResolutionPreset.Preset4K: 3,
+  iOSCameraResolutionPreset.PresetOptimal: 4,
+  iOSCameraResolutionPreset.PresetMax: 5,
+  iOSCameraResolutionPreset.PresetPhoto: 6,
+};
 
 DocumentVerificationOverlaySettings
     _$DocumentVerificationOverlaySettingsFromJson(Map<String, dynamic> json) =>

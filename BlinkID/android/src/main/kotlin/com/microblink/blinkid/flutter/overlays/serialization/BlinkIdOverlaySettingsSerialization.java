@@ -7,6 +7,10 @@ import com.microblink.blinkid.fragment.overlay.blinkid.reticleui.ReticleOverlayS
 import com.microblink.blinkid.uisettings.BlinkIdUISettings;
 import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerialization;
+import com.microblink.blinkid.flutter.SerializationUtils;
+import com.microblink.blinkid.locale.LanguageUtils;
+import com.microblink.blinkid.hardware.camera.VideoResolutionPreset;
+import com.microblink.blinkid.uisettings.CameraSettings;
 
 import org.json.JSONObject;
 
@@ -16,6 +20,7 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
         BlinkIdUISettings settings = new BlinkIdUISettings(recognizerBundle);
+
         OverlaySerializationUtils.extractCommonUISettings(jsonUISettings, settings);
 
         boolean requireDocumentSidesDataMatch = jsonUISettings.optBoolean("requireDocumentSidesDataMatch", true);
@@ -36,11 +41,26 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         boolean showIntroductionDialog = jsonUISettings.optBoolean("showIntroductionDialog", false);
         settings.setShowIntroductionDialog(showIntroductionDialog);
 
+        boolean showTorchButton = jsonUISettings.optBoolean("showTorchButton", true);
+        settings.setShowTorchButton(showTorchButton);
+
+        boolean showCancelButton = jsonUISettings.optBoolean("showCancelButton", true);
+        settings.setShowCancelButton(showCancelButton);
+
         long onboardingButtonTooltipDelay = jsonUISettings.optLong("onboardingButtonTooltipDelay", 1200);
         settings.setShowTooltipTimeIntervalMs(onboardingButtonTooltipDelay);
 
         long backSideScanningTimeoutMilliseconds = jsonUISettings.optLong("backSideScanningTimeoutMilliseconds", 17000);
         settings.setBackSideScanningTimeoutMs(backSideScanningTimeoutMilliseconds);
+
+        int videoResolutionPreset = jsonUISettings.optInt("androidCameraResolutionPreset", VideoResolutionPreset.VIDEO_RESOLUTION_DEFAULT.ordinal());
+
+        boolean androidLegacyCameraApi = jsonUISettings.optBoolean("enableAndroidLegacyCameraApi", false);
+
+        settings.setCameraSettings(new CameraSettings.Builder()
+                .setVideoResolutionPreset(VideoResolutionPreset.values()[videoResolutionPreset])
+                .setForceLegacyApi(androidLegacyCameraApi)
+                .build());
 
         ReticleOverlayStrings.Builder overlasStringsBuilder = new ReticleOverlayStrings.Builder(context);
 
@@ -95,6 +115,23 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         String errorDocumentTooCloseToEdge = getStringFromJSONObject(jsonUISettings, "errorDocumentTooCloseToEdge");
         if (errorDocumentTooCloseToEdge != null) {
             overlasStringsBuilder.setErrorDocumentTooCloseToEdge(errorDocumentTooCloseToEdge);
+        }
+        String errorBlurDetected = getStringFromJSONObject(jsonUISettings, "errorBlurDetected");
+        if (errorBlurDetected != null) {
+            overlasStringsBuilder.setErrorBlurDetected(errorBlurDetected);
+        }
+        String errorGlareDetected = getStringFromJSONObject(jsonUISettings, "errorGlareDetected");
+        if (errorGlareDetected != null) {
+            overlasStringsBuilder.setErrorGlareDetected(errorGlareDetected);
+        }
+        String language = getStringFromJSONObject(jsonUISettings, "language");
+        if (language != null) {
+            String country = getStringFromJSONObject(jsonUISettings, "country");
+            if (country != null) {
+                LanguageUtils.setLanguageAndCountry(language, country, context);
+            } else {
+                LanguageUtils.setLanguageAndCountry(language, "", context);
+            }
         }
 
         settings.setStrings(overlasStringsBuilder.build());

@@ -21,49 +21,55 @@ class Date {
 }
 
 /// Represents a point in image
-@JsonSerializable()
 class Point {
-  const Point({required this.x, required this.y});
-
   /// x coordinate of the point
-  final double x;
+  double? x;
 
   /// y coordinate of the point
-  final double y;
+  double? y;
 
-  factory Point.fromJson(Map<String, dynamic> json) => _$PointFromJson(json);
-
-  Map<String, dynamic> toJson() => _$PointToJson(this);
+  Point(Map<String, dynamic> nativePoint) {
+    this.x = nativePoint['x'] != null ? nativePoint['x'] * 1.0 : null;
+    this.y = nativePoint['y'] != null ? nativePoint['y'] * 1.0 : null;
+  }
 }
 
 /// Represents a quadrilateral location in the image
-@JsonSerializable()
 class Quadrilateral {
   /// upper left point of the quadrilateral
-  final Point upperLeft;
+  Point? upperLeft;
 
   /// upper right point of the quadrilateral
-  final Point upperRight;
+  Point? upperRight;
 
   /// lower left point of the quadrilateral
-  final Point lowerLeft;
+  Point? lowerLeft;
 
   /// lower right point of the quadrilateral
-  final Point lowerRight;
+  Point? lowerRight;
 
-  const Quadrilateral({
-    required this.upperLeft,
-    required this.upperRight,
-    required this.lowerLeft,
-    required this.lowerRight,
-  });
-
-  factory Quadrilateral.fromJson(Map<String, dynamic> json) => _$QuadrilateralFromJson(json);
-
-  Map<String, dynamic> toJson() => _$QuadrilateralToJson(this);
+  Quadrilateral(Map<String, dynamic> nativeQuad) {
+    this.upperLeft = Point(Map<String, dynamic>.from(nativeQuad['upperLeft']));
+    this.upperRight = Point(Map<String, dynamic>.from(nativeQuad['upperRight']));
+    this.lowerLeft = Point(Map<String, dynamic>.from(nativeQuad['lowerLeft']));
+    this.lowerRight = Point(Map<String, dynamic>.from(nativeQuad['lowerRight']));
+  }
 }
 
-enum AlphabetType { Latin, Arabic, Cyrillic }
+/// AlphabetType represents all of the alphabet types that BlinkID supports extracting.
+enum AlphabetType {
+  /// The Latin alphabet type
+  @JsonValue(0)
+  Latin,
+
+  /// The Arabic alphabet type
+  @JsonValue(1)
+  Arabic,
+
+  /// The Cyrillic alphabet type
+  @JsonValue(2)
+  Cyrillic
+}
 
 /// Represents rectangle location of each document field
 class Rectangle {
@@ -222,13 +228,46 @@ enum FieldType {
   @JsonValue(36)
   BloodType,
   @JsonValue(37)
-  Sponsor
+  Sponsor,
+  @JsonValue(38)
+  VisaType,
+  @JsonValue(39)
+  DocumentSubtype,
+  @JsonValue(40)
+  Remarks,
+  @JsonValue(41)
+  ResidencePermitType,
 }
 
+/// Represents the type of the extracted image.
+enum ImageExtractionType {
+  /// Full document image.
+  @JsonValue(0)
+  FullDocument,
+
+  /// Face image.
+  @JsonValue(1)
+  Face,
+
+  /// Signature image.
+  @JsonValue(2)
+  Signature
+}
+
+/// Represents additional info on processing.
+/// Information about missing fields, invalid characters, extra presented fields for each document field and image extraction failures can be obtained.
 class AdditionalProcessingInfo {
+  /// List of fields that were expected on the document but were missing.
   List<FieldType>? missingMandatoryFields;
+
+  /// List of fields that contained characters which were not expected in that field.
   List<FieldType>? invalidCharacterFields;
+
+  /// List of fields that weren't expected on the document but were present.
   List<FieldType>? extraPresentFields;
+
+  /// List of failed image extractions.
+  List<ImageExtractionType>? imageExtractionFailures;
 
   AdditionalProcessingInfo(Map<String, dynamic> nativeAdditionalProcessingInfo) {
     this.missingMandatoryFields =
@@ -237,6 +276,8 @@ class AdditionalProcessingInfo {
         List<FieldType>.from(nativeAdditionalProcessingInfo['invalidCharacterFields'].map((v) => FieldType.values[v]));
     this.extraPresentFields =
         List<FieldType>.from(nativeAdditionalProcessingInfo['extraPresentFields'].map((v) => FieldType.values[v]));
+    this.imageExtractionFailures = List<ImageExtractionType>.from(
+        nativeAdditionalProcessingInfo['imageExtractionFailures'].map((v) => ImageExtractionType.values[v]));
   }
 }
 
@@ -1280,6 +1321,33 @@ enum CardRotation {
   None
 }
 
+/// Defines possible card orientations
+enum CardOrientation {
+  /// Horizontal card orientation
+  Horizontal,
+
+  /// Vertical card orientation
+  Vertical,
+
+  /// Detection was not performed
+  NotAvailable
+}
+
+/// Defines possible strictness levels for blur are glare detection.
+enum StrictnessLevel {
+  /// The most strict level for blur are glare detection.
+  @JsonValue(0)
+  Strict,
+
+  /// The default strictness level for blur are glare detection.
+  @JsonValue(1)
+  Normal,
+
+  /// The least strict level for blur are glare detection.
+  @JsonValue(2)
+  Relaxed
+}
+
 /// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
 enum Country {
   @JsonValue(0)
@@ -2061,7 +2129,21 @@ enum Region {
   @JsonValue(130)
   Pernambuco,
   @JsonValue(131)
-  SantaCatarina
+  SantaCatarina,
+  @JsonValue(132)
+  AndhraPradesh,
+  @JsonValue(133)
+  Ceara,
+  @JsonValue(134)
+  Goias,
+  @JsonValue(135)
+  GuerreroAcapulcoDeJuarez,
+  @JsonValue(136)
+  Haryana,
+  @JsonValue(137)
+  Sergipe,
+  @JsonValue(138)
+  Alagos,
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
@@ -2189,7 +2271,25 @@ enum Type {
   @JsonValue(60)
   ConsularVoterId,
   @JsonValue(61)
-  TwicCard
+  TwicCard,
+  @JsonValue(62)
+  ExitEntryPermit,
+  @JsonValue(63)
+  MainlandTravelPermitTaiwan,
+  @JsonValue(64)
+  NbiClearance,
+  @JsonValue(65)
+  ProofOfRegistration,
+  @JsonValue(66)
+  TemporaryProtectionPermit,
+  @JsonValue(67)
+  AfghanCitizenCard,
+  @JsonValue(68)
+  EId,
+  @JsonValue(69)
+  Pass,
+  @JsonValue(70)
+  SisId,
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -2367,23 +2467,86 @@ class RecognitionModeFilter {
 }
 
 /// ClassAnonymizationSettings is used to anonymize specific documents and fields.
-/// It can be modified with countries, regions, document types and document fields.
-/// See Country, Region, Type and FieldType objects to get more information which fields can be anonymized.
+/// It can be modified with countries, regions, document types, document fields and the partial document number anonymization.
+/// See Country, Region, Type, FieldType and DocumentNumberAnonymizationSettings objects to get more information which settings can be anonymized.
 /// Setting is taken into account if AnonymizationMode is set to ImageOnly,ResultFieldsOnly or FullResult.
 @JsonSerializable()
 class ClassAnonymizationSettings {
+  /// Documents from the set country will be anonymized
   Country? country;
 
+  /// Documents from the set region will be anonymized
   Region? region;
 
+  /// Documents with this type will be anonymized
   Type? type;
 
+  /// Document fields that will be anonymized
   List<FieldType> fields = [];
+
+  /// Partial document number anonymization
+  DocumentNumberAnonymizationSettings? documentNumberAnonymizationSettings;
 
   ClassAnonymizationSettings();
 
   factory ClassAnonymizationSettings.fromJson(Map<String, dynamic> json) => _$ClassAnonymizationSettingsFromJson(json);
   Map<String, dynamic> toJson() => _$ClassAnonymizationSettingsToJson(this);
+}
+
+/// DocumentNumberAnonymizationSettings is implemented with ClassAnonymizationSettings class.
+/// It can partially anonymize the document number from the scanned document.
+@JsonSerializable()
+class DocumentNumberAnonymizationSettings {
+  /// Set how many digits will be visible at the beggining of the document number. */
+  int? prefixDigitsVisible = 0;
+
+  /// Set how many digits will be visible at the end of the document number. */
+  int? suffixDigitsVisible = 0;
+
+  DocumentNumberAnonymizationSettings();
+
+  factory DocumentNumberAnonymizationSettings.fromJson(Map<String, dynamic> json) =>
+      _$DocumentNumberAnonymizationSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$DocumentNumberAnonymizationSettingsToJson(this);
+}
+
+/// CustomClassRules represent custom rules of mandatory fields for each class of a document.
+/// Setting the fields in the CustomClassRules will make them mandatory.
+/// If CustomClassRules is not set, all of the default fields are mandatory.
+@JsonSerializable()
+class CustomClassRules {
+  /// Documents from the set country will be used with CustomClassRules
+  Country? country;
+
+  /// Documents from the set region will be used with CustomClassRules
+  Region? region;
+
+  /// Document type that will be used with CustomClassRules
+  Type? type;
+
+  /// An array of the document fields and alphabets that will be used with CustomClassRules. See DetailedFieldType for more information.
+  List<DetailedFieldType> detailedFieldTypes = [];
+
+  CustomClassRules();
+
+  factory CustomClassRules.fromJson(Map<String, dynamic> json) => _$CustomClassRulesFromJson(json);
+  Map<String, dynamic> toJson() => _$CustomClassRulesToJson(this);
+}
+
+/// DetailedFieldType represents a detailed field type used for custom mandatory fields.
+/// Used with CustomClassRules. A field type (see FieldType for all fields) along with Alphabet type (see AlphabetType for all alphabets) is required.
+@JsonSerializable()
+class DetailedFieldType {
+  /// Field type that will be mandatory for extraction for CustomClassRules.
+  FieldType? fieldType;
+
+  /// Alphabet type connected with the field type that will be optional for extraction for CustomClassRules. */
+  AlphabetType? alphabetType;
+
+  DetailedFieldType();
+
+  factory DetailedFieldType.fromJson(Map<String, dynamic> json) => _$DetailedFieldTypeFromJson(json);
+  Map<String, dynamic> toJson() => _$DetailedFieldTypeToJson(this);
 }
 
 /// Define level of anonymization performed on recognizer result
@@ -2453,7 +2616,10 @@ enum ProcessingStatus {
   AwaitingOtherSide,
 
   /// Side not scanned.
-  NotScanned
+  NotScanned,
+
+  /// Detection of the barcode failed.
+  BarcodeDetectionFailed
 }
 
 /// Define level of anonymization performed on recognizer result
@@ -2512,10 +2678,23 @@ class ImageAnalysisResult {
   /// TBarcode detection status determined from the scanned image.
   ImageAnalysisDetectionStatus? barcodeDetectionStatus;
 
+  /// The color status determined from scanned image.
   /// Document card rotation status determined from the scanned image.
   CardRotation? cardRotation;
+
+  /// Orientation determined from the scanned image.
+  CardOrientation? cardOrientation;
+
+  /// RealID detection status determined from the scanned image.
+  ImageAnalysisDetectionStatus? realIdDetectionStatus;
+
+  /// Indicates if blur was detected on the scanned image.
+  bool? blurDetected;
+
+  /// Indicates if glare was detected on the scanned image.
+  bool? glareDetected;
+
   ImageAnalysisResult(Map<String, dynamic> nativeImageAnalysisResult) {
-    this.blurred = nativeImageAnalysisResult['blurred'];
     this.documentImageColorStatus =
         DocumentImageColorStatus.values[nativeImageAnalysisResult['documentImageColorStatus']];
     this.documentImageMoireStatus =
@@ -2525,6 +2704,11 @@ class ImageAnalysisResult {
     this.barcodeDetectionStatus =
         ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['barcodeDetectionStatus']];
     this.cardRotation = CardRotation.values[nativeImageAnalysisResult['cardRotation']];
+    this.cardOrientation = CardOrientation.values[nativeImageAnalysisResult['cardOrientation']];
+    this.realIdDetectionStatus =
+        ImageAnalysisDetectionStatus.values[nativeImageAnalysisResult['realIdDetectionStatus']];
+    this.blurDetected = nativeImageAnalysisResult['blurDetected'];
+    this.glareDetected = nativeImageAnalysisResult['glareDetected'];
   }
 }
 
@@ -2837,40 +3021,60 @@ enum DataMatchState {
   Success
 }
 
-enum DetectionStatus {
-  @JsonValue('FAILED')
-  Failed,
+/// Defines possible Android device camera video resolution preset
+enum AndroidCameraResolutionPreset {
+  /// Will choose camera video resolution which is best for current device.
+  @JsonValue(0)
+  PresetDefault,
 
-  @JsonValue('SUCCESS')
-  Success,
+  /// Attempts to choose camera video resolution as closely as 480p.
+  @JsonValue(1)
+  Preset480p,
 
-  @JsonValue('CAMERA_TOO_FAR')
-  CameraTooFar,
+  /// Attempts to choose camera video resolution as closely as 720p.
+  @JsonValue(2)
+  Preset720p,
 
-  @JsonValue('FALLBACK_SUCCESS')
-  FallbackSuccess,
+  /// Attempts to choose camera video resolution as closely as 1080p.
+  @JsonValue(3)
+  Preset1080p,
 
-  @JsonValue('DOCUMENT_PARTIALLY_VISIBLE')
-  DocumentPartiallyVisible,
+  /// Attempts to choose camera video resolution as closely as 2160p.
+  @JsonValue(4)
+  Preset2160p,
 
-  @JsonValue('CAMERA_ANGLE_TOO_STEEP')
-  CameraAngleTooSteep,
-
-  @JsonValue('CAMERA_TOO_CLOSE')
-  CameraTooClose,
-
-  @JsonValue('DOCUMENT_TOO_CLOSE_TO_CAMERA_EDGE')
-  DocumentTooCloseToCameraEdge,
+  /// Will choose max available camera video resolution.
+  @JsonValue(5)
+  PresetMaxAvailable
 }
 
-@JsonSerializable()
-class DetectionUpdate {
-  final DetectionStatus detectionStatus;
-  final Quadrilateral? displayLocation;
+/// Define possible iOS device camera video resolution preset
+enum iOSCameraResolutionPreset {
+  /// 480p video will always be used.
+  @JsonValue(0)
+  Preset480p,
 
-  DetectionUpdate(this.detectionStatus, this.displayLocation);
+  /// 720p video will always be used.
+  @JsonValue(1)
+  Preset720p,
 
-  factory DetectionUpdate.fromJson(Map<String, dynamic> json) => _$DetectionUpdateFromJson(json);
+  /// 1080p video will always be used.
+  @JsonValue(2)
+  Preset1080p,
 
-  Map<String, dynamic> toJson() => _$DetectionUpdateToJson(this);
+  /// 4K video will always be used.
+  @JsonValue(3)
+  Preset4K,
+
+  /// The library will calculate optimal resolution based on the use case and device used.
+  @JsonValue(4)
+  PresetOptimal,
+
+  /// Device's maximal video resolution will be used.
+  @JsonValue(5)
+  PresetMax,
+
+  /// Device's photo preview resolution will be used.
+  @JsonValue(6)
+  PresetPhoto
 }

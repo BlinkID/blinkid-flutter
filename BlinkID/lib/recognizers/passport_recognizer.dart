@@ -77,10 +77,6 @@ class PassportRecognizer extends Recognizer {
 
   PassportRecognizer() : super('PassportRecognizer');
 
-  RecognizerResult createResultFromNative(Map<String, dynamic> nativeResult) {
-    return PassportRecognizerResult(nativeResult);
-  }
-
   factory PassportRecognizer.fromJson(Map<String, dynamic> json) => _$PassportRecognizerFromJson(json);
   Map<String, dynamic> toJson() => _$PassportRecognizerToJson(this);
 }

@@ -140,13 +140,8 @@ extension MicroblinkScannerView: CustomOverlayViewControllerDelegate {
         
         let detectionLocation = MBSerializationUtils.serializeMBQuadrangle(detection.detectionLocation)
         let data = try? JSONSerialization.data(withJSONObject: detectionLocation, options: .prettyPrinted)
-        let encodedDetectionLocation = data == nil ? nil : String(data: data!, encoding: .utf8)
         
-        guard let encodedDetectionLocation = encodedDetectionLocation else {
-            return
-        }
-        
-        self.channel.invokeMethod("onDetectionStatusUpdate", arguments: "{\"detectionStatus\": \"\(encodedStatus)\", \"displayLocation\": \(encodedDetectionLocation)}")
+        self.channel.invokeMethod("onDetectionStatusUpdate", arguments: "{\"status\": \"\(encodedStatus)\"}")
     }
 
     func onScanDone(_ state: MBRecognizerResultState) {

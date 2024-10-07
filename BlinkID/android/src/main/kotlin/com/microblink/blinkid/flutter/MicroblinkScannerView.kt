@@ -3,7 +3,6 @@ package com.microblink.blinkid.flutter
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
@@ -100,7 +99,7 @@ class MicroblinkScannerView(
 
         view.previewStreamState.observe(this) { state ->
             if (state == PreviewView.StreamState.STREAMING && creationParams.overlaySettings.flipFrontCamera) {
-                view.scaleX = -1F;
+                view.scaleX = -1F
             }
         }
 
@@ -113,24 +112,24 @@ class MicroblinkScannerView(
 
     override fun onResume(owner: LifecycleOwner) {
         super.onResume(owner)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
     override fun onPause(owner: LifecycleOwner) {
         super.onPause(owner)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
     }
 
     override fun onFlutterViewAttached(flutterView: View) {
         super.onFlutterViewAttached(flutterView)
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE);
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START);
-        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME);
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
+        lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
     override fun dispose() {
@@ -165,21 +164,20 @@ class MicroblinkScannerView(
         return UseCaseGroup.Builder()
             .addUseCase(previewUseCase)
             .addUseCase(imageAnalysisUseCase)
-            .build();
+            .build()
     }
 
 }
 
 internal class MicroblinkEventDispatcher(binaryMessenger: BinaryMessenger, id: Int) {
-    private val methodChannel: MethodChannel
+    private val methodChannel = MethodChannel(
+        binaryMessenger,
+        "com.microblink.blinkid.flutter/MicroblinkScannerWidget/$id"
+    )
     private val handler: Handler = Handler(Looper.getMainLooper())
     var resumeScanningHandler: () -> Unit = {}
 
     init {
-        methodChannel = MethodChannel(
-            binaryMessenger,
-            "com.microblink.blinkid.flutter/MicroblinkScannerWidget/$id"
-        )
         methodChannel.setMethodCallHandler { call, result ->
             when (call.method) {
                 "resumeScanning" -> {
@@ -194,11 +192,7 @@ internal class MicroblinkEventDispatcher(binaryMessenger: BinaryMessenger, id: I
 
     fun reportQuadDetection(displayableQuadDetection: DisplayableQuadDetection) {
         val jsonObject = JSONObject()
-            .put("detectionStatus", displayableQuadDetection.detectionStatus.name)
-            .put(
-                "displayLocation",
-                SerializationUtils.serializeQuad(displayableQuadDetection.transformedDisplayLocation)
-            )
+            .put("status", displayableQuadDetection.detectionStatus.name)
 
         sendToMethodChannel("onDetectionStatusUpdate", jsonObject.toString())
     }
@@ -226,7 +220,7 @@ internal class MicroblinkEventDispatcher(binaryMessenger: BinaryMessenger, id: I
 
     fun reportFinishedScanning(recognizers: Array<Recognizer<Recognizer.Result>>) {
         val resultJsonArray = RecognizerSerializers.INSTANCE.serializeRecognizerResults(recognizers)
-        sendToMethodChannel("onFinishScanning", resultJsonArray.toString());
+        sendToMethodChannel("onFinishScanning", resultJsonArray.toString())
     }
 
     fun reportError(throwable: Throwable) {

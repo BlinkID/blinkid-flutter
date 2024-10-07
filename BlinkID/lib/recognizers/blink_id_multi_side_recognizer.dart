@@ -45,6 +45,17 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
   ///Defines the data extracted from the barcode.
   BarcodeResult? barcodeResult;
 
+  ///This member indicates whether the barcode scanning step was utilized during the
+  /// process.
+  /// If the barcode scanning step was executed: a parsable barcode image will be stored in the
+  /// `barcodeCameraFrame`.
+  /// If the barcode scanning step was not executed: a parsable barcode image will be stored in the
+  /// `fullDocumentImage`.
+  bool? barcodeStepUsed;
+
+  ///The blood type of the document owner.
+  StringResult? bloodType;
+
   ///The classification information.
   ClassInfo? classInfo;
 
@@ -66,11 +77,20 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
   ///The additional number of the document.
   StringResult? documentAdditionalNumber;
 
+  ///Returns DataMatchStateSuccess if data from scanned parts/sides of the document match,
+  /// DataMatchStateFailed otherwise. For example if date of expiry is scanned from the front and back side
+  /// of the document and values do not match, this method will return DataMatchStateFailed. Result will
+  /// be DataMatchStateSuccess only if scanned values for all fields that are compared are the same.
+  DataMatchState? documentDataMatch;
+
   ///The document number.
   StringResult? documentNumber;
 
   ///The one more additional number of the document.
   StringResult? documentOptionalAdditionalNumber;
+
+  ///The transcription of the document subtype.
+  StringResult? documentSubtype;
 
   ///The driver license detailed info.
   DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
@@ -168,6 +188,12 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
   ///The religion of the document owner.
   StringResult? religion;
 
+  ///The remarks on the residence permit.
+  StringResult? remarks;
+
+  ///The residence permit type.
+  StringResult? residencePermitType;
+
   ///The residential stauts of the document owner.
   StringResult? residentialStatus;
 
@@ -181,9 +207,14 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
   ///image of the signature if enabled with returnSignatureImage property.
   String? signatureImage;
 
+  ///The sponsor of the document owner.
+  StringResult? sponsor;
+
+  ///The visa type.
+  StringResult? visaType;
+
   BlinkIdMultiSideRecognizerResult(Map<String, dynamic> nativeResult)
       : super(RecognizerResultState.values[nativeResult['resultState']], nativeResult: nativeResult) {
-    this.nativeResult = nativeResult;
     this.additionalAddressInformation = nativeResult["additionalAddressInformation"] != null
         ? StringResult(Map<String, dynamic>.from(nativeResult["additionalAddressInformation"]))
         : null;
@@ -223,6 +254,11 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         ? BarcodeResult(Map<String, dynamic>.from(nativeResult["barcodeResult"]))
         : null;
 
+    this.barcodeStepUsed = nativeResult["barcodeStepUsed"];
+
+    this.bloodType =
+        nativeResult["bloodType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["bloodType"])) : null;
+
     this.classInfo =
         nativeResult["classInfo"] != null ? ClassInfo(Map<String, dynamic>.from(nativeResult["classInfo"])) : null;
 
@@ -246,12 +282,19 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         ? StringResult(Map<String, dynamic>.from(nativeResult["documentAdditionalNumber"]))
         : null;
 
+    this.documentDataMatch =
+        nativeResult["documentDataMatch"] != null ? DataMatchState.values[nativeResult["documentDataMatch"]] : null;
+
     this.documentNumber = nativeResult["documentNumber"] != null
         ? StringResult(Map<String, dynamic>.from(nativeResult["documentNumber"]))
         : null;
 
     this.documentOptionalAdditionalNumber = nativeResult["documentOptionalAdditionalNumber"] != null
         ? StringResult(Map<String, dynamic>.from(nativeResult["documentOptionalAdditionalNumber"]))
+        : null;
+
+    this.documentSubtype = nativeResult["documentSubtype"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["documentSubtype"]))
         : null;
 
     this.driverLicenseDetailedInfo = nativeResult["driverLicenseDetailedInfo"] != null
@@ -269,7 +312,8 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
         ? Rectangle(Map<String, dynamic>.from(nativeResult["faceImageLocation"]))
         : null;
 
-    this.faceImageSide = DocumentSide.values[nativeResult["faceImageSide"]];
+    this.faceImageSide =
+        nativeResult["faceImageSide"] != null ? DocumentSide.values[nativeResult["faceImageSide"]] : null;
 
     this.fathersName = nativeResult["fathersName"] != null
         ? StringResult(Map<String, dynamic>.from(nativeResult["fathersName"]))
@@ -347,6 +391,13 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     this.religion =
         nativeResult["religion"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["religion"])) : null;
 
+    this.remarks =
+        nativeResult["remarks"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["remarks"])) : null;
+
+    this.residencePermitType = nativeResult["residencePermitType"] != null
+        ? StringResult(Map<String, dynamic>.from(nativeResult["residencePermitType"]))
+        : null;
+
     this.residentialStatus = nativeResult["residentialStatus"] != null
         ? StringResult(Map<String, dynamic>.from(nativeResult["residentialStatus"]))
         : null;
@@ -356,6 +407,12 @@ class BlinkIdMultiSideRecognizerResult extends RecognizerResult {
     this.sex = nativeResult["sex"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sex"])) : null;
 
     this.signatureImage = nativeResult["signatureImage"];
+
+    this.sponsor =
+        nativeResult["sponsor"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sponsor"])) : null;
+
+    this.visaType =
+        nativeResult["visaType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["visaType"])) : null;
   }
 }
 
@@ -366,11 +423,14 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
 
   List<ClassAnonymizationSettings> additionalAnonymization = [];
 
-  ///Defines whether blured frames filtering is allowed
+  ///Allows barcode recognition to proceed even if the initial extraction fails.
+  /// This only works for still images - video feeds will ignore this setting.
+  /// If the barcode recognition is successful, the recognizer will still end in a valid state.
+  /// This setting is applicable only to photo frames. For multi-side recognizers, it is permitted only for the back side.
   ///
   ///
 
-  bool allowBlurFilter = true;
+  bool allowBarcodeScanOnly = false;
 
   ///Proceed with scanning the back side even if the front side result is uncertain.
   /// This only works for still images - video feeds will ignore this setting.
@@ -399,6 +459,36 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
 
   AnonymizationMode anonymizationMode = AnonymizationMode.FullResult;
 
+  ///Strictness level for blur detection.
+  ///
+  ///
+
+  StrictnessLevel blurStrictnessLevel = StrictnessLevel.Normal;
+
+  ///Enables the aggregation of data from multiple frames.
+  /// Disabling this setting will yield higher-quality captured images, but it may slow down the scanning process due to the additional effort required to find the optimal frame.
+  /// Enabling this setting will simplify the extraction process, but the extracted data will be aggregated from multiple frames instead of being sourced from a single frame.
+  ///
+  ///
+
+  bool combineFrameResults = true;
+
+  ///Get custom class rules.
+
+  List<CustomClassRules> customClassRules = [];
+
+  ///Skip processing of the blurred frames.
+  ///
+  ///
+
+  bool enableBlurFilter = true;
+
+  ///Skip processing of the glared frames.
+  ///
+  ///
+
+  bool enableGlareFilter = true;
+
   ///Property for setting DPI for face images
   /// Valid ranges are [100,400]. Setting DPI out of valid ranges throws an exception
   ///
@@ -419,6 +509,12 @@ class BlinkIdMultiSideRecognizer extends Recognizer {
   ///
 
   ImageExtensionFactors fullDocumentImageExtensionFactors = ImageExtensionFactors();
+
+  ///Strictness level for glare detection.
+  ///
+  ///
+
+  StrictnessLevel glareStrictnessLevel = StrictnessLevel.Normal;
 
   ///Configure the number of characters per field that are allowed to be inconsistent in data match.
   ///

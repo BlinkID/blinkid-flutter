@@ -1,6 +1,7 @@
-import 'package:blinkid_flutter/recognizer.dart';
-import 'package:blinkid_flutter/types.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../recognizer.dart';
+import '../types.dart';
 
 part 'usdl_combined_recognizer.g.dart';
 
