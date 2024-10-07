@@ -21,6 +21,7 @@ import androidx.lifecycle.LifecycleRegistry
 import com.microblink.blinkid.entities.recognizers.Recognizer
 import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers
 import com.microblink.blinkid.metadata.detection.quad.DisplayableQuadDetection
+import com.microblink.blinkid.view.recognition.DetectionStatus
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.plugins.lifecycle.FlutterLifecycleAdapter
 import io.flutter.plugin.common.BinaryMessenger
@@ -57,6 +58,7 @@ class MicroblinkScannerView(
         get() = lifecycleRegistry
     private val activityLifecycle = FlutterLifecycleAdapter.getActivityLifecycle(activityPluginBinding)
         .also { it.addObserver(this) }
+    private var reportedDetectionStatus: DetectionStatus? = null
 
     init {
         scanner = MicroblinkScanner(context,
@@ -67,7 +69,11 @@ class MicroblinkScannerView(
                 }
 
                 override fun onDetectionStatusUpdated(displayableQuadDetection: DisplayableQuadDetection) {
-                    dispatcher.reportQuadDetection(displayableQuadDetection)
+                    // Don't overwhelm the platform channel with the same status.
+                    if (displayableQuadDetection.detectionStatus == reportedDetectionStatus) return
+                    
+                    reportedDetectionStatus = displayableQuadDetection.detectionStatus
+                    dispatcher.reportQuadDetection(displayableQuadDetection.detectionStatus)
                 }
 
                 override fun onScanningDone(state: Recognizer.Result.State) {
@@ -190,9 +196,9 @@ internal class MicroblinkEventDispatcher(binaryMessenger: BinaryMessenger, id: I
         }
     }
 
-    fun reportQuadDetection(displayableQuadDetection: DisplayableQuadDetection) {
+    fun reportQuadDetection(detectionStatus: DetectionStatus) {
         val jsonObject = JSONObject()
-            .put("status", displayableQuadDetection.detectionStatus.name)
+            .put("status", detectionStatus.name)
 
         sendToMethodChannel("onDetectionStatusUpdate", jsonObject.toString())
     }

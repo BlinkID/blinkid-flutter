@@ -2,7 +2,7 @@ package com.microblink.blinkid.flutter.overlays.serialization;
 
 import android.content.Context;
 
-import com.microblink.blinkid.entities.recognizers.RecognizerBundle;;
+import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
 import com.microblink.blinkid.uisettings.DocumentUISettings;
 import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerialization;
