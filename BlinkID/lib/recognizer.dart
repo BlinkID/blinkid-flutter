@@ -65,7 +65,7 @@ class RecognizerCollection {
 
   bool allowMultipleResults = false;
 
-  int milisecondsBeforeTimeout = 10000;
+  int milisecondsBeforeTimeout = 0;
 
   RecognizerCollection(this.recognizerArray);
 

@@ -77,6 +77,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The driver license detailed info.
     DriverLicenseDetailedInfo? driverLicenseDetailedInfo;
     
+    ///The manufacturing year..
+    StringResult? eligibilityCategory;
+    
     ///The employer of the document owner.
     StringResult? employer;
     
@@ -121,6 +124,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     
     ///The localized name of the document owner.
     StringResult? localizedName;
+    
+    ///The manufacturing year.
+    StringResult? manufacturingYear;
     
     ///The marital status of the document owner.
     StringResult? maritalStatus;
@@ -170,14 +176,23 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///image of the signature if enabled with returnSignatureImage property.
     String? signatureImage;
     
+    ///The specific document validity.
+    StringResult? specificDocumentValidity;
+    
     ///The sponsor of the document owner.
     StringResult? sponsor;
+    
+    ///The eligibility category.
+    StringResult? vehicleType;
     
     ///The visa type.
     StringResult? visaType;
     
     ///Defines the data extracted from the visual inspection zone
     VizResult? vizResult;
+    
+    ///The dependents info.
+    List<DependentInfo>? dependentsInfo;
     
     BlinkIdSingleSideRecognizerResult(Map<String, dynamic> nativeResult): super(RecognizerResultState.values[nativeResult['resultState']]) {
         
@@ -223,6 +238,8 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         
         this.driverLicenseDetailedInfo = nativeResult["driverLicenseDetailedInfo"] != null ? DriverLicenseDetailedInfo(Map<String, dynamic>.from(nativeResult["driverLicenseDetailedInfo"])) : null;
         
+        this.eligibilityCategory = nativeResult["eligibilityCategory"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["eligibilityCategory"])) : null;
+        
         this.employer = nativeResult["employer"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["employer"])) : null;
         
         this.expired = nativeResult["expired"];
@@ -248,6 +265,8 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         this.lastName = nativeResult["lastName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["lastName"])) : null;
         
         this.localizedName = nativeResult["localizedName"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["localizedName"])) : null;
+        
+        this.manufacturingYear = nativeResult["manufacturingYear"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["manufacturingYear"])) : null;
         
         this.maritalStatus = nativeResult["maritalStatus"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["maritalStatus"])) : null;
         
@@ -281,11 +300,17 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         
         this.signatureImage = nativeResult["signatureImage"];
         
+        this.specificDocumentValidity = nativeResult["specificDocumentValidity"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["specificDocumentValidity"])) : null;
+        
         this.sponsor = nativeResult["sponsor"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sponsor"])) : null;
+        
+        this.vehicleType = nativeResult["vehicleType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["vehicleType"])) : null;
         
         this.visaType = nativeResult["visaType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["visaType"])) : null;
         
         this.vizResult = nativeResult["vizResult"] != null ? VizResult(Map<String, dynamic>.from(nativeResult["vizResult"])) : null;
+        
+        this.dependentsInfo = nativeResult["dependentsInfo"] != null ? (nativeResult["dependentsInfo"] as List<dynamic>).map((item) => DependentInfo(Map<String, dynamic>.from(item))).toList(): null;
         
     }
 }

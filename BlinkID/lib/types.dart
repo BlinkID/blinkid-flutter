@@ -60,7 +60,9 @@ enum AlphabetType {
   /// The Arabic alphabet type
   @JsonValue(1) Arabic,
   /// The Cyrillic alphabet type
-  @JsonValue(2) Cyrillic
+  @JsonValue(2) Cyrillic,
+  /// The Greek alphabet type
+  @JsonValue(3) Greek
 }
 
 /// Represents rectangle location of each document field
@@ -88,11 +90,13 @@ class Location {
   Rectangle? latin;
   Rectangle? arabic;
   Rectangle? cyrillic;
+  Rectangle? greek;
 
   Location(Map<String, dynamic> nativeLocation) {
     this.latin = Rectangle(Map<String, dynamic>.from(nativeLocation['latin']));
     this.arabic = Rectangle(Map<String, dynamic>.from(nativeLocation['arabic']));
     this.cyrillic = Rectangle(Map<String, dynamic>.from(nativeLocation['cyrillic']));
+    this.greek = Rectangle(Map<String, dynamic>.from(nativeLocation['greek']));
     }
 }
 
@@ -101,11 +105,13 @@ class Side {
   DocumentSide? latin;
   DocumentSide? arabic;
   DocumentSide? cyrillic;
+  DocumentSide? greek;
 
   Side(Map<String, dynamic> nativeSide) {
     this.latin = DocumentSide.values[nativeSide['latin']];
     this.arabic = DocumentSide.values[nativeSide['arabic']];
     this.cyrillic = DocumentSide.values[nativeSide['cyrillic']];
+    this.greek = DocumentSide.values[nativeSide['greek']];
   }
 }
 
@@ -119,6 +125,8 @@ class StringResult {
     String? arabic;
     /// String for field in cyrillic alphabet
     String? cyrillic;
+    /// String for field in greek alphabet
+    String? greek;
     /// Document field location
     Location? location;
     /// Document field side
@@ -129,6 +137,7 @@ class StringResult {
         this.latin = nativeStringResult['latin'];
         this.arabic = nativeStringResult['arabic'];
         this.cyrillic = nativeStringResult['cyrillic'];
+        this.greek = nativeStringResult['greek'];
         this.location = nativeStringResult['location'] != null? Location(Map<String, dynamic>.from(nativeStringResult['location'])) : null;
         this.side = nativeStringResult['location'] != null? Side(Map<String, dynamic>.from(nativeStringResult['side'])) : null;
     }
@@ -177,6 +186,14 @@ enum FieldType {
     @JsonValue(39) DocumentSubtype,
     @JsonValue(40) Remarks,
     @JsonValue(41) ResidencePermitType,
+    @JsonValue(42) ManufacturingYear,
+    @JsonValue(43) VehicleType,
+    @JsonValue(44) DependentDateOfBirth,
+    @JsonValue(45) DependentSex,
+    @JsonValue(46) DependentDocumentNumber,
+    @JsonValue(47) DependentFullName,
+    @JsonValue(48) EligibilityCategory,
+    @JsonValue(49) SpecificDocumentValidity
 }
 
 /// Represents the type of the extracted image.
@@ -363,6 +380,28 @@ class VehicleClassInfo{
         this.expiryDate = nativeVehicleClassInfo['expiryDate'] != null ? DateResult(Map<String, dynamic>.from(nativeVehicleClassInfo['expiryDate'])) : null;
     }
 
+}
+
+/// Defines the dependents information
+class DependentInfo {
+  /// The date of birth of the dependent.
+  DateResult? dateOfBirth;
+  /// The sex or gender of the dependent.
+  StringResult? sex;
+  /// The document number of the dependent.
+  StringResult? documentNumber;
+  /// The full name of the dependent.
+  StringResult? fullName;
+  /// Checks if the dependent's information is empty.
+  bool? empty;
+
+     DependentInfo(Map<String, dynamic> nativeDependentInfo) {
+        this.dateOfBirth = nativeDependentInfo['dateOfBirth'] != null ? DateResult(Map<String, dynamic>.from(nativeDependentInfo['dateOfBirth'])) : null;
+        this.sex = createStringResult(nativeDependentInfo,'sex');
+        this.documentNumber = createStringResult(nativeDependentInfo,'documentNumber');
+        this.fullName = createStringResult(nativeDependentInfo,'fullName');
+        this.empty = nativeDependentInfo['empty'];
+    }
 }
 
 /// Represents the classification information.
@@ -1820,6 +1859,7 @@ enum Region {
     @JsonValue(136) Haryana,
     @JsonValue(137) Sergipe,
     @JsonValue(138) Alagos,
+    @JsonValue(139) Bangsamoro,
 }
 
 /// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
@@ -1895,6 +1935,12 @@ enum Type {
     @JsonValue(68) EId,
     @JsonValue(69) Pass,
     @JsonValue(70) SisId,
+    @JsonValue(71) AsicCard,
+    @JsonValue(72) BidoonCard,
+    @JsonValue(73) InterimHealthInsuranceCard,
+    @JsonValue(74) NonVoterId,
+    @JsonValue(75) ReciprocalHealthInsuranceCard,
+    @JsonValue(76) VehicleRegistration
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).

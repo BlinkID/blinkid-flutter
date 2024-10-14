@@ -60,11 +60,13 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
             jsonResult.put("dateOfExpiry", BlinkIDSerializationUtils.serializeDateResult(result.getDateOfExpiry()));
             jsonResult.put("dateOfExpiryPermanent", result.isDateOfExpiryPermanent());
             jsonResult.put("dateOfIssue", BlinkIDSerializationUtils.serializeDateResult(result.getDateOfIssue()));
+            jsonResult.put("dependentsInfo", BlinkIDSerializationUtils.serializeDependentInfo(result.getDependentsInfo()));
             jsonResult.put("documentAdditionalNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentAdditionalNumber()));
             jsonResult.put("documentNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentNumber()));
             jsonResult.put("documentOptionalAdditionalNumber", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentOptionalAdditionalNumber()));
             jsonResult.put("documentSubtype", BlinkIDSerializationUtils.serializeStringResult(result.getDocumentSubtype()));
             jsonResult.put("driverLicenseDetailedInfo", BlinkIDSerializationUtils.serializeDriverLicenseDetailedInfo(result.getDriverLicenseDetailedInfo()));
+            jsonResult.put("eligibilityCategory", BlinkIDSerializationUtils.serializeStringResult(result.getEligibilityCategory()));
             jsonResult.put("employer", BlinkIDSerializationUtils.serializeStringResult(result.getEmployer()));
             jsonResult.put("expired", result.isExpired());
             jsonResult.put("faceImage", SerializationUtils.encodeImageBase64(result.getFaceImage()));
@@ -78,6 +80,7 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
             jsonResult.put("issuingAuthority", BlinkIDSerializationUtils.serializeStringResult(result.getIssuingAuthority()));
             jsonResult.put("lastName", BlinkIDSerializationUtils.serializeStringResult(result.getLastName()));
             jsonResult.put("localizedName", BlinkIDSerializationUtils.serializeStringResult(result.getLocalizedName()));
+            jsonResult.put("manufacturingYear", BlinkIDSerializationUtils.serializeStringResult(result.getManufacturingYear()));
             jsonResult.put("maritalStatus", BlinkIDSerializationUtils.serializeStringResult(result.getMaritalStatus()));
             jsonResult.put("mothersName", BlinkIDSerializationUtils.serializeStringResult(result.getMothersName()));
             jsonResult.put("mrzResult", BlinkIDSerializationUtils.serializeMrzResult(result.getMrzResult()));
@@ -94,7 +97,9 @@ public final class BlinkIdSingleSideRecognizerSerialization implements Recognize
             jsonResult.put("residentialStatus", BlinkIDSerializationUtils.serializeStringResult(result.getResidentialStatus()));
             jsonResult.put("sex", BlinkIDSerializationUtils.serializeStringResult(result.getSex()));
             jsonResult.put("signatureImage", SerializationUtils.encodeImageBase64(result.getSignatureImage()));
+            jsonResult.put("specificDocumentValidity", BlinkIDSerializationUtils.serializeStringResult(result.getSpecificDocumentValidity()));
             jsonResult.put("sponsor", BlinkIDSerializationUtils.serializeStringResult(result.getSponsor()));
+            jsonResult.put("vehicleType", BlinkIDSerializationUtils.serializeStringResult(result.getVehicleType()));
             jsonResult.put("visaType", BlinkIDSerializationUtils.serializeStringResult(result.getVisaType()));
             jsonResult.put("vizResult", BlinkIDSerializationUtils.serializeVizResult(result.getVizResult()));
         } catch (JSONException e) {
