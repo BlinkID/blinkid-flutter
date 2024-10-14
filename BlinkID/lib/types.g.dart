@@ -454,6 +454,7 @@ const _$RegionEnumMap = {
   Region.Haryana: 136,
   Region.Sergipe: 137,
   Region.Alagos: 138,
+  Region.Bangsamoro: 139,
 };
 
 const _$TypeEnumMap = {
@@ -528,6 +529,12 @@ const _$TypeEnumMap = {
   Type.EId: 68,
   Type.Pass: 69,
   Type.SisId: 70,
+  Type.AsicCard: 71,
+  Type.BidoonCard: 72,
+  Type.InterimHealthInsuranceCard: 73,
+  Type.NonVoterId: 74,
+  Type.ReciprocalHealthInsuranceCard: 75,
+  Type.VehicleRegistration: 76,
 };
 
 const _$FieldTypeEnumMap = {
@@ -573,6 +580,14 @@ const _$FieldTypeEnumMap = {
   FieldType.DocumentSubtype: 39,
   FieldType.Remarks: 40,
   FieldType.ResidencePermitType: 41,
+  FieldType.ManufacturingYear: 42,
+  FieldType.VehicleType: 43,
+  FieldType.DependentDateOfBirth: 44,
+  FieldType.DependentSex: 45,
+  FieldType.DependentDocumentNumber: 46,
+  FieldType.DependentFullName: 47,
+  FieldType.EligibilityCategory: 48,
+  FieldType.SpecificDocumentValidity: 49,
 };
 
 DocumentNumberAnonymizationSettings
@@ -622,6 +637,7 @@ const _$AlphabetTypeEnumMap = {
   AlphabetType.Latin: 0,
   AlphabetType.Arabic: 1,
   AlphabetType.Cyrillic: 2,
+  AlphabetType.Greek: 3,
 };
 
 ImageExtensionFactors _$ImageExtensionFactorsFromJson(
