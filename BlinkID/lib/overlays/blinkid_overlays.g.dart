@@ -69,7 +69,18 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..iosCameraResolutionPreset = $enumDecode(
           _$iOSCameraResolutionPresetEnumMap, json['iosCameraResolutionPreset'])
       ..enableAndroidLegacyCameraApi =
-          json['enableAndroidLegacyCameraApi'] as bool;
+          json['enableAndroidLegacyCameraApi'] as bool
+      ..topPageInstructions = json['topPageInstructions'] as String?
+      ..leftPageInstructions = json['leftPageInstructions'] as String?
+      ..rightPageInstructions = json['rightPageInstructions'] as String?
+      ..turnTopPageInstructions = json['turnTopPageInstructions'] as String?
+      ..turnLeftPageInstructions = json['turnLeftPageInstructions'] as String?
+      ..turnRightPageInstructions = json['turnRightPageInstructions'] as String?
+      ..errorScanningWrongPageTop = json['errorScanningWrongPageTop'] as String?
+      ..errorScanningWrongPageLeft =
+          json['errorScanningWrongPageLeft'] as String?
+      ..errorScanningWrongPageRight =
+          json['errorScanningWrongPageRight'] as String?;
 
 Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
         BlinkIdOverlaySettings instance) =>
@@ -110,6 +121,15 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'iosCameraResolutionPreset': _$iOSCameraResolutionPresetEnumMap[
           instance.iosCameraResolutionPreset]!,
       'enableAndroidLegacyCameraApi': instance.enableAndroidLegacyCameraApi,
+      'topPageInstructions': instance.topPageInstructions,
+      'leftPageInstructions': instance.leftPageInstructions,
+      'rightPageInstructions': instance.rightPageInstructions,
+      'turnTopPageInstructions': instance.turnTopPageInstructions,
+      'turnLeftPageInstructions': instance.turnLeftPageInstructions,
+      'turnRightPageInstructions': instance.turnRightPageInstructions,
+      'errorScanningWrongPageTop': instance.errorScanningWrongPageTop,
+      'errorScanningWrongPageLeft': instance.errorScanningWrongPageLeft,
+      'errorScanningWrongPageRight': instance.errorScanningWrongPageRight,
     };
 
 const _$AndroidCameraResolutionPresetEnumMap = {

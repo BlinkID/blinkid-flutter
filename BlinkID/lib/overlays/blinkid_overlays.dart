@@ -152,6 +152,57 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Default: false
   bool enableAndroidLegacyCameraApi = false;
 
+  /// String: Instructions to scan the passport, shown when scanning of the first side is done, before
+  /// scanning the second side of the document.
+  /// 
+  /// If null, default value will be used.
+  String? topPageInstructions;
+
+  /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+  /// side of the document.
+  /// 
+  /// If null, default value will be used.
+  String? leftPageInstructions;
+
+  /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+  /// side of the document.
+  /// 
+  /// If null, default value will be used.
+  String? rightPageInstructions;
+
+  /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+  /// side of the document.
+  /// 
+  /// If null, default value will be used.
+  String? turnTopPageInstructions;
+
+  /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+  /// side of the document.
+  /// 
+  /// If null, default value will be used.
+  String? turnLeftPageInstructions;
+
+  /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
+  /// side of the document.
+  /// 
+  ///  If null, default value will be used.
+  String? turnRightPageInstructions;
+
+  /// String: Instructions for the user when wrong side of passport is being scanned.
+  ///
+  /// If null, default value will be used.
+  String? errorScanningWrongPageTop;
+
+  /// String: Instructions for the user when wrong side of passport is being scanned.
+  /// 
+  /// If null, default value will be used.
+  String? errorScanningWrongPageLeft;
+
+  /// String: Instructions for the user when wrong side of passport is being scanned.
+  /// 
+  /// If null, default value will be used.
+  String? errorScanningWrongPageRight;
+
   BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
 
   factory BlinkIdOverlaySettings.fromJson(Map<String, dynamic> json) =>
