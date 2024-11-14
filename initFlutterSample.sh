@@ -61,5 +61,5 @@ echo "To run on Android type: flutter run"
 echo "To run on iOS:
 1. Open $appName/ios/Runner.xcworkspace
 2. Set your development team
-3. Add Privacy - Camera Usage Description & Privacy - Photo Library Usage Description keys to Runner/Info.plist file
+3. Add the NSCameraUsageDescription & NSPhotoLibraryUsageDescription keys to the Runner/Info.plist file
 4. Press run"

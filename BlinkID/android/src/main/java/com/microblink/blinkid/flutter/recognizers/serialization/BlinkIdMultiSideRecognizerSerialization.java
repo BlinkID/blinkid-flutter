@@ -35,6 +35,7 @@ public final class BlinkIdMultiSideRecognizerSerialization implements Recognizer
         recognizer.setReturnSignatureImage(jsonObject.optBoolean("returnSignatureImage", false));
         recognizer.setSaveCameraFrames(jsonObject.optBoolean("saveCameraFrames", false));
         recognizer.setScanCroppedDocumentImage(jsonObject.optBoolean("scanCroppedDocumentImage", false));
+        recognizer.setScanPassportDataPageOnly(jsonObject.optBoolean("scanPassportDataPageOnly", true));
         recognizer.setSignatureImageDpi(jsonObject.optInt("signatureImageDpi", 250));
         recognizer.setSkipUnsupportedBack(jsonObject.optBoolean("skipUnsupportedBack", false));
         recognizer.setValidateResultCharacters(jsonObject.optBoolean("validateResultCharacters", true));

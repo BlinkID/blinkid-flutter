@@ -124,6 +124,43 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         if (errorGlareDetected != null) {
             overlasStringsBuilder.setErrorGlareDetected(errorGlareDetected);
         }
+        String topPageInstructions = getStringFromJSONObject(jsonUISettings, "topPageInstructions");
+        if (topPageInstructions != null) {
+            overlasStringsBuilder.setTopPageInstructions(topPageInstructions);
+        }
+        String leftPageInstructions = getStringFromJSONObject(jsonUISettings, "leftPageInstructions");
+        if (leftPageInstructions != null) {
+            overlasStringsBuilder.setLeftPageInstructions(leftPageInstructions);
+        }
+        String rightPageInstructions = getStringFromJSONObject(jsonUISettings, "rightPageInstructions");
+        if (rightPageInstructions != null) {
+            overlasStringsBuilder.setRightPageInstructions(rightPageInstructions);
+        }
+        String turnTopPageInstructions = getStringFromJSONObject(jsonUISettings, "turnTopPageInstructions");
+        if (turnTopPageInstructions != null) {
+            overlasStringsBuilder.setTurnTopPageInstructions(turnTopPageInstructions);
+        }
+        String turnLeftPageInstructions = getStringFromJSONObject(jsonUISettings, "turnLeftPageInstructions");
+        if (turnLeftPageInstructions != null) {
+            overlasStringsBuilder.setTurnLeftPageInstructions(turnLeftPageInstructions);
+        }
+        String turnRightPageInstructions = getStringFromJSONObject(jsonUISettings, "turnRightPageInstructions");
+        if (turnRightPageInstructions != null) {
+            overlasStringsBuilder.setTurnRightPageInstructions(turnRightPageInstructions);
+        }
+        String errorScanningWrongPageTop = getStringFromJSONObject(jsonUISettings, "errorScanningWrongPageTop");
+        if (errorScanningWrongPageTop != null) {
+            overlasStringsBuilder.setErrorScanningWrongPageTop(errorScanningWrongPageTop);
+        }
+        String errorScanningWrongPageLeft = getStringFromJSONObject(jsonUISettings, "errorScanningWrongPageLeft");
+        if (errorScanningWrongPageLeft != null) {
+            overlasStringsBuilder.setErrorScanningWrongPageLeft(errorScanningWrongPageLeft);
+        }
+        String errorScanningWrongPageRight = getStringFromJSONObject(jsonUISettings, "errorScanningWrongPageRight");
+        if (errorScanningWrongPageRight != null) {
+            overlasStringsBuilder.setErrorScanningWrongPageRight(errorScanningWrongPageRight);
+        }
+
         String language = getStringFromJSONObject(jsonUISettings, "language");
         if (language != null) {
             String country = getStringFromJSONObject(jsonUISettings, "country");

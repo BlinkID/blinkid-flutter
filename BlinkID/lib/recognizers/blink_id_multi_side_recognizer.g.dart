@@ -46,6 +46,7 @@ BlinkIdMultiSideRecognizer _$BlinkIdMultiSideRecognizerFromJson(
       ..returnSignatureImage = json['returnSignatureImage'] as bool
       ..saveCameraFrames = json['saveCameraFrames'] as bool
       ..scanCroppedDocumentImage = json['scanCroppedDocumentImage'] as bool
+      ..scanPassportDataPageOnly = json['scanPassportDataPageOnly'] as bool
       ..signatureImageDpi = (json['signatureImageDpi'] as num).toInt()
       ..skipUnsupportedBack = json['skipUnsupportedBack'] as bool
       ..validateResultCharacters = json['validateResultCharacters'] as bool;
@@ -81,6 +82,7 @@ Map<String, dynamic> _$BlinkIdMultiSideRecognizerToJson(
       'returnSignatureImage': instance.returnSignatureImage,
       'saveCameraFrames': instance.saveCameraFrames,
       'scanCroppedDocumentImage': instance.scanCroppedDocumentImage,
+      'scanPassportDataPageOnly': instance.scanPassportDataPageOnly,
       'signatureImageDpi': instance.signatureImageDpi,
       'skipUnsupportedBack': instance.skipUnsupportedBack,
       'validateResultCharacters': instance.validateResultCharacters,
