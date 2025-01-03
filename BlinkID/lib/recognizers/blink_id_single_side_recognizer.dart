@@ -182,6 +182,9 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
     ///The sponsor of the document owner.
     StringResult? sponsor;
     
+    ///The vehicle owner.
+    StringResult? vehicleOwner;
+    
     ///The eligibility category.
     StringResult? vehicleType;
     
@@ -304,6 +307,8 @@ class BlinkIdSingleSideRecognizerResult extends RecognizerResult {
         
         this.sponsor = nativeResult["sponsor"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["sponsor"])) : null;
         
+        this.vehicleOwner = nativeResult["vehicleOwner"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["vehicleOwner"])) : null;
+        
         this.vehicleType = nativeResult["vehicleType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["vehicleType"])) : null;
         
         this.visaType = nativeResult["visaType"] != null ? StringResult(Map<String, dynamic>.from(nativeResult["visaType"])) : null;
@@ -358,6 +363,10 @@ class BlinkIdSingleSideRecognizer extends Recognizer {
     /// 
 
     StrictnessLevel blurStrictnessLevel = StrictnessLevel.Normal;
+    
+    ///Sets the ClassFilter that can determine whether the document should be processed or filtered out.
+
+    ClassFilter classFilter = ClassFilter();
     
     ///Enables the aggregation of data from multiple frames.
     /// Disabling this setting will yield higher-quality captured images, but it may slow down the scanning process due to the additional effort required to find the optimal frame.

@@ -535,6 +535,7 @@ const _$TypeEnumMap = {
   Type.NonVoterId: 74,
   Type.ReciprocalHealthInsuranceCard: 75,
   Type.VehicleRegistration: 76,
+  Type.EsaadCard: 77,
 };
 
 const _$FieldTypeEnumMap = {
@@ -588,6 +589,7 @@ const _$FieldTypeEnumMap = {
   FieldType.DependentFullName: 47,
   FieldType.EligibilityCategory: 48,
   FieldType.SpecificDocumentValidity: 49,
+  FieldType.VehicleOwner: 50,
 };
 
 DocumentNumberAnonymizationSettings
@@ -639,6 +641,33 @@ const _$AlphabetTypeEnumMap = {
   AlphabetType.Cyrillic: 2,
   AlphabetType.Greek: 3,
 };
+
+ClassFilter _$ClassFilterFromJson(Map<String, dynamic> json) => ClassFilter()
+  ..includeClasses = (json['includeClasses'] as List<dynamic>?)
+      ?.map((e) => FilteredClass.fromJson(e as Map<String, dynamic>))
+      .toList()
+  ..excludeClasses = (json['excludeClasses'] as List<dynamic>?)
+      ?.map((e) => FilteredClass.fromJson(e as Map<String, dynamic>))
+      .toList();
+
+Map<String, dynamic> _$ClassFilterToJson(ClassFilter instance) =>
+    <String, dynamic>{
+      'includeClasses': instance.includeClasses,
+      'excludeClasses': instance.excludeClasses,
+    };
+
+FilteredClass _$FilteredClassFromJson(Map<String, dynamic> json) =>
+    FilteredClass()
+      ..country = $enumDecodeNullable(_$CountryEnumMap, json['country'])
+      ..region = $enumDecodeNullable(_$RegionEnumMap, json['region'])
+      ..type = $enumDecodeNullable(_$TypeEnumMap, json['type']);
+
+Map<String, dynamic> _$FilteredClassToJson(FilteredClass instance) =>
+    <String, dynamic>{
+      'country': _$CountryEnumMap[instance.country],
+      'region': _$RegionEnumMap[instance.region],
+      'type': _$TypeEnumMap[instance.type],
+    };
 
 ImageExtensionFactors _$ImageExtensionFactorsFromJson(
         Map<String, dynamic> json) =>

@@ -193,7 +193,8 @@ enum FieldType {
     @JsonValue(46) DependentDocumentNumber,
     @JsonValue(47) DependentFullName,
     @JsonValue(48) EligibilityCategory,
-    @JsonValue(49) SpecificDocumentValidity
+    @JsonValue(49) SpecificDocumentValidity,
+    @JsonValue(50) VehicleOwner
 }
 
 /// Represents the type of the extracted image.
@@ -1940,7 +1941,8 @@ enum Type {
     @JsonValue(73) InterimHealthInsuranceCard,
     @JsonValue(74) NonVoterId,
     @JsonValue(75) ReciprocalHealthInsuranceCard,
-    @JsonValue(76) VehicleRegistration
+    @JsonValue(76) VehicleRegistration,
+    @JsonValue(77) EsaadCard,
 }
 
 /// Represents data extracted from MRZ (Machine Readable Zone) of Machine Readable Travel Document (MRTD).
@@ -2178,6 +2180,87 @@ class DetailedFieldType {
 
     factory DetailedFieldType.fromJson(Map<String, dynamic> json) => _$DetailedFieldTypeFromJson(json);
     Map<String, dynamic> toJson() => _$DetailedFieldTypeToJson(this);
+}
+
+
+/// ClassFilter represents the document filter used to determine which documents will be processed.
+/// Document information (Country, Region, Type) is evaluated with the content set in the filter, and their inclusion or exclusion depends on the defined rules.
+/// 
+/// The recognition results of the excluded documents will not be returned.
+/// If using the standard BlinkID Overlay, an alert will be displayed that the document will not be scanned.
+/// 
+/// By default, the ClassFilter is turned off, and all documents will be included.
+@JsonSerializable()
+class ClassFilter {
+    /// Document classes that will be explicitly accepted by this filter.
+    /// Only documents belonging to the specified classes will be processed. All other documents will be rejected.
+    /// 
+    /// If this array is empty, no restrictions are applied, and documents will be accepted unless explicitly excluded by `excludedClasses`.
+    /// 
+    /// Example usage:
+    /// 
+    /// var includedClassOne = FilteredClass();
+    /// includedClassOne.country = Country.Croatia;
+    /// includedClassOne.type = Type.Id;
+    ///  
+    /// var includedClassTwo = FilteredClass();
+    /// includedClassTwo.region = Region.California;
+    /// 
+    /// var classFilter = ClassFilter();
+    /// classFilter.includeClasses = [includedClassOne, includedClassTwo];
+    /// 
+    /// NOTE: from the example above, the class filter is set to only accept Croatian IDs, and all documents from the California region.
+    /// All other documents will be rejected.
+    /// 
+    /// Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+    List<FilteredClass>? includeClasses;
+    /// Document classes that will be explicitly rejected by this filter.
+    /// Documents belonging to the specified classes will not be processed. Other documents, not included with `excludeClasses` will be accepted.
+    /// 
+    /// If this array is empty, no restrictions are applied, and documents will be excluded only if not present in `includeClasses`.
+    /// If a document class appears in both `includeClasses` and `excludeClasses`, it will be accepted, as `includeClasses` takes precedence.
+    ///  
+    /// Example usage:
+    /// 
+    /// var excludedClassOne = FilteredClass();
+    /// excludedClassOne.country = Country.Croatia;
+    /// excludedClassOne.type = Type.Id;
+    /// 
+    /// var excludedClassTwo = FilteredClass();
+    /// excludedClassTwo.region = Region.California;  
+    /// 
+    /// var classFilter = ClassFilter();
+    /// classFilter.excludeClasses = [excludedClassOne, excludedClassTwo];
+    ///  
+    /// NOTE: from the example above, the class filter is set to only reject Croatian IDs, and all documents from the California region.
+    /// All other classes will be accepted.
+    ///  
+    /// Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+    List<FilteredClass>? excludeClasses;
+  
+    ClassFilter();
+
+    factory ClassFilter.fromJson(Map<String, dynamic> json) => _$ClassFilterFromJson(json);
+    Map<String, dynamic> toJson() => _$ClassFilterToJson(this);
+}
+
+/// FilteredClass represents the document class that is added in the ClassFilter.
+/// By defining the rules of the ClassFilter, the entered class can be included or excluded from processing.
+/// 
+/// See the ClassFilter class for more detailed information.
+@JsonSerializable()
+class FilteredClass {
+    /// Document country which will be added in the filter
+    Country? country;
+    /// Document region which will be added in the filter
+    Region? region;
+    /// Document type which will be added in the filter
+    Type? type;
+
+    FilteredClass();
+
+    factory FilteredClass.fromJson(Map<String, dynamic> json) => _$FilteredClassFromJson(json);
+    Map<String, dynamic> toJson() => _$FilteredClassToJson(this);
 }
 
 /// Define level of anonymization performed on recognizer result
