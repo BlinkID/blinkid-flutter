@@ -34,8 +34,10 @@ import com.microblink.blinkid.entities.recognizers.blinkid.generic.DocumentNumbe
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.CustomClassRules;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.DetailedFieldType;
 import com.microblink.blinkid.entities.recognizers.blinkid.generic.DependentInfo;
+import com.microblink.blinkid.entities.recognizers.blinkid.generic.ClassFilter;
 
-
+import android.os.Parcel;
+import androidx.annotation.NonNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -443,6 +445,69 @@ public abstract class BlinkIDSerializationUtils {
             return customClassRulesArray;
         } else {
             return new CustomClassRules[]{};
+        }
+    }
+    
+    public static ClassFilter deserializeClassFilter(JSONObject jsonClassFilter) {
+        return new ClassFilter() {
+            @Override
+            public boolean classFilter(@NonNull ClassInfo classInfo) {
+                JSONArray jsonIncludeClasses = jsonClassFilter.optJSONArray("includeClasses");
+                JSONArray jsonExcludeClasses = jsonClassFilter.optJSONArray("excludeClasses");
+                boolean includeClass = false;
+                boolean excludeClass = true;
+
+                if (jsonIncludeClasses != null) {
+                    if (jsonIncludeClasses.length() > 0) {
+                        for (int x = 0; x < jsonIncludeClasses.length(); x++) {
+                            try {
+                                includeClass = includeClass || matchClassInfo(classInfo, jsonIncludeClasses.getJSONObject(x));
+                            } catch (JSONException e) {}
+                        }
+                    } else {
+                        includeClass = true;
+                    }
+                } else {
+                    includeClass = true;
+                }
+
+                if (jsonExcludeClasses != null) {
+                    for (int x = 0; x < jsonExcludeClasses.length(); x++) {
+                        try {
+                            excludeClass = excludeClass && !matchClassInfo(classInfo, jsonExcludeClasses.getJSONObject(x));
+                        } catch (JSONException e) {}
+                    }
+                }
+                return includeClass && excludeClass;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+
+            @Override
+            public void writeToParcel(@NonNull Parcel parcel, int i) {
+            }
+        };
+    }
+
+    // helper methods for ClassFilter
+    private static boolean matchClassInfo(ClassInfo classInfo, JSONObject jsonObject) {
+        Country country = getEnumValue(jsonObject, "country", Country.class);
+        Type type = getEnumValue(jsonObject, "type", Type.class);
+        Region region = getEnumValue(jsonObject, "region", Region.class);
+
+        return (country == null || classInfo.getCountry() == country) &&
+                (type == null || classInfo.getType() == type) &&
+                (region == null || classInfo.getRegion() == region);
+    }
+
+    private static <T extends Enum<T>> T getEnumValue(JSONObject jsonObject, String key, Class<T> enumType) {
+        try {
+            return enumType.getEnumConstants()[jsonObject.getInt(key)];
+        } catch (JSONException | IndexOutOfBoundsException e) {
+            return null;
         }
     }
 

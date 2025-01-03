@@ -22,6 +22,8 @@ BlinkIdSingleSideRecognizer _$BlinkIdSingleSideRecognizerFromJson(
           $enumDecode(_$AnonymizationModeEnumMap, json['anonymizationMode'])
       ..blurStrictnessLevel =
           $enumDecode(_$StrictnessLevelEnumMap, json['blurStrictnessLevel'])
+      ..classFilter =
+          ClassFilter.fromJson(json['classFilter'] as Map<String, dynamic>)
       ..combineFrameResults = json['combineFrameResults'] as bool
       ..customClassRules = (json['customClassRules'] as List<dynamic>)
           .map((e) => CustomClassRules.fromJson(e as Map<String, dynamic>))
@@ -57,6 +59,7 @@ Map<String, dynamic> _$BlinkIdSingleSideRecognizerToJson(
           _$AnonymizationModeEnumMap[instance.anonymizationMode]!,
       'blurStrictnessLevel':
           _$StrictnessLevelEnumMap[instance.blurStrictnessLevel]!,
+      'classFilter': instance.classFilter,
       'combineFrameResults': instance.combineFrameResults,
       'customClassRules': instance.customClassRules,
       'enableBlurFilter': instance.enableBlurFilter,

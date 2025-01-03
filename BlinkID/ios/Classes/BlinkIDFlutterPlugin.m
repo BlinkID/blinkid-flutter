@@ -4,12 +4,14 @@
 #import "MicroblinkModule/Recognizers/MBRecognizerSerializers.h"
 #import "MicroblinkModule/Overlays/MBOverlaySettingsSerializers.h"
 #import "MBSerializationUtils.h"
+#import "MBBlinkIDSerializationUtils.h"
 
-@interface BlinkIDFlutterPlugin () <MBOverlayViewControllerDelegate, MBScanningRecognizerRunnerDelegate, MBFirstSideFinishedRecognizerRunnerDelegate>
-
+@interface BlinkIDFlutterPlugin () <MBOverlayViewControllerDelegate, MBScanningRecognizerRunnerDelegate, MBFirstSideFinishedRecognizerRunnerDelegate, MBBlinkIdMultiSideRecognizerDelegate, MBBlinkIdSingleSideRecognizerDelegate>
 
 @property (nonatomic, strong) MBRecognizerCollection *recognizerCollection;
 @property (nonatomic, strong) MBRecognizerRunner *recognizerRunner;
+@property (nonatomic, strong) MBOverlayViewController *overlayVc;
+@property (nonatomic, strong) NSDictionary *recognizerCollectionDict;
 @property (nonatomic, strong) NSString *backImageBase64String;
 
 @property (nonatomic, strong) FlutterResult result;
@@ -55,22 +57,22 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
     self.result = result;
 
     if ([kScanWithCameraMethodName isEqualToString:call.method]) {
-        NSDictionary *recognizerCollectionDict = call.arguments[@"recognizerCollection"];
+        _recognizerCollectionDict = call.arguments[@"recognizerCollection"];
         NSDictionary *overlaySettingsDict = call.arguments[@"overlaySettings"];
         NSDictionary *licenseKeyDict = call.arguments[@"license"];
 
         if ([self setLicenseKey:licenseKeyDict]) {
-            [self scanWith:recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
+            [self scanWith:_recognizerCollectionDict overlaySettingsDict:overlaySettingsDict];
         }
     }
     else if ([kScanWithDirectApiMethodName isEqualToString:call.method]) {
-        NSDictionary *recognizerCollectionDict = call.arguments[@"recognizerCollection"];
+        _recognizerCollectionDict = call.arguments[@"recognizerCollection"];
         NSString *frontImageBase64String = call.arguments[@"frontImage"];
         self.backImageBase64String = call.arguments[@"backImage"];
         NSDictionary *licenseKeyDict = call.arguments[@"license"];
 
         if ([self setLicenseKey:licenseKeyDict]) {
-            [self scanWithDirectApi:recognizerCollectionDict frontImageString:frontImageBase64String];
+            [self scanWithDirectApi:_recognizerCollectionDict frontImageString:frontImageBase64String];
         }
     }
     else {
@@ -121,9 +123,18 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
     self.recognizerCollection = [[MBRecognizerSerializers sharedInstance] deserializeRecognizerCollection:recognizerCollectionDict];
     [self setLanguage:overlaySettingsDict];
     
-    MBOverlayViewController *overlayVC = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:overlaySettingsDict recognizerCollection:self.recognizerCollection delegate:self];
+    _overlayVc = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:overlaySettingsDict recognizerCollection:self.recognizerCollection delegate:self];
+    for (MBRecognizer *recognizer in self.recognizerCollection.recognizerList) {
+        if([recognizer isKindOfClass:[MBBlinkIdMultiSideRecognizer class]]) {
+            [(MBBlinkIdMultiSideRecognizer *)recognizer setDelegate:self];
+            break;
+        } else if ([recognizer isKindOfClass:[MBBlinkIdSingleSideRecognizer class]]) {
+            [(MBBlinkIdSingleSideRecognizer *)recognizer setDelegate:self];
+            break;
+        }
+    }
 
-    UIViewController<MBRecognizerRunnerViewController>* recognizerRunnerViewController = [MBViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:overlayVC];
+    UIViewController<MBRecognizerRunnerViewController>* recognizerRunnerViewController = [MBViewControllerFactory recognizerRunnerViewControllerWithOverlayViewController:_overlayVc];
 
     UIViewController *rootViewController = (UINavigationController *) UIApplication.sharedApplication.keyWindow.rootViewController;
 
@@ -165,6 +176,25 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
     self.recognizerCollection = nil;
     self.result(@"null");
     self.result = nil;
+}
+- (BOOL)multiSideClassInfoFilter:(nullable MBClassInfo *)classInfo {
+    return [MBBlinkIDSerializationUtils deserializeClassFilter:self.recognizerCollectionDict classInfo:classInfo];
+}
+
+- (void)onMultiSideDocumentSupportStatus:(BOOL)isDocumentSupported {
+    if([_overlayVc isKindOfClass:[MBBlinkIdOverlayViewController class]]) {
+        [(MBBlinkIdOverlayViewController *)_overlayVc onDocumentSupportStatus:isDocumentSupported];
+    }
+}
+
+- (BOOL)classInfoFilter:(MBClassInfo *)classInfo {
+    return [MBBlinkIDSerializationUtils deserializeClassFilter:self.recognizerCollectionDict classInfo:classInfo];
+}
+
+- (void)onDocumentSupportStatus:(BOOL)isDocumentSupported {
+    if([_overlayVc isKindOfClass:[MBBlinkIdOverlayViewController class]]) {
+        [(MBBlinkIdOverlayViewController *)_overlayVc onDocumentSupportStatus:isDocumentSupported];
+    }
 }
 
 //MARK: DirectAPI scanning
