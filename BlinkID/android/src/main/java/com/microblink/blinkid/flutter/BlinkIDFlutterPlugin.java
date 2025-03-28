@@ -18,18 +18,14 @@ import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import com.microblink.blinkid.MicroblinkSDK;
-import com.microblink.blinkid.entities.recognizers.Recognizer;
 import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
 import com.microblink.blinkid.intent.IntentDataTransferMode;
 import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.uisettings.ActivityRunner;
 import com.microblink.blinkid.locale.LanguageUtils;
-import com.microblink.blinkid.directApi.DirectApiErrorListener;
 import com.microblink.blinkid.directApi.RecognizerRunner;
-import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
 import com.microblink.blinkid.hardware.orientation.Orientation;
 import com.microblink.blinkid.metadata.MetadataCallbacks;
 import com.microblink.blinkid.metadata.recognition.FirstSideRecognitionCallback;
@@ -40,7 +36,6 @@ import com.microblink.blinkid.licence.exception.LicenceKeyException;
 import com.microblink.blinkid.flutter.recognizers.RecognizerSerializers;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerializers;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONArray;
 
@@ -71,14 +66,6 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
 
   private Result pendingResult;
 
-  // This static function is optional and equivalent to onAttachedToEngine. It supports the old
-  // pre-Flutter-1.12 Android projects.
-  public static void registerWith(Registrar registrar) {
-    final BlinkIDFlutterPlugin plugin = new BlinkIDFlutterPlugin();
-    plugin.setupPlugin(registrar.activity(), registrar.messenger());
-    registrar.addActivityResultListener(plugin);
-  }
-
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
       setupPlugin(
@@ -88,43 +75,43 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
   }
 
   private void setupPlugin(Context context, BinaryMessenger messenger) {
-    if (context != null) {
-      this.context = context;
-    }
+      if (context != null) {
+          this.context = context;
+      }
 
-    this.channel = new MethodChannel(messenger, CHANNEL);
-    this.channel.setMethodCallHandler(this);
+      this.channel = new MethodChannel(messenger, CHANNEL);
+      this.channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
 
-    if (call.method.equals(METHOD_SCAN_CAMERA)) {
-      pendingResult = result;
-      boolean isLicenseKeyValid = setLicense((Map)call.argument(ARG_LICENSE));
+      if (call.method.equals(METHOD_SCAN_CAMERA)) {
+          pendingResult = result;
+          boolean isLicenseKeyValid = setLicense((Map) call.argument(ARG_LICENSE));
 
-      JSONObject jsonOverlaySettings = new JSONObject((Map)call.argument(ARG_OVERLAY_SETTINGS));
-      JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
-      if (isLicenseKeyValid) {
-          setLanguage(jsonOverlaySettings);
-          mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-          UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
-          startScanning(SCAN_REQ_CODE, uiSettings);
+          JSONObject jsonOverlaySettings = new JSONObject((Map) call.argument(ARG_OVERLAY_SETTINGS));
+          JSONObject jsonRecognizerCollection = new JSONObject((Map) call.argument(ARG_RECOGNIZER_COLLECTION));
+          if (isLicenseKeyValid) {
+              setLanguage(jsonOverlaySettings);
+              mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
+              UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
+              startScanning(SCAN_REQ_CODE, uiSettings);
+          }
+      } else if (call.method.equals(METHOD_SCAN_DIRECT_API)) {
+          pendingResult = result;
+          boolean isLicenseKeyValid = setLicense((Map) call.argument(ARG_LICENSE));
+
+          JSONObject jsonRecognizerCollection = new JSONObject((Map) call.argument(ARG_RECOGNIZER_COLLECTION));
+          String frontImage = call.argument(ARG_FRONT_IMAGE);
+          String backImage = call.argument(ARG_BACK_IMAGE);
+          if (isLicenseKeyValid) {
+              scanWithDirectApi(jsonRecognizerCollection, frontImage, backImage);
+          }
+
+      } else {
+          result.notImplemented();
       }
-    } else if (call.method.equals(METHOD_SCAN_DIRECT_API)) {
-        pendingResult = result;
-        boolean isLicenseKeyValid = setLicense((Map)call.argument(ARG_LICENSE));
-
-        JSONObject jsonRecognizerCollection = new JSONObject((Map)call.argument(ARG_RECOGNIZER_COLLECTION));
-        String frontImage = call.argument(ARG_FRONT_IMAGE);
-        String backImage = call.argument(ARG_BACK_IMAGE);
-        if (isLicenseKeyValid) {
-            scanWithDirectApi(jsonRecognizerCollection, frontImage, backImage);
-        }
-
-    } else {
-      result.notImplemented();
-    }
   }
 
 
@@ -164,7 +151,8 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
           LanguageUtils.setLanguageAndCountry(jsonOverlaySettings.getString("language"),
                   jsonOverlaySettings.getString("country"),
                   context);
-      } catch (Exception e) {}
+      } catch (Exception e) {
+      }
   }
 
   private void startScanning(int requestCode, UISettings uiSettings) {
@@ -184,9 +172,10 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
               mFirstSideScanned = false;
               handleDirectApiResult(recognitionSuccessType);
           }
+
           @Override
           public void onUnrecoverableError(@NonNull Throwable throwable) {
-            handleDirectApiError(throwable.getMessage());
+              handleDirectApiError(throwable.getMessage());
           }
       };
 
@@ -209,7 +198,7 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
                   } else {
                       handleDirectApiError("Could not extract the information from the front side and back side is empty!");
                   }
-              } else if (!mFirstSideScanned && recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL){
+              } else if (!mFirstSideScanned && recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
                   //singleside recognizer used
                   handleDirectApiResult(recognitionSuccessType);
               } else {
@@ -217,9 +206,10 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
                   handleDirectApiError("Could not extract the information with DirectAPI!");
               }
           }
+
           @Override
           public void onUnrecoverableError(@NonNull Throwable throwable) {
-            handleDirectApiError(throwable.getMessage());
+              handleDirectApiError(throwable.getMessage());
           }
       };
 
@@ -232,7 +222,7 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
       }
   }
 
-    private void setupRecognizerRunner(JSONObject jsonRecognizerCollection, FirstSideRecognitionCallback mFirstSideRecognitionCallback) {
+  private void setupRecognizerRunner(JSONObject jsonRecognizerCollection, FirstSideRecognitionCallback mFirstSideRecognitionCallback) {
       if (mRecognizerRunner != null) {
           mRecognizerRunner.terminate();
       }
@@ -247,45 +237,47 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
       metadataCallbacks.setFirstSideRecognitionCallback(mFirstSideRecognitionCallback);
       mRecognizerRunner.setMetadataCallbacks(metadataCallbacks);
       mRecognizerRunner.initialize(context, mRecognizerBundle, throwable -> handleDirectApiError("Failed to initialize recognizer with DirectAPI: " + throwable.getMessage()));
-    }
+  }
 
-    private void processImage(String base64Image, ScanResultListener scanResultListener) {
-        Bitmap image = base64ToBitmap(base64Image);
-        if (image != null) {
-            mRecognizerRunner.recognizeBitmap(
-                    base64ToBitmap(base64Image),
-                    Orientation.ORIENTATION_LANDSCAPE_RIGHT,
-                    scanResultListener
-            );
-        } else {
-            handleDirectApiError("Could not decode the Base64 image!");
-        }
-    }
+  private void processImage(String base64Image, ScanResultListener scanResultListener) {
+      Bitmap image = base64ToBitmap(base64Image);
+      if (image != null) {
+          mRecognizerRunner.recognizeBitmap(
+                  base64ToBitmap(base64Image),
+                  Orientation.ORIENTATION_LANDSCAPE_RIGHT,
+                  scanResultListener
+          );
+      } else {
+          handleDirectApiError("Could not decode the Base64 image!");
+      }
+  }
 
-    private void handleDirectApiResult(RecognitionSuccessType recognitionSuccessType) {
-        if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
-            if (pendingResult == null) {
-                return;
-            }
-            JSONArray resultList = RecognizerSerializers.INSTANCE.serializeRecognizerResults(mRecognizerBundle.getRecognizers());
-            pendingResult.success(resultList.toString());
-        }
-        pendingResult = null;
-    }
-    private Bitmap base64ToBitmap(String base64String) {
-        byte[] decodedBytes = android.util.Base64.decode(base64String, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
+  private void handleDirectApiResult(RecognitionSuccessType recognitionSuccessType) {
+      if (recognitionSuccessType != RecognitionSuccessType.UNSUCCESSFUL) {
+          if (pendingResult == null) {
+              return;
+          }
+          JSONArray resultList = RecognizerSerializers.INSTANCE.serializeRecognizerResults(mRecognizerBundle.getRecognizers());
+          pendingResult.success(resultList.toString());
+      }
+      pendingResult = null;
+  }
 
-    private void handleDirectApiError(String errorMessage) {
-        pendingResult.error("", errorMessage, null);
-        if (mRecognizerRunner != null) {
-            mRecognizerRunner.resetRecognitionState(true);
-        }
-    }
+  private Bitmap base64ToBitmap(String base64String) {
+      byte[] decodedBytes = android.util.Base64.decode(base64String, Base64.DEFAULT);
+      return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+  }
+
+  private void handleDirectApiError(String errorMessage) {
+      pendingResult.error("", errorMessage, null);
+      if (mRecognizerRunner != null) {
+          mRecognizerRunner.resetRecognitionState(true);
+      }
+  }
 
   @Override
-  public void onDetachedFromActivity() {}
+  public void onDetachedFromActivity() {
+  }
 
   @Override
   public void onReattachedToActivityForConfigChanges(ActivityPluginBinding binding) {
@@ -299,15 +291,16 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
   }
 
   @Override
-  public void onDetachedFromActivityForConfigChanges() {}
+  public void onDetachedFromActivityForConfigChanges() {
+  }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    this.context = null;
-    this.activity = null;
+      this.context = null;
+      this.activity = null;
 
-    this.channel.setMethodCallHandler(null);
-    this.channel = null;
+      this.channel.setMethodCallHandler(null);
+      this.channel = null;
   }
 
 
@@ -316,9 +309,9 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
       if (pendingResult == null) {
           return true;
       }
-      
+
       if (resultCode == Activity.RESULT_OK) {
-          if (requestCode == SCAN_REQ_CODE  && mRecognizerBundle != null) {
+          if (requestCode == SCAN_REQ_CODE && mRecognizerBundle != null) {
               mRecognizerBundle.loadFromIntent(data);
               JSONArray resultList = RecognizerSerializers.INSTANCE.serializeRecognizerResults(mRecognizerBundle.getRecognizers());
 
