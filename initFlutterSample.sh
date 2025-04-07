@@ -6,12 +6,12 @@ appName=sample
 rm -rf $appName
 
 # create a sample application
-flutter create -a java --org com.microblink $appName
+flutter create --org com.microblink -a kotlin $appName
 
 # enter into demo project folder
 pushd $appName
 
-IS_LOCAL_BUILD=false || exit 1
+IS_LOCAL_BUILD=true || exit 1
 if [ "$IS_LOCAL_BUILD" = true ]; then
   # add blinkid_flutter dependency with local path to pubspec.yaml
   perl -i~ -pe "BEGIN{$/ = undef;} s/dependencies:\n  flutter:\n    sdk: flutter/dependencies:\n  flutter:\n    sdk: flutter\n  blinkid_flutter:\n    path: ..\/BlinkID\n  image_picker: 1.0.0/" pubspec.yaml
@@ -24,31 +24,11 @@ fi
 
 flutter pub get
 
-# enter into android project folder
-pushd android
-
-popd
-
 # enter into ios project folder
 pushd ios
 
 #Force minimal iOS version
-sed -i '' "s/# platform :ios, '12.0'/platform :ios, '13.0'/" Podfile
-
-# install pod
-pod install
-
-if false; then
-  echo "Replace pod with custom dev version of BlinkID framework"
-
-  pushd Pods/PPBlinkID
-  rm -rf Microblink.bundle
-  rm -rf Microblink.framework
-
-  cp -r ~/Downloads/blinkid-ios/Microblink.bundle ./
-  cp -r ~/Downloads/blinkid-ios/Microblink.framework ./
-  popd
-fi
+sed -i '' "s/# platform :ios, '12.0'/platform :ios, '16.0'/" Podfile
 
 # go to flutter root project
 popd
