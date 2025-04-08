@@ -10,8 +10,7 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   final methodChannel = const MethodChannel('blinkid_flutter');
 
   @override
-  Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
-    return version;
+  Future<void> performScan() async {
+    return await methodChannel.invokeMethod<void>('performScan');
   }
 }

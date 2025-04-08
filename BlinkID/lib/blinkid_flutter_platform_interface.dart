@@ -23,7 +23,7 @@ abstract class BlinkidFlutterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<void> performScan() async {
+    return MethodChannelBlinkidFlutter().performScan();
   }
 }
