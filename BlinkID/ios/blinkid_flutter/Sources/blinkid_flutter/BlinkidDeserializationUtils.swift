@@ -300,6 +300,38 @@ struct BlinkidDeserializationUtils {
         return fieldType.compactMap { FieldType.allCases[$0] }
     }
     
+    static func deserializeClassFilter(_ classFilterDictArr: Dictionary<String, Any>?, _ classInfo: BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
+        guard let sanitizedDict = sanitizeDictionary(classFilterDictArr) else { return true}
+        var includeClass = false
+        var excludeClass = true
+        
+        if let includedClasses = sanitizedDict["includeDocuments"] as? Array<Dictionary<String, Any>> {
+            for includedClass in includedClasses {
+                includeClass = includeClass || matchClassFilter(includedClass, classInfo: classInfo)
+            }
+        } else {
+            includeClass = true
+        }
+        
+        if let excludedClasses = sanitizedDict["excludeDocuments"] as? Array<Dictionary<String, Any>> {
+            for excludedClass in excludedClasses {
+                excludeClass = excludeClass && !matchClassFilter(excludedClass, classInfo: classInfo)
+            }
+        }
+        
+        return includeClass && excludeClass
+    }
+    
+    static func matchClassFilter(_ filteredClass: Dictionary<String, Any>, classInfo:  BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
+        let country = filteredClass["country"] as? Int
+        let type = filteredClass["documentType"] as? Int
+        let region = filteredClass["region"] as? Int
+        
+        return (country == nil || classInfo.country == Country.allCases[country!]) &&
+        (type == nil || classInfo.documentType == DocumentType.allCases[type!]) &&
+        (region == nil || classInfo.region == Region.allCases[region!])
+    }
+    
     
     static func sanitizeDictionary(_ dictionary: Dictionary<String, Any>?) -> Dictionary<String, Any>? {
         if let dictionary = dictionary {

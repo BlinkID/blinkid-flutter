@@ -11,6 +11,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
     private var sdkInstance: BlinkIDSdk?
     private var cancellables = Set<AnyCancellable>()
     private var rootVc: UIViewController?
+    private var classInfoFilterDict: Dictionary<String, Any>?
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "blinkid_flutter", binaryMessenger: registrar.messenger())
@@ -69,7 +70,6 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
     
     private func setupBlinkIdSdk(_ call: FlutterMethodCall) async  {
         guard let arguments = call.arguments as? [String: Any] else { return }
-        
         do {
             guard let sdkInstance = self.sdkInstance else {
                 result?(FlutterError(
@@ -89,6 +89,8 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                 ))
                 return
             }
+            
+            classInfoFilterDict = arguments["blinkidClassFilter"] as? [String: Any]
             
             let analyzer = try await BlinkIDAnalyzer(
                 sdk: sdkInstance,
@@ -134,7 +136,6 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         rootVC.present(viewController, animated: true)
     }
     
-    
     func performScan(_ call: FlutterMethodCall) async {
         Task {
             await initializeSdk(call)
@@ -157,6 +158,10 @@ struct BlinkIdStrings {
 
 extension BlinkidFlutterPlugin: BlinkIDClassFilter {
     public func classAllowed(classInfo: BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
-        return classInfo.country == .usa
+        if let classInfoFilterDict = classInfoFilterDict {
+            return BlinkidDeserializationUtils.deserializeClassFilter(classInfoFilterDict, classInfo)
+        } else {
+            return true
+        }
     }
 }
