@@ -23,9 +23,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         self.result = result
         switch call.method {
         case BlinkIdStrings.methodChannelCamera:
-            Task {
-                await performScan(call)
-            }
+            Task { await performScan(call) }
         case BlinkIdStrings.methodChannelDirectApi:
             print(BlinkIdStrings.methodChannelDirectApi)
         default:
@@ -98,15 +96,24 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                 eventStream: BlinkIDEventStream(),
                 classFilter: self
             )
-            
+
             let scanningUxModel = await BlinkIDUXModel(analyzer: analyzer, shouldShowIntroductionAlert: true)
-            
-            await scanningUxModel.$result
+            let scannedResults =  await scanningUxModel.$result
                 .sink { [weak self] scanningResultState in
-                    guard let self = self else { return }
-                    if let scanningResultState,
-                       scanningResultState.scanningResult == nil {
-                        self.rootVc?.dismiss(animated: true)
+                    if let scanningResultState {
+                        if let scanningResult = scanningResultState.scanningResult {
+                            DispatchQueue.main.async {
+                                self?.result?(BlinkidSerializationUtils.serializeBlinkIdScanningResult(scanningResult))
+                                self?.rootVc?.dismiss(animated: true)
+                            }
+                        }
+                        
+                        else {
+                            self?.result?(FlutterError(code: BlinkIdStrings.iosError, message: "Scanning has been canceled", details: nil))
+                            DispatchQueue.main.async {
+                                self?.rootVc?.dismiss(animated: true)
+                            }
+                        }
                     }
                 }
                 .store(in: &cancellables)
@@ -160,8 +167,7 @@ extension BlinkidFlutterPlugin: BlinkIDClassFilter {
     public func classAllowed(classInfo: BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
         if let classInfoFilterDict = classInfoFilterDict {
             return BlinkidDeserializationUtils.deserializeClassFilter(classInfoFilterDict, classInfo)
-        } else {
-            return true
         }
+        return true
     }
 }

@@ -31,7 +31,7 @@ struct BlinkidDeserializationUtils {
             blinkidSdkSettings?.resourceLocalFolder = resourceLocalFolder
         }
         if let bundleURL = sdkSettingsDict?["bundleURL"] as? String,
-            let url = URL(string: bundleURL) {
+           let url = URL(string: bundleURL) {
             blinkidSdkSettings?.bundleURL = url
         }
         if let resourceRequestTimeout = sdkSettingsDict?["resourceRequestTimeout"] as? Int {
@@ -53,7 +53,7 @@ struct BlinkidDeserializationUtils {
         if let stepTimeoutDuration = sessionSettingsDict?["stepTimeoutDuration"] as? Int {
             blinkidSessionSettings.stepTimeoutDuration = Double(stepTimeoutDuration) / 1000.0
         }
-            
+        
         return blinkidSessionSettings
     }
     
@@ -125,7 +125,7 @@ struct BlinkidDeserializationUtils {
         if let croppedImageSettings = scanningSettingsDict?["croppedImageSettings"] as? Dictionary<String, Any> {
             scanningSettings.croppedImageSettings = deserializeBlinkIdCroppedImageSettings(croppedImageSettings)
         }
-           
+        
         return scanningSettings
     }
     
@@ -150,7 +150,7 @@ struct BlinkidDeserializationUtils {
         
         return croppedImageSettings
     }
-
+    
     
     static func deseralizeDetectionLevel(_ value: Int) -> DetectionLevel {
         switch value {
@@ -216,10 +216,10 @@ struct BlinkidDeserializationUtils {
         }
         return recognitionModeFilter
     }
-        
+    
     static func deserializeCustomDocumentRules(_ customDocumentRulesArray: [[String: Any]]) -> [DocumentRules] {
         var documentRulesArr = Array<DocumentRules>()
-
+        
         for customRuleDict in customDocumentRulesArray {
             guard let fields = customRuleDict["detailedFieldTypes"] as? Array<Dictionary<String, Any>> else { continue }
             
@@ -235,7 +235,7 @@ struct BlinkidDeserializationUtils {
         
         return documentRulesArr
     }
-
+    
     static func deserializeDocumentFilter(_ documentFilterDict: Dictionary<String, Any>) -> DocumentFilter {
         var documentFilter = DocumentFilter()
         
@@ -332,7 +332,6 @@ struct BlinkidDeserializationUtils {
         (region == nil || classInfo.region == Region.allCases[region!])
     }
     
-    
     static func sanitizeDictionary(_ dictionary: Dictionary<String, Any>?) -> Dictionary<String, Any>? {
         if let dictionary = dictionary {
             var sanitized = dictionary
@@ -345,6 +344,11 @@ struct BlinkidDeserializationUtils {
         }
         return nil
     }
+    
+    //    static func generateLicenseKeyError() -> String {
+    //        switch InvalidLicenseKeyError {
+    //        }
+    //    }
 }
 
 extension DocumentType {

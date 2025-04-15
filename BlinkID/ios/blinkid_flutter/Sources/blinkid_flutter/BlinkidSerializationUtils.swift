@@ -7,10 +7,11 @@
 
 import Foundation
 import BlinkID
+import UIKit
 
 class BlinkidSerializationUtils {
     
-    static func serializeBlinkIdScanningResult(_ scanningResult: BlinkIDScanningResult?) -> String {
+    static func serializeBlinkIdScanningResult(_ scanningResult: BlinkIDScanningResult?) -> String? {
         var scanningResultDict = Dictionary<String, Any>()
         
         if let recognitionMode = scanningResult?.recognitionMode {
@@ -149,19 +150,19 @@ class BlinkidSerializationUtils {
             scanningResultDict["subResults"] = subResults.map(serializeSingleSideScanningResult(_:))
         }
         if let firstInputImage = scanningResult?.getInputImage(scanningSide: .first) {
-            scanningResultDict["firstInputImage"] = encodeImage(firstInputImage.rawData)
+            scanningResultDict["firstInputImage"] = encodeImage(firstInputImage.uiImage)
         }
         if let secondInputImage = scanningResult?.getInputImage(scanningSide: .second) {
-            scanningResultDict["secondInputImage"] = encodeImage(secondInputImage.rawData)
+            scanningResultDict["secondInputImage"] = encodeImage(secondInputImage.uiImage)
         }
         if let barcodeInputImage = scanningResult?.getBarcodeInputImage() {
-            scanningResultDict["barcodeInputImage"] = encodeImage(barcodeInputImage.rawData)
+            scanningResultDict["barcodeInputImage"] = encodeImage(barcodeInputImage.uiImage)
         }
         if let firstDocumentImage = scanningResult?.getDocumentImage(scanningSide: .first) {
-            scanningResultDict["firstDocumentImage"] = encodeImage(firstDocumentImage.rawData)
+            scanningResultDict["firstDocumentImage"] = encodeImage(firstDocumentImage.uiImage)
         }
         if let secondDocumentImage = scanningResult?.getDocumentImage(scanningSide: .second) {
-            scanningResultDict["secondDocumentImage"] = encodeImage(secondDocumentImage.rawData)
+            scanningResultDict["secondDocumentImage"] = encodeImage(secondDocumentImage.uiImage)
         }
         if let faceImage = scanningResult?.getFaceImage() {
             scanningResultDict["faceImage"] = serializeDetailedCroppedImageResult(faceImage)
@@ -169,16 +170,7 @@ class BlinkidSerializationUtils {
         if let signatureImage = scanningResult?.getSignatureImage() {
             scanningResultDict["signatureImage"] = serializeDetailedCroppedImageResult(signatureImage)
         }
-        
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: scanningResultDict, options: [.prettyPrinted])
-            let resultForJson = String(data: jsonData, encoding: .utf8) ?? ""
-            print("results: \(resultForJson)")
-            return resultForJson
-        } catch {
-            print(error.localizedDescription)
-            return ""
-        }
+        return encodeToJson(scanningResultDict)
     }
     
     static func serializeRecognitionMode(_ recognitionMode: RecognitionMode) -> Int {
@@ -217,32 +209,51 @@ class BlinkidSerializationUtils {
     static func serializeDataMatchResult(_ dataMatchResult: DataMatchResult?) -> Dictionary<String, Any> {
         return [
             "states": dataMatchResult?.states.map(serializeDataMatchState(_:)),
-            "overallState": dataMatchResult?.overallState.hashValue
+            "overallState": deserializeDataMatchState(dataMatchResult?.overallState)
         ]
     }
     
     static func serializeDataMatchState(_ dataMatchState: FieldState?) -> Dictionary<String, Any> {
         return [
-            "field": dataMatchState?.fieldType.hashValue,
-            "state": dataMatchState?.state.hashValue
+            "field": deserializeDataMatchField(dataMatchState?.fieldType),
+            "state": deserializeDataMatchState(dataMatchState?.state)
         ]
+    }
+    
+    static func deserializeDataMatchField(_ field: DataMatchFieldType?) -> Int? {
+        switch field {
+        case .dateOfBirth:
+            return 0
+        case .dateOfExpiry:
+            return 1
+        case .documentNumber:
+            return 2
+        case .documentAdditionalNumber:
+            return 3
+        case .documentOptionalAdditionalNumber:
+            return 4
+        case .personalIdNumber:
+            return 5
+        @unknown default:
+            return nil
+        }
     }
 
     static func serializeStringResult(_ stringResult: BlinkIDSDK.StringResult?) -> Dictionary<String, Any>?{
         var stringResultDict: Dictionary<String, Any> = [
-            "value": stringResult?.value ?? "",
-            "latin": stringResult?.value(for: .latin) ?? "",
-            "arabic": stringResult?.value(for: .arabic) ?? "",
+            "value": stringResult?.value,
+            "latin": stringResult?.value(for: .latin),
+            "arabic": stringResult?.value(for: .arabic),
             "cyrillic": stringResult?.value(for: .cyrillic),
             "greek": stringResult?.value(for: .greek)
         ]
                 
-        stringResultDict["location"] = [
-            "latin": serializeRect(stringResult?.location(for: .latin)),
-            "arabic": serializeRect(stringResult?.location(for: .arabic)),
-            "cyrillic": serializeRect(stringResult?.location(for: .cyrillic)),
-            "greek": serializeRect(stringResult?.location(for: .greek))
-        ]
+//        stringResultDict["location"] = [
+//            "latin": serializeRect(stringResult?.location(for: .latin)),
+//            "arabic": serializeRect(stringResult?.location(for: .arabic)),
+//            "cyrillic": serializeRect(stringResult?.location(for: .cyrillic)),
+//            "greek": serializeRect(stringResult?.location(for: .greek))
+//        ]
         
         stringResultDict["side"] = [
             "latin": stringResult?.side(for: .latin)?.rawValue,
@@ -254,8 +265,8 @@ class BlinkidSerializationUtils {
         return stringResultDict
     }
     
-    static func serializeRect(_ rectangle: RectangleF?) -> Dictionary<String, Any> {
-        return [:]
+    static func serializeRect(_ rectangle:  BlinkID.RectangleF?) -> Dictionary<String, Any> {
+        return ["rectagle": ""]
     }
     
     static func serializeDateResult<T>(_ dateResult: DateResult<T>?) -> Dictionary<String, Any>? {
@@ -299,12 +310,12 @@ class BlinkidSerializationUtils {
     static func serializeSingleSideScanningResult(_ singleSideScanningResult: SingleSideScanningResult?) -> Dictionary<String, Any> {
         return [
                 "barcode": serializeBarcodeResult(singleSideScanningResult?.barcode),
-                "barcodeInputImage": encodeImage(singleSideScanningResult?.barcodeInputImage?.rawData),
-        //        "documentImage": encodeImage(singleSideScanningResult?.documentImage?.rawData),
-        //        "faceImage": serializeDetailedCroppedImageResult(singleSideScanningResult?.faceImage),
-        //        "inputImage": encodeImage(singleSideScanningResult?.inputImage?.rawData),
+                "barcodeInputImage": encodeImage(singleSideScanningResult?.barcodeInputImage?.uiImage),
+                "documentImage": encodeImage(singleSideScanningResult?.documentImage?.uiImage),
+                "faceImage": serializeDetailedCroppedImageResult(singleSideScanningResult?.faceImage),
+                "inputImage": encodeImage(singleSideScanningResult?.inputImage?.uiImage),
                 "mrz": serializeMrzResult(singleSideScanningResult?.mrz),
-       //         "signatureImage": serializeDetailedCroppedImageResult(singleSideScanningResult?.signatureImage),
+                "signatureImage": serializeDetailedCroppedImageResult(singleSideScanningResult?.signatureImage),
                 "viz": serializeVizResult(singleSideScanningResult?.viz)
             ]
     }
@@ -350,12 +361,44 @@ class BlinkidSerializationUtils {
     }
     static func serializeBarcodeData(_ barcodeData: BarcodeData?) -> Dictionary<String, Any> {
         return [
-            "barcodeType": barcodeData?.barcodeType.hashValue,
+            "barcodeType": serializeBarcodeType(barcodeData?.barcodeType),
             "rawData": barcodeData?.rawData.base64EncodedString(),
             "stringData": barcodeData?.stringData,
             "uncertain": barcodeData?.uncertain
         ]
     }
+    
+    static func serializeBarcodeType(_ barcodeType: BarcodeType?) -> Int? {
+        switch barcodeType {
+        case .none:
+            return 0
+        case .qrCode:
+            return 1
+        case .dataMatrix:
+            return 2
+        case .upce:
+            return 3
+        case .upca:
+            return 4
+        case .ean8:
+            return 5
+        case .ean13:
+            return 6
+        case .code128:
+            return 7
+        case .code39:
+            return 8
+        case .itf:
+            return 9
+        case .aztec:
+            return 10
+        case .pdf417:
+            return 11
+        @unknown default:
+            return 0
+        }
+    }
+
     static func serializeBarcodeExtendedElements(_ barcodeExtendedElements: BarcodeElements?) -> [String: Any] {
         var elements = barcodeExtendedElements
         return [
@@ -455,8 +498,8 @@ class BlinkidSerializationUtils {
         return nil
     }
     
-    static func encodeImage(_ data: Data?) -> String? {
-        return data?.base64EncodedString()
+    static func encodeImage(_ image: UIImage?) -> String? {
+        return image?.jpegData(compressionQuality: 1.0)?.base64EncodedString()
     }
     static func serializeMrzResult(_ mrzResult: MRZResult?) -> Dictionary<String, Any> {
         return [
@@ -464,7 +507,7 @@ class BlinkidSerializationUtils {
             "dateOfExpiry": serializeDateResult(mrzResult?.dateOfExpiry),
             "documentCode": mrzResult?.documentCode,
             "documentNumber": mrzResult?.documentNumber,
-            "documentType": mrzResult?.documentType.hashValue,
+            "documentType": serializeMrzDocumentType(mrzResult?.documentType),
             "gender": mrzResult?.gender,
             "issuer": mrzResult?.issuer,
             "issuerName": mrzResult?.issuerName,
@@ -483,6 +526,31 @@ class BlinkidSerializationUtils {
             "secondaryID": mrzResult?.secondaryID,
             "verified": mrzResult?.verified
         ]
+    }
+    
+    static func serializeMrzDocumentType(_ documentType: MRZDocumentType) -> Int? {
+        switch documentType {
+        case .unknown:
+            return 0
+        case .identityCard:
+            return 1
+        case .passport:
+            return 2
+        case .visa:
+            return 3
+        case .greenCard:
+            return 4
+        case .mysPassIMM13P:
+            return 5
+        case .driverLicense:
+            return 6
+        case .internalTravelDocument:
+            return 7
+        case .borderCrossingCard:
+            return 8
+        @unknown default:
+            return 0
+        }
     }
     
     static func serializeMrzDocumentType(_ documentType: MRZDocumentType?) -> Int? {
@@ -561,9 +629,44 @@ class BlinkidSerializationUtils {
     
     static func serializeDetailedCroppedImageResult(_ detailedcroppedImageResult: DetailedCroppedImageResult?) -> Dictionary<String, Any> {
         return [
-            "location": serializeRect(detailedcroppedImageResult?.location),
-            "side": detailedcroppedImageResult?.side?.rawValue,
-            "image": encodeImage(detailedcroppedImageResult?.rawData)
+         //   "location": serializeRect(detailedcroppedImageResult?.location),
+            "side": serializeDocumentSide(detailedcroppedImageResult?.side),
+            "image": encodeImage(detailedcroppedImageResult?.uiImage)
         ]
+    }
+    
+    static func serializeDocumentSide(_ side: ScanningSide?) -> Int? {
+        switch side {
+        case .first:
+            return 0
+        case .second:
+            return 1
+        @unknown default:
+            return nil
+        }
+    }
+    
+    static func deserializeDataMatchState(_ state: DataMatchState?) -> Int {
+        switch state {
+        case .notPerformed:
+            return 0
+        case .failed:
+            return 1
+        case .success:
+            return 2
+        @unknown default:
+            return 0
+        }
+    }
+    
+    static func encodeToJson(_ dict: Dictionary<String, Any>) -> String? {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+            let resultForJson = String(data: jsonData, encoding: .utf8)
+            return resultForJson
+        } catch {
+            print(error.localizedDescription)
+            return ""
+        }
     }
 }
