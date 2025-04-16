@@ -8,7 +8,6 @@ import BlinkID
 public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
     
     private var result: FlutterResult?
-    private var sdkInstance: BlinkIDSdk?
     private var cancellables = Set<AnyCancellable>()
     private var rootVc: UIViewController?
     private var classInfoFilterDict: Dictionary<String, Any>?
@@ -25,27 +24,41 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         case BlinkIdStrings.methodChannelCamera:
             Task { await performScan(call) }
         case BlinkIdStrings.methodChannelDirectApi:
-            print(BlinkIdStrings.methodChannelDirectApi)
+            Task { await performDirectApiScan(call) }
         default:
             result(FlutterMethodNotImplemented)
         }
     }
     
-    private func initializeSdk(_ call: FlutterMethodCall) async {
+    private func setupBlinkIdSettings(_ call: FlutterMethodCall) async -> BlinkIDSdkSettings? {
         guard let rawArgs = call.arguments as? [String: Any],
-              let args = BlinkidDeserializationUtils.sanitizeDictionary(rawArgs) else {
+              let arguments = BlinkidDeserializationUtils.sanitizeDictionary(rawArgs) else {
             result?(FlutterError(
                 code: BlinkIdStrings.iosError,
                 message: BlinkIdStrings.ErrorMessage.settingsError,
                 details: nil
             ))
-            return
+            return nil
         }
         
+        guard let sdkSettingsRaw = arguments["blinkidSdkSettings"] as? [String: Any],
+              let sdkSettingsDict = BlinkidDeserializationUtils.sanitizeDictionary(sdkSettingsRaw),
+              let settings = BlinkidDeserializationUtils.deserializeBlinkIdSdkSettings(sdkSettingsDict) else {
+            result?(FlutterError(
+                code: BlinkIdStrings.iosError,
+                message: BlinkIdStrings.ErrorMessage.settingsError,
+                details: nil
+            ))
+            return nil
+        }
+        return settings
+    }
+    
+    
+    private func performScan(_ call: FlutterMethodCall) async  {
+        guard let arguments = call.arguments as? [String: Any] else { return }
         do {
-            guard let sdkSettingsRaw = args["blinkidSdkSettings"] as? [String: Any],
-                  let sdkSettingsDict = BlinkidDeserializationUtils.sanitizeDictionary(sdkSettingsRaw),
-                  let settings = BlinkidDeserializationUtils.deserializeBlinkIdSdkSettings(sdkSettingsDict) else {
+            guard let sdkSettings = await setupBlinkIdSettings(call) else {
                 result?(FlutterError(
                     code: BlinkIdStrings.iosError,
                     message: BlinkIdStrings.ErrorMessage.settingsError,
@@ -53,30 +66,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                 ))
                 return
             }
-            
-            sdkInstance = try await BlinkIDSdk.createBlinkIDSdk(withSettings: settings)
-            
-        } catch {
-            result?(FlutterError(
-                code: BlinkIdStrings.iosError,
-                message: BlinkIdStrings.ErrorMessage.initError + error.localizedDescription,
-                details: nil
-            ))
-        }
-    }
-    
-    
-    private func setupBlinkIdSdk(_ call: FlutterMethodCall) async  {
-        guard let arguments = call.arguments as? [String: Any] else { return }
-        do {
-            guard let sdkInstance = self.sdkInstance else {
-                result?(FlutterError(
-                    code: BlinkIdStrings.iosError,
-                    message: BlinkIdStrings.ErrorMessage.initError,
-                    details: nil
-                ))
-                return
-            }
+            let sdkInstance = try await BlinkIDSdk.createBlinkIDSdk(withSettings: sdkSettings)
             
             guard let sessionSettingsRaw = arguments["blinkidSessionSettings"] as? [String: Any],
                   let sessionSettings = BlinkidDeserializationUtils.sanitizeDictionary(sessionSettingsRaw) else {
@@ -107,10 +97,9 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                                 self?.rootVc?.dismiss(animated: true)
                             }
                         }
-                        
                         else {
-                            self?.result?(FlutterError(code: BlinkIdStrings.iosError, message: "Scanning has been canceled", details: nil))
                             DispatchQueue.main.async {
+                                self?.result?(FlutterError(code: BlinkIdStrings.iosError, message: "Scanning has been canceled", details: nil))
                                 self?.rootVc?.dismiss(animated: true)
                             }
                         }
@@ -125,7 +114,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         } catch {
             result?(FlutterError(
                 code: BlinkIdStrings.iosError,
-                message: BlinkIdStrings.ErrorMessage.initError + error.localizedDescription,
+                message: "\(BlinkIdStrings.ErrorMessage.initError) Reason: \(error.localizedDescription)",
                 details: nil
             ))
         }
@@ -142,23 +131,73 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         viewController.modalPresentationStyle = .fullScreen
         rootVC.present(viewController, animated: true)
     }
-    
-    func performScan(_ call: FlutterMethodCall) async {
-        Task {
-            await initializeSdk(call)
-            await setupBlinkIdSdk(call)
+        
+    func performDirectApiScan(_ call: FlutterMethodCall) async {
+        if let arguments = call.arguments as? Dictionary<String, Any> {
+            
+            do {
+                guard let sdkSettings = await setupBlinkIdSettings(call) else {
+                    result?(FlutterError(
+                        code: BlinkIdStrings.iosError,
+                        message: BlinkIdStrings.ErrorMessage.settingsError,
+                        details: nil
+                    ))
+                    return
+                }
+                
+                let blinkidSdk = try await BlinkIDSdk.createBlinkIDSdk(withSettings: sdkSettings)
+                
+                if  let sessionSettingsRaw = arguments["blinkidSessionSettings"] as? [String: Any],
+                    let sessionSettingsClean = BlinkidDeserializationUtils.sanitizeDictionary(sessionSettingsRaw) {
+                    
+                    var sessionSettings = BlinkidDeserializationUtils.deserializeBlinkIdSessionSettings(sessionSettingsClean)
+                    sessionSettings.inputImageSource = .photo
+                    
+                    let session = try await blinkidSdk.createScanningSession(sessionSettings: sessionSettings)
+                    
+                    guard let frontUIImage = BlinkidDeserializationUtils.deserializeBase64Image(arguments["firstImage"] as? String) else {
+                        result?(FlutterError(
+                            code: BlinkIdStrings.iosError,
+                            message: BlinkIdStrings.ErrorMessage.initError,
+                            details: nil
+                        ))
+                        return
+                    }
+                                    
+                    await session.process(inputImage: InputImage(uiImage: frontUIImage))
+                    
+                    if let backUIImage = BlinkidDeserializationUtils.deserializeBase64Image(arguments["secondImage"] as? String) {
+                        await session.process(inputImage: InputImage(uiImage: backUIImage))
+                    }
+                    
+                    let scannedResults = await session.getResult()
+                    DispatchQueue.main.async {
+                        self.result?(BlinkidSerializationUtils.serializeBlinkIdScanningResult(scannedResults))
+                    }
+                } else {
+                    result?(FlutterError(
+                        code: BlinkIdStrings.iosError,
+                        message: BlinkIdStrings.ErrorMessage.initError,
+                        details: nil
+                    ))
+                    return
+                }
+            } catch {
+                result?(FlutterError(code: BlinkIdStrings.iosError, message: error.localizedDescription, details: nil))
+            }
         }
     }
 }
 
 struct BlinkIdStrings {
     static let methodChannelCamera = "performScan"
-    static let methodChannelDirectApi = "directApi"
+    static let methodChannelDirectApi = "performDirectApiScan"
     static let iosError = "blinkid_ios_error"
     
     struct ErrorMessage {
         static let settingsError = "Invalid SDK settings provided"
-        static let initError = "Could not initialize the SDK.\nReason: "
+        static let initError = "Could not initialize the SDK."
+        static let frontImageError = "Could not extract the information from the first image! An image of a valid document needs to be sent."
         
     }
 }

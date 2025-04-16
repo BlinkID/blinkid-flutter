@@ -7,6 +7,7 @@
 
 import Foundation
 import BlinkID
+import UIKit
 
 struct BlinkidDeserializationUtils {
     static func deserializeBlinkIdSdkSettings(_ sdkSettingsDict: Dictionary<String, Any>?) -> BlinkIDSdkSettings? {
@@ -341,6 +342,14 @@ struct BlinkidDeserializationUtils {
                 }
             }
             return sanitized
+        }
+        return nil
+    }
+    
+    static func deserializeBase64Image(_ base64Image: String?) -> UIImage? {
+        if let base64Image = base64Image,
+        let data = Data(base64Encoded: base64Image, options: .ignoreUnknownCharacters) {
+            return UIImage(data: data)
         }
         return nil
     }

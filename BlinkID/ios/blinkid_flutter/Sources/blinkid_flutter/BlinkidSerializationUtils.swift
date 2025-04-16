@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  BlinkidSerializationUtils.swift
 //  blinkid_flutter
 //
 //  Created by Milan Parađina on 08.04.2025..
@@ -239,7 +239,7 @@ class BlinkidSerializationUtils {
         }
     }
 
-    static func serializeStringResult(_ stringResult: BlinkIDSDK.StringResult?) -> Dictionary<String, Any>?{
+    static func serializeStringResult(_ stringResult: BlinkIDSDK.StringResult?) -> Dictionary<String, Any>{
         var stringResultDict: Dictionary<String, Any> = [
             "value": stringResult?.value,
             "latin": stringResult?.value(for: .latin),
@@ -248,26 +248,29 @@ class BlinkidSerializationUtils {
             "greek": stringResult?.value(for: .greek)
         ]
                 
-//        stringResultDict["location"] = [
-//            "latin": serializeRect(stringResult?.location(for: .latin)),
-//            "arabic": serializeRect(stringResult?.location(for: .arabic)),
-//            "cyrillic": serializeRect(stringResult?.location(for: .cyrillic)),
-//            "greek": serializeRect(stringResult?.location(for: .greek))
-//        ]
-        
-        stringResultDict["side"] = [
-            "latin": stringResult?.side(for: .latin)?.rawValue,
-            "arabic": stringResult?.side(for: .arabic)?.rawValue,
-            "cyrillic": stringResult?.side(for: .cyrillic)?.rawValue,
-            "greek": stringResult?.side(for: .greek)?.rawValue
+        stringResultDict["location"] = [
+            "latin": serializeRect(stringResult?.location(for: .latin)),
+            "arabic": serializeRect(stringResult?.location(for: .arabic)),
+            "cyrillic": serializeRect(stringResult?.location(for: .cyrillic)),
+            "greek": serializeRect(stringResult?.location(for: .greek))
         ]
+        
+        var sideDict: Dictionary<String, Any> = [
+            "latin": serializeScanningSide(stringResult?.side(for: .latin)),
+            "arabic": serializeScanningSide(stringResult?.side(for: .arabic)),
+            "cyrillic": serializeScanningSide(stringResult?.side(for: .cyrillic)),
+            "greek": serializeScanningSide(stringResult?.side(for: .greek))
+        ]
+        stringResultDict["side"] = sideDict
         
         return stringResultDict
     }
     
     static func serializeRect(_ rectangle:  BlinkID.RectangleF?) -> Dictionary<String, Any> {
-        return ["rectagle": ""]
+        return [:]
     }
+    
+    
     
     static func serializeDateResult<T>(_ dateResult: DateResult<T>?) -> Dictionary<String, Any>? {
         return [
@@ -290,12 +293,12 @@ class BlinkidSerializationUtils {
         ]
     }
     
-    static func serializeVehicleClassInfo<T>(_ vehicleClassInfo: VehicleClassInfo<T>?) -> Dictionary<String, Any>? {
+    static func serializeVehicleClassInfo<T>(_ vehicleClassInfo: VehicleClassInfo<T>?) -> Dictionary<String, Any> {
         return [
             "effectiveDate": serializeStringType(vehicleClassInfo?.effectiveDate),
             "expiryDate":  serializeStringType(vehicleClassInfo?.expiryDate),
             "licenceType": serializeStringType(vehicleClassInfo?.licenceType),
-            "vehicleClass": serializeStringType(vehicleClassInfo?.vehicleClass)
+            "vehicleClass": serializeStringType(vehicleClassInfo?.vehicleClass as? String)
         ]
     }
     static func serializeDependentInfo(_ dependentInfo: DependentInfo?) -> Dictionary<String, Any> {
@@ -489,10 +492,10 @@ class BlinkidSerializationUtils {
     }
 
     
-    static func serializeStringType<T>(_ value: T?) -> Any? {
-        if let sdkString = value as? BlinkID.BlinkIDSDK.StringResult {
-            return serializeStringResult(sdkString)
-        } else if let str = value as? String {
+    static func serializeStringType<T>(_ value: T) -> Any? {
+        if let stringResult = value as? BlinkID.BlinkIDSDK.StringResult {
+            return serializeStringResult(stringResult)
+        } else if let str = value as? Swift.String {
             return str
         }
         return nil
@@ -612,7 +615,7 @@ class BlinkidSerializationUtils {
             "nationality": serializeStringResult(vizResult?.nationality),
             "personalIdNumber": serializeStringResult(vizResult?.personalIdNumber),
             "placeOfBirth": serializeStringResult(vizResult?.placeOfBirth),
-            "profession": serializeStringType(vizResult?.profession),
+            "profession": serializeStringResult(vizResult?.profession),
             "race": serializeStringResult(vizResult?.race),
             "religion": serializeStringResult(vizResult?.religion),
             "remarks": serializeStringResult(vizResult?.remarks),
@@ -629,13 +632,13 @@ class BlinkidSerializationUtils {
     
     static func serializeDetailedCroppedImageResult(_ detailedcroppedImageResult: DetailedCroppedImageResult?) -> Dictionary<String, Any> {
         return [
-         //   "location": serializeRect(detailedcroppedImageResult?.location),
-            "side": serializeDocumentSide(detailedcroppedImageResult?.side),
+            "location": serializeRect(detailedcroppedImageResult?.location),
+            "side": serializeScanningSide(detailedcroppedImageResult?.side),
             "image": encodeImage(detailedcroppedImageResult?.uiImage)
         ]
     }
     
-    static func serializeDocumentSide(_ side: ScanningSide?) -> Int? {
+    static func serializeScanningSide(_ side: ScanningSide?) -> Int? {
         switch side {
         case .first:
             return 0
@@ -665,7 +668,6 @@ class BlinkidSerializationUtils {
             let resultForJson = String(data: jsonData, encoding: .utf8)
             return resultForJson
         } catch {
-            print(error.localizedDescription)
             return ""
         }
     }
