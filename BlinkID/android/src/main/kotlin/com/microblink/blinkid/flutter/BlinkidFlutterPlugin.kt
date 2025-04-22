@@ -23,6 +23,10 @@ import kotlinx.coroutines.*
 /** BlinkidFlutterPlugin */
 class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
     ActivityResultListener {
+    private val BLINKID_METHOD_PERFORM_SCAN = "performScan"
+    private val BLINKID_METHOD_PERFORM_DIRECTAPI_SCAN = "performDirectApiScan"
+    private val BLINKID_REQUEST_CODE = 1452
+    private val BLINKID_ERROR_RESULT_CODE = "blinkid_android_error"
 
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
@@ -39,8 +43,8 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
     override fun onMethodCall(call: MethodCall, result: Result) {
         flutterResult = result
         when (call.method) {
-            "performScan" -> (performScan(call, result))
-            "performDirectApiScan" -> {
+            BLINKID_METHOD_PERFORM_SCAN -> (performScan(call, result))
+            BLINKID_METHOD_PERFORM_DIRECTAPI_SCAN -> {
                 CoroutineScope(Dispatchers.Main).launch {
                     performDirectApiScan(call)
                 }
@@ -64,7 +68,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
             val classFilterMap = call.argument<Map<String, Any>>("blinkidClassFilter")
             val sdkSettings = BlinkidDeserializationUtils
                 .deserializeBlinkidSdkSettings(blinkIdSdkSettings)
-                ?: return result.error("", "Incorrect SDK Settings", null)
+                ?: return result.error(BLINKID_ERROR_RESULT_CODE, "Incorrect SDK Settings.", null)
 
             flutterPluginActivity?.let {
                 val intent = MbBlinkIdScan().createIntent(
@@ -81,16 +85,16 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                         )
                     )
                 )
-                it.startActivityForResult(intent, 100)
-            } ?: result.error("blinkid_android", "Activity not found", null)
+                it.startActivityForResult(intent, BLINKID_REQUEST_CODE)
+            } ?: result.error(BLINKID_ERROR_RESULT_CODE, "Activity not found.", null)
         } catch (error: Exception) {
             when (error) {
                 is LicenseLockedException -> {
-                    result.error("blinkid_android", error.message, null)
+                    result.error(BLINKID_ERROR_RESULT_CODE, error.message, null)
                 }
 
                 else -> {
-                    result.error("blinkid_android", error.message, null)
+                    result.error(BLINKID_ERROR_RESULT_CODE, error.message, null)
                 }
             }
         }
@@ -141,7 +145,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                                 )
                             } else {
                                 flutterResult?.error(
-                                    "blinkid_android",
+                                    BLINKID_ERROR_RESULT_CODE,
                                     "Could not get the results.",
                                     null
                                 )
@@ -152,7 +156,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
                     blinkidInstance.isFailure -> {
                         flutterResult?.error(
-                            "blinkid_android",
+                            BLINKID_ERROR_RESULT_CODE,
                             blinkidInstance.exceptionOrNull()?.message,
                             null
                         )
@@ -160,7 +164,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
                     else -> {
                         flutterResult?.error(
-                            "blinkid_android",
+                            BLINKID_ERROR_RESULT_CODE,
                             "Could not initialize the SDK.",
                             null
                         )
@@ -170,12 +174,12 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
             }
 
         } catch (error: Exception) {
-            flutterResult?.error("blinkid_android", error.message, null)
+            flutterResult?.error(BLINKID_ERROR_RESULT_CODE, error.message, null)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
-        if (requestCode == 100) {
+        if (requestCode == BLINKID_REQUEST_CODE) {
 
             val blinkIdResult = MbBlinkIdScan().parseResult(resultCode, data)
             when (blinkIdResult.status) {
@@ -187,16 +191,16 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                         )
                         flutterResult?.success(success)
 
-                    } ?: flutterResult?.error("blinkid_android", "BlinkID result is empty.", null)
+                    } ?: flutterResult?.error(BLINKID_ERROR_RESULT_CODE, "BlinkID result is empty.", null)
                 }
 
                 BlinkIdScanActivityResultStatus.Canceled -> {
-                    flutterResult?.error("blinkid_android", "Scanning is canceled.", null)
+                    flutterResult?.error(BLINKID_ERROR_RESULT_CODE, "Scanning is canceled.", null)
                 }
 
                 BlinkIdScanActivityResultStatus.ErrorSdkInit -> {
                     flutterResult?.error(
-                        "blinkid_android",
+                        BLINKID_ERROR_RESULT_CODE,
                         "Could not initialize the SDK.",
                         null
                     )
