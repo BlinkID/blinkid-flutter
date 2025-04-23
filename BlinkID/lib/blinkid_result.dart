@@ -1,8 +1,14 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:blinkid_flutter/blinkid_settings.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+/// Represents the results of scanning a document.
+///
+/// This class contains the results of scanning a document, including the extracted data
+/// and images from the document.
 class BlinkIdScanningResult {
-  /// Scanning mode used to scan current document.
+  /// Scanning mode used to scan the current document.
   ///
   /// See [RecognitionMode] for more information.
   RecognitionMode? recognitionMode;
@@ -18,162 +24,251 @@ class BlinkIdScanningResult {
   DataMatchResult? dataMatchResult;
 
   /// The first name of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? firstName;
 
   /// The last name of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? lastName;
 
   /// The full name of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? fullName;
 
   /// The additional name information of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? additionalNameInformation;
 
   /// The localized name of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? localizedName;
 
   /// The fathers name of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? fathersName;
 
   /// The mothers name of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? mothersName;
 
   /// The address of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? address;
 
   /// The additional address information of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? additionalAddressInformation;
 
   /// The one more additional address information of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? additionalOptionalAddressInformation;
 
   /// The place of birth of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? placeOfBirth;
 
   /// The nationality of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? nationality;
 
   /// The race of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? race;
 
   /// The religion of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? religion;
 
   /// The profession of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? profession;
 
   /// The marital status of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? maritalStatus;
 
   /// The residential status of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? residentialStatus;
 
   /// The employer of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? employer;
 
   /// The sex of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? sex;
 
   /// The sponsor of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? sponsor;
 
   /// The blood type of the document owner.
+  ///
+  /// See [StringResult] for more information.
   StringResult? bloodType;
 
   /// The document number.
+  ///
+  /// See [StringResult] for more information.
   StringResult? documentNumber;
 
   /// The personal identification number.
+  ///
+  /// See [StringResult] for more information.
   StringResult? personalIdNumber;
 
   /// The additional number of the document.
+  ///
+  /// See [StringResult] for more information.
   StringResult? documentAdditionalNumber;
 
   /// The one more additional number of the document.
+  ///
+  /// See [StringResult] for more information.
   StringResult? documentOptionalAdditionalNumber;
 
   /// The additional personal identification number.
+  ///
+  /// See [StringResult] for more information.
   StringResult? additionalPersonalIdNumber;
 
   /// The issuing authority of the document.
+  ///
+  /// See [StringResult] for more information.
   StringResult? issuingAuthority;
 
   /// The transcription of the document subtype.
+  ///
+  /// See [StringResult] for more information.
   StringResult? documentSubtype;
 
   /// The remarks on the residence permit.
+  ///
+  /// See [StringResult] for more information.
   StringResult? remarks;
 
   /// The residence permit type.
+  ///
+  /// See [StringResult] for more information.
   StringResult? residencePermitType;
 
   /// The manufacturing year.
+  ///
+  /// See [StringResult] for more information.
   StringResult? manufacturingYear;
 
   /// The vehicle type.
+  ///
+  /// See [StringResult] for more information.
   StringResult? vehicleType;
 
   /// The eligibility category.
+  ///
+  /// See [StringResult] for more information.
   StringResult? eligibilityCategory;
 
   /// The specific document validity.
+  ///
+  /// See [StringResult] for more information.
   StringResult? specificDocumentValidity;
 
   /// The visa type of the document.
+  ///
+  /// See [StringResult] for more information.
   StringResult? visaType;
 
   /// The date of birth of the document owner.
+  ///
+  /// See [DateResult] for more information.
   DateResult<StringResult>? dateOfBirth;
 
   /// The date of issue of the document.
+  ///
+  /// See [DateResult] for more information.
   DateResult<StringResult>? dateOfIssue;
 
   /// The date of expiry of the document.
+  ///
+  /// See [DateResult] for more information.
   DateResult<StringResult>? dateOfExpiry;
 
   /// Determines if date of expiry is permanent.
+  ///
   bool? dateOfExpiryPermanent;
 
   /// The driver license detailed info.
+  ///
+  /// See [DriverLicenseDetailedInfo] for more information.
   DriverLicenseDetailedInfo<StringResult>? driverLicenseDetailedInfo;
 
   /// The dependents info.
+  ///
+  /// See [DependentInfo] for more information.
   List<DependentInfo>? dependentsInfo;
 
   /// The results of scanning each side of the document.
+  ///
+  /// See [SingleSideScanningResult] for more information.
   List<SingleSideScanningResult>? subResults;
 
-  /// Returns the input image for the given scanning side.
-  ///
-  /// - Parameter scanningSide The scanning side.
-  /// - Returns: The input image for the given scanning side or `nil` if the input image is not available.
+  /// Returns the input image for the first scanning side in the Base64 format.
+  /// or `null` if the input image is not available.
   String? firstInputImage;
 
+  /// Returns the input image for the second scanning side in the Base64 format.
+  /// or `null` if the input image is not available.
   String? secondInputImage;
 
   /// Returns the input image containing parsable barcode.
-  ///
-  /// - Returns: The input image containing parsable barcode or `nil` if the barcode input image is not available.
+  /// or `null` if the barcode input image is not available.
   String? barcodeInputImage;
 
-  /// Returns the cropped document image for the given scanning side.
-  ///
-  /// - Parameter scanningSide The scanning side.
-  /// - Returns: The cropped document image for the given scanning side or `nil` if the document image is not available.
+  /// Returns the cropped document image for the first scanning side.
+  /// or `null` if the document image is not available.
   String? firstDocumentImage;
 
+  /// Returns the cropped document image for the second scanning side.
+  /// or `null` if the document image is not available.
+  ///
   String? secondDocumentImage;
 
   /// Returns the cropped face image with additional info.
+  /// or `null` if the face image is not available.
   ///
-  /// - Returns: The cropped face image with additional info or `nil` if the face image is not available.
+  /// See [DetailedCroppedImageResult] for more information.
   DetailedCroppedImageResult? faceImage;
 
   /// Returns the cropped signature image with additional info.
+  /// or `null` if the signature image is not available.
   ///
-  /// - Returns: The cropped signature image with additional info or `nil` if the signature image is not available.
+  /// See [DetailedCroppedImageResult] for more information.
   DetailedCroppedImageResult? signatureImage;
 
+  /// Represents the results of scanning a document.
+  ///
+  /// This class contains the results of scanning a document, including the extracted data
+  /// and images from the document.
   BlinkIdScanningResult(Map<String, dynamic> nativeBlinkIdScanningResult) {
     recognitionMode = enumFromValue(
       RecognitionMode.values,
@@ -370,13 +465,13 @@ class BlinkIdScanningResult {
   }
 }
 
-/// Define level of anonymization performed on recognizer result
+/// Represents possible recognition modes.
 enum RecognitionMode {
   /// No recognition performed.
   @JsonValue(0)
   none,
 
-  /// Recognition of mrz document (does not include visa and passport)
+  /// Recognition of mrz document (does not include visa and passport).
   @JsonValue(1)
   mrzId,
 
@@ -401,18 +496,25 @@ enum RecognitionMode {
   barcodeId,
 }
 
-/// Represents the classification information.
+/// Represents the document class information.
 class DocumentClassInfo {
   /// The document country.
+  ///
+  /// See [Country] for more information.
   Country? country;
 
   /// The document region.
+  ///
+  /// See [Region] for more information.
   Region? region;
 
   /// The type of the scanned document.
+  ///
+  /// See [DocumentType] for more information.
   DocumentType? documentType;
 
-  /// Flag that indicates if class info is empty
+  /// Flag that indicates if the document class information is empty
+  ///
   bool? empty;
 
   /// The name of the country that issued the scanned document.
@@ -427,6 +529,7 @@ class DocumentClassInfo {
   /// The 3 letter ISO code of the country that issued the scanned document.
   String? isoAlpha3CountryCode;
 
+  /// Represents the document class information.
   DocumentClassInfo(Map<String, dynamic> nativeClassInfo) {
     country = enumFromValue(
       Country.values.toList(),
@@ -445,13 +548,19 @@ class DocumentClassInfo {
   }
 }
 
-/// Gives more info on data match
+/// Represents the result of the data match.
 class DataMatchResult {
-  ///  State for the whole document result
+  ///  The state of the data match on the whole document.
+  ///
+  /// See [DataMatchState] for more information.
   DataMatchState? overallState;
 
+  /// The data match state of each field.
+  ///
+  /// See [DataMatchResultField] for more information.
   List<DataMatchResultField>? states;
 
+  /// Represents the result of the data match.
   DataMatchResult(Map<String, dynamic> nativeDataMatchResult) {
     overallState = enumFromValue(
       DataMatchState.values,
@@ -469,10 +578,19 @@ class DataMatchResult {
   }
 }
 
+/// Represents the state of the field in the data match.
 class DataMatchResultField {
+  /// The type of the field.
+  ///
+  /// See [DataMatchField] for more information.
   DataMatchField? field;
+
+  /// The state of the field.
+  ///
+  /// See [DataMatchState] for more information.
   DataMatchState? state;
 
+  /// Represents the state of the field in the data match.
   DataMatchResultField(Map<String, dynamic> nativeDataMatchResultField) {
     field = enumFromValue(
       DataMatchField.values,
@@ -485,22 +603,34 @@ class DataMatchResultField {
   }
 }
 
+/// Represents the type of the field used in data match.
 enum DataMatchField {
+  /// The date of birth field.
   @JsonValue(0)
   dateOfBirth,
+
+  /// The date of expiry field.
   @JsonValue(1)
   dateOfExpiry,
+
+  /// The document number field.
   @JsonValue(2)
   documentNumber,
+
+  /// The document additional number field.
   @JsonValue(3)
   documentAdditionalNumber,
+
+  /// The document optional additional number field.
   @JsonValue(4)
   documentOptionalAdditionalNumber,
+
+  /// The personal ID number field.
   @JsonValue(5)
   personalIdNumber,
 }
 
-/// Result of the data matching algorithm for scanned parts/sides of the document.
+/// Represents the state of the data match.
 enum DataMatchState {
   /// Data matching has not been performed.
   @JsonValue(0)
@@ -510,12 +640,13 @@ enum DataMatchState {
   @JsonValue(1)
   failed,
 
-  /// Data match.
+  /// Data does match.
   @JsonValue(2)
   success,
 }
 
-/// Represents string results for three alphabets
+/// Represents the multi-alphabet string result extracted from the OCR.
+/// The result contains the extracted strings, their locations, and the sides of the extracted strings.
 class StringResult {
   ///  All strings separated by new line
   String? value;
@@ -533,11 +664,17 @@ class StringResult {
   String? greek;
 
   /// Document field location
+  ///
+  /// See [Location] for more information.
   Location? location;
 
-  /// Document field side
+  /// The document side where the field is located.
+  ///
+  /// See [Side] for more information.
   Side? side;
 
+  /// Represents the multi-alphabet string result extracted from the OCR.
+  /// The result contains the extracted strings, their locations, and the sides of the extracted strings.
   StringResult(Map<String, dynamic> nativeStringResult) {
     value = nativeStringResult['value'];
     latin = nativeStringResult['latin'];
@@ -560,20 +697,21 @@ class StringResult {
   }
 }
 
-/// Represents rectangle location of each document field
+/// Represents the rectangle location of each document field
 class Rectangle {
-  /// x location
+  /// X location
   double? x;
 
-  /// y location
+  /// Y location
   double? y;
 
-  /// rectangle width
+  /// Rectangle width
   double? width;
 
-  /// rectangle height
+  /// Rectangle height
   double? height;
 
+  /// Represents rectangle location of each document field
   Rectangle(Map<String, dynamic> nativeRect) {
     x = nativeRect['x'] != null ? nativeRect['x'] * 1.0 : null;
     y = nativeRect['y'] != null ? nativeRect['y'] * 1.0 : null;
@@ -582,13 +720,21 @@ class Rectangle {
   }
 }
 
-///Represents document field location for three alphabets
+/// Represents the information about the location of an element within a document or image.
 class Location {
+  /// Rectangle location of the result extracted from the OCR in the latin alphabet.
   Rectangle? latin;
+
+  /// Rectangle location of the result extracted from the OCR in the arabic alphabet.
   Rectangle? arabic;
+
+  /// Rectangle location of the result extracted from the OCR in the cyrillic alphabet.
   Rectangle? cyrillic;
+
+  /// Rectangle location of the result extracted from the OCR in the greek alphabet.
   Rectangle? greek;
 
+  /// Represents the information about the location of an element within a document or image.
   Location(Map<String, dynamic> nativeLocation) {
     latin = Rectangle(Map<String, dynamic>.from(nativeLocation['latin']));
     arabic = Rectangle(Map<String, dynamic>.from(nativeLocation['arabic']));
@@ -597,13 +743,21 @@ class Location {
   }
 }
 
-///Represents document side for document field for three alphabets
+/// Side of the document on which the specific result is located.
 class Side {
+  /// Document side of the result extracted from the OCR in the latin alphabet.
   DocumentSide? latin;
+
+  /// Document side of the result extracted from the OCR in the arabic alphabet.
   DocumentSide? arabic;
+
+  /// Document side of the result extracted from the OCR in the cyrillic alphabet.
   DocumentSide? cyrillic;
+
+  /// Document side of the result extracted from the OCR in the cyrillic alphabet.
   DocumentSide? greek;
 
+  /// Side of the document on which the specific result is located.
   Side(Map<String, dynamic> nativeSide) {
     latin = enumFromValue(DocumentSide.values, nativeSide['latin']);
     arabic = enumFromValue(DocumentSide.values, nativeSide['arabic']);
@@ -615,41 +769,58 @@ class Side {
 /// Define document side where the document field is located
 enum DocumentSide {
   ///The field was not detected
-  None,
+  none,
 
   ///The field is located on the front side of the document
-  Front,
+  front,
 
   ///The field is located on the back side of the document
-  Back,
+  back,
 }
 
+/// Represents the result of the date extraction.
+/// Contains the extracted date, along with additional date information.
 class DateResult<T> {
+  /// The extracted date information.
+  ///
+  /// See [Date] for more information.
   Date? date;
 
-  /// original date string
+  /// Original string representation of the date which has been extracted.
+  ///
+  /// Depending of the information source, it can either be of type [StringResult] or [String].
   T? originalString;
 
-  /// is filled by domain knowledge
+  /// Indicates that date does not appear on the document but is filled by our internal domain knowledge.
   bool? isFilledByDomainKnowledge;
 
+  /// Indicates whether date was successfully parsed.
+  bool? successfullyParsed;
+
+  /// Represents the result of the date extraction.
+  /// Contains the extracted date, along with additional date information.
   DateResult(Map<String, dynamic> nativeDateResult) {
     date = Date(nativeDateResult);
     originalString = handleStringType(nativeDateResult, "originalString");
     isFilledByDomainKnowledge = nativeDateResult["isFilledByDomainKnowledge"];
+    successfullyParsed = nativeDateResult["successfullyParsed"];
   }
 }
 
+/// Represents the extracted date.
 class Date {
-  /// day in month
+  /// Day of the month.
+  /// The first day of the month has value 1.
   int? day;
 
-  /// month in year
+  /// Month of the year.
+  /// The first month of the year has value 1.
   int? month;
 
-  /// year
+  /// Full year.
   int? year;
 
+  /// Represents the extracted date.
   Date(Map<String, dynamic> nativeDate) {
     day = nativeDate['day'];
     month = nativeDate['month'];
@@ -666,23 +837,34 @@ StringResult? createStringResult(
       : null;
 }
 
-/// Represents data extracted from the Driver's license.
+///  Represents detailed extracted information about the driver license.
 class DriverLicenseDetailedInfo<T> {
-  ///  Restrictions to driving privileges for the driver license owner.
+  ///  The restrictions to driving privileges for the United States driver license owner.
+  ///
+  /// Depending of the information source, it can either be of type [StringResult] or [String].
   T? restrictions;
 
-  /// Additional privileges granted to the driver license owner.
+  ///  The additional privileges granted to the US driver license owner.
+  ///
+  /// Depending of the information source, it can either be of type [StringResult] or [String].
   T? endorsements;
 
   /// The type of vehicle the driver license owner has privilege to drive.
+  ///
+  /// Depending of the information source, it can either be of type [StringResult] or [String].
   T? vehicleClass;
 
   /// The driver license conditions.
+  ///
+  /// Depending of the information source, it can either be of type [StringResult] or [String].
   T? conditions;
 
   /// The additional information on vehicle class.
+  ///
+  /// See [VehicleClassInfo] for more information.
   List<VehicleClassInfo>? vehicleClassesInfo;
 
+  ///  Represents detailed extracted information about the driver license.
   DriverLicenseDetailedInfo(
     Map<String, dynamic> nativeDriverLicenseDetailedInfo,
   ) {
@@ -713,19 +895,28 @@ class DriverLicenseDetailedInfo<T> {
   }
 }
 
+/// Represents the information about the vehicle class extraction.
 class VehicleClassInfo<T> {
   /// The type of driver licence.
+  ///
+  /// Depending of the information source, it can either be of type [StringResult] or [String].
   T? licenceType;
 
   /// The type of vehicle the driver license owner has privilege to drive.
+  ///
+  /// Depending of the information source, it can either be of type [StringResult] or [String].
   T? vehicleClass;
 
   /// The date since licence is effective.
+  /// See [DateResult] for more information.
   DateResult<T>? effectiveDate;
 
   /// The date of expiry of licence.
+  ///
+  /// See [DateResult] for more information.
   DateResult<T>? expiryDate;
 
+  /// Represents the information about the vehicle class extraction.
   VehicleClassInfo(Map<String, dynamic> nativeVehicleClassInfo) {
     licenceType = handleStringType(nativeVehicleClassInfo, 'licenceType');
     vehicleClass = handleStringType(nativeVehicleClassInfo, 'vehicleClass');
@@ -746,27 +937,36 @@ class VehicleClassInfo<T> {
   }
 }
 
-/// Defines the dependents information
+/// Information about the dependent.
 class DependentInfo {
   /// The date of birth of the dependent.
-  DateResult? dateOfBirth;
+  ///
+  /// See [DateResult] for more information.
+  DateResult<StringResult>? dateOfBirth;
 
   /// The sex or gender of the dependent.
+  ///
+  /// See [StringResult] for more information.
   StringResult? sex;
 
   /// The document number of the dependent.
+  ///
+  /// See [StringResult] for more information.
   StringResult? documentNumber;
 
   /// The full name of the dependent.
+  ///
+  /// See [StringResult] for more information.
   StringResult? fullName;
 
   /// Checks if the dependent's information is empty.
   bool? empty;
 
+  /// Information about the dependent.
   DependentInfo(Map<String, dynamic> nativeDependentInfo) {
     dateOfBirth =
         nativeDependentInfo['dateOfBirth'] != null
-            ? DateResult(
+            ? DateResult<StringResult>(
               Map<String, dynamic>.from(nativeDependentInfo['dateOfBirth']),
             )
             : null;
@@ -777,6 +977,10 @@ class DependentInfo {
   }
 }
 
+///Represents the result of scanning a single side of the document.
+///
+/// Contains the data extracted from the Visual Inspection Zone, Machine Readable Zone,
+/// barcode, the input image, and the cropped document, face, and signature images.
 class SingleSideScanningResult {
   /// The data extracted from the Visual Inspection Zone.
   VizResult? viz;
@@ -787,13 +991,13 @@ class SingleSideScanningResult {
   /// The data extracted from the barcode.
   BarcodeResult? barcode;
 
-  /// The input image.
+  /// The input image in the Base64 format.
   String? inputImage;
 
-  /// The input image containing parsable barcode.
+  /// The input image containing parsable barcode in the Base64 format.
   String? barcodeInputImage;
 
-  /// The cropped document image.
+  /// The cropped document image in the Base64 format.
   String? documentImage;
 
   /// The cropped face image with additional info.
@@ -802,6 +1006,10 @@ class SingleSideScanningResult {
   /// The cropped signature image with additional info.
   DetailedCroppedImageResult? signatureImage;
 
+  ///Represents the result of scanning a single side of the document.
+  ///
+  /// Contains the data extracted from the Visual Inspection Zone, Machine Readable Zone,
+  /// barcode, the input image, and the cropped document, face, and signature images.
   SingleSideScanningResult(
     Map<String, dynamic> nativeSingleSideScanningResult,
   ) {
@@ -847,6 +1055,7 @@ class SingleSideScanningResult {
   }
 }
 
+/// Represents the result of the Visual Inspection Zone of a document.
 class VizResult {
   /// The first name of the document owner.
   StringResult? firstName;
@@ -974,6 +1183,7 @@ class VizResult {
   /// The vehicle owner.
   StringResult? vehicleOwner;
 
+  /// Represents the result of the Visual Inspection Zone of a document.
   VizResult(Map<String, dynamic> nativeVizResult) {
     firstName = createStringResult(nativeVizResult, 'firstName');
     lastName = createStringResult(nativeVizResult, 'lastName');
@@ -1081,50 +1291,92 @@ class VizResult {
   }
 }
 
+/// Represents the result of the MRZ recognition.
 class MrzResult {
+  /// The entire Machine Readable Zone text from ID.
   String? rawMRZString;
 
+  /// The document code. Document code contains two characters.
+  /// For MRTD the first character shall be A, C or I.
+  /// The second character shall be discretion of the issuing State or organization except
+  /// that V shall not be used, and `C` shall not be used after `A` except in the crew member certificate.
+  ///
+  /// On machine-readable passports (MRP) first character shall be `P` to designate an MRP. One additional
+  /// letter may be used, at the discretion of the issuing State or organization, to designate a particular
+  ///  MRP.
+  /// If the second character position is not used for this purpose, it shall be filled by the filter character.
   String? documentCode;
 
+  /// three-letter or two-letter code which indicate the issuing State. Three-letter codes are based
+  /// on Aplha-3 codes for entities specified in ISO 3166-1, with extensions for certain States. Two-letter
+  /// codes are based on Aplha-2 codes for entities specified in ISO 3166-1, with extensions for certain States.
   String? issuer;
 
+  /// The document number.
   String? documentNumber;
 
+  /// The first optional data. Empty string if not available.
   String? opt1;
 
+  /// The second optional data. Empty string if not available.
   String? opt2;
 
+  /// The gender of the document holder.
+  /// Gender is specified by use of the single initial.
   String? gender;
 
+  ///  The nationality of the document holder represented by a three-letter or two-letter code.
+  /// Three-letter codes are based on Alpha-3 codes for entities specified in ISO 3166-1, with extensions for certain
+  /// States.
+  /// Two-letter codes are based on Aplha-2 codes for entities specified in ISO 3166-1, with extensions for certain States.
   String? nationality;
 
+  /// The primary indentifier. If there is more than one component, they are separated with space.
   String? primaryID;
 
+  /// The secondary identifier. If there is more than one component, they are separated with space.
   String? secondaryID;
+
+  /// The full issuer name that is expanded from the three-letter or two-letter code which indicate
+  /// the issuing State.
   String? issuerName;
 
+  /// The full nationality of the document holder, which is expanded from the three-letter or two-letter
+  /// nationality code.
   String? nationalityName;
 
+  /// Whether the MRZ is verified.
+  /// If the MRZ is verified, it means that all check digits are correct.
   bool? verified;
 
-  DateResult? dateOfBirth;
+  /// The date of birth of the document holder.
+  DateResult<String>? dateOfBirth;
 
-  DateResult? dateOfExpiry;
+  /// The date of expiry of the document.
+  DateResult<String>? dateOfExpiry;
 
+  /// The type of the document.
   MRZDocumentType? documentType;
 
+  /// The sanitized first optional data. Result without additional '<' characters if they exist.
   String? sanitizedOpt1;
 
+  /// The sanitized second optional data. Result without additional '<' characters if they exist.
   String? sanitizedOpt2;
 
+  /// The sanitized nationality. Result without additional '<' characters if they exist.
   String? sanitizedNationality;
 
+  /// The sanitized issuer. Result without additional '<' characters if they exist.
   String? sanitizedIssuer;
 
+  /// The sanitized document code. Result without additional '<' characters if they exist.
   String? sanitizedDocumentCode;
 
+  /// The sanitized document number. Result without additional '<' characters if they exist.
   String? sanitizedDocumentNumber;
 
+  /// Represents the result of the MRZ recognition.
   MrzResult(Map<String, dynamic> nativeMRZResult) {
     documentType = enumFromValue(
       MRZDocumentType.values,
@@ -1162,6 +1414,7 @@ class MrzResult {
   }
 }
 
+///  Represents the data extracted from the barcode.
 class BarcodeResult {
   /// The raw, unparsed barcode data.
   BarcodeData? barcodeData;
@@ -1243,6 +1496,7 @@ class BarcodeResult {
   /// Currently this is only filled for AAMVACompliant documents.
   BarcodeExtendedElements? extendedElements;
 
+  ///  Represents the data extracted from the barcode.
   BarcodeResult(Map<String, dynamic> nativeBarcodeResult) {
     barcodeData =
         nativeBarcodeResult['barcodeData'] != null
@@ -1315,15 +1569,21 @@ class BarcodeResult {
   }
 }
 
+/// Represents the raw, unparsed data extracted from a scanned barcode.
 class BarcodeData {
+  /// Type of the scanned barcode.
   BarcodeType? barcodeType;
 
+  /// Raw bytes of the barcode content.
   String? rawData;
 
+  /// String representation of the barcode content.
   String? stringData;
 
+  /// Whether the barcode data is uncertain, i.e. if scanned barcode was incomplete or has parts of it missing.
   bool? uncertain;
 
+  /// Represents the raw, unparsed data extracted from a scanned barcode.
   BarcodeData(Map<String, dynamic> nativeBarcodeData) {
     barcodeType = enumFromValue(
       BarcodeType.values,
@@ -1374,7 +1634,9 @@ enum BarcodeType {
   PDF417,
 }
 
+/// Detailed information about the address.
 class AddressDetailedInfo {
+  /// The address street portion of the document owner.
   String? street;
 
   /// The address postal code portion of the document owner.
@@ -1386,6 +1648,7 @@ class AddressDetailedInfo {
   /// The address jurisdiction code portion of the document owner.
   String? jurisdiction;
 
+  /// Detailed information about the address.
   AddressDetailedInfo(Map<String, dynamic> nativeAddressDetailedInfo) {
     street = nativeAddressDetailedInfo["street"];
     postalCode = nativeAddressDetailedInfo["postalCode"];
@@ -1394,49 +1657,352 @@ class AddressDetailedInfo {
   }
 }
 
+/// Represents the fields present in the barcode.
+/// Currently this is only used for AAMVACompliant documents.
 class BarcodeExtendedElements {
+  /// Mandatory on all AAMVA and Magnetic barcodes.
+  /// On compact barcodes, use kFullAddress.
+  ///
+  /// City portion of the cardholder address.
   String? addressCity;
+
+  /// Mandatory on all AAMVA and Magnetic barcodes.
+  /// On compact barcodes, use kFullAddress.
+  ///
+  /// State portion of the cardholder address.
   String? addressJurisdictionCode;
+
+  /// Mandatory on all AAMVA and Magnetic barcodes.
+  /// On compact barcodes, use kFullAddress.
+  ///
+  /// Postal code portion of the cardholder address in the U.S. and Canada.
+  /// If the trailing portion of the postal code in the U.S. is not known, zeros can be used
+  /// to fill the trailing set of numbers up to nine (9) digits.
   String? addressPostalCode;
+
+  /// Mandatory on all AAMVA and Magnetic barcodes.
+  /// On compact barcodes, use kFullAddress.
+  ///
+  /// Street portion of the cardholder address.
+  /// The place where the registered driver of a vehicle (individual or corporation)
+  /// may be contacted such as a house number, street address, etc.
   String? addressStreet;
+
+  /// Optional on all AAMVA barcodes.
+  /// On Compact barcodes, use kFullAddress.
+  ///
+  /// Second line of street portion of the cardholder address.
   String? addressStreet2;
+
+  /// Optional on AAMVA 01. (MMDDCCYY format)
+  ///
+  /// ALTERNATIVE DATES(S) given as date of birth.
   String? akaDateOfBirth;
+
+  /// Optional on all AAMVA and Compact barcodes.
+  /// Other family name by which the cardholder is known.
   String? akaFamilyName;
+
+  /// Optional on all AAMVA and Compact barcodes.
+  ///
+  /// Other name by which the cardholder is known. ALTERNATIVE NAME(S) of the individual
+  /// holding the Driver License or ID.
+  ///
+  /// The Name field contains up to four portions, separated with the "," delimiter:
+  /// AKA Last Name (required)
+  /// , (required)
+  /// AKA First Name (required)
+  /// , (required if other name portions follow, otherwise optional)
+  /// AKA Middle Name(s) (optional)
+  /// , (required if other name portions follow, otherwise optional)
+  /// AKA Suffix (optional)
+  /// , (optional)
+  ///
+  /// If the individual has more than one AKA middle name they are separated with space.
   String? akaFullName;
+
+  /// Optional on all AAMVA and Compact barcodes.
+  ///
+  /// Other given name by which the cardholder is known
   String? akaGivenName;
+
+  /// Optional on AAMVA 01 barcodes.
+  ///
+  /// ALTERNATIVE MIDDLE NAME(s) or INITIALS of the individual holding the Driver License or ID.
+  /// Hyphenated names acceptable, spaces between names acceptable, but no other
+  /// use of special symbols.
   String? akaMiddleName;
+
+  /// Optional on AAMVA 01 barcodes.
+  ///
+  /// ALTERNATIVE PREFIX to Driver Name. Freeform as defined by issuing jurisdiction.
   String? akaPrefixName;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Driver "AKA" Social Security Number. FORMAT SAME AS DRIVER SOC SEC NUM. ALTERNATIVE NUMBERS(S) used as SS NUM.
   String? akaSocialSecurityNumber;
+
+  ///  Optional on all AAMVA and Compact barcodes.
+  ///
+  /// Other suffix by which the cardholder is known.
+
+  /// The Suffix Code Portion, if submitted, can contain only the Suffix Codes
+  /// shown in the following table (e.g., Andrew Johnson, III = JOHNSON@ANDREW@@3RD):
+  ///
+  /// Suffix     Meaning or Synonym
+  /// JR         Junior
+  /// SR         Senior or Esquire 1ST First
+  /// 2ND        Second
+  /// 3RD        Third
+  /// 4TH        Fourth
+  /// 5TH        Fifth
+  /// 6TH        Sixth
+  /// 7TH        Seventh
+  /// 8TH        Eighth
+  /// 9TH        Ninth
   String? akaSuffixName;
+
+  /// Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// A string of letters and/or numbers that identifies when, where, and by whom a driver's
+  /// license/ID card was made. If audit information is not used on the card or the MRT, it
+  /// must be included in the driver record.
   String? auditInformation;
+
+  /// Optional on AAMVA 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// DHS required field that indicates date of the most recent version change or
+  ///  modification to the visible format of the DL/ID. (MMDDCCYY format)
   String? cardRevisionDate;
+
+  /// Optional on AAMVA 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// DHS required field that indicates compliance: "M" = materially compliant,
+  /// "F" = fully compliant, and, "N" = non-compliant.
   String? complianceType;
+
+  /// Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// Country in which DL/ID is issued. U.S. = USA, Canada = CAN.
   String? countryIdentification;
+
+  /// Mandatory on all AAMVA, Magnetic and Compact barcodes.
+  ///
+  /// Family name of the cardholder. (Family name is sometimes also called "last name" or "surname.")
+  /// Collect full name for record, print as many characters as possible on portrait side of DL/ID.
   String? customerFamilyName;
+
+  /// Mandatory on all AAMVA and Compact barcodes.
+  ///
+  /// The number assigned or calculated by the issuing authority.
   String? customerIdNumber;
+
+  /// Mandatory on all AAMVA, Magnetic and Compact barcodes.
+  ///
+  /// First name of the cardholder.
   String? customerFirstName;
+
+  /// Mandatory on all AAMVA, Magnetic and Compact barcodes.
+  ///
+  /// Full name of the individual holding the Driver's License or ID.
+  ///
+  /// The Name field contains up to four portions, separated with the "," delimiter:
+  /// Last Name (required)
+  /// , (required)
+  /// First Name (required)
+  /// , (required if other name portions follow, otherwise optional)
+  /// Middle Name(s) (optional)
+  /// , (required if other name portions follow, otherwise optional)
+  /// Suffix (optional)
+  /// , (optional)
+  ///
+  /// If the individual has more than one middle name they are separated with space.
   String? customerFullName;
+
+  /// Mandatory on AAMVA 04, 05, 06, 07, 08 barcodes.
+  /// Optional on AAMVA 01, 02, 03, Magnetic and Compcat barcodes.
+  ///
+  /// Middle name(s) of the cardholder. In the case of multiple middle names they
+  /// shall be separated by space " ".
   String? customerMiddleName;
+
+  /// Optional on compact barcodes.
+  ///
+  /// Document discriminator.
   String? dataDiscriminator;
+
+  /// Mandatory on all AAMVA, Magnetic and Compact barcodes.
+  ///
+  /// Date on which the cardholder was born. (MMDDCCYY format)
   String? dateOfBirth;
+
+  /// Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Magnetic barcodes.
+  /// Optional on Compact barcodes.
+  ///
+  /// Number must uniquely identify a particular document issued to that customer
+  /// from others that may have been issued in the past. This number may serve
+  /// multiple purposes of document discrimination, audit info, and/or inventory control.
   String? documentDiscriminator;
+
+  /// Mandatory on all AAMVA, Magnetic and Compact barcodes.
+  ///
+  /// Date on which the document expires. (MMDDCCYY format)
+  /// If the document is non expiring then "Non expiring" is written in this field.
   String? documentExpirationDate;
+
+  /// Optional on Magnetic barcodes.
+  ///
+  /// Month on which the driving and identification privileges granted by the document are no longer valid.
   String? documentExpirationMonth;
+
+  /// Mandatory on all AAMVA and Compact barcodes.
+  ///
+  /// Date on which the document was issued. (MMDDCCYY format)
   String? documentIssueDate;
+
+  /// Optional on Magnetic barcodes.
+  ///
+  /// Field that indicates that the driving and identification privileges granted by the
+  /// document are nonexpiring = "1".
   String? documentNonexpiring;
+
+  /// Mandatory on all driver's licenses.
+  /// All barcodes which are using 3-track magnetic stripe encoding used in the interest of smoothing a transition from legacy documents
+  /// shall be designated as "Magnetic". All barcodes which are using compact encoding
+  /// compliant with ISO/IEC 18013-2 shall be designated as "Compact". All barcodes (majority)
+  /// compliant with Mandatory PDF417 Bar Code of the American Association of Motor Vehicle
+  /// Administrators (AAMVA) Card Design Standard from AAMVA DL/ID-2000 standard to DL/ID-2013
+  /// shall be designated as "AAMVA".
   String? documentType;
+
+  /// Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 barcodes.
+  /// Optional on AAMVA 01, Magnetic and Compact barcodes.
+  ///
+  /// Color of cardholder's eyes. (ANSI D-20 codes)
+  /// Code   Description
+  /// BLK    Black
+  /// BLU    Blue
+  /// BRO    Brown
+  /// GRY    Gray
+  /// GRN    Green
+  /// HAZ    Hazel
+  /// MAR    Maroon
+  /// PNK    Pink
+  /// DIC    Dichromatic
+  /// UNK    Unknown
   String? eyeColor;
+
+  /// Mandatory on AAMVA 04, 05, 06, 07, 08 barcodes.
+  /// Optional on Compact barcodes.
+  /// A code that indicates whether a field has been truncated (T), has not been
+  /// truncated (N), or – unknown whether truncated (U).
   String? familyNameTruncation;
+
+  /// Mandatory on AAMVA versions 02 and 03.
+  ///
+  /// Federally established codes for vehicle categories, endorsements, and restrictions
+  /// that are generally applicable to commercial motor vehicles. If the vehicle is not a
+  /// commercial vehicle, "NONE" is to be entered.
   String? federalCommercialVehicleCodes;
+
+  /// Mandatory on AAMVA 04, 05, 06, 07, 08 barcodes.
+  /// Optional on Compact barcodes.
+  ///
+  /// A code that indicates whether a field has been truncated (T), has not been
+  /// truncated (N), or – unknown whether truncated (U).
   String? firstNameTruncation;
+
+  /// Mandatory on all AAMVA and Magnetic barcodes.
+  /// Optional on Compact barcodes.
+  ///
+  /// Full address of the individual holding the Driver's License or ID.
+  ///
+  /// The full address field contains up to four portions, separated with the "," delimiter:
+  /// Street Address (required)
+  /// , (required if other address portions follow, otherwise optional)
+  /// City (optional)
+  /// , (required if other address portions follow, otherwise optional)
+  /// Jurisdiction Code (optional)
+  /// , (required if other address portions follow, otherwise optional)
+  /// ZIP - Postal Code (optional)
   String? fullAddress;
+
+  /// Optional on all AAMVA, Magnetic and Compact barcodes.
+  ///
+  /// Bald, black, blonde, brown, gray, red/auburn, sandy, white, unknown. If the issuing
+  /// jurisdiction wishes to abbreviate colors, the three-character codes provided in ANSI D20 must be
+  /// used.
+  ///
+  /// Code   Description
+  /// BAL    Bald
+  /// BLK    Black
+  /// BLN    Blond
+  /// BRO    Brown
+  /// GRY    Grey
+  /// RED    Red/Auburn
+  /// SDY    Sandy
+  /// WHI    White
+  /// UNK    Unknown
   String? hairColor;
+
+  /// Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  /// Optional on AAMVA 01 and Magnetic barcodes.
+  ///
+  /// Height of cardholder, either in Inches or in Centimeters.
+  ///
+  /// Inches (in): number of inches followed by " in"
+  /// example: 6'1'' = "73 in"
+  ///
+  /// Centimeters (cm): number of centimeters followed by " cm"
+  /// example: 181 centimeters = "181 cm"
   String? height;
+
+  /// Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  /// Optional on AAMVA 01 and Magnetic barcodes.
+  ///
+  /// Height of cardholder in Inches.
+  /// Example: 5'9'' = "69".
   String? heightIn;
+
+  /// Mandatory on AAMVA 02, 03, 04, 05, 06, 07, 08 Compact barcodes.
+  /// Optional on AAMVA 01 and Magnetic barcodes.
+  ///
+  /// Height of cardholder in Centimeters.
+  /// Example: 180 Centimeters = "180".
   String? heightCm;
+
+  /// Mandatory on all AAMVA, Magnetic and Compact barcodes.
+  ///
+  /// This number uniquely identifies the issuing jurisdiction and can
+  /// be obtained by contacting the ISO Issuing Authority (AAMVA)
   String? issuerIdentificationNumber;
+
+  /// Optional on all AAMVA barcodes.
+  /// Mandatory on Compact barcodes.
+  ///
+  /// Jurisdictions may define a subfile to contain jurisdiction-specific information.
+  /// These subfiles are designated with the first character of “Z” and the second
+  /// character is the first letter of the jurisdiction's name. For example, "ZC" would
+  /// be the designator for a California or Colorado jurisdiction-defined subfile, "ZQ"
+  /// would be the designator for a Quebec jurisdiction-defined subfile. In the case of
+  /// a jurisdiction-defined subfile that has a first letter that could be more than
+  /// one jurisdiction (e.g. California, Colorado, Connecticut) then other data, like
+  /// the IIN or address, must be examined to determine the jurisdiction.
+  ///
   String? issuingJurisdiction;
+
+  /// Optional on all AAMVA and Magnetic barcodes.
+  ///
+  /// Name of issuing jurisdiction, for example: Alabama, Alaska ...
   String? issuingJurisdictionName;
+
+  /// Mandatory on all AAMVA barcodes.
+  /// Optional on Magnetic barcodes.
+  ///
+  /// Jurisdiction-specific codes that represent additional privileges
+  /// granted to the cardholder beyond the vehicle class (such as transportation of
+  /// passengers, hazardous materials, operation of motorcycles, etc.).
   String? jurisdictionEndorsementCodes;
   String? jurisdictionEndorsmentCodeDescription;
   String? jurisdictionRestrictionCodeDescription;
@@ -1479,6 +2045,8 @@ class BarcodeExtendedElements {
   String? weightPounds;
   String? weightRange;
 
+  /// Represents the fields present in the barcode.
+  /// Currently this is only used for AAMVACompliant documents.
   BarcodeExtendedElements(Map<String, dynamic> nativeBarcodeExtendedElements)
     : addressCity = nativeBarcodeExtendedElements['addressCity'],
       addressJurisdictionCode =
