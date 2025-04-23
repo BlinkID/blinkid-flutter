@@ -1,3 +1,5 @@
+import 'package:blinkid_flutter/blinkid_result.dart';
+import 'package:blinkid_flutter/blinkid_settings.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'blinkid_flutter_method_channel.dart';
@@ -23,7 +25,29 @@ abstract class BlinkidFlutterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<String?> getPlatformVersion() {
-    throw UnimplementedError('platformVersion() has not been implemented.');
+  Future<BlinkIdScanningResult?> performScan(
+    BlinkIdSdkSettings blinkidSdkSettings,
+    BlinkIdSessionSettings blinkidSessionSettings, [
+    ClassFilter? classFilter,
+  ]) async {
+    return MethodChannelBlinkidFlutter().performScan(
+      blinkidSdkSettings,
+      blinkidSessionSettings,
+      classFilter,
+    );
+  }
+
+  Future<BlinkIdScanningResult?> performDirectApiScan(
+    BlinkIdSdkSettings blinkidSdkSettings,
+    BlinkIdSessionSettings blinkidSessionSettings,
+    String firstImage, [
+    String? secondImage,
+  ]) async {
+    return MethodChannelBlinkidFlutter().performDirectApiScan(
+      blinkidSdkSettings,
+      blinkidSessionSettings,
+      firstImage,
+      secondImage,
+    );
   }
 }
