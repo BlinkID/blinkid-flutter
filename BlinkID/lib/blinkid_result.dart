@@ -22,193 +22,117 @@ class BlinkIdScanningResult {
   DataMatchResult? dataMatchResult;
 
   /// The first name of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? firstName;
 
   /// The last name of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? lastName;
 
   /// The full name of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? fullName;
 
   /// The additional name information of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? additionalNameInformation;
 
   /// The localized name of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? localizedName;
 
   /// The fathers name of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? fathersName;
 
   /// The mothers name of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? mothersName;
 
   /// The address of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? address;
 
   /// The additional address information of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? additionalAddressInformation;
 
   /// The one more additional address information of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? additionalOptionalAddressInformation;
 
   /// The place of birth of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? placeOfBirth;
 
   /// The nationality of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? nationality;
 
   /// The race of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? race;
 
   /// The religion of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? religion;
 
   /// The profession of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? profession;
 
   /// The marital status of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? maritalStatus;
 
   /// The residential status of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? residentialStatus;
 
   /// The employer of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? employer;
 
   /// The sex of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? sex;
 
   /// The sponsor of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? sponsor;
 
   /// The blood type of the document owner.
-  ///
-  /// See [StringResult] for more information.
   StringResult? bloodType;
 
   /// The document number.
-  ///
-  /// See [StringResult] for more information.
   StringResult? documentNumber;
 
   /// The personal identification number.
-  ///
-  /// See [StringResult] for more information.
   StringResult? personalIdNumber;
 
   /// The additional number of the document.
-  ///
-  /// See [StringResult] for more information.
   StringResult? documentAdditionalNumber;
 
   /// The one more additional number of the document.
-  ///
-  /// See [StringResult] for more information.
   StringResult? documentOptionalAdditionalNumber;
 
   /// The additional personal identification number.
-  ///
-  /// See [StringResult] for more information.
   StringResult? additionalPersonalIdNumber;
 
   /// The issuing authority of the document.
-  ///
-  /// See [StringResult] for more information.
   StringResult? issuingAuthority;
 
   /// The transcription of the document subtype.
-  ///
-  /// See [StringResult] for more information.
   StringResult? documentSubtype;
 
   /// The remarks on the residence permit.
-  ///
-  /// See [StringResult] for more information.
   StringResult? remarks;
 
   /// The residence permit type.
-  ///
-  /// See [StringResult] for more information.
   StringResult? residencePermitType;
 
   /// The manufacturing year.
-  ///
-  /// See [StringResult] for more information.
   StringResult? manufacturingYear;
 
   /// The vehicle type.
-  ///
-  /// See [StringResult] for more information.
   StringResult? vehicleType;
 
   /// The eligibility category.
-  ///
-  /// See [StringResult] for more information.
   StringResult? eligibilityCategory;
 
   /// The specific document validity.
-  ///
-  /// See [StringResult] for more information.
   StringResult? specificDocumentValidity;
 
   /// The visa type of the document.
-  ///
-  /// See [StringResult] for more information.
   StringResult? visaType;
 
   /// The date of birth of the document owner.
-  ///
-  /// See [DateResult] for more information.
   DateResult<StringResult>? dateOfBirth;
 
   /// The date of issue of the document.
-  ///
-  /// See [DateResult] for more information.
   DateResult<StringResult>? dateOfIssue;
 
   /// The date of expiry of the document.
-  ///
-  /// See [DateResult] for more information.
   DateResult<StringResult>? dateOfExpiry;
 
   /// Determines if date of expiry is permanent.
@@ -910,8 +834,6 @@ class VehicleClassInfo<T> {
   DateResult<T>? effectiveDate;
 
   /// The date of expiry of licence.
-  ///
-  /// See [DateResult] for more information.
   DateResult<T>? expiryDate;
 
   /// Represents the information about the vehicle class extraction.
@@ -938,23 +860,15 @@ class VehicleClassInfo<T> {
 /// Information about the dependent.
 class DependentInfo {
   /// The date of birth of the dependent.
-  ///
-  /// See [DateResult] for more information.
   DateResult<StringResult>? dateOfBirth;
 
   /// The sex or gender of the dependent.
-  ///
-  /// See [StringResult] for more information.
   StringResult? sex;
 
   /// The document number of the dependent.
-  ///
-  /// See [StringResult] for more information.
   StringResult? documentNumber;
 
   /// The full name of the dependent.
-  ///
-  /// See [StringResult] for more information.
   StringResult? fullName;
 
   /// Checks if the dependent's information is empty.

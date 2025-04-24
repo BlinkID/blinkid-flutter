@@ -1,23 +1,20 @@
-import 'dart:ffi';
-
-import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'blinkid_settings.g.dart';
 
+/// Settings for the initialization of the BlinkID SDK.
 @JsonSerializable()
 class BlinkIdSdkSettings {
   /// License key for the native SDK
   String licenseKey;
 
-  /// Optional licensee string if the provided license key is not tied to the single application id
+  /// Optional licensee string if the provided license key is not tied to the single application ID
   String? licensee;
 
-  bool helloLogEnabled = false;
-
   /// Whether resources required for on-device image processing should be downloaded and cached
-  /// on first initialization of the SDK. If set to false, you need to package all the required
+  /// on first initialization of the SDK.
+  /// If set to false, you need to package all the required
   /// resources in your application's assets.
-  bool downloadResources = true;
+  bool? downloadResources;
 
   /// If resources are to be downloaded, the following is the URL where the resources are hosted.
   /// URL: `"https://models.cdn.microblink.com/resources"`
@@ -34,19 +31,33 @@ class BlinkIdSdkSettings {
   /// Timeout settings for resource downloads.
   int? resourceRequestTimeout;
 
-  BlinkIdSdkSettings(this.licenseKey);
+  /// Settings for the initialization of the BlinkID SDK.
+  BlinkIdSdkSettings(
+    this.licenseKey, [
+    licensee,
+    downloadResources,
+    resourceDownloadUrl,
+    resourceLocalFolder,
+    bundleURL,
+    resourceRequestTimeout,
+  ]);
 
   factory BlinkIdSdkSettings.fromJson(Map<String, dynamic> json) =>
       _$BlinkIdSdkSettingsFromJson(json);
   Map<String, dynamic> toJson() => _$BlinkIdSdkSettingsToJson(this);
 }
 
+/// Represents the configuration settings for a scanning session.
+///
+/// This class holds the settings related to the resources initialization,
+/// scanning mode, and specific scanning configurations that define how the scanning
+/// session should behave.
 @JsonSerializable()
 class BlinkIdSessionSettings {
   /// The scanning mode to be used during the scanning session.
   ///
   /// Specifies whether the scanning is for a single side of a document or multiple
-  /// sides, as defined in ``ScanningMode``. The default is set to `.automatic`, which
+  /// sides, as defined in [ScanningMode]. The default is set to `automatic`, which
   /// automatically determines the number of sides to scan.
   ScanningMode scanningMode = ScanningMode.automatic;
 
@@ -60,6 +71,11 @@ class BlinkIdSessionSettings {
   /// Defaults to 15.0
   int stepTimeoutDuration = 15000;
 
+  /// Represents the configuration settings for a scanning session.
+  ///
+  /// This class holds the settings related to the resources initialization,
+  /// scanning mode, and specific scanning configurations that define how the scanning
+  /// session should behave.
   BlinkIdSessionSettings();
 
   factory BlinkIdSessionSettings.fromJson(Map<String, dynamic> json) =>
@@ -67,72 +83,77 @@ class BlinkIdSessionSettings {
   Map<String, dynamic> toJson() => _$BlinkIdSessionSettingsToJson(this);
 }
 
+/// Represents the configurable settings for scanning a document.
+///
+/// This class defines various parameters and policies related to the scanning
+/// process, including image quality handling, data extraction and anonymization,
+/// along with options for frame processing and image extraction.
 @JsonSerializable()
 class BlinkIdScanningSettings {
   /// The level of blur detection in the document image.
   ///
   /// Defines the severity of blur detected in the document image, as defined
-  /// in ``DetectionLevel``. Values range from `.off` (detection NotAvailable) to higher
+  /// in [DetectionLevel]. Values range from `off` (detection NotAvailable) to higher
   /// levels of blur detection.
   ///
   /// `low` – less sensitive to blur; if something is detected as blur, it is almost certainly actual blur,
-  ///     but some amount of blur may not be detected at all.
+  ///  but some amount of blur may not be detected at all.
   /// `high` – highly sensitive to blur; it may detect as blur even something that only resembles blur.
   ///
-  /// Default: `mid`
+  /// Default: [DetectionLevel.mid]
   DetectionLevel blurDetectionLevel = DetectionLevel.mid;
 
   /// Indicates whether images with blur in the document image should be skipped.
   ///
   /// A value of `true` means images with detected blur will be excluded from further processing to prevent blurred images from being used
-  ///     - If blurDetectionLevel = `.off` - blurred images will be processed
-  ///     - If blur is detected ``ProcessingStatus`` will be `ImagePreprocessingFailed` and blur will be reported in the ``ProcessResult``
+  ///     - If blurDetectionLevel = `off` - blurred images will be processed
+  ///     - If blur is detected `ProcessingStatus` will be `ImagePreprocessingFailed` and blur will be reported in the `ProcessResult`
   /// A value of `false` means images with detected blur will not be excluded from further processing
-  ///     - If blurDetectionLevel != `.off` - even if blur is detected, the image will be processed and blur will be reported in the ``ProcessResult``.
+  ///     - If blurDetectionLevel != `off` - even if blur is detected, the image will be processed and blur will be reported in the `ProcessResult`.
   ///
   /// Default: `true`
   bool skipImagesWithBlur = true;
 
   /// The level of glare detection in the document image.
   ///
-  /// Defines the severity of glare detected in the document image, as defined in ``DetectionLevel``.
-  /// Values range from `.off` (detection NotAvailable) to higher levels of glare detection.
-  /// `.low` – less sensitive to glare; if something is detected as glare, it is almost certainly actual glare,
+  /// Defines the severity of glare detected in the document image, as defined in [DetectionLevel].
+  /// Values range from `off` (detection NotAvailable) to higher levels of glare detection.
+  /// `low` – less sensitive to glare; if something is detected as glare, it is almost certainly actual glare,
   ///     but some amount of glare may not be detected at all.
-  /// `.high` – highly sensitive to glare; it may detect as glare even something that only resembles glare.
+  /// `high` – highly sensitive to glare; it may detect as glare even something that only resembles glare.
   ///
-  /// Default: `.mid`
+  /// Default: [DetectionLevel.mid]
   DetectionLevel glareDetectionLevel = DetectionLevel.mid;
 
   /// Indicates whether images with glare in the document image should be skipped.
   ///
   /// A value of `true` means images with detected glare will be excluded from further processing to prevent glared images from being used
-  ///     - If glareDetectionLevel = `.off` - glared images will be processed
-  ///     - If glare is detected ``ProcessingStatus`` will be `ImagePreprocessingFailed` and glare will be reported in the ``ProcessResult``
+  ///     - If glareDetectionLevel = `off` - glared images will be processed
+  ///     - If glare is detected `ProcessingStatus` will be `ImagePreprocessingFailed` and glare will be reported in the `ProcessResult`
   /// A value of `false` means images with detected glare will not be excluded from further processing
-  ///     - If glareDetectionLevel != `.off` - even if glare is detected, the image will be processed and glare will be reported in the ``ProcessResult``
+  ///     - If glareDetectionLevel != `off` - even if glare is detected, the image will be processed and glare will be reported in the `ProcessResult`
   ///
   /// Default: `true`
   bool skipImagesWithGlare = true;
 
   /// The level of allowed detected tilt of the document in the image.
   ///
-  /// Defines the severity of allowed detected tilt of the document in the image, as defined in ``DetectionLevel``.
-  /// Values range from `.off` (detection NotAvailable) to higher levels of allowed tilt.
-  /// `.low` – less sensitive to tilt.
-  /// `.high` – highly sensitive to tilt.
+  /// Defines the severity of allowed detected tilt of the document in the image, as defined in [DetectionLevel].
+  /// Values range from `off` (detection NotAvailable) to higher levels of allowed tilt.
+  /// `low` – less sensitive to tilt.
+  /// `high` – highly sensitive to tilt.
   ///
-  /// Default: `.off`
+  /// Default: [DetectionLevel.off]
   DetectionLevel tiltDetectionLevel = DetectionLevel.off;
 
   /// Indicates whether images with inadequate lighting conditions should be rejected.
   ///
   /// Inadequate lighting conditions are represented as either `TooBright` or `TooDark` document images,
-  ///     as defined in the ``ImageAnalysisLightingStatus`` enum.
+  ///     as defined in the `ImageAnalysisLightingStatus` enum.
   /// A value of `true` means images with inadequate lighting conditions will be excluded from further processing to prevent images with
   /// inadequate lighting from being used
-  ///     - If inadequate light conditions are detected ``ProcessingStatus`` will be `ImagePreprocessingFailed` and lighting status will be
-  ///       reported in the ``ProcessResult``.
+  ///     - If inadequate light conditions are detected `ProcessingStatus` will be `ImagePreprocessingFailed` and lighting status will be
+  ///       reported in the `ProcessResult`.
   ///
   /// Default: `false`
   bool skipImagesWithInadequateLightingConditions = false;
@@ -140,8 +161,8 @@ class BlinkIdScanningSettings {
   /// Indicates whether images occluded by hand should be rejected.
   ///
   /// A value of `true` means images occluded by hand will be excluded from further processing to prevent occluded images from being used
-  ///     - If hand occlusion is detected ``ProcessingStatus`` will be `ImagePreprocessingFailed` and hand occlusion status will be reported
-  ///       in the ``ProcessResult``
+  ///     - If hand occlusion is detected `ProcessingStatus` will be `ImagePreprocessingFailed` and hand occlusion status will be reported
+  ///       in the `ProcessResult`
   /// This setting is applicable only if `scanCroppedDocumentImage` = false.
   ///
   /// Default: `false`
@@ -169,7 +190,7 @@ class BlinkIdScanningSettings {
 
   /// Defines custom rules for specific document class.
   ///
-  /// When defining `customDocumentRules`, `documentFilter` is optionally set to specify the document to which the rule applies, and a `fields` with
+  /// When defining [DocumentRules], [DocumentFilter] is optionally set to specify the document to which the rule applies, and a `fields` with
   ///     the appropriate `alphabetType` should be specified as mandatory for that document.
   /// If a `fields` is set to a field that is optional for that document or does not exist on it, all fields on the document become optional.
   /// If a `fields` is set to a field with an incorrect alphabetType, all fields on the document become optional.
@@ -177,10 +198,13 @@ class BlinkIdScanningSettings {
   /// When adding multiple `fields`, any field that does not match our rules is ignored. Only fields that comply with our rules are set as mandatory.
   /// If the documentFilter fields `country`, `region`, or `type` are set to `null`, all supported values for those fields will be considered.
   ///     For example, if `country = null`, the rule will apply to all supported countries in BlinkID.
+  ///
   /// By default, document fields are validated using internal rules that define mandatory fields for the scanned document class. This setting allows
   ///     users to narrow down our internal rules on mandatory fields. All undefined fields will become optional. It is not possible to mark fields as
   ///     mandatory if they cannot theoretically appear on the document.
   /// The more detailed document filter will have priority over the other.
+  ///
+  /// See [DocumentRules] for more detailed information.
   List<DocumentRules>? customDocumentRules;
 
   /// The mode of anonymization applied to the document.
@@ -188,13 +212,15 @@ class BlinkIdScanningSettings {
   /// Redact specific fields based on requirements or laws regarding a specific document.
   /// Data can be redacted from the image, the result or both.
   ///
-  /// Default: `.fullResult`
+  /// Default: [AnonymizationMode.fullResult]
   AnonymizationMode anonymizationMode = AnonymizationMode.fullResult;
 
   /// Redact fields for specific document class.
   ///
   /// Fields specified by requirements or laws for a specific document will be redacted regardless of this setting.
   /// Based on anonymizationMode setting, data will be redacted from the image, the result or both.
+  ///
+  /// See [DocumentAnonymizationSettings] for more information.
   List<DocumentAnonymizationSettings>? customDocumentAnonymizationSettings;
 
   /// Indicates whether input images should be returned.
@@ -215,11 +241,11 @@ class BlinkIdScanningSettings {
   /// The filter for recognition modes.
   ///
   /// Specifies which recognition modes are enabled during the scanning process, with a default value of true to enable all modes.
-  /// RecognitionModeFilter is used to enable/disable recognition of specific document groups.
+  /// [RecognitionModeFilter] is used to enable/disable recognition of specific document groups.
   ///
   /// This setting is experimental and it will be removed in upcoming releases.
   ///
-  /// By default all modes are `enabled`.
+  /// By default all modes are enabled (set to `true`).
   RecognitionModeFilter recognitionModeFilter = RecognitionModeFilter();
 
   /// Indicates whether character validation is enabled.
@@ -228,7 +254,7 @@ class BlinkIdScanningSettings {
   /// Each field is validated against a set of rules.
   /// All fields have to be successfully validated in order to successfully scan a document.
   /// Setting is used to improve scanning accuracy.
-  /// If set to `true`, when an invalid character is detected `ProcessingStatus::InvalidCharactersFound` is returned.
+  /// If set to `true`, when an invalid character is detected `ProcessingStatus.InvalidCharactersFound` is returned.
   ///
   /// Default: `true`
   bool enableCharacterValidation = true;
@@ -279,8 +305,15 @@ class BlinkIdScanningSettings {
   ///
   /// Allows customization of cropped image handling, such as dotsPerInch, extensions, and
   /// whether images should be returned for the document, face or signature regions.
+  ///
+  /// See [CroppedImageSettings] for more information.
   CroppedImageSettings croppedImageSettings = CroppedImageSettings();
 
+  /// Represents the configurable settings for scanning a document.
+  ///
+  /// This class defines various parameters and policies related to the scanning
+  /// process, including image quality handling, data extraction and anonymization,
+  /// along with options for frame processing and image extraction.
   BlinkIdScanningSettings();
 
   factory BlinkIdScanningSettings.fromJson(Map<String, dynamic> json) =>
@@ -288,6 +321,7 @@ class BlinkIdScanningSettings {
   Map<String, dynamic> toJson() => _$BlinkIdScanningSettingsToJson(this);
 }
 
+/// Represents the image cropping settings.
 @JsonSerializable()
 class CroppedImageSettings {
   /// The DPI value for the cropped image.
@@ -315,6 +349,7 @@ class CroppedImageSettings {
   /// Default: `false`
   bool returnSignatureImage = false;
 
+  /// Represents the image cropping settings.
   CroppedImageSettings();
 
   factory CroppedImageSettings.fromJson(Map<String, dynamic> json) =>
@@ -324,9 +359,9 @@ class CroppedImageSettings {
 
 /// ClassFilter represents the document filter used to determine which documents will be processed.
 /// Document information (Country, Region, Type) is evaluated with the content set in the filter, and their inclusion or exclusion depends on the defined rules.
-///
+/// To set the document information, use [DocumentFilter].
 /// The recognition results of the excluded documents will not be returned.
-/// If using the standard BlinkID Overlay, an alert will be displayed that the document will not be scanned.
+/// If using the standard BlinkID UX, an alert will be displayed that the document will not be scanned.
 ///
 /// By default, the ClassFilter is turned off, and all documents will be included.
 @JsonSerializable()
@@ -334,53 +369,70 @@ class ClassFilter {
   /// Document classes that will be explicitly accepted by this filter.
   /// Only documents belonging to the specified classes will be processed. All other documents will be rejected.
   ///
-  /// If this array is empty, no restrictions are applied, and documents will be accepted unless explicitly excluded by `excludedClasses`.
+  /// If this list is empty, no restrictions are applied, and documents will be accepted unless explicitly excluded by `excludeDocuments`.
   ///
   /// Example usage:
   ///
-  /// var includedClassOne = FilteredClass();
-  /// includedClassOne.country = Country.Croatia;
-  /// includedClassOne.type = Type.Id;
+  ///  ```
+  ///   final classFilter = ClassFilter();
+  ///    classFilter.includeDocuments = [
+  ///      DocumentFilter.country(Country.Usa),
+  ///      DocumentFilter.countryType(Country.Croatia, DocumentType.Id),
+  ///    ];
   ///
-  /// var includedClassTwo = FilteredClass();
-  /// includedClassTwo.region = Region.California;
+  ///    await blinkIdPlugin.performScan(sdkSettings, sessionSettings classFilter)
+  ///  ```
   ///
-  /// var classFilter = ClassFilter();
-  /// classFilter.includeClasses = [includedClassOne, includedClassTwo];
   ///
-  /// NOTE: from the example above, the class filter is set to only accept Croatian IDs, and all documents from the California region.
+  /// NOTE: from the example above, the class filter is set to only accept all documents from USA, and Croatian IDs.
   /// All other documents will be rejected.
   ///
   /// Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+  ///
+  /// See [DocumentFilter] for setting the combinations.
   List<DocumentFilter>? includeDocuments;
 
   /// Document classes that will be explicitly rejected by this filter.
-  /// Documents belonging to the specified classes will not be processed. Other documents, not included with `excludeClasses` will be accepted.
+  /// Documents belonging to the specified classes will not be processed. Other documents, not included with `excludeDocuments` will be accepted.
   ///
-  /// If this array is empty, no restrictions are applied, and documents will be excluded only if not present in `includeClasses`.
-  /// If a document class appears in both `includeClasses` and `excludeClasses`, it will be accepted, as `includeClasses` takes precedence.
+  /// If this array is empty, no restrictions are applied, and documents will be excluded only if not present in `includeDocuments`.
   ///
   /// Example usage:
   ///
-  /// var excludedClassOne = FilteredClass();
-  /// excludedClassOne.country = Country.Croatia;
-  /// excludedClassOne.type = Type.Id;
+  ///  ```
+  ///   final classFilter = ClassFilter();
+  ///    classFilter.excludeDocuments = [
+  ///      DocumentFilter.country(Country.Usa),
+  ///      DocumentFilter.countryType(Country.Croatia, DocumentType.Id),
+  ///    ];
   ///
-  /// var excludedClassTwo = FilteredClass();
-  /// excludedClassTwo.region = Region.California;
+  ///    await blinkIdPlugin.performScan(sdkSettings, sessionSettings classFilter)
+  ///  ```
   ///
-  /// var classFilter = ClassFilter();
-  /// classFilter.excludeClasses = [excludedClassOne, excludedClassTwo];
-  ///
-  /// NOTE: from the example above, the class filter is set to only reject Croatian IDs, and all documents from the California region.
+  /// NOTE: from the example above, the class filter is set to only exclude all documents from USA, and Croatian IDs.
   /// All other classes will be accepted.
   ///
   /// Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+  ///
+  /// See [DocumentFilter] for setting the combinations.
   List<DocumentFilter>? excludeDocuments;
 
+  /// ClassFilter represents the document filter used to determine which documents will be processed.
+  /// Document information (Country, Region, Type) is evaluated with the content set in the filter, and their inclusion or exclusion depends on the defined rules.
+  /// To set the document information, use [DocumentFilter].
+  /// The recognition results of the excluded documents will not be returned.
+  /// If using the standard BlinkID UX, an alert will be displayed that the document will not be scanned.
+  ///
+  /// By default, the ClassFilter is turned off, and all documents will be included.
   ClassFilter();
+
+  /// Constructor for only adding the document clasess that will be included for the scanning process.
   ClassFilter.withIncludedClasses(this.includeDocuments);
+
+  /// Constructor for only adding the document clasess that will be excluded for the scanning process.
   ClassFilter.withExcludedClasses(this.excludeDocuments);
+
+  /// Constructor for adding both the document clasess that will be included and excluded for the scanning process.
   ClassFilter.withAllParameters(this.includeDocuments, this.excludeDocuments);
 
   factory ClassFilter.fromJson(Map<String, dynamic> json) =>
@@ -388,13 +440,42 @@ class ClassFilter {
   Map<String, dynamic> toJson() => _$ClassFilterToJson(this);
 }
 
+/// Represents the custom document rules.
+///
+/// This setting allows users to narrow down our internal rules on mandatory fields. All undefined fields will become optional.
+/// It is not possible to mark fields as mandatory if they cannot theoretically appear on the document.
+/// The more detailed document filter will have priority over the other.
+///
+/// Document fields are validated using internal rules that define mandatory fields for the scanned document class.
 @JsonSerializable()
 class DocumentRules {
+  /// Specified fields will overrule our document class field rules if filter conditions are met.
+  ///
+  /// See [DocumentFilter] for more information.
   DocumentFilter? documentFilter;
 
-  /// An array of the document fields and alphabets that will be used with CustomClassRules. See DetailedFieldType for more information.
+  /// Fields to overrule our class field rules.
+  ///
+  /// [DetailedFieldType] for more information.
   List<DetailedFieldType>? detailedFieldTypes;
 
+  /// Represents the custom document rules.
+  ///
+  /// This setting allows users to narrow down our internal rules on mandatory fields. All undefined fields will become optional.
+  /// It is not possible to mark fields as mandatory if they cannot theoretically appear on the document.
+  /// The more detailed document filter will have priority over the other.
+  ///
+  /// Document fields are validated using internal rules that define mandatory fields for the scanned document class.
+  /// Defines custom rules for specific document class.
+  ///
+  /// When defining [DocumentRules], [DocumentFilter] is optionally set to specify the document to which the rule applies, and a `fields` with
+  ///     the appropriate `alphabetType` should be specified as mandatory for that document.
+  /// If a `fields` is set to a field that is optional for that document or does not exist on it, all fields on the document become optional.
+  /// If a `fields` is set to a field with an incorrect alphabetType, all fields on the document become optional.
+  /// If a `fields` is set to a field that doesn’t exist in the internal rules, that rule is ignored.
+  /// When adding multiple `fields`, any field that does not match our rules is ignored. Only fields that comply with our rules are set as mandatory.
+  /// If the documentFilter fields `country`, `region`, or `type` are set to `null`, all supported values for those fields will be considered.
+  ///     For example, if `country = null`, the rule will apply to all supported countries in BlinkID.
   DocumentRules(this.detailedFieldTypes, [this.documentFilter]);
 
   factory DocumentRules.fromJson(Map<String, dynamic> json) =>
@@ -402,16 +483,21 @@ class DocumentRules {
   Map<String, dynamic> toJson() => _$DocumentRulesToJson(this);
 }
 
-/// DetailedFieldType represents a detailed field type used for custom mandatory fields.
-/// Used with CustomClassRules. A field type (see FieldType for all fields) along with Alphabet type (see AlphabetType for all alphabets) is required.
+/// Represents the detailed field type.
 @JsonSerializable()
 class DetailedFieldType {
-  /// Field type that will be mandatory for extraction for CustomClassRules.
+  /// The field type.
+  ///
+  /// See [FieldType] for more information.
   FieldType fieldType;
 
-  /// Alphabet type connected with the field type that will be optional for extraction for CustomClassRules. */
+  /// The alphabet type.
+  ///
+  /// See [AlphabetType] for more information.
   AlphabetType alphabetType;
 
+  /// Represents the detailed field type.
+  /// Both the [FieldType] and [AlphabetType] are mandatory.
   DetailedFieldType(this.fieldType, this.alphabetType);
 
   factory DetailedFieldType.fromJson(Map<String, dynamic> json) =>
@@ -419,25 +505,34 @@ class DetailedFieldType {
   Map<String, dynamic> toJson() => _$DetailedFieldTypeToJson(this);
 }
 
+/// Represents the document anonymization settings.
 @JsonSerializable()
 class DocumentAnonymizationSettings {
-  /// Document fields that will be anonymized
+  /// Document fields that will be anonymized.
   List<FieldType> fields = [];
 
+  /// Specified fields will be anonymized if filter conditions are met.
   DocumentFilter? documentFilter;
 
-  /// Partial document number anonymization
+  /// Document number anonymization settings.
   DocumentNumberAnonymizationSettings? documentNumberAnonymizationSettings;
 
+  /// Represents the document anonymization settings.
   DocumentAnonymizationSettings(this.fields);
+
+  /// Represents the document anonymization settings, additionally with setting the [DocumentFilter].
   DocumentAnonymizationSettings.withDocumentFilter(
     this.fields,
     this.documentFilter,
   );
+
+  /// Represents the document anonymization settings, additionally with setting the [DocumentNumberAnonymizationSettings].
   DocumentAnonymizationSettings.withdocumentNumberAnonymizationSettings(
     this.fields,
     this.documentNumberAnonymizationSettings,
   );
+
+  /// Represents the document anonymization settings, with all parameters.
   DocumentAnonymizationSettings.withAllParameters(
     this.fields,
     this.documentFilter,
@@ -449,28 +544,49 @@ class DocumentAnonymizationSettings {
   Map<String, dynamic> toJson() => _$DocumentAnonymizationSettingsToJson(this);
 }
 
+/// Represents the document filter.
+/// Used with other classes like the [ClassFilter], [DocumentRules] and the [DocumentAnonymizationSettings].
 @JsonSerializable()
 class DocumentFilter {
-  /// Documents from the set country will be anonymized
+  /// If set, only specified country will pass the filter criteria.
+  /// Otherwise, issuing country will not betaken into account.
   Country? country;
 
-  /// Documents from the set region will be anonymized
+  /// If set, only specified country will pass the filter criteria.
+  /// Otherwise, issuing region will not be taken into account.
   Region? region;
 
-  /// Documents with this type will be anonymized
+  /// If set, only specified type will pass the filter criteria. Otherwise, issuing type will not be taken into
+  /// account.
   DocumentType? documentType;
 
+  /// Represents the document filter.
+  /// Used with other classes like the [ClassFilter], [DocumentRules] and the [DocumentAnonymizationSettings].
   DocumentFilter();
+
+  /// Set the document filter with all parameters: [Country], [Region], and [DocumentType].
   DocumentFilter.withAllParameters(
     this.country,
     this.region,
     this.documentType,
   );
+
+  /// Set the document filter with the following parameters: [Country] and [Region].
   DocumentFilter.countryRegion(this.country, this.region);
+
+  /// Set the document filter with the following parameters: [Country] and [DocumentType].
   DocumentFilter.countryType(this.country, this.documentType);
+
+  /// Set the document filter with the following parameters: [Region] and [DocumentType].
   DocumentFilter.typeRegion(this.documentType, this.region);
+
+  /// Set the document filter only with the [Country] parameter.
   DocumentFilter.country(this.country);
+
+  /// Set the document filter only with the [Region] parameter.
   DocumentFilter.region(this.region);
+
+  /// Set the document filter only with the [DocumentType] parameter.
   DocumentFilter.documentType(this.documentType);
 
   factory DocumentFilter.fromJson(Map<String, dynamic> json) =>
@@ -478,22 +594,29 @@ class DocumentFilter {
   Map<String, dynamic> toJson() => _$DocumentFilterToJson(this);
 }
 
+/// Represents the document number anonymization settings.
 @JsonSerializable()
 class DocumentNumberAnonymizationSettings {
-  /// Set how many digits will be visible at the beggining of the document number. */
+  /// Defines how many digits at the beginning of the document number remain visible after anonymization.
   int? prefixDigitsVisible = 0;
 
-  /// Set how many digits will be visible at the end of the document number. */
+  /// Defines how many digits at the end of the document number remain visible after anonymization.
   int? suffixDigitsVisible = 0;
 
+  /// Represents the document number anonymization settings.
   DocumentNumberAnonymizationSettings();
+
+  /// Represents the document number anonymization settings, additionally with setting the `prefixDigitsVisible`.
   DocumentNumberAnonymizationSettings.withPrefixDigitsVisible(
     this.prefixDigitsVisible,
   );
+
+  /// Represents the document number anonymization settings, additionally with setting the `suffixDigitsVisible`.
   DocumentNumberAnonymizationSettings.withsuffixDigitsVisible(
     this.suffixDigitsVisible,
   );
 
+  /// Represents the document number anonymization settings, additionally with setting both `prefixDigitsVisible` and `suffixDigitsVisible`.
   DocumentNumberAnonymizationSettings.withAllParemeters(
     this.prefixDigitsVisible,
     this.suffixDigitsVisible,
@@ -506,26 +629,34 @@ class DocumentNumberAnonymizationSettings {
       _$DocumentNumberAnonymizationSettingsToJson(this);
 }
 
+/// Represents the configuration used to enable/disable recognition of specific
+/// document groups.
+///
+/// By default all modes are enabled.
 @JsonSerializable()
 class RecognitionModeFilter {
-  /// Enable scanning of MRZ IDs. Setting is taken into account only if the mrz_id right is purchased.
+  /// Enable scanning of MRZ IDs.
   bool enableMrzId = true;
 
-  /// Enable scanning of visa MRZ. Setting is taken into account only if the visa right is purchased.
+  /// Enable scanning of visa MRZ.
   bool enableMrzVisa = true;
 
-  /// Enable scanning of Passport MRZ. Setting is taken into account only if the passport right is purchased.
+  /// Enable scanning of Passport MRZ.
   bool enableMrzPassport = true;
 
-  /// Enable scanning of Photo ID. Setting is taken into account only if the photo_id right is purchased.
+  /// Enable scanning of Photo ID.
   bool enablePhotoId = true;
 
-  /// Enable scanning of barcode IDs. Setting is taken into account only if the barcode right to scan that barcode is purchased.
+  /// Enable scanning of barcode IDs.
   bool enableBarcodeId = true;
 
-  /// Enable full document recognition. Setting is taken into account only if the document right to scan that document is purchased.
+  /// Enable full document recognition.
   bool enableFullDocumentRecognition = true;
 
+  /// Represents the configuration used to enable/disable recognition of specific
+  /// document groups.
+  ///
+  /// By default all modes are enabled.
   RecognitionModeFilter();
 
   factory RecognitionModeFilter.fromJson(Map<String, dynamic> json) =>
@@ -533,575 +664,599 @@ class RecognitionModeFilter {
   Map<String, dynamic> toJson() => _$RecognitionModeFilterToJson(this);
 }
 
+/// BlinkID enums
+
+/// Represents the mode of document scanning.
+///
+/// This enum class defines whether the scanning process is limited to a single
+/// side of the document or includes multiple sides, automatically identifying how many sides need to be scanned.
 enum ScanningMode {
+  /// Specifies the scanning process to be for single side only.
   @JsonValue(0)
   single,
 
+  /// The default [ScanningMode] which
+  ///
+  ///  Automatically determines the number of sides to scan.
   @JsonValue(1)
   automatic,
 }
 
+/// Represents the different levels of detection sensitivity.
+///
+/// This enum class is used to configure detection thresholds and enable or
+/// disable detection functionality. The levels range from turning detection
+/// off completely to setting various levels of sensitivity (low, mid, high).
 enum DetectionLevel {
+  /// Disables the [DetectionLevel]
   @JsonValue(0)
   off,
 
+  /// Sets the [DetectionLevel] to be less sensitive.
   @JsonValue(1)
   low,
 
+  /// The default [DetectionLevel] sensitivity.
   @JsonValue(2)
   mid,
 
+  /// Sets the [DetectionLevel] to be highly sensitive.
   @JsonValue(3)
   high,
 }
 
+/// Represents level of anonymization performed on the scanning result.
 enum AnonymizationMode {
+  /// Anonymization will not be performed.
   @JsonValue(0)
   none,
 
+  /// Full document image is anonymized with black boxes covering sensitive data.
   @JsonValue(1)
   imageOnly,
 
+  /// Result fields containing sensitive data are removed from result.
   @JsonValue(2)
   resultFieldsOnly,
 
+  /// This mode is combination of `imageOnly` and `resultFieldsOnly` modes.
   @JsonValue(3)
   fullResult,
 }
 
-/// AlphabetType represents all of the alphabet types that BlinkID supports extracting.
+/// Represents the type of the alphabet used in the document.
 enum AlphabetType {
   /// The Latin alphabet type
   @JsonValue(0)
-  Latin,
+  latin,
 
   /// The Arabic alphabet type
   @JsonValue(1)
-  Arabic,
+  arabic,
 
   /// The Cyrillic alphabet type
   @JsonValue(2)
-  Cyrillic,
+  cyrillic,
 
   /// The Greek alphabet type
   @JsonValue(3)
-  Greek,
+  greek,
 }
 
-/// Defines possible the document country from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
+/// Document country.
 enum Country {
   @JsonValue(0)
-  None,
+  none,
   @JsonValue(1)
-  Albania,
+  albania,
   @JsonValue(2)
-  Algeria,
+  algeria,
   @JsonValue(3)
-  Argentina,
+  argentina,
   @JsonValue(4)
-  Australia,
+  australia,
   @JsonValue(5)
-  Austria,
+  austria,
   @JsonValue(6)
-  Azerbaijan,
+  azerbaijan,
   @JsonValue(7)
-  Bahrain,
+  bahrain,
   @JsonValue(8)
-  Bangladesh,
+  bangladesh,
   @JsonValue(9)
-  Belgium,
+  belgium,
   @JsonValue(10)
-  BosniaAndHerzegovina,
+  bosniaAndHerzegovina,
   @JsonValue(11)
-  Brunei,
+  brunei,
   @JsonValue(12)
-  Bulgaria,
+  bulgaria,
   @JsonValue(13)
-  Cambodia,
+  bambodia,
   @JsonValue(14)
-  Canada,
+  canada,
   @JsonValue(15)
-  Chile,
+  chile,
   @JsonValue(16)
-  Colombia,
+  colombia,
   @JsonValue(17)
-  CostaRica,
+  costaRica,
   @JsonValue(18)
-  Croatia,
+  croatia,
   @JsonValue(19)
-  Cyprus,
+  cyprus,
   @JsonValue(20)
-  Czechia,
+  czechia,
   @JsonValue(21)
-  Denmark,
+  denmark,
   @JsonValue(22)
-  DominicanRepublic,
+  dominicanRepublic,
   @JsonValue(23)
-  Egypt,
+  egypt,
   @JsonValue(24)
-  Estonia,
+  estonia,
   @JsonValue(25)
-  Finland,
+  finland,
   @JsonValue(26)
-  France,
+  france,
   @JsonValue(27)
-  Georgia,
+  georgia,
   @JsonValue(28)
-  Germany,
+  germany,
   @JsonValue(29)
-  Ghana,
+  ghana,
   @JsonValue(30)
-  Greece,
+  greece,
   @JsonValue(31)
-  Guatemala,
+  guatemala,
   @JsonValue(32)
-  HongKong,
+  hongKong,
   @JsonValue(33)
-  Hungary,
+  hungary,
   @JsonValue(34)
-  India,
+  india,
   @JsonValue(35)
-  Indonesia,
+  indonesia,
   @JsonValue(36)
-  Ireland,
+  ireland,
   @JsonValue(37)
-  Israel,
+  israel,
   @JsonValue(38)
-  Italy,
+  italy,
   @JsonValue(39)
-  Jordan,
+  jordan,
   @JsonValue(40)
-  Kazakhstan,
+  kazakhstan,
   @JsonValue(41)
-  Kenya,
+  kenya,
   @JsonValue(42)
-  Kosovo,
+  kosovo,
   @JsonValue(43)
-  Kuwait,
+  kuwait,
   @JsonValue(44)
-  Latvia,
+  latvia,
   @JsonValue(45)
-  Lithuania,
+  lithuania,
   @JsonValue(46)
-  Malaysia,
+  malaysia,
   @JsonValue(47)
-  Maldives,
+  maldives,
   @JsonValue(48)
-  Malta,
+  malta,
   @JsonValue(49)
-  Mauritius,
+  mauritius,
   @JsonValue(50)
-  Mexico,
+  mexico,
   @JsonValue(51)
-  Morocco,
+  morocco,
   @JsonValue(52)
-  Netherlands,
+  netherlands,
   @JsonValue(53)
-  NewZealand,
+  newZealand,
   @JsonValue(54)
-  Nigeria,
+  nigeria,
   @JsonValue(55)
-  Pakistan,
+  pakistan,
   @JsonValue(56)
-  Panama,
+  panama,
   @JsonValue(57)
-  Paraguay,
+  paraguay,
   @JsonValue(58)
-  Philippines,
+  philippines,
   @JsonValue(59)
-  Poland,
+  poland,
   @JsonValue(60)
-  Portugal,
+  portugal,
   @JsonValue(61)
-  PuertoRico,
+  puertoRico,
   @JsonValue(62)
-  Qatar,
+  qatar,
   @JsonValue(63)
-  Romania,
+  romania,
   @JsonValue(64)
-  Russia,
+  russia,
   @JsonValue(65)
-  SaudiArabia,
+  saudiArabia,
   @JsonValue(66)
-  Serbia,
+  serbia,
   @JsonValue(67)
-  Singapore,
+  singapore,
   @JsonValue(68)
-  Slovakia,
+  slovakia,
   @JsonValue(69)
-  Slovenia,
+  slovenia,
   @JsonValue(70)
-  SouthAfrica,
+  southAfrica,
   @JsonValue(71)
-  Spain,
+  spain,
   @JsonValue(72)
-  Sweden,
+  sweden,
   @JsonValue(73)
-  Switzerland,
+  switzerland,
   @JsonValue(74)
-  Taiwan,
+  taiwan,
   @JsonValue(75)
-  Thailand,
+  thailand,
   @JsonValue(76)
-  Tunisia,
+  tunisia,
   @JsonValue(77)
-  Turkey,
+  turkey,
   @JsonValue(78)
-  UAE,
+  uae,
   @JsonValue(79)
-  Uganda,
+  gganda,
   @JsonValue(80)
-  UK,
+  uK,
   @JsonValue(81)
-  Ukraine,
+  ukraine,
   @JsonValue(82)
-  Usa,
+  usa,
   @JsonValue(83)
-  Vietnam,
+  vietnam,
   @JsonValue(84)
-  Brazil,
+  brazil,
   @JsonValue(85)
-  Norway,
+  norway,
   @JsonValue(86)
-  Oman,
+  oman,
   @JsonValue(87)
-  Ecuador,
+  ecuador,
   @JsonValue(88)
-  ElSalvador,
+  elSalvador,
   @JsonValue(89)
-  SriLanka,
+  sriLanka,
   @JsonValue(90)
-  Peru,
+  peru,
   @JsonValue(91)
-  Uruguay,
+  uruguay,
   @JsonValue(92)
-  Bahamas,
+  bahamas,
   @JsonValue(93)
-  Bermuda,
+  bermuda,
   @JsonValue(94)
-  Bolivia,
+  bolivia,
   @JsonValue(95)
-  China,
+  china,
   @JsonValue(96)
-  EuropeanUnion,
+  europeanUnion,
   @JsonValue(97)
-  Haiti,
+  haiti,
   @JsonValue(98)
-  Honduras,
+  honduras,
   @JsonValue(99)
-  Iceland,
+  iceland,
   @JsonValue(100)
-  Japan,
+  japan,
   @JsonValue(101)
-  Luxembourg,
+  luxembourg,
   @JsonValue(102)
-  Montenegro,
+  montenegro,
   @JsonValue(103)
-  Nicaragua,
+  nicaragua,
   @JsonValue(104)
-  SouthKorea,
+  southKorea,
   @JsonValue(105)
-  Venezuela,
+  venezuela,
   @JsonValue(106)
-  Afghanistan,
+  afghanistan,
   @JsonValue(107)
-  AlandIslands,
+  alandIslands,
   @JsonValue(108)
-  AmericanSamoa,
+  americanSamoa,
   @JsonValue(109)
-  Andorra,
+  andorra,
   @JsonValue(110)
-  Angola,
+  angola,
   @JsonValue(111)
-  Anguilla,
+  anguilla,
   @JsonValue(112)
-  Antarctica,
+  antarctica,
   @JsonValue(113)
-  AntiguaAndBarbuda,
+  antiguaAndBarbuda,
   @JsonValue(114)
-  Armenia,
+  armenia,
   @JsonValue(115)
-  Aruba,
+  aruba,
   @JsonValue(116)
-  BailiwickOfGuernsey,
+  bailiwickOfGuernsey,
   @JsonValue(117)
-  BailiwickOfJersey,
+  bailiwickOfJersey,
   @JsonValue(118)
-  Barbados,
+  barbados,
   @JsonValue(119)
-  Belarus,
+  belarus,
   @JsonValue(120)
-  Belize,
+  belize,
   @JsonValue(121)
-  Benin,
+  benin,
   @JsonValue(122)
-  Bhutan,
+  bhutan,
   @JsonValue(123)
-  BonaireSaintEustatiusAndSaba,
+  bonaireSaintEustatiusAndSaba,
   @JsonValue(124)
-  Botswana,
+  botswana,
   @JsonValue(125)
-  BouvetIsland,
+  bouvetIsland,
   @JsonValue(126)
-  BritishIndianOceanTerritory,
+  britishIndianOceanTerritory,
   @JsonValue(127)
-  BurkinaFaso,
+  burkinaFaso,
   @JsonValue(128)
-  Burundi,
+  burundi,
   @JsonValue(129)
-  Cameroon,
+  cameroon,
   @JsonValue(130)
-  CapeVerde,
+  capeVerde,
   @JsonValue(131)
-  CaribbeanNetherlands,
+  caribbeanNetherlands,
   @JsonValue(132)
-  CaymanIslands,
+  caymanIslands,
   @JsonValue(133)
-  CentralAfricanRepublic,
+  centralAfricanRepublic,
   @JsonValue(134)
-  Chad,
+  chad,
   @JsonValue(135)
-  ChristmasIsland,
+  christmasIsland,
   @JsonValue(136)
-  CocosIslands,
+  cocosIslands,
   @JsonValue(137)
-  Comoros,
+  comoros,
   @JsonValue(138)
-  Congo,
+  congo,
   @JsonValue(139)
-  CookIslands,
+  cookIslands,
   @JsonValue(140)
-  Cuba,
+  cuba,
   @JsonValue(141)
-  Curacao,
+  curacao,
   @JsonValue(142)
-  DemocraticRepublicOfTheCongo,
+  democraticRepublicOfTheCongo,
   @JsonValue(143)
-  Djibouti,
+  djibouti,
   @JsonValue(144)
-  Dominica,
+  dominica,
   @JsonValue(145)
-  EastTimor,
+  eastTimor,
   @JsonValue(146)
-  EquatorialGuinea,
+  equatorialGuinea,
   @JsonValue(147)
-  Eritrea,
+  eritrea,
   @JsonValue(148)
-  Ethiopia,
+  ethiopia,
   @JsonValue(149)
-  FalklandIslands,
+  falklandIslands,
   @JsonValue(150)
-  FaroeIslands,
+  faroeIslands,
   @JsonValue(151)
-  FederatedStatesOfMicronesia,
+  federatedStatesOfMicronesia,
   @JsonValue(152)
-  Fiji,
+  fiji,
   @JsonValue(153)
-  FrenchGuiana,
+  frenchGuiana,
   @JsonValue(154)
-  FrenchPolynesia,
+  frenchPolynesia,
   @JsonValue(155)
-  FrenchSouthernTerritories,
+  frenchSouthernTerritories,
   @JsonValue(156)
-  Gabon,
+  gabon,
   @JsonValue(157)
-  Gambia,
+  gambia,
   @JsonValue(158)
-  Gibraltar,
+  gibraltar,
   @JsonValue(159)
-  Greenland,
+  greenland,
   @JsonValue(160)
-  Grenada,
+  grenada,
   @JsonValue(161)
-  Guadeloupe,
+  guadeloupe,
   @JsonValue(162)
-  Guam,
+  guam,
   @JsonValue(163)
-  Guinea,
+  guinea,
   @JsonValue(164)
-  GuineaBissau,
+  guineaBissau,
   @JsonValue(165)
-  Guyana,
+  guyana,
   @JsonValue(166)
-  HeardIslandAndMcdonaldIslands,
+  heardIslandAndMcdonaldIslands,
   @JsonValue(167)
-  Iran,
+  iran,
   @JsonValue(168)
-  Iraq,
+  iraq,
   @JsonValue(169)
-  IsleOfMan,
+  isleOfMan,
   @JsonValue(170)
-  IvoryCoast,
+  ivoryCoast,
   @JsonValue(171)
-  Jamaica,
+  jamaica,
   @JsonValue(172)
-  Kiribati,
+  kiribati,
   @JsonValue(173)
-  Kyrgyzstan,
+  kyrgyzstan,
   @JsonValue(183)
-  Laos,
+  laos,
   @JsonValue(184)
-  Lebanon,
+  lebanon,
   @JsonValue(185)
-  Lesotho,
+  lesotho,
   @JsonValue(186)
-  Liberia,
+  liberia,
   @JsonValue(187)
-  Libya,
+  libya,
   @JsonValue(188)
-  Liechtenstein,
+  liechtenstein,
   @JsonValue(189)
-  Macau,
+  macau,
   @JsonValue(190)
-  Madagascar,
+  madagascar,
   @JsonValue(191)
-  Malawi,
+  malawi,
   @JsonValue(192)
-  Mali,
+  mali,
   @JsonValue(193)
-  MarshallIslands,
+  marshallIslands,
   @JsonValue(194)
-  Martinique,
+  martinique,
   @JsonValue(195)
-  Mauritania,
+  mauritania,
   @JsonValue(196)
-  Mayotte,
+  mayotte,
   @JsonValue(197)
-  Moldova,
+  moldova,
   @JsonValue(198)
-  Monaco,
+  monaco,
   @JsonValue(199)
-  Mongolia,
+  mongolia,
   @JsonValue(200)
-  Montserrat,
+  montserrat,
   @JsonValue(201)
-  Mozambique,
+  mozambique,
   @JsonValue(202)
-  Myanmar,
+  myanmar,
   @JsonValue(203)
-  Namibia,
+  namibia,
   @JsonValue(204)
-  Nauru,
+  nauru,
   @JsonValue(205)
-  Nepal,
+  nepal,
   @JsonValue(206)
-  NewCaledonia,
+  newCaledonia,
   @JsonValue(207)
-  Niger,
+  niger,
   @JsonValue(208)
-  Niue,
+  niue,
   @JsonValue(209)
-  NorfolkIsland,
+  norfolkIsland,
   @JsonValue(210)
-  NorthernCyprus,
+  northernCyprus,
   @JsonValue(211)
-  NorthernMarianaIslands,
+  northernMarianaIslands,
   @JsonValue(212)
-  NorthKorea,
+  northKorea,
   @JsonValue(213)
-  NorthMacedonia,
+  northMacedonia,
   @JsonValue(214)
-  Palau,
+  palau,
   @JsonValue(215)
-  Palestine,
+  palestine,
   @JsonValue(216)
-  PapuaNewGuinea,
+  papuaNewGuinea,
   @JsonValue(217)
-  Pitcairn,
+  pitcairn,
   @JsonValue(218)
-  Reunion,
+  reunion,
   @JsonValue(219)
-  Rwanda,
+  rwanda,
   @JsonValue(220)
-  SaintBarthelemy,
+  saintBarthelemy,
   @JsonValue(221)
-  SaintHelenaAscensionAndTristianDaCunha,
+  saintHelenaAscensionAndTristianDaCunha,
   @JsonValue(222)
-  SaintKittsAndNevis,
+  saintKittsAndNevis,
   @JsonValue(223)
-  SaintLucia,
+  saintLucia,
   @JsonValue(224)
-  SaintMartin,
+  saintMartin,
   @JsonValue(225)
-  SaintPierreAndMiquelon,
+  saintPierreAndMiquelon,
   @JsonValue(226)
-  SaintVincentAndTheGrenadines,
+  saintVincentAndTheGrenadines,
   @JsonValue(227)
-  Samoa,
+  samoa,
   @JsonValue(228)
-  SanMarino,
+  sanMarino,
   @JsonValue(229)
-  SaoTomeAndPrincipe,
+  saoTomeAndPrincipe,
   @JsonValue(230)
-  Senegal,
+  senegal,
   @JsonValue(231)
-  Seychelles,
+  seychelles,
   @JsonValue(232)
-  SierraLeone,
+  sierraLeone,
   @JsonValue(233)
-  SintMaarten,
+  sintMaarten,
   @JsonValue(234)
-  SolomonIslands,
+  solomonIslands,
   @JsonValue(235)
-  Somalia,
+  somalia,
   @JsonValue(236)
-  SouthGeorgiaAndTheSouthSandwichIslands,
+  southGeorgiaAndTheSouthSandwichIslands,
   @JsonValue(237)
-  SouthSudan,
+  southSudan,
   @JsonValue(238)
-  Sudan,
+  sudan,
   @JsonValue(239)
-  Suriname,
+  suriname,
   @JsonValue(240)
-  SvalbardAndJanMayen,
+  svalbardAndJanMayen,
   @JsonValue(241)
-  Eswatini,
+  eswatini,
   @JsonValue(242)
-  Syria,
+  syria,
   @JsonValue(243)
-  Tajikistan,
+  tajikistan,
   @JsonValue(244)
-  Tanzania,
+  tanzania,
   @JsonValue(245)
-  Togo,
+  togo,
   @JsonValue(246)
-  Tokelau,
+  tokelau,
   @JsonValue(247)
-  Tonga,
+  tonga,
   @JsonValue(248)
-  TrinidadAndTobago,
+  trinidadAndTobago,
   @JsonValue(249)
-  Turkmenistan,
+  turkmenistan,
   @JsonValue(250)
-  TurksAndCaicosIslands,
+  turksAndCaicosIslands,
   @JsonValue(251)
-  Tuvalu,
+  tuvalu,
   @JsonValue(252)
-  UnitedStatesMinorOutlyingIslands,
+  unitedStatesMinorOutlyingIslands,
   @JsonValue(253)
-  Uzbekistan,
+  uzbekistan,
   @JsonValue(254)
-  Vanuatu,
+  vanuatu,
   @JsonValue(255)
-  VaticanCity,
+  vaticanCity,
   @JsonValue(256)
-  VirginIslandsBritish,
+  virginIslandsBritish,
   @JsonValue(257)
-  VirginIslandsUs,
+  virginIslandsUs,
   @JsonValue(258)
-  WallisAndFutuna,
+  wallisAndFutuna,
   @JsonValue(259)
-  WesternSahara,
+  westernSahara,
   @JsonValue(260)
-  Yemen,
+  yemen,
   @JsonValue(261)
-  Yugoslavia,
+  yugoslavia,
   @JsonValue(262)
-  Zambia,
+  zambia,
   @JsonValue(263)
-  Zimbabwe,
+  zimbabwe,
   @JsonValue(264)
-  SchengenArea,
+  schengenArea,
 }
 
 /// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
