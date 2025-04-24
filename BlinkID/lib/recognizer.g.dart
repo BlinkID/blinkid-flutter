@@ -26,10 +26,10 @@ Map<String, dynamic> _$RecognizerResultToJson(RecognizerResult instance) =>
     };
 
 const _$RecognizerResultStateEnumMap = {
-  RecognizerResultState.empty: 'empty',
-  RecognizerResultState.uncertain: 'uncertain',
-  RecognizerResultState.valid: 'valid',
-  RecognizerResultState.stageValid: 'stageValid',
+  RecognizerResultState.empty: 0,
+  RecognizerResultState.uncertain: 1,
+  RecognizerResultState.valid: 2,
+  RecognizerResultState.stageValid: 3,
 };
 
 RecognizerCollection _$RecognizerCollectionFromJson(
