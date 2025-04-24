@@ -1259,551 +1259,552 @@ enum Country {
   schengenArea,
 }
 
-/// Defines possible the document country's region from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
+/// Document region.
 enum Region {
   @JsonValue(0)
-  None,
+  none,
   @JsonValue(1)
-  Alabama,
+  alabama,
   @JsonValue(2)
-  Alaska,
+  alaska,
   @JsonValue(3)
-  Alberta,
+  alberta,
   @JsonValue(4)
-  Arizona,
+  arizona,
   @JsonValue(5)
-  Arkansas,
+  arkansas,
   @JsonValue(6)
-  AustralianCapitalTerritory,
+  australianCapitalTerritory,
   @JsonValue(7)
-  BritishColumbia,
+  britishColumbia,
   @JsonValue(8)
-  California,
+  california,
   @JsonValue(9)
-  Colorado,
+  colorado,
   @JsonValue(10)
-  Connecticut,
+  connecticut,
   @JsonValue(11)
-  Delaware,
+  delaware,
   @JsonValue(12)
-  DistrictOfColumbia,
+  districtOfColumbia,
   @JsonValue(13)
-  Florida,
+  florida,
   @JsonValue(14)
-  Georgia,
+  georgia,
   @JsonValue(15)
-  Hawaii,
+  hawaii,
   @JsonValue(16)
-  Idaho,
+  idaho,
   @JsonValue(17)
-  Illinois,
+  illinois,
   @JsonValue(18)
-  Indiana,
+  indiana,
   @JsonValue(19)
-  Iowa,
+  iowa,
   @JsonValue(20)
-  Kansas,
+  kansas,
   @JsonValue(21)
-  Kentucky,
+  kentucky,
   @JsonValue(22)
-  Louisiana,
+  louisiana,
   @JsonValue(23)
-  Maine,
+  maine,
   @JsonValue(24)
-  Manitoba,
+  manitoba,
   @JsonValue(25)
-  Maryland,
+  maryland,
   @JsonValue(26)
-  Massachusetts,
+  massachusetts,
   @JsonValue(27)
-  Michigan,
+  michigan,
   @JsonValue(28)
-  Minnesota,
+  minnesota,
   @JsonValue(29)
-  Mississippi,
+  mississippi,
   @JsonValue(30)
-  Missouri,
+  missouri,
   @JsonValue(31)
-  Montana,
+  montana,
   @JsonValue(32)
-  Nebraska,
+  nebraska,
   @JsonValue(33)
-  Nevada,
+  nevada,
   @JsonValue(34)
-  NewBrunswick,
+  newBrunswick,
   @JsonValue(35)
-  NewHampshire,
+  newHampshire,
   @JsonValue(36)
-  NewJersey,
+  newJersey,
   @JsonValue(37)
-  NewMexico,
+  newMexico,
   @JsonValue(38)
-  NewSouthWales,
+  newSouthWales,
   @JsonValue(39)
-  NewYork,
+  newYork,
   @JsonValue(40)
-  NorthernTerritory,
+  northernTerritory,
   @JsonValue(41)
-  NorthCarolina,
+  northCarolina,
   @JsonValue(42)
-  NorthDakota,
+  northDakota,
   @JsonValue(43)
-  NovaScotia,
+  novaScotia,
   @JsonValue(44)
-  Ohio,
+  ohio,
   @JsonValue(45)
-  Oklahoma,
+  oklahoma,
   @JsonValue(46)
-  Ontario,
+  ontario,
   @JsonValue(47)
-  Oregon,
+  oregon,
   @JsonValue(48)
-  Pennsylvania,
+  pennsylvania,
   @JsonValue(49)
-  Quebec,
+  quebec,
   @JsonValue(50)
-  Queensland,
+  queensland,
   @JsonValue(51)
-  RhodeIsland,
+  rhodeIsland,
   @JsonValue(52)
-  Saskatchewan,
+  saskatchewan,
   @JsonValue(53)
-  SouthAustralia,
+  southAustralia,
   @JsonValue(54)
-  SouthCarolina,
+  southCarolina,
   @JsonValue(55)
-  SouthDakota,
+  southDakota,
   @JsonValue(56)
-  Tasmania,
+  tasmania,
   @JsonValue(57)
-  Tennessee,
+  tennessee,
   @JsonValue(58)
-  Texas,
+  texas,
   @JsonValue(59)
-  Utah,
+  utah,
   @JsonValue(60)
-  Vermont,
+  vermont,
   @JsonValue(61)
-  Victoria,
+  victoria,
   @JsonValue(62)
-  Virginia,
+  virginia,
   @JsonValue(63)
-  Washington,
+  washington,
   @JsonValue(64)
-  WesternAustralia,
+  westernAustralia,
   @JsonValue(65)
-  WestVirginia,
+  westVirginia,
   @JsonValue(66)
-  Wisconsin,
+  wisconsin,
   @JsonValue(67)
-  Wyoming,
+  wyoming,
   @JsonValue(68)
-  Yukon,
+  yukon,
   @JsonValue(69)
-  CiudadDeMexico,
+  ciudadDeMexico,
   @JsonValue(70)
-  Jalisco,
+  jalisco,
   @JsonValue(71)
-  NewfoundlandAndLabrador,
+  newfoundlandAndLabrador,
   @JsonValue(72)
-  NuevoLeon,
+  nuevoLeon,
   @JsonValue(73)
-  BajaCalifornia,
+  bajaCalifornia,
   @JsonValue(74)
-  Chihuahua,
+  chihuahua,
   @JsonValue(75)
-  Guanajuato,
+  guanajuato,
   @JsonValue(76)
-  Guerrero,
+  guerrero,
   @JsonValue(77)
-  Mexico,
+  mexico,
   @JsonValue(78)
-  Michoacan,
+  michoacan,
   @JsonValue(79)
-  NewYorkCity,
+  newYorkCity,
   @JsonValue(80)
-  Tamaulipas,
+  tamaulipas,
   @JsonValue(81)
-  Veracruz,
+  veracruz,
   @JsonValue(82)
-  Chiapas,
+  chiapas,
   @JsonValue(83)
-  Coahuila,
+  coahuila,
   @JsonValue(84)
-  Durango,
+  durango,
   @JsonValue(85)
-  GuerreroCocula,
+  guerreroCocula,
   @JsonValue(86)
-  GuerreroJuchitan,
+  guerreroJuchitan,
   @JsonValue(87)
-  GuerreroTepecoacuilco,
+  guerreroTepecoacuilco,
   @JsonValue(88)
-  GuerreroTlacoapa,
+  guerreroTlacoapa,
   @JsonValue(89)
-  Gujarat,
+  gujarat,
   @JsonValue(90)
-  Hidalgo,
+  hidalgo,
   @JsonValue(91)
-  Karnataka,
+  karnataka,
   @JsonValue(92)
-  Kerala,
+  kerala,
   @JsonValue(93)
-  KhyberPakhtunkhwa,
+  khyberPakhtunkhwa,
   @JsonValue(94)
-  MadhyaPradesh,
+  madhyaPradesh,
   @JsonValue(95)
-  Maharashtra,
+  maharashtra,
   @JsonValue(96)
-  Morelos,
+  morelos,
   @JsonValue(97)
-  Nayarit,
+  nayarit,
   @JsonValue(98)
-  Oaxaca,
+  oaxaca,
   @JsonValue(99)
-  Puebla,
+  puebla,
   @JsonValue(100)
-  Punjab,
+  punjab,
   @JsonValue(101)
-  Queretaro,
+  queretaro,
   @JsonValue(102)
-  SanLuisPotosi,
+  sanLuisPotosi,
   @JsonValue(103)
-  Sinaloa,
+  sinaloa,
   @JsonValue(104)
-  Sonora,
+  sonora,
   @JsonValue(105)
-  Tabasco,
+  tabasco,
   @JsonValue(106)
-  TamilNadu,
+  tamilNadu,
   @JsonValue(107)
-  Yucatan,
+  yucatan,
   @JsonValue(108)
-  Zacatecas,
+  zacatecas,
   @JsonValue(109)
-  Aguascalientes,
+  aguascalientes,
   @JsonValue(110)
-  BajaCaliforniaSur,
+  bajaCaliforniaSur,
   @JsonValue(111)
-  Campeche,
+  campeche,
   @JsonValue(112)
-  Colima,
+  colima,
   @JsonValue(113)
-  QuintanaRooBenitoJuarez,
+  quintanaRooBenitoJuarez,
   @JsonValue(114)
-  QuintanaRoo,
+  quintanaRoo,
   @JsonValue(115)
-  QuintanaRooSolidaridad,
+  quintanaRooSolidaridad,
   @JsonValue(116)
-  Tlaxcala,
+  tlaxcala,
   @JsonValue(117)
-  QuintanaRooCozumel,
+  quintanaRooCozumel,
   @JsonValue(118)
-  SaoPaolo,
+  saoPaolo,
   @JsonValue(119)
-  RioDeJaneiro,
+  rioDeJaneiro,
   @JsonValue(120)
-  RioGrandeDoSul,
+  rioGrandeDoSul,
   @JsonValue(121)
-  NorthWestTerritories,
+  northWestTerritories,
   @JsonValue(122)
-  Nunavut,
+  nunavut,
   @JsonValue(123)
-  PrinceEdwardIsland,
+  princeEdwardIsland,
   @JsonValue(124)
-  DistritoFederal,
+  distritoFederal,
   @JsonValue(125)
-  Maranhao,
+  maranhao,
   @JsonValue(126)
-  MatoGrosso,
+  matoGrosso,
   @JsonValue(127)
-  MinasGerais,
+  minasGerais,
   @JsonValue(128)
-  Para,
+  para,
   @JsonValue(129)
-  Parana,
+  parana,
   @JsonValue(130)
-  Pernambuco,
+  pernambuco,
   @JsonValue(131)
-  SantaCatarina,
+  santaCatarina,
   @JsonValue(132)
-  AndhraPradesh,
+  andhraPradesh,
   @JsonValue(133)
-  Ceara,
+  ceara,
   @JsonValue(134)
-  Goias,
+  goias,
   @JsonValue(135)
-  GuerreroAcapulcoDeJuarez,
+  guerreroAcapulcoDeJuarez,
   @JsonValue(136)
-  Haryana,
+  haryana,
   @JsonValue(137)
-  Sergipe,
+  sergipe,
   @JsonValue(138)
-  Alagos,
+  alagos,
   @JsonValue(139)
-  Bangsamoro,
+  bangsamoro,
 }
 
-/// Defines possible the document type from ClassInfo scanned with BlinkID or BlinkID MultiSide Recognizer
+/// Document type.
 enum DocumentType {
   @JsonValue(0)
-  None,
+  none,
   @JsonValue(1)
-  ConsularId,
+  consularId,
   @JsonValue(2)
-  Dl,
+  dl,
   @JsonValue(3)
-  DlPublicServicesCard,
+  dlPublicServicesCard,
   @JsonValue(4)
-  EmploymentPass,
+  employmentPass,
   @JsonValue(5)
-  FinCard,
+  finCard,
   @JsonValue(6)
-  Id,
+  id,
   @JsonValue(7)
-  MultipurposeId,
+  multipurposeId,
   @JsonValue(8)
-  MyKad,
+  myKad,
   @JsonValue(9)
-  MyKid,
+  myKid,
   @JsonValue(10)
-  MyPR,
+  myPR,
   @JsonValue(11)
-  MyTentera,
+  myTentera,
   @JsonValue(12)
-  PanCard,
+  panCard,
   @JsonValue(13)
-  ProfessionalId,
+  professionalId,
   @JsonValue(14)
-  PublicServicesCard,
+  publicServicesCard,
   @JsonValue(15)
-  ResidencePermit,
+  residencePermit,
   @JsonValue(16)
-  ResidentId,
+  residentId,
   @JsonValue(17)
-  TemporaryResidencePermit,
+  temporaryResidencePermit,
   @JsonValue(18)
-  VoterId,
+  voterId,
   @JsonValue(19)
-  WorkPermit,
+  workPermit,
   @JsonValue(20)
   iKad,
   @JsonValue(21)
-  MilitaryId,
+  militaryId,
   @JsonValue(22)
-  MyKas,
+  myKas,
   @JsonValue(23)
-  SocialSecurityCard,
+  docialSecurityCard,
   @JsonValue(24)
-  HealthInsuranceCard,
+  healthInsuranceCard,
   @JsonValue(25)
-  Passport,
+  passport,
   @JsonValue(26)
-  SPass,
+  sPass,
   @JsonValue(27)
-  AddressCard,
+  addressCard,
   @JsonValue(28)
-  AlienId,
+  alienId,
   @JsonValue(29)
-  AlienPassport,
+  alienPassport,
   @JsonValue(30)
-  GreenCard,
+  greenCard,
   @JsonValue(31)
-  MinorsId,
+  minorsId,
   @JsonValue(32)
-  PostalId,
+  postalId,
   @JsonValue(33)
-  ProfessionalDl,
+  professionalDl,
   @JsonValue(34)
-  TaxId,
+  taxId,
   @JsonValue(35)
-  WeaponPermit,
+  weaponPermit,
   @JsonValue(36)
-  Visa,
+  visa,
   @JsonValue(37)
-  BorderCrossingCard,
+  borderCrossingCard,
   @JsonValue(38)
-  DriverCard,
+  driverCard,
   @JsonValue(39)
-  GlobalEntryCard,
+  globalEntryCard,
   @JsonValue(40)
-  Mypolis,
+  mypolis,
   @JsonValue(41)
-  NexusCard,
+  nexusCard,
   @JsonValue(42)
-  PassportCard,
+  passportCard,
   @JsonValue(43)
-  ProofOfAgeCard,
+  proofOfAgeCard,
   @JsonValue(44)
-  RefugeeId,
+  refugeeId,
   @JsonValue(45)
-  TribalId,
+  tribalId,
   @JsonValue(46)
-  VeteranId,
+  veteranId,
   @JsonValue(47)
-  CitizenshipCertificate,
+  citizenshipCertificate,
   @JsonValue(48)
-  MyNumberCard,
+  myNumberCard,
   @JsonValue(49)
-  ConsularPassport,
+  consularPassport,
   @JsonValue(50)
-  MinorsPassport,
+  minorsPassport,
   @JsonValue(51)
-  MinorsPublicServicesCard,
+  minorsPublicServicesCard,
   @JsonValue(52)
-  DrivingPriviligeCard,
+  drivingPriviligeCard,
   @JsonValue(53)
-  AsylumRequest,
+  asylumRequest,
   @JsonValue(54)
-  DriverQualificationCard,
+  driverQualificationCard,
   @JsonValue(55)
-  ProvisionalDl,
+  provisionalDl,
   @JsonValue(56)
-  RefugeePassport,
+  refugeePassport,
   @JsonValue(57)
-  SpecialId,
+  specialId,
   @JsonValue(58)
-  UniformedServicesId,
+  uniformedServicesId,
   @JsonValue(59)
-  ImmigrantVisa,
+  immigrantVisa,
   @JsonValue(60)
-  ConsularVoterId,
+  consularVoterId,
   @JsonValue(61)
-  TwicCard,
+  twicCard,
   @JsonValue(62)
-  ExitEntryPermit,
+  exitEntryPermit,
   @JsonValue(63)
-  MainlandTravelPermitTaiwan,
+  mainlandTravelPermitTaiwan,
   @JsonValue(64)
-  NbiClearance,
+  nbiClearance,
   @JsonValue(65)
-  ProofOfRegistration,
+  proofOfRegistration,
   @JsonValue(66)
-  TemporaryProtectionPermit,
+  temporaryProtectionPermit,
   @JsonValue(67)
-  AfghanCitizenCard,
+  afghanCitizenCard,
   @JsonValue(68)
-  EId,
+  eId,
   @JsonValue(69)
-  Pass,
+  pass,
   @JsonValue(70)
-  SisId,
+  sisId,
   @JsonValue(71)
-  AsicCard,
+  asicCard,
   @JsonValue(72)
-  BidoonCard,
+  bidoonCard,
   @JsonValue(73)
-  InterimHealthInsuranceCard,
+  interimHealthInsuranceCard,
   @JsonValue(74)
-  NonVoterId,
+  nonVoterId,
   @JsonValue(75)
-  ReciprocalHealthInsuranceCard,
+  reciprocalHealthInsuranceCard,
   @JsonValue(76)
-  VehicleRegistration,
+  vehicleRegistration,
   @JsonValue(77)
-  EsaadCard,
+  esaadCard,
 }
 
+/// Represents all possible field types that can be extracted from the document.
 enum FieldType {
   @JsonValue(0)
-  AdditionalAddressInformation,
+  additionalAddressInformation,
   @JsonValue(1)
-  AdditionalNameInformation,
+  additionalNameInformation,
   @JsonValue(2)
-  AdditionalOptionalAddressInformation,
+  additionalOptionalAddressInformation,
   @JsonValue(3)
-  AdditionalPersonalIdNumber,
+  additionalPersonalIdNumber,
   @JsonValue(4)
-  Address,
+  address,
   @JsonValue(5)
-  ClassEffectiveDate,
+  classEffectiveDate,
   @JsonValue(6)
-  ClassExpiryDate,
+  classExpiryDate,
   @JsonValue(7)
-  Conditions,
+  conditions,
   @JsonValue(8)
-  DateOfBirth,
+  dateOfBirth,
   @JsonValue(9)
-  DateOfExpiry,
+  dateOfExpiry,
   @JsonValue(10)
-  DateOfIssue,
+  dateOfIssue,
   @JsonValue(11)
-  DocumentAdditionalNumber,
+  documentAdditionalNumber,
   @JsonValue(12)
-  DocumentOptionalAdditionalNumber,
+  documentOptionalAdditionalNumber,
   @JsonValue(13)
-  DocumentNumber,
+  documentNumber,
   @JsonValue(14)
-  Employer,
+  employer,
   @JsonValue(15)
-  Endorsements,
+  endorsements,
   @JsonValue(16)
-  FathersName,
+  fathersName,
   @JsonValue(17)
-  FirstName,
+  firstName,
   @JsonValue(18)
-  FullName,
+  fullName,
   @JsonValue(19)
-  IssuingAuthority,
+  issuingAuthority,
   @JsonValue(20)
-  LastName,
+  lastName,
   @JsonValue(21)
-  LicenceType,
+  licenceType,
   @JsonValue(22)
-  LocalizedName,
+  localizedName,
   @JsonValue(23)
-  MaritalStatus,
+  maritalStatus,
   @JsonValue(24)
-  MothersName,
+  mothersName,
   @JsonValue(25)
-  Mrz,
+  mrz,
   @JsonValue(26)
-  Nationality,
+  nationality,
   @JsonValue(27)
-  PersonalIdNumber,
+  personalIdNumber,
   @JsonValue(28)
-  PlaceOfBirth,
+  placeOfBirth,
   @JsonValue(29)
-  Profession,
+  profession,
   @JsonValue(30)
-  Race,
+  race,
   @JsonValue(31)
-  Religion,
+  religion,
   @JsonValue(32)
-  ResidentialStatus,
+  residentialStatus,
   @JsonValue(33)
-  Restrictions,
+  restrictions,
   @JsonValue(34)
-  Sex,
+  sex,
   @JsonValue(35)
-  VehicleClass,
+  vehicleClass,
   @JsonValue(36)
-  BloodType,
+  bloodType,
   @JsonValue(37)
-  Sponsor,
+  sponsor,
   @JsonValue(38)
-  VisaType,
+  visaType,
   @JsonValue(39)
-  DocumentSubtype,
+  documentSubtype,
   @JsonValue(40)
-  Remarks,
+  remarks,
   @JsonValue(41)
-  ResidencePermitType,
+  residencePermitType,
   @JsonValue(42)
-  ManufacturingYear,
+  manufacturingYear,
   @JsonValue(43)
-  VehicleType,
+  vehicleType,
   @JsonValue(44)
-  DependentDateOfBirth,
+  dependentDateOfBirth,
   @JsonValue(45)
-  DependentSex,
+  dependentSex,
   @JsonValue(46)
-  DependentDocumentNumber,
+  dependentDocumentNumber,
   @JsonValue(47)
-  DependentFullName,
+  dependentFullName,
   @JsonValue(48)
-  EligibilityCategory,
+  eligibilityCategory,
   @JsonValue(49)
-  SpecificDocumentValidity,
+  specificDocumentValidity,
   @JsonValue(50)
-  VehicleOwner,
+  vehicleOwner,
 }
