@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:blinkid_flutter/blinkid_settings.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -1598,40 +1596,40 @@ class BarcodeData {
 /// Represents the type of scanned barcode
 enum BarcodeType {
   /// No barcode was scanned
-  None,
+  none,
 
   /// QR code was scanned
-  QRCode,
+  qrCode,
 
   /// Data Matrix 2D barcode was scanned
-  DataMatrix,
+  dataMatrix,
 
   /// UPC E barcode was scanned
-  UPCE,
+  upce,
 
   /// UPC A barcode was scanned
-  UPCA,
+  upca,
 
   /// EAN 8 barcode was scanned
-  EAN8,
+  ean8,
 
   /// EAN 13 barcode was scanned
-  EAN13,
+  ean13,
 
   /// Code 128 barcode was scanned
-  Code128,
+  code128,
 
   /// Code 39 barcode was scanned
-  Code39,
+  code39,
 
   /// ITF barcode was scanned
-  ITF,
+  itf,
 
   /// Aztec 2D barcode was scanned
-  Aztec,
+  aztec,
 
   /// PDF417 2D barcode was scanned
-  PDF417,
+  pdf417,
 }
 
 /// Detailed information about the address.
@@ -2004,45 +2002,347 @@ class BarcodeExtendedElements {
   /// granted to the cardholder beyond the vehicle class (such as transportation of
   /// passengers, hazardous materials, operation of motorcycles, etc.).
   String? jurisdictionEndorsementCodes;
+
+  /// Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// Text that explains the jurisdiction-specific code(s) that indicates additional
+  /// driving privileges granted to the cardholder beyond the vehicle class.
   String? jurisdictionEndorsmentCodeDescription;
+
+  /// Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// Text describing the jurisdiction-specific restriction code(s) that curtail driving privileges.
   String? jurisdictionRestrictionCodeDescription;
+
+  /// Mandatory on all AAMVA barcodes.
+  /// Optional on Magnetic barcodes.
+  ///
+  /// Jurisdiction-specific codes that represent additional privileges
+  /// granted to the cardholder beyond the vehicle class (such as transportation of
+  /// passengers, hazardous materials, operation of motorcycles, etc.).
   String? jurisdictionRestrictionCodes;
+
+  /// Mandatory on all AAMVA and Magnetic barcodes.
+  ///
+  /// Jurisdiction-specific vehicle class / group code, designating the type
+  /// of vehicle the cardholder has privilege to drive.
   String? jurisdictionVehicleClass;
+
+  /// Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// Text that explains the jurisdiction-specific code(s) for classifications
+  /// of vehicles cardholder is authorized to drive.
   String? jurisdictionVehicleClassificationDescription;
+
+  /// Mandatory on all AAMVA and Compact barcodes.
+  /// Optional on Magnetic barcodes.
+  ///
+  /// Jurisdiction Version Number: This is a decimal value between 0 and 99 that
+  /// specifies the jurisdiction version level of the PDF417 barcode format.
+  /// Notwithstanding iterations of this standard, jurisdictions implement incremental
+  /// changes to their barcodes, including new jurisdiction-specific data, compression
+  /// algorithms for digitized images, digital signatures, or new truncation
+  /// conventions used for names and addresses. Each change to the barcode format
+  /// within each AAMVA version (above) must be noted, beginning with Jurisdiction
+  /// Version 00.
   String? jurisdictionVersionNumber;
+
+  /// Optional on AAMVA 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// DHS required field that indicates that the cardholder has temporary lawful status = "1".
   String? limitedDurationDocument;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Medical Indicator/Codes.
+  /// STATE SPECIFIC. Freeform, Standard "TBD"
   String? medicalIndicator;
+
+  /// Mandatory on AAMVA 04, 05, 06, 07, 08 barcodes.
+  ///
+  /// A code that indicates whether a field has been truncated (T), has not been
+  /// truncated (N), or – unknown whether truncated (U).
   String? middleNameTruncation;
+
+  /// Optional on AAMVA 01 barcodes.
+  ///
+  /// PREFIX to Driver Name. Freeform as defined by issuing jurisdiction.
   String? namePrefix;
+
+  /// Mandatory on AAMVA 02 barcodes.
+  /// Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
+  ///
+  /// Name Suffix (If jurisdiction participates in systems requiring name suffix (PDPS, CDLIS, etc.),
+  /// the suffix must be collected and displayed on the DL/ID and in the MRT).
+  /// - JR (Junior)
+  /// - SR (Senior)
+  /// - 1ST or I (First)
+  /// - 2ND or II (Second)
+  /// - 3RD or III (Third)
+  /// - 4TH or IV (Fourth)
+  /// - 5TH or V (Fifth)
+  /// - 6TH or VI (Sixth)
+  /// - 7TH or VII (Seventh)
+  /// - 8TH or VIII (Eighth)
+  /// - 9TH or IX (Ninth)
   String? nameSuffix;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Non-Resident Indicator. "Y". Used by some jurisdictions to indicate holder of the document is a non-resident.
   String? nonResident;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Number of duplicate cards issued for a license or ID if any.
   String? numberOfDuplicates;
+
+  /// Optional on AAMVA 01, 06, 07, 08 barcodes.
+  ///
+  /// Field that indicates that the cardholder is an organ donor = "1".
   String? organDonor;
+
+  /// Optional on AAMVA version 01 barcodes.
+  ///
+  /// Driver Permit Expiration Date. MMDDCCYY format. Date permit expires.
   String? permitExpirationDate;
+
+  /// Optional on AAMVA version 01 barcodes..
+  ///
+  /// Type of permit.
   String? permitIdentifier;
+
+  /// Optional on AAMVA version 01 barcodes..
+  ///
+  /// Driver Permit Issue Date. MMDDCCYY format. Date permit was issued.
   String? permitIssueDate;
+
+  /// Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// Country and municipality and/or state/province.
   String? placeOfBirth;
+
+  /// Optional on AAMVA 02, 03, 04, 05, 06, 07, 08 and Compact barcodes.
+  ///
+  /// Codes for race or ethnicity of the cardholder, as defined in ANSI D20.
+  ///
+  /// Race:
+  /// Code   Description
+  /// AI     Alaskan or American Indian (Having Origins in Any of The Original Peoples of
+  /// North America, and Maintaining Cultural Identification Through Tribal
+  /// Affiliation of Community Recognition)
+  /// AP     Asian or Pacific Islander (Having Origins in Any of the Original Peoples of
+  /// the Far East, Southeast Asia, or Pacific Islands. This Includes China, India,
+  /// Japan, Korea, the Philippines Islands, and Samoa)
+  /// BK     Black (Having Origins in Any of the Black Racial Groups of Africa)
+  /// W      White (Having Origins in Any of The Original Peoples of Europe, North Africa,
+  /// or the Middle East)
+  ///
+  /// Ethnicity:
+  /// Code   Description
+  /// H      Hispanic Origin (A Person of Mexican, Puerto Rican, Cuban, Central or South
+  /// American or Other Spanish Culture or Origin, Regardless of Race)
+  /// O      Not of Hispanic Origin (Any Person Other Than Hispanic)
+  /// U      Unknown
   String? raceEthnicity;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Driver Residence City
   String? residenceCity;
+
+  /// Optional on AAMVA 01 barcodes.
+  ///
+  /// Full residence address of the individual holding the Driver's License or ID.
+  /// The full address field contains up to four portions, separated with the "," delimiter:
+  /// Residence Street Address (required)
+  /// , (required if other address portions follow, otherwise optional)
+  /// Residence City (optional)
+  /// , (required if other address portions follow, otherwise optional)
+  /// Residence Jurisdiction Code (optional)
+  /// , (required if other address portions follow, otherwise optional)
+  /// Residence ZIP - Residence Postal Code (optional)
   String? residenceFullAddress;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Driver Residence Jurisdiction Code.
   String? residenceJurisdictionCode;
+
+  /// Optional on AAMVA 01 barcodes.
+  ///
+  /// Driver Residence Postal Code.
   String? residencePostalCode;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Driver Residence Street Address 1.
   String? residenceStreetAddress;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// Driver Residence Street Address 2.
   String? residenceStreetAddress2;
+
+  /// Optional on Magnetic barcodes.
+  ///
+  /// Security version being used.
   String? securityVersion;
+
+  /// Mandatory on all AAMVA, Magnetic barcodes.
+  /// Optional on Compact barcodes.
+  ///
+  /// Gender of the cardholder. 1 = male, 2 = female.
   String? sex;
+
+  /// Optional on AAMVA version 01.
+  ///
+  /// The number assigned to the individual by the Social Security Administration.
   String? socialSecurityNumber;
+
+  /// Optional on all AAMVA barcodes.
+  ///
+  /// Standard endorsement code(s) for cardholder. See codes in D20. This data element is a
+  /// placeholder for future efforts to standardize endorsement codes.
+  ///
+  /// Code   Description
+  /// H      Hazardous Material - This endorsement is required for the operation of any vehicle
+  /// transporting hazardous materials requiring placarding, as defined by U.S.
+  /// Department of Transportation regulations.
+  /// L      Motorcycles – Including Mopeds/Motorized Bicycles.
+  ///
+  /// N      Tank - This endorsement is required for the operation of any vehicle transporting,
+  /// as its primary cargo, any liquid or gaseous material within a tank attached to the vehicle.
+  ///
+  /// O      Other Jurisdiction Specific Endorsement(s) - This code indicates one or more
+  /// additional jurisdiction assigned endorsements.
+  ///
+  /// P      Passenger - This endorsement is required for the operation of any vehicle used for
+  /// transportation of sixteen or more occupants, including the driver.
+  ///
+  /// S      School Bus - This endorsement is required for the operation of a school bus. School bus means a
+  /// CMV used to transport pre-primary, primary, or secondary school students from home to school,
+  /// from school to home, or to and from school sponsored events. School bus does not include a
+  /// bus used as common carrier (49 CRF 383.5).
+  ///
+  /// T      Doubles/Triples - This endorsement is required for the operation of any vehicle that would be
+  /// referred to as a double or triple.
+  ///
+  /// X      Combined Tank/HAZ-MAT - This endorsement may be issued to any driver who qualifies for
+  /// both the N and H endorsements.
   String? standardEndorsementCode;
+
+  /// Optional on all AAMVA barcodes.
+  ///
+  /// Standard restriction code(s) for cardholder. See codes in D20. This data element is a placeholder
+  /// for future efforts to standardize restriction codes.
+  ///
+  /// Code   Description
+  /// B      Corrective Lenses
+  /// C      Mechanical Devices (Special Brakes, Hand Controls, or Other Adaptive Devices)
+  /// D      Prosthetic Aid
+  /// E      Automatic Transmission
+  /// F      Outside Mirror
+  /// G      Limit to Daylight Only
+  /// H      Limit to Employment
+  /// I      Limited Other
+  /// J      Other
+  /// K      CDL Intrastate Only
+  /// L      Vehicles without air brakes
+  /// M      Except Class A bus
+  /// N      Except Class A and Class B bus
+  /// O      Except Tractor-Trailer
+  /// V      Medical Variance Documentation Required
+  /// W      Farm Waiver
   String? standardRestrictionCode;
+
+  /// Optional on all AAMVA barcodes.
+  /// Mandatory on Compact barcodes.
+  ///
+  /// Standard vehicle classification code(s) for cardholder. This data element is a
+  /// placeholder for future efforts to standardize vehicle classifications.
   String? standardVehicleClassification;
+
+  /// Mandatory on all driver's licenses.
+  ///
+  /// AAMVA Version Number: This is a decimal value between 0 and 99 that
+  /// specifies the version level of the PDF417 bar code format. Version "0" and "00"
+  /// is reserved for bar codes printed to the specification of the American Association
+  /// of Motor Vehicle Administrators (AAMVA) prior to the adoption of the AAMVA DL/ID-2000
+  /// standard.
+  ///
+  /// - All barcodes compliant with AAMVA DL/ID-2000 standard shall be designated Version "01."
+  /// - All barcodes compliant with AAMVA Card Design Specification version 1.0, dated 09-2003
+  /// shall be designated Version "02."
+  /// - All barcodes compliant with AAMVA Card Design Specification version 2.0, dated 03-2005
+  /// shall be designated Version "03."
+  /// - All barcodes compliant with AAMVA Card Design Standard version 1.0, dated 07-2009
+  /// shall be designated Version "04."
+  /// - All barcodes compliant with AAMVA Card Design Standard version 1.0, dated 07-2010
+  /// shall be designated Version "05."
+  /// - All barcodes compliant with AAMVA Card Design Standard version 1.0, dated 07-2011
+  /// shall be designated Version "06".
+  /// - All barcodes compliant with AAMVA Card Design Standard version 1.0, dated 06-2012
+  /// shall be designated Version "07".
+  /// - All barcodes compliant with this current AAMVA standard shall be designated "08".
+  ///
+  /// Should a need arise requiring major revision to the format, this field provides the
+  /// means to accommodate additional revision.
+  ///
+  /// If the document type is not "AAMVA", this field defines the version number of the
+  /// given document type's standard.
   String? standardVersionNumber;
+
+  /// Optional on AAMVA 05, 06, 07, 08 barcodes.
+  /// Date on which the cardholder turns 18 years old. (MMDDCCYY format)
   String? under18;
+
+  /// Optional on AAMVA 05, 06, 07, 08 barcodes.
+  ///
+  /// Date on which the cardholder turns 19 years old. (MMDDCCYY format)
   String? under19;
+
+  /// Optional on AAMVA 05, 06, 07, 08 barcodes.
+  ///
+  /// Date on which the cardholder turns 21 years old. (MMDDCCYY format)
   String? under21;
+
+  /// Optional on AAMVA version 01.
+  ///
+  ///  A number or alphanumeric string used by some jurisdictions to identify a "customer" across multiple data bases.
   String? uniqueCustomerId;
+
+  /// Optional on AAMVA 07, 08 barcodes.
+  ///
+  /// Field that indicates that the cardholder is a veteran = "1"
   String? veteran;
+
+  /// Mandatory on AAMVA 02 barcodes.
+  /// Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
+  ///
+  /// Cardholder weight in kilograms Example: 84 kg = "084"
   String? weightKilograms;
+
+  /// Mandatory on AAMVA 02 barcodes.
+  /// Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
+  ///
+  /// Cardholder weight in pounds Example: 185 lb = "185"
   String? weightPounds;
+
+  /// Mandatory on AAMVA 02 barcodes.
+  /// Optional on AAMVA 01, 03, 04, 05, 06, 07, 08, Magnetic and Compact barcodes.
+  ///
+  /// Indicates the approximate weight range of the cardholder:
+  /// 0 = up to 31 kg (up to 70 lbs)
+  /// 1 = 32 – 45 kg (71 – 100 lbs)
+  /// 2 = 46 - 59 kg (101 – 130 lbs)
+  /// 3 = 60 - 70 kg (131 – 160 lbs)
+  /// 4 = 71 - 86 kg (161 – 190 lbs)
+  /// 5 = 87 - 100 kg (191 – 220 lbs)
+  /// 6 = 101 - 113 kg (221 – 250 lbs)
+  /// 7 = 114 - 127 kg (251 – 280 lbs)
+  /// 8 = 128 – 145 kg (281 – 320 lbs)
+  /// 9 = 146+ kg (321+ lbs)
   String? weightRange;
 
   /// Represents the fields present in the barcode.
@@ -2166,27 +2466,39 @@ class BarcodeExtendedElements {
       weightRange = nativeBarcodeExtendedElements['weightRange'];
 }
 
+/// Represents the document type found on the Machine Readable Zone
 enum MRZDocumentType {
+  /// Document type was not identified.
   unknown,
 
+  /// Identity card
   identityCard,
 
+  /// Passport
   passport,
 
+  /// VISA
   visa,
 
+  /// Green card
   greenCard,
 
+  /// IIM13P Pass
   mysPassIMM13P,
 
+  /// Driver license
   driverLicense,
 
+  /// Internal travel document
   internalTravelDocument,
 
+  /// Border crossing card
   borderCrossingCard,
 }
 
+/// Represents the result of the image crop transformation with additional details.
 class DetailedCroppedImageResult {
+  /// The cropped image in the Base64 format
   String? image;
 
   /// The document side that was cropped.
@@ -2195,6 +2507,7 @@ class DetailedCroppedImageResult {
   /// The location of the cropped image in the transformed image of the document.
   Location? location;
 
+  /// Represents the result of the image crop transformation with additional details.
   DetailedCroppedImageResult(
     Map<String, dynamic> nativeDetailedCroppedImageResult,
   ) {
@@ -2216,8 +2529,16 @@ class DetailedCroppedImageResult {
   }
 }
 
-enum ScanningSide { first, second }
+/// Represents the side of the document being scanned.
+enum ScanningSide {
+  /// The first side of the scanned document
+  first,
 
+  /// The second side of the scanned document
+  second,
+}
+
+/// Helper method for serializing enums from the native Android and iOS platforms.
 T? enumFromValue<T>(List<T> values, dynamic input) {
   if (input == null) return null;
   if (input is T) return input;
@@ -2235,6 +2556,7 @@ T? enumFromValue<T>(List<T> values, dynamic input) {
   return null;
 }
 
+/// Helper method for handling different string types, based on the document information source.
 T? handleStringType<T>(dynamic result, String propertyName) {
   if (result == null) return null;
 
