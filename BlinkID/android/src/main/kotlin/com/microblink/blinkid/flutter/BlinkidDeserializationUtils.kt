@@ -30,6 +30,7 @@ import kotlinx.parcelize.RawValue
 import android.graphics.Bitmap
 import android.util.Base64
 import com.microblink.blinkid.core.session.InputImageSource
+import com.microblink.core.network.RequestTimeout
 
 object BlinkIdDeserializationUtils {
 
@@ -44,6 +45,7 @@ object BlinkIdDeserializationUtils {
                 ?: defaultResourceDownloadUrl,
             resourceLocalFolder = blinkIdSdkSettingsMap["resourceLocalFolder"] as? String
                 ?: defaultResourcesLocalFolder,
+            resourceRequestTimeout = deserializeResourceRequestTimeout(blinkIdSdkSettingsMap["resourceRequestTimeout"] as? Map<String, Any>)
         )
     }
 
@@ -115,6 +117,15 @@ object BlinkIdDeserializationUtils {
             returnFaceImage = croppedImageSettingsMap["returnFaceImage"] as? Boolean ?: false,
             returnSignatureImage = croppedImageSettingsMap["returnSignatureImage"] as? Boolean
                 ?: false,
+        )
+    }
+
+    private fun deserializeResourceRequestTimeout(resourceRequestTimeoutMap: Map<String, Any>?): RequestTimeout {
+        if (resourceRequestTimeoutMap == null) return RequestTimeout.DEFAULT
+        return RequestTimeout(
+            connectionTimeoutMillis = resourceRequestTimeoutMap["connectionTimeoutMilliseconds"] as? Int ?: 10000,
+            writeTimeoutMillis = resourceRequestTimeoutMap["writeTimeoutMilliseconds"] as? Int ?: 10000,
+            readTimeoutMillis = resourceRequestTimeoutMap["readTimeoutMilliseconds"] as? Int ?: 10000
         )
     }
 
