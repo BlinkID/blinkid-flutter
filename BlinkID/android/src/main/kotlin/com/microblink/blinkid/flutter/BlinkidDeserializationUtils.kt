@@ -31,33 +31,33 @@ import android.graphics.Bitmap
 import android.util.Base64
 import com.microblink.blinkid.core.session.InputImageSource
 
-object BlinkidDeserializationUtils {
+object BlinkIdDeserializationUtils {
 
-    fun deserializeBlinkidSdkSettings(blinkidSdkSettingsMap: Map<String, Any>?): BlinkIdSdkSettings? {
-        val licenseKey = blinkidSdkSettingsMap?.get("licenseKey") as? String ?: return null
+    fun deserializeBlinkIdSdkSettings(blinkIdSdkSettingsMap: Map<String, Any>?): BlinkIdSdkSettings? {
+        val licenseKey = blinkIdSdkSettingsMap?.get("licenseKey") as? String ?: return null
 
         return BlinkIdSdkSettings(
             licenseKey = licenseKey,
-            licensee = blinkidSdkSettingsMap["licensee"] as? String,
-            downloadResources = blinkidSdkSettingsMap["downloadResources"] as? Boolean ?: true,
-            resourceDownloadUrl = blinkidSdkSettingsMap["resourceDownloadUrl"] as? String
+            licensee = blinkIdSdkSettingsMap["licensee"] as? String,
+            downloadResources = blinkIdSdkSettingsMap["downloadResources"] as? Boolean ?: true,
+            resourceDownloadUrl = blinkIdSdkSettingsMap["resourceDownloadUrl"] as? String
                 ?: defaultResourceDownloadUrl,
-            resourceLocalFolder = blinkidSdkSettingsMap["resourceLocalFolder"] as? String
+            resourceLocalFolder = blinkIdSdkSettingsMap["resourceLocalFolder"] as? String
                 ?: defaultResourcesLocalFolder,
         )
     }
 
-    fun deserializeBlinkidSessionSettings(
-        blinkidSdkSessionSettingsMap: Map<String, Any>?,
+    fun deserializeBlinkIdSessionSettings(
+        blinkIdSdkSessionSettingsMap: Map<String, Any>?,
         isDirectApi: Boolean
     ): BlinkIdSessionSettings {
-        if (blinkidSdkSessionSettingsMap == null) return BlinkIdSessionSettings()
+        if (blinkIdSdkSessionSettingsMap == null) return BlinkIdSessionSettings()
 
         return BlinkIdSessionSettings(
             inputImageSource = if (isDirectApi) InputImageSource.Photo else InputImageSource.Video,
-            scanningMode = ScanningMode.entries[blinkidSdkSessionSettingsMap["scanningMode"] as? Int
+            scanningMode = ScanningMode.entries[blinkIdSdkSessionSettingsMap["scanningMode"] as? Int
                 ?: ScanningMode.Automatic.ordinal],
-            scanningSettings = deserializeScanningSettings(blinkidSdkSessionSettingsMap["scanningSettings"] as? Map<String, Any>),
+            scanningSettings = deserializeScanningSettings(blinkIdSdkSessionSettingsMap["scanningSettings"] as? Map<String, Any>),
         )
     }
 
@@ -118,7 +118,7 @@ object BlinkidDeserializationUtils {
         )
     }
 
-    fun deserializeDocumentRules(documentRulesMapArray: List<Map<String, Any>>?): List<DocumentRules> {
+    private fun deserializeDocumentRules(documentRulesMapArray: List<Map<String, Any>>?): List<DocumentRules> {
         if (documentRulesMapArray == null) return emptyList()
         val documentRulesList = mutableListOf<DocumentRules>()
 
@@ -169,7 +169,7 @@ object BlinkidDeserializationUtils {
         }
     }
 
-    fun deserializeCustomAnonymizationSetings(customAnonymizationSettingsMapArray: List<Map<String, Any>>?): List<DocumentAnonymizationSettings> {
+    private fun deserializeCustomAnonymizationSetings(customAnonymizationSettingsMapArray: List<Map<String, Any>>?): List<DocumentAnonymizationSettings> {
         if (customAnonymizationSettingsMapArray == null) return emptyList()
 
         val customAnonymizationList = mutableListOf<DocumentAnonymizationSettings>()
@@ -188,7 +188,7 @@ object BlinkidDeserializationUtils {
     }
 
 
-    fun deserializeRecognitionModeFilter(recognitionModeFilterMap: Map<String, Any>?): RecognitionModeFilter {
+    private fun deserializeRecognitionModeFilter(recognitionModeFilterMap: Map<String, Any>?): RecognitionModeFilter {
         if (recognitionModeFilterMap == null) return RecognitionModeFilter()
         val filter = RecognitionModeFilter()
         filter.enableMrzId = recognitionModeFilterMap["enableMrzId"] as? Boolean ?: true
@@ -202,7 +202,7 @@ object BlinkidDeserializationUtils {
     }
 
 
-    fun deserializeBlinkidUxSettings(
+    fun deserializeBlinkIdUxSettings(
         blinkidUxSettingsMap: Map<String, Any>?,
         classFilterMap: Map<String, Any>?
     ): BlinkIdUxSettings {
@@ -271,6 +271,6 @@ private class CustomClassFilter(
 ) : ClassFilter, Parcelable {
 
     override fun classAllowed(documentClass: DocumentClassInfo): Boolean {
-        return BlinkidDeserializationUtils.deserializeClassFilter(classFilterMap, documentClass)
+        return BlinkIdDeserializationUtils.deserializeClassFilter(classFilterMap, documentClass)
     }
 }

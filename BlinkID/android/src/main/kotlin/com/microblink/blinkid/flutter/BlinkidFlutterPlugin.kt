@@ -66,8 +66,8 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
             val blinkIdSdkSettings = call.argument<Map<String, Any>>("blinkidSdkSettings")
             val blinkidSessionSettings = call.argument<Map<String, Any>>("blinkidSessionSettings")
             val classFilterMap = call.argument<Map<String, Any>>("blinkidClassFilter")
-            val sdkSettings = BlinkidDeserializationUtils
-                .deserializeBlinkidSdkSettings(blinkIdSdkSettings)
+            val sdkSettings = BlinkIdDeserializationUtils
+                .deserializeBlinkIdSdkSettings(blinkIdSdkSettings)
                 ?: return result.error(BLINKID_ERROR_RESULT_CODE, "Incorrect SDK Settings.", null)
 
             flutterPluginActivity?.let {
@@ -75,11 +75,11 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                     it,
                     BlinkIdScanActivitySettings(
                         sdkSettings = sdkSettings,
-                        scanningSessionSettings = BlinkidDeserializationUtils.deserializeBlinkidSessionSettings(
+                        scanningSessionSettings = BlinkIdDeserializationUtils.deserializeBlinkIdSessionSettings(
                             blinkidSessionSettings,
                             false
                         ),
-                        uxSettings = BlinkidDeserializationUtils.deserializeBlinkidUxSettings(
+                        uxSettings = BlinkIdDeserializationUtils.deserializeBlinkIdUxSettings(
                             blinkidSessionSettings,
                             classFilterMap
                         )
@@ -107,7 +107,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
             val firstImage = call.argument<String>("firstImage")
             val secondImage = call.argument<String>("secondImage")
 
-            BlinkidDeserializationUtils.deserializeBlinkidSdkSettings(blinkIdSdkSettings)?.let {
+            BlinkIdDeserializationUtils.deserializeBlinkIdSdkSettings(blinkIdSdkSettings)?.let {
                 val blinkidInstance = BlinkIdSdk.initializeSdk(context, it)
 
                 when {
@@ -115,7 +115,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
                         blinkidInstance.getOrNull()?.let { instance ->
                             val session = instance.createScanningSession(
-                                BlinkidDeserializationUtils.deserializeBlinkidSessionSettings(
+                                BlinkIdDeserializationUtils.deserializeBlinkIdSessionSettings(
                                     blinkidSessionSettings,
                                     true
                                 )
@@ -123,14 +123,14 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                             var result: kotlin.Result<BlinkIdProcessResult>? = null
 
                             firstImage?.let { firstImageBase64 ->
-                                BlinkidDeserializationUtils.base64ToBitmap(firstImageBase64)
+                                BlinkIdDeserializationUtils.base64ToBitmap(firstImageBase64)
                                     ?.let { image ->
                                         result = session.process(InputImage.createFromBitmap(image))
                                     }
                             }
 
                             secondImage?.let { secondImageBase64 ->
-                                BlinkidDeserializationUtils.base64ToBitmap(secondImageBase64)
+                                BlinkIdDeserializationUtils.base64ToBitmap(secondImageBase64)
                                     ?.let { image ->
                                         result = session.process(InputImage.createFromBitmap(image))
                                     }
@@ -139,7 +139,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                             if (result?.isSuccess == true) {
                                 val scanningResult = session.getResult()
                                 flutterResult?.success(
-                                    BlinkidSerializationUtils.serializeBlinkIdScanningResult(
+                                    BlinkIdSerializationUtils.serializeBlinkIdScanningResult(
                                         scanningResult
                                     )
                                 )
@@ -186,7 +186,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
                 BlinkIdScanActivityResultStatus.DocumentScanned -> {
                     blinkIdResult.result?.let { scanningResult ->
-                        val success = BlinkidSerializationUtils.serializeBlinkIdScanningResult(
+                        val success = BlinkIdSerializationUtils.serializeBlinkIdScanningResult(
                             scanningResult
                         )
                         flutterResult?.success(success)

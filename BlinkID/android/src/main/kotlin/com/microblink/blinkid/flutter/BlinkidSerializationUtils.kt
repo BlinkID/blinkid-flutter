@@ -25,7 +25,7 @@ import android.util.Base64
 import com.microblink.blinkid.core.result.ScanningSide
 import com.microblink.blinkid.core.result.barcode.BarcodeElement
 
-object BlinkidSerializationUtils {
+object BlinkIdSerializationUtils {
     fun serializeBlinkIdScanningResult(scanningResult: BlinkIdScanningResult?): String? {
         val scanningResultDict: MutableMap<String, Any?> = mutableMapOf()
 
