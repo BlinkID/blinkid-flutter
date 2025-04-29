@@ -73,9 +73,9 @@ object BlinkIdDeserializationUtils {
             tiltDetectionLevel = DetectionLevel.entries[scanningSettingsMap["tiltDetectionLevel"] as? Int
                 ?: DetectionLevel.Off.ordinal],
             skipImagesWithInadequateLightingConditions = scanningSettingsMap["skipImagesWithInadequateLightingConditions"] as? Boolean
-                ?: false,
+                ?: true,
             skipImagesOccludedByHand = scanningSettingsMap["skipImagesOccludedByHand"] as? Boolean
-                ?: false,
+                ?: true,
             combineResultsFromMultipleInputImages = scanningSettingsMap["combineResultsFromMultipleInputImages"] as? Boolean
                 ?: true,
             enableBarcodeScanOnly = scanningSettingsMap["enableBarcodeScanOnly"] as? Boolean
@@ -108,7 +108,7 @@ object BlinkIdDeserializationUtils {
     private fun deserializeCroppedImageSettings(croppedImageSettingsMap: Map<String, Any>?): CroppedImageSettings {
         if (croppedImageSettingsMap == null) return CroppedImageSettings()
         return CroppedImageSettings(
-            dotsPerInch = (croppedImageSettingsMap["dotsPerInch"] as? Int)?.toUShort() ?: 0u,
+            dotsPerInch = (croppedImageSettingsMap["dotsPerInch"] as? Int)?.toUShort() ?: 250u,
             extensionFactor = croppedImageSettingsMap["extensionFactor"] as? Float ?: 0.0f,
             returnDocumentImage = croppedImageSettingsMap["returnDocumentImage"] as? Boolean
                 ?: false,

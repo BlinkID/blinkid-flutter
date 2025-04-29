@@ -602,7 +602,7 @@ object BlinkIdSerializationUtils {
         return image?.let { bmp ->
             val outputStream = ByteArrayOutputStream()
             outputStream.use { stream ->
-                bmp.compress(Bitmap.CompressFormat.JPEG, 90, stream)
+                bmp.compress(Bitmap.CompressFormat.JPEG, 95, stream)
                 Base64.encodeToString(
                     stream.toByteArray(),
                     Base64.NO_WRAP
