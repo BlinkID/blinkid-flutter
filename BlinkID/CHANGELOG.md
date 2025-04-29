@@ -26,7 +26,7 @@ It takes the following parameters:
 
 **BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the `ScanningMode` and `BlinkIdScanningSettings`, which define various parameters that control the scanning process.
 
-The optional **ClassFilter** class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
+The optional **ClassFilter** class - `ClassFilter`: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
 
 - The implementation of the `performScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
 
