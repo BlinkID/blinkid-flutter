@@ -40,7 +40,7 @@ A valid license key is required to initialize the BlinkID plugin. A free trial l
 
 ## <a name="quickstart-with-the-sample-application"></a> Quickstart with the sample application
 The sample application demonstrates how the BlinkID SDK is implemented and used and how to obtain the captured results. It contains the implementation for:
-1. The **default implementation** with the default BlinkID UX scanning expirience.
+1. The **default implementation** with the default BlinkID UX scanning experience.
 2. **Multiside DirectAPI scanning** - extracting the document information from multiple static images (from the gallery).
 3. **Singleside DirectAPI scanning** - extracting the document information from a single static images (from the gallery).
 
@@ -159,9 +159,9 @@ await blinkIdPlugin
 The BlinkID plugin implementation is located in the `lib` folder, while platform-specific implementation is located in the `android` and `ios` folders.
 
 ### <a name="scanning-methods"></a> Scanning methods
-Currently, the BlinkID plugin contains the two main methods of scanning: `performScanning` and `performDirectApiScanning`.
+Currently, the BlinkID plugin contains the two main methods of scanning: `performScan` and `performDirectApiScan`.
 
-**The `performScanning` method**
+**The `performScan` method**
 
 The `performScan` method launches the BlinkID scanning process with the default UX properties.\
 It takes the following parameters: 
@@ -177,7 +177,7 @@ The optional **ClassFilter** class - [ClassFilter]: the class which controls whi
 
 - The implementation of the `performScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
 
-**The `performDirectApiScanning` method**
+**The `performDirectApiScan` method**
 
 The `performDirectApiScan` method launches the BlinkID scanning process inteded for information extraction from static images.\
 It takes the following parameters: 
