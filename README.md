@@ -20,11 +20,11 @@ However, since the wrapper is open source, you can add the features you need on 
 - [Plugin specifics](#plugin-specifics)
   - [Scanning methods](#scanning-methods)
   - [BlinkID Settings](#blinkid-settings)
-  - [BlinkID Results](#blinkid-result)
+  - [BlinkID Results](#blinkid-results)
 - [Additional information](#additional-information)
 
 ## <a name="licensing"></a> Licensing
-A valid license key is required to initialize the BlinkID plugin. A free trial license key can be requested after registering at [Microblink Developer Hub](https://developer.microblink.com/).
+A valid license key is required to initialize the BlinkID plugin. A free trial license key can be requested after registering at the [Microblink Developer Hub](https://developer.microblink.com/).
 
 ## <a name="requirements"></a> Requirements
 
@@ -34,12 +34,12 @@ A valid license key is required to initialize the BlinkID plugin. A free trial l
 | Camera quality     | -                       | At least 1080p          | At least 1080p             |
 
 
-- For additional help with the Flutter setup, view official [documentation](https://flutter.dev/docs).
-- For more detailed information about the native BlinkID Android and iOS requirements, view the documentation here ([Android](https://github.com/BlinkID/blinkid-android?tab=readme-ov-file#-device-requirements) & [iOS](https://github.com/BlinkID/blinkid-ios?tab=readme-ov-file#requirements)).
+- For additional help with the Flutter setup, view the official [documentation](https://flutter.dev/docs).
+- For more detailed information about the BlinkID Android and iOS requirements, view the native SDK documentation here ([Android](https://github.com/BlinkID/blinkid-android?tab=readme-ov-file#-device-requirements) & [iOS](https://github.com/BlinkID/blinkid-ios?tab=readme-ov-file#requirements)).
 
 
 ## <a name="quickstart-with-the-sample-application"></a> Quickstart with the sample application
-The sample application demonstrates how the BlinkID SDK is implemented and used and how to obtain the captured results. It contains the implementation for:
+The sample application demonstrates how the BlinkID SDK is implemented, used and shows how to obtain the captured results. It contains the implementation for:
 1. The **default implementation** with the default BlinkID UX scanning experience.
 2. **Multiside DirectAPI scanning** - extracting the document information from multiple static images (from the gallery).
 3. **Singleside DirectAPI scanning** - extracting the document information from a single static images (from the gallery).
@@ -59,7 +59,7 @@ cd sample && flutter run
 ```
 4. Pick the platform to run the BlinkID SDK on.
 
-Note: the plugin can be run directly via Xcode and Android Studio:
+Note: the plugin can be run directly via Xcode (iOS) and Android Studio (Android):
 1. Open the `Runner.xcworkspace` in the path: `sample/ios/Runner.xcworkspace` to run the iOS sample application.
 2. Open the `android` folder via Android Studio in the `sample` folder to run the Android sample application.
 
@@ -153,7 +153,7 @@ await blinkIdPlugin
     });
 ```
 - The whole integration process can be found in the sample app `main.dart` file [here](https://github.com/BlinkID/blinkid-flutter/blob/main/sample_files/main.dart).
-- The settings and the results that can be used with the BlinkID plugin can be found in the paragraphs below, but also in the comments of each documentation of each BlinkID Dart file.
+- The settings and the results that can be used with the BlinkID plugin can be found in the paragraphs below, but also in the comments of each BlinkID Dart file.
 
 ## <a name="plugin-specifics"></a> Plugin specifics
 The BlinkID plugin implementation is located in the `lib` folder, while platform-specific implementation is located in the `android` and `ios` folders.
@@ -173,13 +173,13 @@ It takes the following parameters:
 
 **BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the `ScanningMode` and `BlinkIdScanningSettings`, which define various parameters that control the scanning process.
 
-The optional **ClassFilter** class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
+The optional **ClassFilter** class - `ClassFilter`: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
 
 - The implementation of the `performScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
 
 **The `performDirectApiScan` method**
 
-The `performDirectApiScan` method launches the BlinkID scanning process inteded for information extraction from static images.\
+The `performDirectApiScan` method launches the BlinkID scanning process intended for information extraction from static images.\
 It takes the following parameters: 
 1. BlinkID SDK settings
 2. BlinkID session settings
@@ -251,4 +251,4 @@ Represents the result of the image crop transformation with additional details.
 - The native Kotlin & Swift implementation of all BlinkID results can be found here for [Android](https://github.com/BlinkID/blinkid-flutter/blob/feature/android-platform-channel/BlinkID/android/src/main/kotlin/com/microblink/blinkid/flutter/BlinkidSerializationUtils.kt) & [iOS](https://github.com/BlinkID/blinkid-flutter/blob/feature/ios-platform-channel/BlinkID/ios/blinkid_flutter/Sources/blinkid_flutter/BlinkidSerializationUtils.swift) in the BlinkID serialization utilities.
 
 ## <a name="additional-information"></a> Additional information
-For any additional questions and information, feel free to contact us [here](https://help.microblink.com).
+For any additional questions and information, feel free to contact us [here](https://help.microblink.com), or directly to the Support team via mail support@microblink.com.

@@ -12,6 +12,7 @@ The version 7 release of the BlinkID SDK.
 - Class `MicroblinkScanner` has been renamed to `BlinkidFlutter`.
 - Method `scanWithCamera` has been renamed to `performScan`.
 - Method `scanWithDirectApi` has been renamed to `performDirectApiScan`.
+- See section **Version 7 plugin usage** for more details about how to use each method, and how to handle the scanned results.
 
 ### Version 7 plugin usage
 **The `performScan` method**
@@ -51,7 +52,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 **BlinkID result**
 
-- Both scan returns the `BlinkIdScanningResult` object, which contains the results of scanning a document, including the extracted data and images from the document.
+- Both methods return the `BlinkIdScanningResult` object, which contains the results of scanning a document, including the extracted data and images from the document.
 
 - All of the available results can be viewed [here](https://github.com/BlinkID/blinkid-flutter/blob/feature/dart-types/BlinkID/lib/blinkid_result.dart).
 
