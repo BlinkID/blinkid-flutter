@@ -1,94 +1,254 @@
-# BlinkID SDK Flutter plugin
+<p align="center" >
+  <img src="https://raw.githubusercontent.com/wiki/blinkid/blinkid-android/images/logo-microblink.png" alt="Microblink" title="Microblink">
+</p>
 
-AI-driven identity document scanning for Flutter apps. 
+# _BlinkID_ Flutter plugin
 
-We made it quick and easy to create a sample application or install the plugin into your existing iOS or Android app.
+The BlinkID SDK is a comprehensive solution for implementing secure document scanning on the Flutter cross-platform.
+It offers powerful capabilities for capturing and analyzing a wide range of identification documents. The Flutter plugin consists of BlinkID, which serves as the core module, and the BlinkIDUX package that provides a complete, ready-to-use solution with a user-friendly interface.
 
-Please note that, for maximum performance and full access to all features, it’s best to go with one of our native SDKs (for [iOS](https://github.com/BlinkID/blinkid-ios) or [Android](https://github.com/BlinkID/blinkid-android)).
+**Please note that, for maximum performance and full access to all features, it’s best to go with one of our native SDKs (for [iOS](https://github.com/BlinkID/blinkid-ios) or [Android](https://github.com/BlinkID/blinkid-android)).**
 
 However, since the wrapper is open source, you can add the features you need on your own.
 
+# Table of contents
+- [Licensing](#licensing)
+- [Requirements](#requirements)
+- [Quickstart with the sample application](#quickstart-with-the-sample-application)
+- [Plugin integration](#plugin-integration)
+- [Plugin usage](#plugin-usage)
+- [Plugin specifics](#plugin-specifics)
+  - [Scanning methods](#scanning-methods)
+  - [BlinkID Settings](#blinkid-settings)
+  - [BlinkID Results](#blinkid-results)
+- [Additional information](#additional-information)
 
-## Requirements
-BlinkID plugin is developed with Flutter SDK version 1.17.5.
-For help with Flutter, view official [documentation](https://flutter.dev/docs).
+## <a name="licensing"></a> Licensing
+A valid license key is required to initialize the BlinkID plugin. A free trial license key can be requested after registering at the [Microblink Developer Hub](https://developer.microblink.com/).
 
-## Getting Started
+## <a name="requirements"></a> Requirements
 
-To get started, first create empty project if needed:
+| Requirement        | Flutter                | iOS                    | Android                   |
+|:------------------:|:----------------------:|:----------------------:|:-------------------------:|
+| OS/API version     | Flutter 3.29 and newer  | iOS 16.0 and newer      | API version 24 and newer   |
+| Camera quality     | -                       | At least 1080p          | At least 1080p             |
+
+
+- For additional help with the Flutter setup, view the official [documentation](https://flutter.dev/docs).
+- For more detailed information about the BlinkID Android and iOS requirements, view the native SDK documentation here ([Android](https://github.com/BlinkID/blinkid-android?tab=readme-ov-file#-device-requirements) & [iOS](https://github.com/BlinkID/blinkid-ios?tab=readme-ov-file#requirements)).
+
+
+## <a name="quickstart-with-the-sample-application"></a> Quickstart with the sample application
+The sample application demonstrates how the BlinkID SDK is implemented, used and shows how to obtain the captured results. It contains the implementation for:
+1. The **default implementation** with the default BlinkID UX scanning experience.
+2. **Multiside DirectAPI scanning** - extracting the document information from multiple static images (from the gallery).
+3. **Singleside DirectAPI scanning** - extracting the document information from a single static images (from the gallery).
+
+To obtain and run the sample application, follow the steps below:
+1. Git clone the repository:
+```bash
+git clone https://github.com/BlinkID/blinkid-flutter.git
+```
+2. Position to the obtained BlinkID folder and run the `initBlinkIdFlutterSample.sh` script:
+```bash
+cd blinkid-flutter && ./initBlinkIdFlutterSample.sh
+```
+3. After the script finishes running, position to the `sample` folder and run the `flutter run` command:
+```bash
+cd sample && flutter run
+```
+4. Pick the platform to run the BlinkID SDK on.
+
+Note: the plugin can be run directly via Xcode (iOS) and Android Studio (Android):
+1. Open the `Runner.xcworkspace` in the path: `sample/ios/Runner.xcworkspace` to run the iOS sample application.
+2. Open the `android` folder via Android Studio in the `sample` folder to run the Android sample application.
+
+
+## <a name="plugin-integration"></a> Plugin integration
+
+1. To add the BlinkID plugin to a Flutter project, first create empty project if needed:
 ```shell
 flutter create project_name
 ```
 
-Add the blinkid_flutter dependency to your `pubspec.yaml` file:
+2. Add the blinkid_flutter dependency to your `pubspec.yaml` file:
 ```yaml
 dependencies:
   ...
   blinkid_flutter:
 ```
 
-### Quick start with sample app
-To try BlinkID plugin, you can generate a minimal sample application. To do so run `./initFlutterSample.sh` script.
-
-To run sample application, use the following commands:
-```shell
-cd sample/
-flutter run
+3. Run the command to install the dependency:
+```bash
+flutter pub get
 ```
-If there are problems with running the application, please make sure you have
-properly configured tools by running `flutter doctor`. You can also try running
-the application from VSCode, Android Studio or Xcode.
 
-### Plugin usage
-1. Perform scanning by calling the method `MicroblinkScanner.scanWithCamera()` and passing it the `RecognizerCollection` and `OverlaySettings` you wish to use, along with your license key. To find out more about licensing, click
- [here](#licensing).
+## <a name="plugin-usage"></a> Plugin usage
+1. After the dependency has been added to the project, first add the necessary imports:
 ```dart
-Future<void> scan() async {
-    List<RecognizerResult> results;
-    
-    Recognizer recognizer = BlinkIdMultiSideRecognizer();
-    OverlaySettings settings = BlinkIdOverlaySettings();
+import 'package:blinkid_flutter/blinkid_flutter.dart';
+import 'package:blinkid_flutter/blinkid_result.dart';
+import 'package:blinkid_flutter/blinkid_settings.dart';
+```
+2. Initialize the BlinkID plugin:
+```dart
+final blinkidPlugin = BlinkIdFlutter();
+```
+3. Set all of the necessary BlinkID settings (SDK settings, session settings, and the scanning settings). If the mentioned settings are not modified, the default values will be used:
+```dart
 
-    // set your license
-    if (Theme.of(context).platform == TargetPlatform.iOS) {
-      license = "";
-    } else if (Theme.of(context).platform == TargetPlatform.android) {
-      license = "";
-    }
+// Add the license key for each platform
+var sdkLicenseKey = "";
 
-    try {
-      // perform scan and gather results
-      results = await MicroblinkScanner.scanWithCamera(RecognizerCollection([recognizer]), settings, license);
+if (Platform.isAndroid) {
+  sdkLicenseKey = "android-license-key";
+} else if (Platform.isIOS) {
+  sdkLicenseKey = "ios-license-key";
+}
 
-    } on PlatformException {
-      // handle exception
-    }
+/// Set the BlinkID SDK settings
+/// Add the license key here from the code above
+final sdkSettings = BlinkIdSdkSettings(sdkLicenseKey);
+sdkSettings.downloadResources = true;
+
+/// Create and modify the Session Settings
+final sessionSettings = BlinkIdSessionSettings();
+sessionSettings.scanningMode = ScanningMode.automatic;
+
+/// Create and modify the scanning settings
+final scanningSettings = BlinkIdScanningSettings();
+scanningSettings.glareDetectionLevel = DetectionLevel.mid;
+
+/// Create and modify the Image settings
+final imageSettings = CroppedImageSettings();
+imageSettings.returnDocumentImage = true;
+imageSettings.returnSignatureImage = true;
+imageSettings.returnFaceImage = true;
+
+/// Place the image settings in the scanning settings
+scanningSettings.croppedImageSettings = imageSettings;
+
+/// Add the document filter. This parameter is optional.
+final classFilter = ClassFilter();
+classFilter.includeDocuments = [
+    DocumentFilter.countryRegion(Country.Usa, Region.California),
+];
 ```
 
-2. When scanning is completed, variable `results` will contain a list of non-empty `RecognizerResults` from recognizers set in `RecognizerCollection`. You can then access each result individually. If the scanning is manually closed, the method will return an empty list.
+4. Call the appropriate scanning method (with the default UX, or DirectAPI for static images), handle the results and catch any errors:
+```dart
+// Call the performScan method, where the SDK and session settings need to be passed
+// Here, you can also pass the optional ClassFilter object from step 3.
+await blinkIdPlugin
+    .performScan(sdkSettings, sessionSettings) //, classFilter) -> optional 
+    .then((blinkidResult) {
+      //handle the results here.
+      print(blinkidResult.firstName?.value);
+    })
+    .catchError((scanningError) {
+      // handle any errors here.
+      if (scanningError is PlatformException) {
+        print("BlinkID scanning error: $errorMessage";)
+      }
+    });
+```
+- The whole integration process can be found in the sample app `main.dart` file [here](https://github.com/BlinkID/blinkid-flutter/blob/main/sample_files/main.dart).
+- The settings and the results that can be used with the BlinkID plugin can be found in the paragraphs below, but also in the comments of each BlinkID Dart file.
 
-For more information please refer to our sample application source code.
+## <a name="plugin-specifics"></a> Plugin specifics
+The BlinkID plugin implementation is located in the `lib` folder, while platform-specific implementation is located in the `android` and `ios` folders.
 
-### Available API
-All available recognizers can be found inside `BlinkID/lib/recognizers`.
+### <a name="scanning-methods"></a> Scanning methods
+Currently, the BlinkID plugin contains the two main methods of scanning: `performScan` and `performDirectApiScan`.
 
-All available overlays can be found inside `BlinkID/lib/overlays`.
+**The `performScan` method**
 
-For 100% of features and maximum control, consider using native SDK.
+The `performScan` method launches the BlinkID scanning process with the default UX properties.\
+It takes the following parameters: 
+1. BlinkID SDK settings
+2. BlinkID session settings
+3. The optional ClassFilter object for filtering documents.
 
-### Platform specifics
-Plugin implementation is in folder `lib`, while platform specific implementations are in `android` and `ios` folders.
+**BlinkID SDK Settings** - `BlinkIdSdkSettings`: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
 
-#### Android
-Android folder is fully initialized after running `./initFlutterSample.sh`.
+**BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the `ScanningMode` and `BlinkIdScanningSettings`, which define various parameters that control the scanning process.
 
-#### iOS
-To initialize BlinkID framework for use with iOS, after you've added the dependency to `blinkid_flutter` to your `pubspec.yaml`, go to `NameOfYourProject/ios`and run `pod install`.
-Our `blinkid_flutter` depends on the latest PPBlinkID pod so it will be installed automatically.
+The optional **ClassFilter** class - `ClassFilter`: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
 
-To set camera permission usage message, open `NameOfYourProject/ios/Runner.xcworkspace` and under `Runner/Runner/Info.plist` set
-`Privacy - Camera Usage Description`.
+- The implementation of the `performScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
 
-## Licensing
-- A valid license key is required to initialize scanning. You can request a **free trial license key**, after you register, at [Microblink Developer Hub](https://account.microblink.com/signin)
-- Get information about pricing and licensing of [BlinkID](https://microblink.com/blinkid)
+**The `performDirectApiScan` method**
+
+The `performDirectApiScan` method launches the BlinkID scanning process intended for information extraction from static images.\
+It takes the following parameters: 
+1. BlinkID SDK settings
+2. BlinkID session settings
+3. First image string in the Base64 format
+4. The optional second image string in the Base64 format
+
+**BlinkID SDK Settings** - `BlinkIdSdkSettings`: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
+
+**BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
+
+The first image Base64 string - `String`: image that represents one side of the document. If the document contains two sides and the `ScanningMode` is set to `automatic`, this should contain the image of the front side of the document. In case the `ScanningMode` is set to `single`, it can be either the front or the back side of the document. If the document contains only one side (for example, various passports), the SDK will automatically detect it, and will not look for the other side.
+
+The optional second image Base64 string - `String`: needed if the information from back side of the document is required and the `ScanningMode` is set to `automatic`.
+
+- The implementation of the `performDirectApiScanning` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
+
+### <a name="blinkid-settings"></a> BlinkID Settings
+The BlinkID SDK contains various settings, modifying different parts of scanning process:
+1. [BlinkID SDK settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L6) - `BlinkIdSdkSettings` \
+These settings are used for the initialization of the BlinkID SDK.
+
+2. [BlinkID session settings](https://github.com/BlinkID/blinkid-flutter/master/BlinkID/lib/blinkid_settings.dart#L56) - `BlinkIdSessionSettings`\
+These settings represent the configuration settings for a scanning session.\
+This class holds the settings related to the resources initialization, scanning mode, and specific scanning configurations that define how the scanning session should behave.
+
+3. [BlinkID scanning settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L92) - `BlinkIdScanningSettings`
+These settings represent the configurable settings for scanning a document.`
+This class defines various parameters and policies related to the scanning process, including image quality handling, data extraction and anonymization, along with options for frame processing and image extraction.
+
+4. [Cropped image settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L326) - `CroppedImageSettings`\
+These settings represent the image cropping settings.
+
+**Additional notes:**
+
+- The [blinkid_settings.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file contains all the settings that can be modified and explains what each setting does in more detail.
+
+- The native documentation for the above mentioned settings can be found here for [Android](https://blinkid.github.io/blinkid-android/blinkid-core/com.microblink.blinkid.core/index.html) & [iOS](https://blinkid.github.io/blinkid-swift-package/documentation/blinkid/).
+
+- The native Kotlin & Swift implementation of all BlinkID settings can be found here for [Android](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/android/src/main/kotlin/com/microblink/blinkid/flutter/BlinkidDeserializationUtils.kt) & [iOS](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/ios/blinkid_flutter/Sources/blinkid_flutter/BlinkidDeserializationUtils.swift) in the BlinkID deserialization utilities.
+
+### <a name="blinkid-result"></a> BlinkID Results
+
+The result of the scanning process is stored in the `BlinkIdScanningResult`. It contains the results of scanning a document, including the extracted data and images from the document.
+
+Along with the information scanned from the document, the BlinkID also provides additional details that was obtained during the scanning process:
+
+1. **Recognition mode**- `RecognitionMode`\
+Scanning mode used to scan the current document.
+
+2. **Document class info** - `DocumentClassInfo`\
+The document class information.
+
+3. **Data match informatoin** - `DataMatchResult`\
+Info on whether the data extracted from multiple sides matches.
+
+4. **Singleside scanning result** - `SingleSideScanningResult`\
+Represents the result of scanning a single side of the document.\
+Contains the data extracted from the Visual Inspection Zone, Machine Readable Zone, barcode, the input image, and the cropped document, face, and signature images.
+
+5. **Detailed cropped image result** - `DetailedCroppedImageResult`\
+Represents the result of the image crop transformation with additional details.
+
+**Additional notes:**
+
+- The [blinkid_result.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_result.dart) file contains all the results that can be obtained and explains what each result represents in more detail.
+
+- The native documentation for the above mentioned results can be found here for [Android](https://blinkid.github.io/blinkid-android/blinkid-core/com.microblink.blinkid.core.session/-blink-id-scanning-result/index.html) & [iOS](https://blinkid.github.io/blinkid-swift-package/documentation/blinkid/blinkidscanningresult).
+
+- The native Kotlin & Swift implementation of all BlinkID results can be found here for [Android](https://github.com/BlinkID/blinkid-flutter/blob/feature/android-platform-channel/BlinkID/android/src/main/kotlin/com/microblink/blinkid/flutter/BlinkidSerializationUtils.kt) & [iOS](https://github.com/BlinkID/blinkid-flutter/blob/feature/ios-platform-channel/BlinkID/ios/blinkid_flutter/Sources/blinkid_flutter/BlinkidSerializationUtils.swift) in the BlinkID serialization utilities.
+
+## <a name="additional-information"></a> Additional information
+For any additional questions and information, feel free to contact us [here](https://help.microblink.com), or directly to the Support team via mail support@microblink.com.

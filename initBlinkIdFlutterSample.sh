@@ -34,6 +34,7 @@ sed -i '' "s/# platform :ios, '12.0'/platform :ios, '16.0'/" Podfile
 popd
 
 cp ../sample_files/main.dart lib/
+cp ../sample_files/blinkid_result_builder.dart lib/
 
 echo ""
 echo "Go to Flutter project folder: cd $appName"
