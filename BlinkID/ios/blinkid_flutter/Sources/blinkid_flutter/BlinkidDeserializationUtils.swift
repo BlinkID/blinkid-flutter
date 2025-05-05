@@ -1,5 +1,5 @@
 //
-//  BlinkidDeserializationUtils.swift
+//  BlinkIdDeserializationUtils.swift
 //  blinkid_flutter
 //
 //  Created by Milan Parađina on 08.04.2025..
@@ -9,7 +9,7 @@ import Foundation
 import BlinkID
 import UIKit
 
-struct BlinkidDeserializationUtils {
+struct BlinkIdDeserializationUtils {
     static func deserializeBlinkIdSdkSettings(_ sdkSettingsDict: Dictionary<String, Any>?) -> BlinkIDSdkSettings? {
         var blinkidSdkSettings: BlinkIDSdkSettings?
         
@@ -323,7 +323,7 @@ struct BlinkidDeserializationUtils {
         return includeClass && excludeClass
     }
     
-    static func matchClassFilter(_ filteredClass: Dictionary<String, Any>, classInfo:  BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
+    static func matchClassFilter(_ filteredClass: Dictionary<String, Any>, classInfo: BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
         let country = filteredClass["country"] as? Int
         let type = filteredClass["documentType"] as? Int
         let region = filteredClass["region"] as? Int
@@ -353,11 +353,6 @@ struct BlinkidDeserializationUtils {
         }
         return nil
     }
-    
-    //    static func generateLicenseKeyError() -> String {
-    //        switch InvalidLicenseKeyError {
-    //        }
-    //    }
 }
 
 extension DocumentType {

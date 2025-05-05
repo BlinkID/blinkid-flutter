@@ -1,5 +1,5 @@
 //
-//  BlinkidSerializationUtils.swift
+//  BlinkIdSerializationUtils.swift
 //  blinkid_flutter
 //
 //  Created by Milan Parađina on 08.04.2025..
@@ -9,7 +9,7 @@ import Foundation
 import BlinkID
 import UIKit
 
-class BlinkidSerializationUtils {
+class BlinkIdSerializationUtils {
     
     static func serializeBlinkIdScanningResult(_ scanningResult: BlinkIDScanningResult?) -> String? {
         var scanningResultDict = Dictionary<String, Any>()
@@ -529,31 +529,6 @@ class BlinkidSerializationUtils {
             "secondaryID": mrzResult?.secondaryID,
             "verified": mrzResult?.verified
         ]
-    }
-    
-    static func serializeMrzDocumentType(_ documentType: MRZDocumentType) -> Int? {
-        switch documentType {
-        case .unknown:
-            return 0
-        case .identityCard:
-            return 1
-        case .passport:
-            return 2
-        case .visa:
-            return 3
-        case .greenCard:
-            return 4
-        case .mysPassIMM13P:
-            return 5
-        case .driverLicense:
-            return 6
-        case .internalTravelDocument:
-            return 7
-        case .borderCrossingCard:
-            return 8
-        @unknown default:
-            return 0
-        }
     }
     
     static func serializeMrzDocumentType(_ documentType: MRZDocumentType?) -> Int? {

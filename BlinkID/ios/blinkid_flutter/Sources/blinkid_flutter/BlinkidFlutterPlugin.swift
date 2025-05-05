@@ -32,7 +32,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
     
     private func setupBlinkIdSettings(_ call: FlutterMethodCall) async -> BlinkIDSdkSettings? {
         guard let rawArgs = call.arguments as? [String: Any],
-              let arguments = BlinkidDeserializationUtils.sanitizeDictionary(rawArgs) else {
+              let arguments = BlinkIdDeserializationUtils.sanitizeDictionary(rawArgs) else {
             result?(FlutterError(
                 code: BlinkIdStrings.iosError,
                 message: BlinkIdStrings.ErrorMessage.settingsError,
@@ -42,8 +42,8 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         }
         
         guard let sdkSettingsRaw = arguments["blinkidSdkSettings"] as? [String: Any],
-              let sdkSettingsDict = BlinkidDeserializationUtils.sanitizeDictionary(sdkSettingsRaw),
-              let settings = BlinkidDeserializationUtils.deserializeBlinkIdSdkSettings(sdkSettingsDict) else {
+              let sdkSettingsDict = BlinkIdDeserializationUtils.sanitizeDictionary(sdkSettingsRaw),
+              let settings = BlinkIdDeserializationUtils.deserializeBlinkIdSdkSettings(sdkSettingsDict) else {
             result?(FlutterError(
                 code: BlinkIdStrings.iosError,
                 message: BlinkIdStrings.ErrorMessage.settingsError,
@@ -69,7 +69,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             let sdkInstance = try await BlinkIDSdk.createBlinkIDSdk(withSettings: sdkSettings)
             
             guard let sessionSettingsRaw = arguments["blinkidSessionSettings"] as? [String: Any],
-                  let sessionSettings = BlinkidDeserializationUtils.sanitizeDictionary(sessionSettingsRaw) else {
+                  let sessionSettings = BlinkIdDeserializationUtils.sanitizeDictionary(sessionSettingsRaw) else {
                 result?(FlutterError(
                     code: BlinkIdStrings.iosError,
                     message: BlinkIdStrings.ErrorMessage.initError,
@@ -82,7 +82,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             
             let analyzer = try await BlinkIDAnalyzer(
                 sdk: sdkInstance,
-                blinkIdSessionSettings: BlinkidDeserializationUtils.deserializeBlinkIdSessionSettings(sessionSettings),
+                blinkIdSessionSettings: BlinkIdDeserializationUtils.deserializeBlinkIdSessionSettings(sessionSettings),
                 eventStream: BlinkIDEventStream(),
                 classFilter: self
             )
@@ -93,7 +93,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                     if let scanningResultState {
                         if let scanningResult = scanningResultState.scanningResult {
                             DispatchQueue.main.async {
-                                self?.result?(BlinkidSerializationUtils.serializeBlinkIdScanningResult(scanningResult))
+                                self?.result?(BlinkIdSerializationUtils.serializeBlinkIdScanningResult(scanningResult))
                                 self?.rootVc?.dismiss(animated: true)
                             }
                         }
@@ -148,14 +148,14 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                 let blinkidSdk = try await BlinkIDSdk.createBlinkIDSdk(withSettings: sdkSettings)
                 
                 if  let sessionSettingsRaw = arguments["blinkidSessionSettings"] as? [String: Any],
-                    let sessionSettingsClean = BlinkidDeserializationUtils.sanitizeDictionary(sessionSettingsRaw) {
+                    let sessionSettingsClean = BlinkIdDeserializationUtils.sanitizeDictionary(sessionSettingsRaw) {
                     
-                    var sessionSettings = BlinkidDeserializationUtils.deserializeBlinkIdSessionSettings(sessionSettingsClean)
+                    var sessionSettings = BlinkIdDeserializationUtils.deserializeBlinkIdSessionSettings(sessionSettingsClean)
                     sessionSettings.inputImageSource = .photo
                     
                     let session = try await blinkidSdk.createScanningSession(sessionSettings: sessionSettings)
                     
-                    guard let frontUIImage = BlinkidDeserializationUtils.deserializeBase64Image(arguments["firstImage"] as? String) else {
+                    guard let frontUIImage = BlinkIdDeserializationUtils.deserializeBase64Image(arguments["firstImage"] as? String) else {
                         result?(FlutterError(
                             code: BlinkIdStrings.iosError,
                             message: BlinkIdStrings.ErrorMessage.initError,
@@ -166,13 +166,13 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                                     
                     await session.process(inputImage: InputImage(uiImage: frontUIImage))
                     
-                    if let backUIImage = BlinkidDeserializationUtils.deserializeBase64Image(arguments["secondImage"] as? String) {
+                    if let backUIImage = BlinkIdDeserializationUtils.deserializeBase64Image(arguments["secondImage"] as? String) {
                         await session.process(inputImage: InputImage(uiImage: backUIImage))
                     }
                     
                     let scannedResults = await session.getResult()
                     DispatchQueue.main.async {
-                        self.result?(BlinkidSerializationUtils.serializeBlinkIdScanningResult(scannedResults))
+                        self.result?(BlinkIdSerializationUtils.serializeBlinkIdScanningResult(scannedResults))
                     }
                 } else {
                     result?(FlutterError(
@@ -205,7 +205,7 @@ struct BlinkIdStrings {
 extension BlinkidFlutterPlugin: BlinkIDClassFilter {
     public func classAllowed(classInfo: BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
         if let classInfoFilterDict = classInfoFilterDict {
-            return BlinkidDeserializationUtils.deserializeClassFilter(classInfoFilterDict, classInfo)
+            return BlinkIdDeserializationUtils.deserializeClassFilter(classInfoFilterDict, classInfo)
         }
         return true
     }
