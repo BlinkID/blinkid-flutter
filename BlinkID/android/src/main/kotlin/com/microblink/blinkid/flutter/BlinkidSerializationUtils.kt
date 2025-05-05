@@ -258,18 +258,17 @@ object BlinkIdSerializationUtils {
 
         val locationDict: MutableMap<String, Any?> = mutableMapOf()
         stringResult.location(AlphabetType.Latin)?.let {
-            locationDict["latin"] = serializeStringResultLocation(it)
+            locationDict["latin"] = serializeLocation(it)
         }
         stringResult.location(AlphabetType.Arabic)?.let {
-            locationDict["arabic"] = serializeStringResultLocation(it)
+            locationDict["arabic"] = serializeLocation(it)
         }
         stringResult.location(AlphabetType.Cyrillic)?.let {
-            locationDict["cyrillic"] = serializeStringResultLocation(it)
+            locationDict["cyrillic"] = serializeLocation(it)
         }
         stringResult.location(AlphabetType.Greek)?.let {
-            locationDict["greek"] = serializeStringResultLocation(it)
+            locationDict["greek"] = serializeLocation(it)
         }
-        stringResultDict["location"] = locationDict
 
         val sideDict: MutableMap<String, Any?> = mutableMapOf()
         stringResult.side(AlphabetType.Latin)?.let {
@@ -289,12 +288,12 @@ object BlinkIdSerializationUtils {
         return stringResultDict
     }
 
-    private fun serializeStringResultLocation(stringResultLocation: Rectangle): Map<String, Any> {
+    private fun serializeLocation(rectangle: Rectangle): Map<String, Any?> {
         return mapOf(
-            "x" to stringResultLocation.x,
-            "y" to stringResultLocation.y,
-            "width" to stringResultLocation.width,
-            "height" to stringResultLocation.height
+            "x" to rectangle.x.toDouble(),
+            "y" to rectangle.y.toDouble(),
+            "width" to rectangle.width.toDouble(),
+            "height" to rectangle.height.toDouble()
         )
     }
 
@@ -571,8 +570,9 @@ object BlinkIdSerializationUtils {
             }
         }
         detailedCroppedImageResult?.location?.let {
-            detailedCroppedImageResultDict["location"] = serializeStringResultLocation(it)
+            detailedCroppedImageResultDict["location"] = serializeLocation(it)
         }
+        println("detailedCroppedImageResultDict[\"location\"]" + detailedCroppedImageResultDict["location"])
         detailedCroppedImageResult?.side?.let {
             detailedCroppedImageResultDict["side"] = it.ordinal
         }

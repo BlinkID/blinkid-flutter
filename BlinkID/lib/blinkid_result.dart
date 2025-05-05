@@ -603,15 +603,12 @@ class StringResult {
     arabic = nativeStringResult['arabic'];
     cyrillic = nativeStringResult['cyrillic'];
     greek = nativeStringResult['greek'];
-    /**
-     * 
-     *     location =
+    location =
         nativeStringResult['location'] != null
             ? Location(
               Map<String, dynamic>.from(nativeStringResult['location']),
             )
             : null;
-     */
     side =
         nativeStringResult['side'] != null
             ? Side(Map<String, dynamic>.from(nativeStringResult['side']))
@@ -658,10 +655,22 @@ class Location {
 
   /// Represents the information about the location of an element within a document or image.
   Location(Map<String, dynamic> nativeLocation) {
-    latin = Rectangle(Map<String, dynamic>.from(nativeLocation['latin']));
-    arabic = Rectangle(Map<String, dynamic>.from(nativeLocation['arabic']));
-    cyrillic = Rectangle(Map<String, dynamic>.from(nativeLocation['cyrillic']));
-    greek = Rectangle(Map<String, dynamic>.from(nativeLocation['greek']));
+    latin =
+        nativeLocation['latin'] != null
+            ? Rectangle(Map<String, dynamic>.from(nativeLocation['latin']))
+            : null;
+    arabic =
+        nativeLocation['arabic'] != null
+            ? Rectangle(Map<String, dynamic>.from(nativeLocation['arabic']))
+            : null;
+    cyrillic =
+        nativeLocation['cyrillic'] != null
+            ? Rectangle(Map<String, dynamic>.from(nativeLocation['cyrillic']))
+            : null;
+    greek =
+        nativeLocation['greek'] != null
+            ? Rectangle(Map<String, dynamic>.from(nativeLocation['greek']))
+            : null;
   }
 }
 
@@ -1095,6 +1104,9 @@ class VizResult {
   /// The vehicle owner.
   StringResult? vehicleOwner;
 
+  /// Checks if the VIZ result contains any values
+  bool? isEmpty;
+
   /// Represents the result of the Visual Inspection Zone of a document.
   VizResult(Map<String, dynamic> nativeVizResult) {
     firstName = createStringResult(nativeVizResult, 'firstName');
@@ -1200,6 +1212,7 @@ class VizResult {
                 .toList()
             : null;
     vehicleOwner = createStringResult(nativeVizResult, 'vehicleOwner');
+    isEmpty = nativeVizResult.isEmpty;
   }
 }
 
@@ -1288,6 +1301,9 @@ class MrzResult {
   /// The sanitized document number. Result without additional '<' characters if they exist.
   String? sanitizedDocumentNumber;
 
+  /// Checks if the MRZ result contains any values
+  bool? isEmpty;
+
   /// Represents the result of the MRZ recognition.
   MrzResult(Map<String, dynamic> nativeMRZResult) {
     documentType = enumFromValue(
@@ -1323,6 +1339,7 @@ class MrzResult {
     sanitizedIssuer = nativeMRZResult['sanitizedIssuer'];
     sanitizedDocumentCode = nativeMRZResult['sanitizedDocumentCode'];
     sanitizedDocumentNumber = nativeMRZResult['sanitizedDocumentNumber'];
+    isEmpty = nativeMRZResult.isEmpty;
   }
 }
 
@@ -1408,6 +1425,9 @@ class BarcodeResult {
   /// Currently this is only filled for AAMVACompliant documents.
   BarcodeExtendedElements? extendedElements;
 
+  /// Checks if the Barcode result contains any values
+  bool? isEmpty;
+
   ///  Represents the data extracted from the barcode.
   BarcodeResult(Map<String, dynamic> nativeBarcodeResult) {
     barcodeData =
@@ -1478,6 +1498,7 @@ class BarcodeResult {
               ),
             )
             : null;
+    isEmpty = nativeBarcodeResult.isEmpty;
   }
 }
 
@@ -2419,7 +2440,7 @@ class DetailedCroppedImageResult {
   ScanningSide? side;
 
   /// The location of the cropped image in the transformed image of the document.
-  Location? location;
+  Rectangle? location;
 
   /// Represents the result of the image crop transformation with additional details.
   DetailedCroppedImageResult(
@@ -2430,16 +2451,14 @@ class DetailedCroppedImageResult {
       ScanningSide.values,
       nativeDetailedCroppedImageResult["side"],
     );
-    /**
-     *     location =
-        nativeDetailedCroppedImageResult["location"] != null
-            ? Location(
+    location =
+        nativeDetailedCroppedImageResult['location'] != null
+            ? Rectangle(
               Map<String, dynamic>.from(
-                nativeDetailedCroppedImageResult["location"],
+                nativeDetailedCroppedImageResult['location'],
               ),
             )
             : null;
-     */
   }
 }
 

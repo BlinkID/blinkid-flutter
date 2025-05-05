@@ -57,8 +57,7 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   /// The `performDirectApiScan` platform channel method launches the BlinkID scanning process inteded for information extraction from static images.
   /// It takes the following parameters: [BlinkIdSdkSettings], [BlinkIdSessionSettings], `firstImage` [String] in the Base64 format and the optional `secondImage` [String] in the Base64 format.
   ///
-  /// 1. BlinkID SDK Settings - [BlinkIdSdkSettings]: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK
-  /// needs for the scanning process, should be obtained.
+  /// 1. BlinkID SDK Settings - [BlinkIdSdkSettings]: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
   /// To obtain a valid license key, please visit https://developer.microblink.com/ or contact us directly at https://help.microblink.com
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.

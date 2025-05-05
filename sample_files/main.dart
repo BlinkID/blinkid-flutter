@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
         Region.california,
       );
 
+      /// DOCUMENT RULES
       final documentRules = [
         DocumentRules([
           DetailedFieldType(FieldType.address, AlphabetType.latin),
@@ -88,12 +89,14 @@ class _MyAppState extends State<MyApp> {
 
       scanningSettings.customDocumentRules = documentRules;
 
+      /// ADDITIONAL ANONYMIZATION SETTINGS
       final additionalAnonSettings =
           DocumentAnonymizationSettings.withAllParameters(
             [FieldType.firstName, FieldType.address],
             filter,
             DocumentNumberAnonymizationSettings.withAllParemeters(1, 2),
           );
+
       final additionalAnonSettingsTwo = DocumentAnonymizationSettings([
         FieldType.bloodType,
         FieldType.address,
@@ -104,8 +107,21 @@ class _MyAppState extends State<MyApp> {
         additionalAnonSettingsTwo,
       ];
 
+      /// RECOGNITION MODE FILTER
+      final recognitionModeFilter = RecognitionModeFilter();
+      recognitionModeFilter.enableBarcodeId = true;
+      recognitionModeFilter.enableFullDocumentRecognition = true;
+      recognitionModeFilter.enableMrzId = true;
+      recognitionModeFilter.enableMrzPassport = true;
+      recognitionModeFilter.enableMrzVisa = true;
+      recognitionModeFilter.enablePhotoId = true;
+
+      scanningSettings.recognitionModeFilter = recognitionModeFilter;
+
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
+
+      /// CLASS FILTER
       final classFilter = ClassFilter();
       classFilter.includeDocuments = [
         DocumentFilter.country(Country.usa),
@@ -139,6 +155,7 @@ class _MyAppState extends State<MyApp> {
             });
           })
           .catchError((scanningError) {
+            print("Scanning error: $scanningError");
             setState(() {
               if (scanningError is PlatformException) {
                 final errorMessage = scanningError.message;
