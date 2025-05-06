@@ -24,15 +24,26 @@ fi
 
 flutter pub get
 
-# enter into ios project folder
+# go to the ios project folder
 pushd ios
 
 #Force minimal iOS version
 sed -i '' "s/# platform :ios, '12.0'/platform :ios, '16.0'/" Podfile
 
+# go to the android project folder
+popd
+pushd android
+
+# The BlinkID SDK uses minSdk 24. Replace 'minSdk = flutter.minSdkVersion' with 'minSdk = 24' in app/build.gradle.kts
+sed -i '' 's/minSdk = flutter\.minSdkVersion/minSdk = 24/' app/build.gradle.kts
+
+# The BlinkID SDK uses Kotlin 2.1.0. Replace Kotlin Android plugin version in settings.gradle.kts
+sed -i '' 's/id("org.jetbrains.kotlin.android") version "[^"]*" apply false/id("org.jetbrains.kotlin.android") version "2.1.0" apply false/' settings.gradle.kts
+
 # go to flutter root project
 popd
 
+# copy the BlinkID sample app implementation files
 cp ../sample_files/main.dart lib/
 cp ../sample_files/blinkid_result_builder.dart lib/
 
