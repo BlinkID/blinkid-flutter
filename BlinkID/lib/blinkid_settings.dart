@@ -1701,6 +1701,10 @@ enum DocumentType {
   vehicleRegistration,
   @JsonValue(77)
   esaadCard,
+  @JsonValue(78)
+  registrationCertificate,
+  @JsonValue(79)
+  medicalMarijuanaId,
 }
 
 /// Represents all possible field types that can be extracted from the document.
