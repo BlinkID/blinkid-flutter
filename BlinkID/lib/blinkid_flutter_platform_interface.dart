@@ -1,3 +1,5 @@
+import 'package:blinkid_flutter/blinkid_result.dart';
+import 'package:blinkid_flutter/blinkid_settings.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'blinkid_flutter_method_channel.dart';
@@ -23,7 +25,36 @@ abstract class BlinkidFlutterPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  Future<void> performScan() async {
-    return MethodChannelBlinkidFlutter().performScan();
+  /// Returns the `performScan` method from the [MethodChannelBlinkidFlutter].
+  /// It takes the following parameters: [BlinkIdSdkSettings], [BlinkIdSessionSettings] and the optional [ClassFilter] class.
+  /// See [MethodChannelBlinkidFlutter] for more detailed information.
+  Future<BlinkIdScanningResult?> performScan(
+    BlinkIdSdkSettings blinkidSdkSettings,
+    BlinkIdSessionSettings blinkidSessionSettings, [
+    ClassFilter? classFilter,
+  ]) async {
+    return MethodChannelBlinkidFlutter().performScan(
+      blinkidSdkSettings,
+      blinkidSessionSettings,
+      classFilter,
+    );
+  }
+
+  /// Returns the `performDirectApiScan` method from the [MethodChannelBlinkidFlutter].
+  /// It takes the following parameters: [BlinkIdSdkSettings], [BlinkIdSessionSettings], `firstImage` [String] in the Base64 format
+  /// and the optional `secondImage` [String] in the Base64 format.
+  /// See [MethodChannelBlinkidFlutter] for more detailed information.
+  Future<BlinkIdScanningResult?> performDirectApiScan(
+    BlinkIdSdkSettings blinkidSdkSettings,
+    BlinkIdSessionSettings blinkidSessionSettings,
+    String firstImage, [
+    String? secondImage,
+  ]) async {
+    return MethodChannelBlinkidFlutter().performDirectApiScan(
+      blinkidSdkSettings,
+      blinkidSessionSettings,
+      firstImage,
+      secondImage,
+    );
   }
 }
