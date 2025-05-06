@@ -22,16 +22,10 @@ else
   echo "Using blinkid_flutter from flutter pub"
 fi
 
+# get and install the dependencies
 flutter pub get
 
-# go to the ios project folder
-pushd ios
-
-#Force minimal iOS version
-sed -i '' "s/# platform :ios, '12.0'/platform :ios, '16.0'/" Podfile
-
 # go to the android project folder
-popd
 pushd android
 
 # The BlinkID SDK uses minSdk 24. Replace 'minSdk = flutter.minSdkVersion' with 'minSdk = 24' in app/build.gradle.kts
@@ -39,6 +33,35 @@ sed -i '' 's/minSdk = flutter\.minSdkVersion/minSdk = 24/' app/build.gradle.kts
 
 # The BlinkID SDK uses Kotlin 2.1.0. Replace Kotlin Android plugin version in settings.gradle.kts
 sed -i '' 's/id("org.jetbrains.kotlin.android") version "[^"]*" apply false/id("org.jetbrains.kotlin.android") version "2.1.0" apply false/' settings.gradle.kts
+
+# go to flutter root project
+popd
+
+# go to the ios project folder
+pushd ios
+
+# force minimal iOS version to iOS 16.0 as the BlinkID SDK requires it
+sed -i '' '/<key>MinimumOSVersion<\/key>/{
+n
+s/<string>12\.0<\/string>/<string>16.0<\/string>/
+}' Flutter/AppFrameworkInfo.plist
+
+# Xcode project override
+sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 16.0/' Runner.xcodeproj/project.pbxproj
+
+# xcconfig override
+sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET=[0-9.]*/IPHONEOS_DEPLOYMENT_TARGET=16.0/' Flutter/*.xcconfig
+
+# add the camera and photo usage descriptions into Info.plist as the BlinkID SDK requires it.
+sed -i '' '/<dict>/a\
+  <key>NSCameraUsageDescription</key>\
+  <string>Enable the camera usage for BlinkID default UX scanning</string>\
+  <key>NSPhotoLibraryUsageDescription</key>\
+  <string>Enable photo gallery usage for BlinkID DirectAPI scanning</string>\
+' Runner/Info.plist
+
+# update the config for iOS as the minimum target has been raised
+flutter build ios --config-only
 
 # go to flutter root project
 popd
@@ -51,7 +74,6 @@ echo ""
 echo "Go to Flutter project folder: cd $appName"
 echo "To run on Android type: flutter run"
 echo "To run on iOS:
-1. Open $appName/ios/Runner.xcworkspace
+1. Open $appName/ios/Runner.xcodeproj
 2. Set your development team
-3. Add the NSCameraUsageDescription & NSPhotoLibraryUsageDescription keys to the Runner/Info.plist file
-4. Press run"
+3. Press run"
