@@ -11,7 +11,7 @@ let package = Package(
         .library(name: "blinkid-flutter", targets: ["blinkid_flutter"])
     ],
     dependencies: [
-        .package(url: "https://github.com/BlinkID/blinkid-ios.git", .upToNextMajor(from: "7.0.0"))
+        .package(url: "https://github.com/BlinkID/blinkid-ios.git", .exact("7.1.0")),
     ],
     targets: [
         .target(

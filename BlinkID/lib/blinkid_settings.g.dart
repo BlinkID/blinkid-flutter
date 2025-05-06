@@ -808,6 +808,8 @@ const _$DocumentTypeEnumMap = {
   DocumentType.reciprocalHealthInsuranceCard: 75,
   DocumentType.vehicleRegistration: 76,
   DocumentType.esaadCard: 77,
+  DocumentType.registrationCertificate: 78,
+  DocumentType.medicalMarijuanaId: 79,
 };
 
 DocumentNumberAnonymizationSettings
