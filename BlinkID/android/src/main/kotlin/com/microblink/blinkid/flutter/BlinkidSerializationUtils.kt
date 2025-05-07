@@ -212,14 +212,14 @@ object BlinkIdSerializationUtils {
 
     private fun serializeDocumentClassInfo(documentClassInfo: DocumentClassInfo): Map<String, Any> {
         val documentClassInfoDict: MutableMap<String, Any> = mutableMapOf()
-        documentClassInfo.country?.ordinal?.let {
-            documentClassInfoDict["country"] = it
+        documentClassInfo.country?.name?.let {
+            documentClassInfoDict["country"] = it.replaceFirstChar { char -> char.lowercase() }
         }
-        documentClassInfo.region?.ordinal?.let {
-            documentClassInfoDict["region"] = it
+        documentClassInfo.region?.name?.let {
+            documentClassInfoDict["region"] = it.replaceFirstChar { char -> char.lowercase() }
         }
-        documentClassInfo.type?.ordinal?.let {
-            documentClassInfoDict["documentType"] = it
+        documentClassInfo.type?.name?.let {
+            documentClassInfoDict["documentType"] = it.replaceFirstChar { char -> char.lowercase() }
         }
         documentClassInfo.countryName?.let {
             documentClassInfoDict["countryName"] = it

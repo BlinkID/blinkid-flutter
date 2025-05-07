@@ -427,13 +427,10 @@ class ClassFilter {
   ClassFilter();
 
   /// Constructor for only adding the document clasess that will be included for the scanning process.
-  ClassFilter.withIncludedClasses(this.includeDocuments);
+  ClassFilter.withIncludedDocumentClasses(this.includeDocuments);
 
   /// Constructor for only adding the document clasess that will be excluded for the scanning process.
-  ClassFilter.withExcludedClasses(this.excludeDocuments);
-
-  /// Constructor for adding both the document clasess that will be included and excluded for the scanning process.
-  ClassFilter.withAllParameters(this.includeDocuments, this.excludeDocuments);
+  ClassFilter.withExcludedDocumentClasses(this.excludeDocuments);
 
   factory ClassFilter.fromJson(Map<String, dynamic> json) =>
       _$ClassFilterFromJson(json);
@@ -457,7 +454,7 @@ class DocumentRules {
   /// Fields to overrule our class field rules.
   ///
   /// [DetailedFieldType] for more information.
-  List<DetailedFieldType>? detailedFieldTypes;
+  List<DetailedFieldType>? fields;
 
   /// Represents the custom document rules.
   ///
@@ -476,7 +473,7 @@ class DocumentRules {
   /// When adding multiple `fields`, any field that does not match our rules is ignored. Only fields that comply with our rules are set as mandatory.
   /// If the documentFilter fields `country`, `region`, or `type` are set to `null`, all supported values for those fields will be considered.
   ///     For example, if `country = null`, the rule will apply to all supported countries in BlinkID.
-  DocumentRules(this.detailedFieldTypes, [this.documentFilter]);
+  DocumentRules(this.fields, [this.documentFilter]);
 
   factory DocumentRules.fromJson(Map<String, dynamic> json) =>
       _$DocumentRulesFromJson(json);
@@ -518,26 +515,23 @@ class DocumentAnonymizationSettings {
   DocumentNumberAnonymizationSettings? documentNumberAnonymizationSettings;
 
   /// Represents the document anonymization settings.
-  DocumentAnonymizationSettings(this.fields);
-
-  /// Represents the document anonymization settings, additionally with setting the [DocumentFilter].
-  DocumentAnonymizationSettings.withDocumentFilter(
-    this.fields,
-    this.documentFilter,
-  );
-
-  /// Represents the document anonymization settings, additionally with setting the [DocumentNumberAnonymizationSettings].
-  DocumentAnonymizationSettings.withdocumentNumberAnonymizationSettings(
-    this.fields,
-    this.documentNumberAnonymizationSettings,
-  );
-
-  /// Represents the document anonymization settings, with all parameters.
-  DocumentAnonymizationSettings.withAllParameters(
-    this.fields,
+  ///
+  /// **fields** parameter represents the document fields that will be anonymized.
+  /// This parameter is mandatory.
+  ///
+  /// **documentFilter** specifies the document filter.
+  /// If the conditions of the filter are met, fields of those documents will be anonymized.
+  /// This parameter is optional.
+  ///
+  /// **documentNumberAnonymizationSettings** specifies the document number anonymization settings.
+  /// If this parameter is set, it will anonymize the document number, even if the document number is not set in the `fields` parameter.
+  /// If the default constructor for [DocumentNumberAnonymizationSettings] is used, all of the digits within the document number will be anonymized.
+  /// This parameter is optional.
+  DocumentAnonymizationSettings(
+    this.fields, [
     this.documentFilter,
     this.documentNumberAnonymizationSettings,
-  );
+  ]);
 
   factory DocumentAnonymizationSettings.fromJson(Map<String, dynamic> json) =>
       _$DocumentAnonymizationSettingsFromJson(json);
@@ -562,33 +556,17 @@ class DocumentFilter {
 
   /// Represents the document filter.
   /// Used with other classes like the [ClassFilter], [DocumentRules] and the [DocumentAnonymizationSettings].
-  DocumentFilter();
-
-  /// Set the document filter with all parameters: [Country], [Region], and [DocumentType].
-  DocumentFilter.withAllParameters(
-    this.country,
-    this.region,
-    this.documentType,
-  );
-
-  /// Set the document filter with the following parameters: [Country] and [Region].
-  DocumentFilter.countryRegion(this.country, this.region);
-
-  /// Set the document filter with the following parameters: [Country] and [DocumentType].
-  DocumentFilter.countryType(this.country, this.documentType);
-
-  /// Set the document filter with the following parameters: [Region] and [DocumentType].
-  DocumentFilter.typeRegion(this.documentType, this.region);
-
-  /// Set the document filter only with the [Country] parameter.
-  DocumentFilter.country(this.country);
-
-  /// Set the document filter only with the [Region] parameter.
-  DocumentFilter.region(this.region);
-
-  /// Set the document filter only with the [DocumentType] parameter.
-  DocumentFilter.documentType(this.documentType);
-
+  ///
+  /// All parameters are optional, and do not need to be added.
+  /// The filter can be set to be more generic (for example, to only accept document from USA):
+  /// ```
+  /// DocumentFilter(Country.usa);
+  /// ```
+  /// or, it can be set to be more specific (for example, to specifically accept USA drivers licenses from California):
+  /// ```
+  /// DocumentFilter(Country.usa, Region.california, DocumentType.dl);
+  /// ```
+  DocumentFilter([this.country, this.region, this.documentType]);
   factory DocumentFilter.fromJson(Map<String, dynamic> json) =>
       _$DocumentFilterFromJson(json);
   Map<String, dynamic> toJson() => _$DocumentFilterToJson(this);
@@ -604,6 +582,9 @@ class DocumentNumberAnonymizationSettings {
   int? suffixDigitsVisible = 0;
 
   /// Represents the document number anonymization settings.
+  ///
+  /// By default, `prefixDigitsVisible` and `suffixDigitsVisible` are set to 0.
+  /// This results that no digits within the document number will be visible.
   DocumentNumberAnonymizationSettings();
 
   /// Represents the document number anonymization settings, additionally with setting the `prefixDigitsVisible`.
@@ -617,7 +598,7 @@ class DocumentNumberAnonymizationSettings {
   );
 
   /// Represents the document number anonymization settings, additionally with setting both `prefixDigitsVisible` and `suffixDigitsVisible`.
-  DocumentNumberAnonymizationSettings.withAllParemeters(
+  DocumentNumberAnonymizationSettings.withAllParameters(
     this.prefixDigitsVisible,
     this.suffixDigitsVisible,
   );
@@ -675,7 +656,7 @@ enum ScanningMode {
   @JsonValue(0)
   single,
 
-  /// The default [ScanningMode] which
+  /// The default [ScanningMode].
   ///
   ///  Automatically determines the number of sides to scan.
   @JsonValue(1)
@@ -727,1088 +708,1088 @@ enum AnonymizationMode {
 /// Represents the type of the alphabet used in the document.
 enum AlphabetType {
   /// The Latin alphabet type
-  @JsonValue(0)
+  @JsonValue("latin")
   latin,
 
   /// The Arabic alphabet type
-  @JsonValue(1)
+  @JsonValue("arabic")
   arabic,
 
   /// The Cyrillic alphabet type
-  @JsonValue(2)
+  @JsonValue("cyrillic")
   cyrillic,
 
   /// The Greek alphabet type
-  @JsonValue(3)
+  @JsonValue("greek")
   greek,
 }
 
 /// Document country.
 enum Country {
-  @JsonValue(0)
+  @JsonValue("none")
   none,
-  @JsonValue(1)
+  @JsonValue("albania")
   albania,
-  @JsonValue(2)
+  @JsonValue("algeria")
   algeria,
-  @JsonValue(3)
+  @JsonValue("argentina")
   argentina,
-  @JsonValue(4)
+  @JsonValue("australia")
   australia,
-  @JsonValue(5)
+  @JsonValue("austria")
   austria,
-  @JsonValue(6)
+  @JsonValue("azerbaijan")
   azerbaijan,
-  @JsonValue(7)
+  @JsonValue("bahrain")
   bahrain,
-  @JsonValue(8)
+  @JsonValue("bangladesh")
   bangladesh,
-  @JsonValue(9)
+  @JsonValue("belgium")
   belgium,
-  @JsonValue(10)
+  @JsonValue("bosniaAndHerzegovina")
   bosniaAndHerzegovina,
-  @JsonValue(11)
+  @JsonValue("brunei")
   brunei,
-  @JsonValue(12)
+  @JsonValue("bulgaria")
   bulgaria,
-  @JsonValue(13)
+  @JsonValue("bambodia")
   bambodia,
-  @JsonValue(14)
+  @JsonValue("canada")
   canada,
-  @JsonValue(15)
+  @JsonValue("chile")
   chile,
-  @JsonValue(16)
+  @JsonValue("colombia")
   colombia,
-  @JsonValue(17)
+  @JsonValue("costaRica")
   costaRica,
-  @JsonValue(18)
+  @JsonValue("croatia")
   croatia,
-  @JsonValue(19)
+  @JsonValue("cyprus")
   cyprus,
-  @JsonValue(20)
+  @JsonValue("czechia")
   czechia,
-  @JsonValue(21)
+  @JsonValue("denmark")
   denmark,
-  @JsonValue(22)
+  @JsonValue("dominicanRepublic")
   dominicanRepublic,
-  @JsonValue(23)
+  @JsonValue("egypt")
   egypt,
-  @JsonValue(24)
+  @JsonValue("estonia")
   estonia,
-  @JsonValue(25)
+  @JsonValue("finland")
   finland,
-  @JsonValue(26)
+  @JsonValue("france")
   france,
-  @JsonValue(27)
+  @JsonValue("georgia")
   georgia,
-  @JsonValue(28)
+  @JsonValue("germany")
   germany,
-  @JsonValue(29)
+  @JsonValue("ghana")
   ghana,
-  @JsonValue(30)
+  @JsonValue("greece")
   greece,
-  @JsonValue(31)
+  @JsonValue("guatemala")
   guatemala,
-  @JsonValue(32)
+  @JsonValue("hongKong")
   hongKong,
-  @JsonValue(33)
+  @JsonValue("hungary")
   hungary,
-  @JsonValue(34)
+  @JsonValue("india")
   india,
-  @JsonValue(35)
+  @JsonValue("indonesia")
   indonesia,
-  @JsonValue(36)
+  @JsonValue("ireland")
   ireland,
-  @JsonValue(37)
+  @JsonValue("israel")
   israel,
-  @JsonValue(38)
+  @JsonValue("italy")
   italy,
-  @JsonValue(39)
+  @JsonValue("jordan")
   jordan,
-  @JsonValue(40)
+  @JsonValue("kazakhstan")
   kazakhstan,
-  @JsonValue(41)
+  @JsonValue("kenya")
   kenya,
-  @JsonValue(42)
+  @JsonValue("kosovo")
   kosovo,
-  @JsonValue(43)
+  @JsonValue("kuwait")
   kuwait,
-  @JsonValue(44)
+  @JsonValue("latvia")
   latvia,
-  @JsonValue(45)
+  @JsonValue("lithuania")
   lithuania,
-  @JsonValue(46)
+  @JsonValue("malaysia")
   malaysia,
-  @JsonValue(47)
+  @JsonValue("maldives")
   maldives,
-  @JsonValue(48)
+  @JsonValue("malta")
   malta,
-  @JsonValue(49)
+  @JsonValue("mauritius")
   mauritius,
-  @JsonValue(50)
+  @JsonValue("mexico")
   mexico,
-  @JsonValue(51)
+  @JsonValue("morocco")
   morocco,
-  @JsonValue(52)
+  @JsonValue("netherlands")
   netherlands,
-  @JsonValue(53)
+  @JsonValue("newZealand")
   newZealand,
-  @JsonValue(54)
+  @JsonValue("nigeria")
   nigeria,
-  @JsonValue(55)
+  @JsonValue("pakistan")
   pakistan,
-  @JsonValue(56)
+  @JsonValue("panama")
   panama,
-  @JsonValue(57)
+  @JsonValue("paraguay")
   paraguay,
-  @JsonValue(58)
+  @JsonValue("philippines")
   philippines,
-  @JsonValue(59)
+  @JsonValue("poland")
   poland,
-  @JsonValue(60)
+  @JsonValue("portugal")
   portugal,
-  @JsonValue(61)
+  @JsonValue("puertoRico")
   puertoRico,
-  @JsonValue(62)
+  @JsonValue("qatar")
   qatar,
-  @JsonValue(63)
+  @JsonValue("romania")
   romania,
-  @JsonValue(64)
+  @JsonValue("russia")
   russia,
-  @JsonValue(65)
+  @JsonValue("saudiArabia")
   saudiArabia,
-  @JsonValue(66)
+  @JsonValue("serbia")
   serbia,
-  @JsonValue(67)
+  @JsonValue("singapore")
   singapore,
-  @JsonValue(68)
+  @JsonValue("slovakia")
   slovakia,
-  @JsonValue(69)
+  @JsonValue("slovenia")
   slovenia,
-  @JsonValue(70)
+  @JsonValue("southAfrica")
   southAfrica,
-  @JsonValue(71)
+  @JsonValue("spain")
   spain,
-  @JsonValue(72)
+  @JsonValue("sweden")
   sweden,
-  @JsonValue(73)
+  @JsonValue("switzerland")
   switzerland,
-  @JsonValue(74)
+  @JsonValue("taiwan")
   taiwan,
-  @JsonValue(75)
+  @JsonValue("thailand")
   thailand,
-  @JsonValue(76)
+  @JsonValue("tunisia")
   tunisia,
-  @JsonValue(77)
+  @JsonValue("turkey")
   turkey,
-  @JsonValue(78)
+  @JsonValue("uae")
   uae,
-  @JsonValue(79)
+  @JsonValue("gganda")
   gganda,
-  @JsonValue(80)
+  @JsonValue("uK")
   uK,
-  @JsonValue(81)
+  @JsonValue("ukraine")
   ukraine,
-  @JsonValue(82)
+  @JsonValue("usa")
   usa,
-  @JsonValue(83)
+  @JsonValue("vietnam")
   vietnam,
-  @JsonValue(84)
+  @JsonValue("brazil")
   brazil,
-  @JsonValue(85)
+  @JsonValue("norway")
   norway,
-  @JsonValue(86)
+  @JsonValue("oman")
   oman,
-  @JsonValue(87)
+  @JsonValue("ecuador")
   ecuador,
-  @JsonValue(88)
+  @JsonValue("elSalvador")
   elSalvador,
-  @JsonValue(89)
+  @JsonValue("sriLanka")
   sriLanka,
-  @JsonValue(90)
+  @JsonValue("peru")
   peru,
-  @JsonValue(91)
+  @JsonValue("uruguay")
   uruguay,
-  @JsonValue(92)
+  @JsonValue("bahamas")
   bahamas,
-  @JsonValue(93)
+  @JsonValue("bermuda")
   bermuda,
-  @JsonValue(94)
+  @JsonValue("bolivia")
   bolivia,
-  @JsonValue(95)
+  @JsonValue("china")
   china,
-  @JsonValue(96)
+  @JsonValue("europeanUnion")
   europeanUnion,
-  @JsonValue(97)
+  @JsonValue("haiti")
   haiti,
-  @JsonValue(98)
+  @JsonValue("honduras")
   honduras,
-  @JsonValue(99)
+  @JsonValue("iceland")
   iceland,
-  @JsonValue(100)
+  @JsonValue("japan")
   japan,
-  @JsonValue(101)
+  @JsonValue("luxembourg")
   luxembourg,
-  @JsonValue(102)
+  @JsonValue("montenegro")
   montenegro,
-  @JsonValue(103)
+  @JsonValue("nicaragua")
   nicaragua,
-  @JsonValue(104)
+  @JsonValue("southKorea")
   southKorea,
-  @JsonValue(105)
+  @JsonValue("venezuela")
   venezuela,
-  @JsonValue(106)
+  @JsonValue("afghanistan")
   afghanistan,
-  @JsonValue(107)
+  @JsonValue("alandIslands")
   alandIslands,
-  @JsonValue(108)
+  @JsonValue("americanSamoa")
   americanSamoa,
-  @JsonValue(109)
+  @JsonValue("andorra")
   andorra,
-  @JsonValue(110)
+  @JsonValue("angola")
   angola,
-  @JsonValue(111)
+  @JsonValue("anguilla")
   anguilla,
-  @JsonValue(112)
+  @JsonValue("antarctica")
   antarctica,
-  @JsonValue(113)
+  @JsonValue("antiguaAndBarbuda")
   antiguaAndBarbuda,
-  @JsonValue(114)
+  @JsonValue("armenia")
   armenia,
-  @JsonValue(115)
+  @JsonValue("aruba")
   aruba,
-  @JsonValue(116)
+  @JsonValue("bailiwickOfGuernsey")
   bailiwickOfGuernsey,
-  @JsonValue(117)
+  @JsonValue("bailiwickOfJersey")
   bailiwickOfJersey,
-  @JsonValue(118)
+  @JsonValue("barbados")
   barbados,
-  @JsonValue(119)
+  @JsonValue("belarus")
   belarus,
-  @JsonValue(120)
+  @JsonValue("belize")
   belize,
-  @JsonValue(121)
+  @JsonValue("benin")
   benin,
-  @JsonValue(122)
+  @JsonValue("bhutan")
   bhutan,
-  @JsonValue(123)
+  @JsonValue("bonaireSaintEustatiusAndSaba")
   bonaireSaintEustatiusAndSaba,
-  @JsonValue(124)
+  @JsonValue("botswana")
   botswana,
-  @JsonValue(125)
+  @JsonValue("bouvetIsland")
   bouvetIsland,
-  @JsonValue(126)
+  @JsonValue("britishIndianOceanTerritory")
   britishIndianOceanTerritory,
-  @JsonValue(127)
+  @JsonValue("burkinaFaso")
   burkinaFaso,
-  @JsonValue(128)
+  @JsonValue("burundi")
   burundi,
-  @JsonValue(129)
+  @JsonValue("cameroon")
   cameroon,
-  @JsonValue(130)
+  @JsonValue("capeVerde")
   capeVerde,
-  @JsonValue(131)
+  @JsonValue("caribbeanNetherlands")
   caribbeanNetherlands,
-  @JsonValue(132)
+  @JsonValue("caymanIslands")
   caymanIslands,
-  @JsonValue(133)
+  @JsonValue("centralAfricanRepublic")
   centralAfricanRepublic,
-  @JsonValue(134)
+  @JsonValue("chad")
   chad,
-  @JsonValue(135)
+  @JsonValue("christmasIsland")
   christmasIsland,
-  @JsonValue(136)
+  @JsonValue("cocosIslands")
   cocosIslands,
-  @JsonValue(137)
+  @JsonValue("comoros")
   comoros,
-  @JsonValue(138)
+  @JsonValue("congo")
   congo,
-  @JsonValue(139)
+  @JsonValue("cookIslands")
   cookIslands,
-  @JsonValue(140)
+  @JsonValue("cuba")
   cuba,
-  @JsonValue(141)
+  @JsonValue("curacao")
   curacao,
-  @JsonValue(142)
+  @JsonValue("democraticRepublicOfTheCongo")
   democraticRepublicOfTheCongo,
-  @JsonValue(143)
+  @JsonValue("djibouti")
   djibouti,
-  @JsonValue(144)
+  @JsonValue("dominica")
   dominica,
-  @JsonValue(145)
+  @JsonValue("eastTimor")
   eastTimor,
-  @JsonValue(146)
+  @JsonValue("equatorialGuinea")
   equatorialGuinea,
-  @JsonValue(147)
+  @JsonValue("eritrea")
   eritrea,
-  @JsonValue(148)
+  @JsonValue("ethiopia")
   ethiopia,
-  @JsonValue(149)
+  @JsonValue("falklandIslands")
   falklandIslands,
-  @JsonValue(150)
+  @JsonValue("faroeIslands")
   faroeIslands,
-  @JsonValue(151)
+  @JsonValue("federatedStatesOfMicronesia")
   federatedStatesOfMicronesia,
-  @JsonValue(152)
+  @JsonValue("fiji")
   fiji,
-  @JsonValue(153)
+  @JsonValue("frenchGuiana")
   frenchGuiana,
-  @JsonValue(154)
+  @JsonValue("frenchPolynesia")
   frenchPolynesia,
-  @JsonValue(155)
+  @JsonValue("frenchSouthernTerritories")
   frenchSouthernTerritories,
-  @JsonValue(156)
+  @JsonValue("gabon")
   gabon,
-  @JsonValue(157)
+  @JsonValue("gambia")
   gambia,
-  @JsonValue(158)
+  @JsonValue("gibraltar")
   gibraltar,
-  @JsonValue(159)
+  @JsonValue("greenland")
   greenland,
-  @JsonValue(160)
+  @JsonValue("grenada")
   grenada,
-  @JsonValue(161)
+  @JsonValue("guadeloupe")
   guadeloupe,
-  @JsonValue(162)
+  @JsonValue("guam")
   guam,
-  @JsonValue(163)
+  @JsonValue("guinea")
   guinea,
-  @JsonValue(164)
+  @JsonValue("guineaBissau")
   guineaBissau,
-  @JsonValue(165)
+  @JsonValue("guyana")
   guyana,
-  @JsonValue(166)
+  @JsonValue("heardIslandAndMcdonaldIslands")
   heardIslandAndMcdonaldIslands,
-  @JsonValue(167)
+  @JsonValue("iran")
   iran,
-  @JsonValue(168)
+  @JsonValue("iraq")
   iraq,
-  @JsonValue(169)
+  @JsonValue("isleOfMan")
   isleOfMan,
-  @JsonValue(170)
+  @JsonValue("ivoryCoast")
   ivoryCoast,
-  @JsonValue(171)
+  @JsonValue("jamaica")
   jamaica,
-  @JsonValue(172)
+  @JsonValue("kiribati")
   kiribati,
-  @JsonValue(173)
+  @JsonValue("kyrgyzstan")
   kyrgyzstan,
-  @JsonValue(183)
+  @JsonValue("laos")
   laos,
-  @JsonValue(184)
+  @JsonValue("lebanon")
   lebanon,
-  @JsonValue(185)
+  @JsonValue("lesotho")
   lesotho,
-  @JsonValue(186)
+  @JsonValue("liberia")
   liberia,
-  @JsonValue(187)
+  @JsonValue("libya")
   libya,
-  @JsonValue(188)
+  @JsonValue("liechtenstein")
   liechtenstein,
-  @JsonValue(189)
+  @JsonValue("macau")
   macau,
-  @JsonValue(190)
+  @JsonValue("madagascar")
   madagascar,
-  @JsonValue(191)
+  @JsonValue("malawi")
   malawi,
-  @JsonValue(192)
+  @JsonValue("mali")
   mali,
-  @JsonValue(193)
+  @JsonValue("marshallIslands")
   marshallIslands,
-  @JsonValue(194)
+  @JsonValue("martinique")
   martinique,
-  @JsonValue(195)
+  @JsonValue("mauritania")
   mauritania,
-  @JsonValue(196)
+  @JsonValue("mayotte")
   mayotte,
-  @JsonValue(197)
+  @JsonValue("moldova")
   moldova,
-  @JsonValue(198)
+  @JsonValue("monaco")
   monaco,
-  @JsonValue(199)
+  @JsonValue("mongolia")
   mongolia,
-  @JsonValue(200)
+  @JsonValue("montserrat")
   montserrat,
-  @JsonValue(201)
+  @JsonValue("mozambique")
   mozambique,
-  @JsonValue(202)
+  @JsonValue("myanmar")
   myanmar,
-  @JsonValue(203)
+  @JsonValue("namibia")
   namibia,
-  @JsonValue(204)
+  @JsonValue("nauru")
   nauru,
-  @JsonValue(205)
+  @JsonValue("nepal")
   nepal,
-  @JsonValue(206)
+  @JsonValue("newCaledonia")
   newCaledonia,
-  @JsonValue(207)
+  @JsonValue("niger")
   niger,
-  @JsonValue(208)
+  @JsonValue("niue")
   niue,
-  @JsonValue(209)
+  @JsonValue("norfolkIsland")
   norfolkIsland,
-  @JsonValue(210)
+  @JsonValue("northernCyprus")
   northernCyprus,
-  @JsonValue(211)
+  @JsonValue("northernMarianaIslands")
   northernMarianaIslands,
-  @JsonValue(212)
+  @JsonValue("northKorea")
   northKorea,
-  @JsonValue(213)
+  @JsonValue("northMacedonia")
   northMacedonia,
-  @JsonValue(214)
+  @JsonValue("palau")
   palau,
-  @JsonValue(215)
+  @JsonValue("palestine")
   palestine,
-  @JsonValue(216)
+  @JsonValue("papuaNewGuinea")
   papuaNewGuinea,
-  @JsonValue(217)
+  @JsonValue("pitcairn")
   pitcairn,
-  @JsonValue(218)
+  @JsonValue("reunion")
   reunion,
-  @JsonValue(219)
+  @JsonValue("rwanda")
   rwanda,
-  @JsonValue(220)
+  @JsonValue("saintBarthelemy")
   saintBarthelemy,
-  @JsonValue(221)
+  @JsonValue("saintHelenaAscensionAndTristianDaCunha")
   saintHelenaAscensionAndTristianDaCunha,
-  @JsonValue(222)
+  @JsonValue("saintKittsAndNevis")
   saintKittsAndNevis,
-  @JsonValue(223)
+  @JsonValue("saintLucia")
   saintLucia,
-  @JsonValue(224)
+  @JsonValue("saintMartin")
   saintMartin,
-  @JsonValue(225)
+  @JsonValue("saintPierreAndMiquelon")
   saintPierreAndMiquelon,
-  @JsonValue(226)
+  @JsonValue("saintVincentAndTheGrenadines")
   saintVincentAndTheGrenadines,
-  @JsonValue(227)
+  @JsonValue("samoa")
   samoa,
-  @JsonValue(228)
+  @JsonValue("sanMarino")
   sanMarino,
-  @JsonValue(229)
+  @JsonValue("saoTomeAndPrincipe")
   saoTomeAndPrincipe,
-  @JsonValue(230)
+  @JsonValue("senegal")
   senegal,
-  @JsonValue(231)
+  @JsonValue("seychelles")
   seychelles,
-  @JsonValue(232)
+  @JsonValue("sierraLeone")
   sierraLeone,
-  @JsonValue(233)
+  @JsonValue("sintMaarten")
   sintMaarten,
-  @JsonValue(234)
+  @JsonValue("solomonIslands")
   solomonIslands,
-  @JsonValue(235)
+  @JsonValue("somalia")
   somalia,
-  @JsonValue(236)
+  @JsonValue("southGeorgiaAndTheSouthSandwichIslands")
   southGeorgiaAndTheSouthSandwichIslands,
-  @JsonValue(237)
+  @JsonValue("southSudan")
   southSudan,
-  @JsonValue(238)
+  @JsonValue("sudan")
   sudan,
-  @JsonValue(239)
+  @JsonValue("suriname")
   suriname,
-  @JsonValue(240)
+  @JsonValue("svalbardAndJanMayen")
   svalbardAndJanMayen,
-  @JsonValue(241)
+  @JsonValue("eswatini")
   eswatini,
-  @JsonValue(242)
+  @JsonValue("syria")
   syria,
-  @JsonValue(243)
+  @JsonValue("tajikistan")
   tajikistan,
-  @JsonValue(244)
+  @JsonValue("tanzania")
   tanzania,
-  @JsonValue(245)
+  @JsonValue("togo")
   togo,
-  @JsonValue(246)
+  @JsonValue("tokelau")
   tokelau,
-  @JsonValue(247)
+  @JsonValue("tonga")
   tonga,
-  @JsonValue(248)
+  @JsonValue("trinidadAndTobago")
   trinidadAndTobago,
-  @JsonValue(249)
+  @JsonValue("turkmenistan")
   turkmenistan,
-  @JsonValue(250)
+  @JsonValue("turksAndCaicosIslands")
   turksAndCaicosIslands,
-  @JsonValue(251)
+  @JsonValue("tuvalu")
   tuvalu,
-  @JsonValue(252)
+  @JsonValue("unitedStatesMinorOutlyingIslands")
   unitedStatesMinorOutlyingIslands,
-  @JsonValue(253)
+  @JsonValue("uzbekistan")
   uzbekistan,
-  @JsonValue(254)
+  @JsonValue("vanuatu")
   vanuatu,
-  @JsonValue(255)
+  @JsonValue("vaticanCity")
   vaticanCity,
-  @JsonValue(256)
+  @JsonValue("virginIslandsBritish")
   virginIslandsBritish,
-  @JsonValue(257)
+  @JsonValue("virginIslandsUs")
   virginIslandsUs,
-  @JsonValue(258)
+  @JsonValue("wallisAndFutuna")
   wallisAndFutuna,
-  @JsonValue(259)
+  @JsonValue("westernSahara")
   westernSahara,
-  @JsonValue(260)
+  @JsonValue("yemen")
   yemen,
-  @JsonValue(261)
+  @JsonValue("yugoslavia")
   yugoslavia,
-  @JsonValue(262)
+  @JsonValue("zambia")
   zambia,
-  @JsonValue(263)
+  @JsonValue("zimbabwe")
   zimbabwe,
-  @JsonValue(264)
+  @JsonValue("schengenArea")
   schengenArea,
 }
 
 /// Document region.
 enum Region {
-  @JsonValue(0)
+  @JsonValue("none")
   none,
-  @JsonValue(1)
+  @JsonValue("alabama")
   alabama,
-  @JsonValue(2)
+  @JsonValue("alaska")
   alaska,
-  @JsonValue(3)
+  @JsonValue("alberta")
   alberta,
-  @JsonValue(4)
+  @JsonValue("arizona")
   arizona,
-  @JsonValue(5)
+  @JsonValue("arkansas")
   arkansas,
-  @JsonValue(6)
+  @JsonValue("australianCapitalTerritory")
   australianCapitalTerritory,
-  @JsonValue(7)
+  @JsonValue("britishColumbia")
   britishColumbia,
-  @JsonValue(8)
+  @JsonValue("california")
   california,
-  @JsonValue(9)
+  @JsonValue("colorado")
   colorado,
-  @JsonValue(10)
+  @JsonValue("connecticut")
   connecticut,
-  @JsonValue(11)
+  @JsonValue("delaware")
   delaware,
-  @JsonValue(12)
+  @JsonValue("districtOfColumbia")
   districtOfColumbia,
-  @JsonValue(13)
+  @JsonValue("florida")
   florida,
-  @JsonValue(14)
+  @JsonValue("georgia")
   georgia,
-  @JsonValue(15)
+  @JsonValue("hawaii")
   hawaii,
-  @JsonValue(16)
+  @JsonValue("idaho")
   idaho,
-  @JsonValue(17)
+  @JsonValue("illinois")
   illinois,
-  @JsonValue(18)
+  @JsonValue("indiana")
   indiana,
-  @JsonValue(19)
+  @JsonValue("iowa")
   iowa,
-  @JsonValue(20)
+  @JsonValue("kansas")
   kansas,
-  @JsonValue(21)
+  @JsonValue("kentucky")
   kentucky,
-  @JsonValue(22)
+  @JsonValue("louisiana")
   louisiana,
-  @JsonValue(23)
+  @JsonValue("maine")
   maine,
-  @JsonValue(24)
+  @JsonValue("manitoba")
   manitoba,
-  @JsonValue(25)
+  @JsonValue("maryland")
   maryland,
-  @JsonValue(26)
+  @JsonValue("massachusetts")
   massachusetts,
-  @JsonValue(27)
+  @JsonValue("michigan")
   michigan,
-  @JsonValue(28)
+  @JsonValue("minnesota")
   minnesota,
-  @JsonValue(29)
+  @JsonValue("mississippi")
   mississippi,
-  @JsonValue(30)
+  @JsonValue("missouri")
   missouri,
-  @JsonValue(31)
+  @JsonValue("montana")
   montana,
-  @JsonValue(32)
+  @JsonValue("nebraska")
   nebraska,
-  @JsonValue(33)
+  @JsonValue("nevada")
   nevada,
-  @JsonValue(34)
+  @JsonValue("newBrunswick")
   newBrunswick,
-  @JsonValue(35)
+  @JsonValue("newHampshire")
   newHampshire,
-  @JsonValue(36)
+  @JsonValue("newJersey")
   newJersey,
-  @JsonValue(37)
+  @JsonValue("newMexico")
   newMexico,
-  @JsonValue(38)
+  @JsonValue("newSouthWales")
   newSouthWales,
-  @JsonValue(39)
+  @JsonValue("newYork")
   newYork,
-  @JsonValue(40)
+  @JsonValue("northernTerritory")
   northernTerritory,
-  @JsonValue(41)
+  @JsonValue("northCarolina")
   northCarolina,
-  @JsonValue(42)
+  @JsonValue("northDakota")
   northDakota,
-  @JsonValue(43)
+  @JsonValue("novaScotia")
   novaScotia,
-  @JsonValue(44)
+  @JsonValue("ohio")
   ohio,
-  @JsonValue(45)
+  @JsonValue("oklahoma")
   oklahoma,
-  @JsonValue(46)
+  @JsonValue("ontario")
   ontario,
-  @JsonValue(47)
+  @JsonValue("oregon")
   oregon,
-  @JsonValue(48)
+  @JsonValue("pennsylvania")
   pennsylvania,
-  @JsonValue(49)
+  @JsonValue("quebec")
   quebec,
-  @JsonValue(50)
+  @JsonValue("queensland")
   queensland,
-  @JsonValue(51)
+  @JsonValue("rhodeIsland")
   rhodeIsland,
-  @JsonValue(52)
+  @JsonValue("saskatchewan")
   saskatchewan,
-  @JsonValue(53)
+  @JsonValue("southAustralia")
   southAustralia,
-  @JsonValue(54)
+  @JsonValue("southCarolina")
   southCarolina,
-  @JsonValue(55)
+  @JsonValue("southDakota")
   southDakota,
-  @JsonValue(56)
+  @JsonValue("tasmania")
   tasmania,
-  @JsonValue(57)
+  @JsonValue("tennessee")
   tennessee,
-  @JsonValue(58)
+  @JsonValue("texas")
   texas,
-  @JsonValue(59)
+  @JsonValue("utah")
   utah,
-  @JsonValue(60)
+  @JsonValue("vermont")
   vermont,
-  @JsonValue(61)
+  @JsonValue("victoria")
   victoria,
-  @JsonValue(62)
+  @JsonValue("virginia")
   virginia,
-  @JsonValue(63)
+  @JsonValue("washington")
   washington,
-  @JsonValue(64)
+  @JsonValue("westernAustralia")
   westernAustralia,
-  @JsonValue(65)
+  @JsonValue("westVirginia")
   westVirginia,
-  @JsonValue(66)
+  @JsonValue("wisconsin")
   wisconsin,
-  @JsonValue(67)
+  @JsonValue("wyoming")
   wyoming,
-  @JsonValue(68)
+  @JsonValue("yukon")
   yukon,
-  @JsonValue(69)
+  @JsonValue("ciudadDeMexico")
   ciudadDeMexico,
-  @JsonValue(70)
+  @JsonValue("jalisco")
   jalisco,
-  @JsonValue(71)
+  @JsonValue("newfoundlandAndLabrador")
   newfoundlandAndLabrador,
-  @JsonValue(72)
+  @JsonValue("nuevoLeon")
   nuevoLeon,
-  @JsonValue(73)
+  @JsonValue("bajaCalifornia")
   bajaCalifornia,
-  @JsonValue(74)
+  @JsonValue("chihuahua")
   chihuahua,
-  @JsonValue(75)
+  @JsonValue("guanajuato")
   guanajuato,
-  @JsonValue(76)
+  @JsonValue("guerrero")
   guerrero,
-  @JsonValue(77)
+  @JsonValue("mexico")
   mexico,
-  @JsonValue(78)
+  @JsonValue("michoacan")
   michoacan,
-  @JsonValue(79)
+  @JsonValue("newYorkCity")
   newYorkCity,
-  @JsonValue(80)
+  @JsonValue("tamaulipas")
   tamaulipas,
-  @JsonValue(81)
+  @JsonValue("veracruz")
   veracruz,
-  @JsonValue(82)
+  @JsonValue("chiapas")
   chiapas,
-  @JsonValue(83)
+  @JsonValue("coahuila")
   coahuila,
-  @JsonValue(84)
+  @JsonValue("durango")
   durango,
-  @JsonValue(85)
+  @JsonValue("guerreroCocula")
   guerreroCocula,
-  @JsonValue(86)
+  @JsonValue("guerreroJuchitan")
   guerreroJuchitan,
-  @JsonValue(87)
+  @JsonValue("guerreroTepecoacuilco")
   guerreroTepecoacuilco,
-  @JsonValue(88)
+  @JsonValue("guerreroTlacoapa")
   guerreroTlacoapa,
-  @JsonValue(89)
+  @JsonValue("gujarat")
   gujarat,
-  @JsonValue(90)
+  @JsonValue("hidalgo")
   hidalgo,
-  @JsonValue(91)
+  @JsonValue("karnataka")
   karnataka,
-  @JsonValue(92)
+  @JsonValue("kerala")
   kerala,
-  @JsonValue(93)
+  @JsonValue("khyberPakhtunkhwa")
   khyberPakhtunkhwa,
-  @JsonValue(94)
+  @JsonValue("madhyaPradesh")
   madhyaPradesh,
-  @JsonValue(95)
+  @JsonValue("maharashtra")
   maharashtra,
-  @JsonValue(96)
+  @JsonValue("morelos")
   morelos,
-  @JsonValue(97)
+  @JsonValue("nayarit")
   nayarit,
-  @JsonValue(98)
+  @JsonValue("oaxaca")
   oaxaca,
-  @JsonValue(99)
+  @JsonValue("puebla")
   puebla,
-  @JsonValue(100)
+  @JsonValue("punjab")
   punjab,
-  @JsonValue(101)
+  @JsonValue("queretaro")
   queretaro,
-  @JsonValue(102)
+  @JsonValue("sanLuisPotosi")
   sanLuisPotosi,
-  @JsonValue(103)
+  @JsonValue("sinaloa")
   sinaloa,
-  @JsonValue(104)
+  @JsonValue("sonora")
   sonora,
-  @JsonValue(105)
+  @JsonValue("tabasco")
   tabasco,
-  @JsonValue(106)
+  @JsonValue("tamilNadu")
   tamilNadu,
-  @JsonValue(107)
+  @JsonValue("yucatan")
   yucatan,
-  @JsonValue(108)
+  @JsonValue("zacatecas")
   zacatecas,
-  @JsonValue(109)
+  @JsonValue("aguascalientes")
   aguascalientes,
-  @JsonValue(110)
+  @JsonValue("bajaCaliforniaSur")
   bajaCaliforniaSur,
-  @JsonValue(111)
+  @JsonValue("campeche")
   campeche,
-  @JsonValue(112)
+  @JsonValue("colima")
   colima,
-  @JsonValue(113)
+  @JsonValue("quintanaRooBenitoJuarez")
   quintanaRooBenitoJuarez,
-  @JsonValue(114)
+  @JsonValue("quintanaRoo")
   quintanaRoo,
-  @JsonValue(115)
+  @JsonValue("quintanaRooSolidaridad")
   quintanaRooSolidaridad,
-  @JsonValue(116)
+  @JsonValue("tlaxcala")
   tlaxcala,
-  @JsonValue(117)
+  @JsonValue("quintanaRooCozumel")
   quintanaRooCozumel,
-  @JsonValue(118)
+  @JsonValue("saoPaolo")
   saoPaolo,
-  @JsonValue(119)
+  @JsonValue("rioDeJaneiro")
   rioDeJaneiro,
-  @JsonValue(120)
+  @JsonValue("rioGrandeDoSul")
   rioGrandeDoSul,
-  @JsonValue(121)
+  @JsonValue("northWestTerritories")
   northWestTerritories,
-  @JsonValue(122)
+  @JsonValue("nunavut")
   nunavut,
-  @JsonValue(123)
+  @JsonValue("princeEdwardIsland")
   princeEdwardIsland,
-  @JsonValue(124)
+  @JsonValue("distritoFederal")
   distritoFederal,
-  @JsonValue(125)
+  @JsonValue("maranhao")
   maranhao,
-  @JsonValue(126)
+  @JsonValue("matoGrosso")
   matoGrosso,
-  @JsonValue(127)
+  @JsonValue("minasGerais")
   minasGerais,
-  @JsonValue(128)
+  @JsonValue("para")
   para,
-  @JsonValue(129)
+  @JsonValue("parana")
   parana,
-  @JsonValue(130)
+  @JsonValue("pernambuco")
   pernambuco,
-  @JsonValue(131)
+  @JsonValue("santaCatarina")
   santaCatarina,
-  @JsonValue(132)
+  @JsonValue("andhraPradesh")
   andhraPradesh,
-  @JsonValue(133)
+  @JsonValue("ceara")
   ceara,
-  @JsonValue(134)
+  @JsonValue("goias")
   goias,
-  @JsonValue(135)
+  @JsonValue("guerreroAcapulcoDeJuarez")
   guerreroAcapulcoDeJuarez,
-  @JsonValue(136)
+  @JsonValue("haryana")
   haryana,
-  @JsonValue(137)
+  @JsonValue("sergipe")
   sergipe,
-  @JsonValue(138)
+  @JsonValue("alagos")
   alagos,
-  @JsonValue(139)
+  @JsonValue("bangsamoro")
   bangsamoro,
 }
 
 /// Document type.
 enum DocumentType {
-  @JsonValue(0)
+  @JsonValue("none")
   none,
-  @JsonValue(1)
+  @JsonValue("consularId")
   consularId,
-  @JsonValue(2)
+  @JsonValue("dl")
   dl,
-  @JsonValue(3)
+  @JsonValue("dlPublicServicesCard")
   dlPublicServicesCard,
-  @JsonValue(4)
+  @JsonValue("employmentPass")
   employmentPass,
-  @JsonValue(5)
+  @JsonValue("finCard")
   finCard,
-  @JsonValue(6)
+  @JsonValue("id")
   id,
-  @JsonValue(7)
+  @JsonValue("multipurposeId")
   multipurposeId,
-  @JsonValue(8)
+  @JsonValue("myKad")
   myKad,
-  @JsonValue(9)
+  @JsonValue("myKid")
   myKid,
-  @JsonValue(10)
+  @JsonValue("myPR")
   myPR,
-  @JsonValue(11)
+  @JsonValue("myTentera")
   myTentera,
-  @JsonValue(12)
+  @JsonValue("panCard")
   panCard,
-  @JsonValue(13)
+  @JsonValue("professionalId")
   professionalId,
-  @JsonValue(14)
+  @JsonValue("publicServicesCard")
   publicServicesCard,
-  @JsonValue(15)
+  @JsonValue("residencePermit")
   residencePermit,
-  @JsonValue(16)
+  @JsonValue("residentId")
   residentId,
-  @JsonValue(17)
+  @JsonValue("temporaryResidencePermit")
   temporaryResidencePermit,
-  @JsonValue(18)
+  @JsonValue("voterId")
   voterId,
-  @JsonValue(19)
+  @JsonValue("workPermit")
   workPermit,
-  @JsonValue(20)
+  @JsonValue("iKad")
   iKad,
-  @JsonValue(21)
+  @JsonValue("militaryId")
   militaryId,
-  @JsonValue(22)
+  @JsonValue("myKas")
   myKas,
-  @JsonValue(23)
+  @JsonValue("docialSecurityCard")
   docialSecurityCard,
-  @JsonValue(24)
+  @JsonValue("healthInsuranceCard")
   healthInsuranceCard,
-  @JsonValue(25)
+  @JsonValue("passport")
   passport,
-  @JsonValue(26)
+  @JsonValue("sPass")
   sPass,
-  @JsonValue(27)
+  @JsonValue("addressCard")
   addressCard,
-  @JsonValue(28)
+  @JsonValue("alienId")
   alienId,
-  @JsonValue(29)
+  @JsonValue("alienPassport")
   alienPassport,
-  @JsonValue(30)
+  @JsonValue("greenCard")
   greenCard,
-  @JsonValue(31)
+  @JsonValue("minorsId")
   minorsId,
-  @JsonValue(32)
+  @JsonValue("postalId")
   postalId,
-  @JsonValue(33)
+  @JsonValue("professionalDl")
   professionalDl,
-  @JsonValue(34)
+  @JsonValue("taxId")
   taxId,
-  @JsonValue(35)
+  @JsonValue("weaponPermit")
   weaponPermit,
-  @JsonValue(36)
+  @JsonValue("visa")
   visa,
-  @JsonValue(37)
+  @JsonValue("borderCrossingCard")
   borderCrossingCard,
-  @JsonValue(38)
+  @JsonValue("driverCard")
   driverCard,
-  @JsonValue(39)
+  @JsonValue("globalEntryCard")
   globalEntryCard,
-  @JsonValue(40)
+  @JsonValue("mypolis")
   mypolis,
-  @JsonValue(41)
+  @JsonValue("nexusCard")
   nexusCard,
-  @JsonValue(42)
+  @JsonValue("passportCard")
   passportCard,
-  @JsonValue(43)
+  @JsonValue("proofOfAgeCard")
   proofOfAgeCard,
-  @JsonValue(44)
+  @JsonValue("refugeeId")
   refugeeId,
-  @JsonValue(45)
+  @JsonValue("tribalId")
   tribalId,
-  @JsonValue(46)
+  @JsonValue("veteranId")
   veteranId,
-  @JsonValue(47)
+  @JsonValue("citizenshipCertificate")
   citizenshipCertificate,
-  @JsonValue(48)
+  @JsonValue("myNumberCard")
   myNumberCard,
-  @JsonValue(49)
+  @JsonValue("consularPassport")
   consularPassport,
-  @JsonValue(50)
+  @JsonValue("minorsPassport")
   minorsPassport,
-  @JsonValue(51)
+  @JsonValue("minorsPublicServicesCard")
   minorsPublicServicesCard,
-  @JsonValue(52)
+  @JsonValue("drivingPriviligeCard")
   drivingPriviligeCard,
-  @JsonValue(53)
+  @JsonValue("asylumRequest")
   asylumRequest,
-  @JsonValue(54)
+  @JsonValue("driverQualificationCard")
   driverQualificationCard,
-  @JsonValue(55)
+  @JsonValue("provisionalDl")
   provisionalDl,
-  @JsonValue(56)
+  @JsonValue("refugeePassport")
   refugeePassport,
-  @JsonValue(57)
+  @JsonValue("specialId")
   specialId,
-  @JsonValue(58)
+  @JsonValue("uniformedServicesId")
   uniformedServicesId,
-  @JsonValue(59)
+  @JsonValue("immigrantVisa")
   immigrantVisa,
-  @JsonValue(60)
+  @JsonValue("consularVoterId")
   consularVoterId,
-  @JsonValue(61)
+  @JsonValue("twicCard")
   twicCard,
-  @JsonValue(62)
+  @JsonValue("exitEntryPermit")
   exitEntryPermit,
-  @JsonValue(63)
+  @JsonValue("mainlandTravelPermitTaiwan")
   mainlandTravelPermitTaiwan,
-  @JsonValue(64)
+  @JsonValue("nbiClearance")
   nbiClearance,
-  @JsonValue(65)
+  @JsonValue("proofOfRegistration")
   proofOfRegistration,
-  @JsonValue(66)
+  @JsonValue("temporaryProtectionPermit")
   temporaryProtectionPermit,
-  @JsonValue(67)
+  @JsonValue("afghanCitizenCard")
   afghanCitizenCard,
-  @JsonValue(68)
+  @JsonValue("eId")
   eId,
-  @JsonValue(69)
+  @JsonValue("pass")
   pass,
-  @JsonValue(70)
+  @JsonValue("sisId")
   sisId,
-  @JsonValue(71)
+  @JsonValue("asicCard")
   asicCard,
-  @JsonValue(72)
+  @JsonValue("bidoonCard")
   bidoonCard,
-  @JsonValue(73)
+  @JsonValue("interimHealthInsuranceCard")
   interimHealthInsuranceCard,
-  @JsonValue(74)
+  @JsonValue("nonVoterId")
   nonVoterId,
-  @JsonValue(75)
+  @JsonValue("reciprocalHealthInsuranceCard")
   reciprocalHealthInsuranceCard,
-  @JsonValue(76)
+  @JsonValue("vehicleRegistration")
   vehicleRegistration,
-  @JsonValue(77)
+  @JsonValue("esaadCard")
   esaadCard,
-  @JsonValue(78)
+  @JsonValue("registrationCertificate")
   registrationCertificate,
-  @JsonValue(79)
+  @JsonValue("medicalMarijuanaId")
   medicalMarijuanaId,
 }
 
 /// Represents all possible field types that can be extracted from the document.
 enum FieldType {
-  @JsonValue(0)
+  @JsonValue("additionalAddressInformation")
   additionalAddressInformation,
-  @JsonValue(1)
+  @JsonValue("additionalNameInformation")
   additionalNameInformation,
-  @JsonValue(2)
+  @JsonValue("additionalOptionalAddressInformation")
   additionalOptionalAddressInformation,
-  @JsonValue(3)
+  @JsonValue("additionalPersonalIdNumber")
   additionalPersonalIdNumber,
-  @JsonValue(4)
+  @JsonValue("address")
   address,
-  @JsonValue(5)
+  @JsonValue("classEffectiveDate")
   classEffectiveDate,
-  @JsonValue(6)
+  @JsonValue("classExpiryDate")
   classExpiryDate,
-  @JsonValue(7)
+  @JsonValue("conditions")
   conditions,
-  @JsonValue(8)
+  @JsonValue("dateOfBirth")
   dateOfBirth,
-  @JsonValue(9)
+  @JsonValue("dateOfExpiry")
   dateOfExpiry,
-  @JsonValue(10)
+  @JsonValue("dateOfIssue")
   dateOfIssue,
-  @JsonValue(11)
+  @JsonValue("documentAdditionalNumber")
   documentAdditionalNumber,
-  @JsonValue(12)
+  @JsonValue("documentOptionalAdditionalNumber")
   documentOptionalAdditionalNumber,
-  @JsonValue(13)
+  @JsonValue("documentNumber")
   documentNumber,
-  @JsonValue(14)
+  @JsonValue("employer")
   employer,
-  @JsonValue(15)
+  @JsonValue("endorsements")
   endorsements,
-  @JsonValue(16)
+  @JsonValue("fathersName")
   fathersName,
-  @JsonValue(17)
+  @JsonValue("firstName")
   firstName,
-  @JsonValue(18)
+  @JsonValue("fullName")
   fullName,
-  @JsonValue(19)
+  @JsonValue("issuingAuthority")
   issuingAuthority,
-  @JsonValue(20)
+  @JsonValue("lastName")
   lastName,
-  @JsonValue(21)
+  @JsonValue("licenceType")
   licenceType,
-  @JsonValue(22)
+  @JsonValue("localizedName")
   localizedName,
-  @JsonValue(23)
+  @JsonValue("maritalStatus")
   maritalStatus,
-  @JsonValue(24)
+  @JsonValue("mothersName")
   mothersName,
-  @JsonValue(25)
+  @JsonValue("mrz")
   mrz,
-  @JsonValue(26)
+  @JsonValue("nationality")
   nationality,
-  @JsonValue(27)
+  @JsonValue("personalIdNumber")
   personalIdNumber,
-  @JsonValue(28)
+  @JsonValue("placeOfBirth")
   placeOfBirth,
-  @JsonValue(29)
+  @JsonValue("profession")
   profession,
-  @JsonValue(30)
+  @JsonValue("race")
   race,
-  @JsonValue(31)
+  @JsonValue("religion")
   religion,
-  @JsonValue(32)
+  @JsonValue("residentialStatus")
   residentialStatus,
-  @JsonValue(33)
+  @JsonValue("restrictions")
   restrictions,
-  @JsonValue(34)
+  @JsonValue("sex")
   sex,
-  @JsonValue(35)
+  @JsonValue("vehicleClass")
   vehicleClass,
-  @JsonValue(36)
+  @JsonValue("bloodType")
   bloodType,
-  @JsonValue(37)
+  @JsonValue("sponsor")
   sponsor,
-  @JsonValue(38)
+  @JsonValue("visaType")
   visaType,
-  @JsonValue(39)
+  @JsonValue("documentSubtype")
   documentSubtype,
-  @JsonValue(40)
+  @JsonValue("remarks")
   remarks,
-  @JsonValue(41)
+  @JsonValue("residencePermitType")
   residencePermitType,
-  @JsonValue(42)
+  @JsonValue("manufacturingYear")
   manufacturingYear,
-  @JsonValue(43)
+  @JsonValue("vehicleType")
   vehicleType,
-  @JsonValue(44)
+  @JsonValue("dependentDateOfBirth")
   dependentDateOfBirth,
-  @JsonValue(45)
+  @JsonValue("dependentSex")
   dependentSex,
-  @JsonValue(46)
+  @JsonValue("dependentDocumentNumber")
   dependentDocumentNumber,
-  @JsonValue(47)
+  @JsonValue("dependentFullName")
   dependentFullName,
-  @JsonValue(48)
+  @JsonValue("eligibilityCategory")
   eligibilityCategory,
-  @JsonValue(49)
+  @JsonValue("specificDocumentValidity")
   specificDocumentValidity,
-  @JsonValue(50)
+  @JsonValue("vehicleOwner")
   vehicleOwner,
 }

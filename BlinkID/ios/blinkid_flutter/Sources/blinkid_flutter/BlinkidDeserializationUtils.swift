@@ -240,26 +240,28 @@ struct BlinkIdDeserializationUtils {
     static func deserializeDocumentFilter(_ documentFilterDict: Dictionary<String, Any>) -> DocumentFilter {
         var documentFilter = DocumentFilter()
         
-        if let country = documentFilterDict["country"] as? Int {
-            documentFilter.country = Country.allCases[country]
+        if let country = documentFilterDict["country"] as? String {
+            documentFilter.country = Country.init(rawValue: country)
         }
         
-        if let region = documentFilterDict["region"] as? Int {
-            documentFilter.region = Region.allCases[region]
+        if let region = documentFilterDict["region"] as? String {
+            documentFilter.region = Region.init(rawValue: region)
         }
         
-        if let documentType = documentFilterDict["documentType"] as? Int {
-            documentFilter.documentType = DocumentType.allCases[documentType]
+        if let documentType = documentFilterDict["documentType"] as? String {
+            documentFilter.documentType = DocumentType.init(rawValue: documentType)
         }
         return documentFilter
     }
     
     static func deserializeDetailedFieldType(_ detailedFieldTypeDict: Dictionary<String, Any>?) -> DetailedFieldType? {
-        if let fieldType = detailedFieldTypeDict?["fieldType"] as? Int,
-           let alphabetType = detailedFieldTypeDict?["alphabetType"] as? Int {
+        if let fieldType = detailedFieldTypeDict?["fieldType"] as? String,
+           let alphabetType = detailedFieldTypeDict?["alphabetType"] as? String,
+           let fieldTypeValue = FieldType.init(rawValue: fieldType),
+           let alphabetTypeValue = AlphabetType(rawValue: alphabetType) {
             return DetailedFieldType(
-                fieldType: FieldType.allCases[fieldType],
-                alphabetType: AlphabetType.allCases[alphabetType])
+                fieldType: fieldTypeValue,
+                alphabetType: alphabetTypeValue)
         }
         return nil
     }
@@ -268,7 +270,7 @@ struct BlinkIdDeserializationUtils {
         var documentAnonymizationSettingsArray = Array<DocumentAnonymizationSettings>()
         
         for customAnonymizationDict in customAnonymizationArray {
-            guard let fields = customAnonymizationDict["fields"] as? Array<Int> else { continue }
+            guard let fields = customAnonymizationDict["fields"] as? Array<String> else { continue }
             var documentAnonymizationSettings = DocumentAnonymizationSettings(fields: deserializeFieldType(fields))
             
             if let documentFilter = customAnonymizationDict["documentFilter"] as? Dictionary<String, Any> {
@@ -297,8 +299,8 @@ struct BlinkIdDeserializationUtils {
         return documentNumberAnonymizationSettings
     }
     
-    static func deserializeFieldType(_ fieldType: Array<Int>) -> [FieldType] {
-        return fieldType.compactMap { FieldType.allCases[$0] }
+    static func deserializeFieldType(_ fieldType: Array<String>) -> [FieldType] {
+        return fieldType.compactMap { FieldType.init(rawValue: $0) }
     }
     
     static func deserializeClassFilter(_ classFilterDictArr: Dictionary<String, Any>?, _ classInfo: BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
@@ -324,13 +326,13 @@ struct BlinkIdDeserializationUtils {
     }
     
     static func matchClassFilter(_ filteredClass: Dictionary<String, Any>, classInfo: BlinkID.BlinkIDSDK.DocumentClassInfo) -> Bool {
-        let country = filteredClass["country"] as? Int
-        let type = filteredClass["documentType"] as? Int
-        let region = filteredClass["region"] as? Int
+        let country = filteredClass["country"] as? String
+        let type = filteredClass["documentType"] as? String
+        let region = filteredClass["region"] as? String
         
-        return (country == nil || classInfo.country == Country.allCases[country!]) &&
-        (type == nil || classInfo.documentType == DocumentType.allCases[type!]) &&
-        (region == nil || classInfo.region == Region.allCases[region!])
+        return (country == nil || classInfo.country == Country.init(rawValue: country!)) &&
+        (type == nil || classInfo.documentType == DocumentType.init(rawValue: type!) &&
+         (region == nil || classInfo.region == Region.init(rawValue: region!)))
     }
     
     static func sanitizeDictionary(_ dictionary: Dictionary<String, Any>?) -> Dictionary<String, Any>? {

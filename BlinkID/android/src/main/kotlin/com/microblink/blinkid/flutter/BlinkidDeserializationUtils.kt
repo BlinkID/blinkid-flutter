@@ -75,9 +75,9 @@ object BlinkIdDeserializationUtils {
             tiltDetectionLevel = DetectionLevel.entries[scanningSettingsMap["tiltDetectionLevel"] as? Int
                 ?: DetectionLevel.Off.ordinal],
             skipImagesWithInadequateLightingConditions = scanningSettingsMap["skipImagesWithInadequateLightingConditions"] as? Boolean
-                ?: true,
+                ?: false,
             skipImagesOccludedByHand = scanningSettingsMap["skipImagesOccludedByHand"] as? Boolean
-                ?: true,
+                ?: false,
             combineResultsFromMultipleInputImages = scanningSettingsMap["combineResultsFromMultipleInputImages"] as? Boolean
                 ?: true,
             enableBarcodeScanOnly = scanningSettingsMap["enableBarcodeScanOnly"] as? Boolean
@@ -148,13 +148,13 @@ object BlinkIdDeserializationUtils {
     }
 
     private fun deserializeDetailedFieldType(detailedFieldTypeMap: Map<String, Any>?): DetailedFieldType? {
-        val fieldTypeIndex = detailedFieldTypeMap?.get("fieldType") as? Int
-        val alphabetTypeIndex = detailedFieldTypeMap?.get("alphabetType") as? Int
+        val fieldTypeName = detailedFieldTypeMap?.get("fieldType") as? String
+        val alphabetTypeName = detailedFieldTypeMap?.get("alphabetType") as? String
 
-        return if (fieldTypeIndex != null && alphabetTypeIndex != null) {
+        return if (fieldTypeName != null && alphabetTypeName != null) {
             DetailedFieldType(
-                FieldType.entries[fieldTypeIndex],
-                AlphabetType.entries[alphabetTypeIndex]
+                enumValueOf<FieldType>(fieldTypeName.replaceFirstChar { char -> char.uppercase() }),
+                enumValueOf<AlphabetType>(alphabetTypeName.replaceFirstChar { char -> char.uppercase() })
             )
         } else {
             null
@@ -165,14 +165,14 @@ object BlinkIdDeserializationUtils {
         return if (documentFilterMap != null) {
             val filter = DocumentFilter()
 
-            (documentFilterMap["country"] as? Int)?.let {
-                filter.country = Country.entries[it]
+            (documentFilterMap["country"] as? String)?.let {
+                filter.country = enumValueOf<Country>(it.replaceFirstChar { char -> char.uppercase() })
             }
-            (documentFilterMap["region"] as? Int)?.let {
-                filter.region = Region.entries[it]
+            (documentFilterMap["region"] as? String)?.let {
+                filter.region = enumValueOf<Region>(it.replaceFirstChar { char -> char.uppercase() })
             }
-            (documentFilterMap["documentType"] as? Int)?.let {
-                filter.type = Type.entries[it]
+            (documentFilterMap["documentType"] as? String)?.let {
+                filter.type = enumValueOf<Type>(it.replaceFirstChar { char -> char.uppercase() })
             }
             filter
         } else {
@@ -185,8 +185,8 @@ object BlinkIdDeserializationUtils {
 
         val customAnonymizationList = mutableListOf<DocumentAnonymizationSettings>()
         for (customAnonymizationSettingsMap in customAnonymizationSettingsMapArray) {
-            (customAnonymizationSettingsMap["fields"] as? List<Int>)?.let { fields ->
-                val deserializedFields = fields.map { FieldType.entries[it] }
+            (customAnonymizationSettingsMap["fields"] as? List<String>)?.let { fields ->
+                val deserializedFields = fields.map { enumValueOf<FieldType>(it.replaceFirstChar { char -> char.uppercase() }) }
                 customAnonymizationList.add(
                     DocumentAnonymizationSettings(
                         deserializeDocumentFilter(customAnonymizationSettingsMap["documentFilter"] as? Map<String, Any>),
