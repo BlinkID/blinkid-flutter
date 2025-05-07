@@ -1104,9 +1104,6 @@ class VizResult {
   /// The vehicle owner.
   StringResult? vehicleOwner;
 
-  /// Checks if the VIZ result contains any values
-  bool? isEmpty;
-
   /// Represents the result of the Visual Inspection Zone of a document.
   VizResult(Map<String, dynamic> nativeVizResult) {
     firstName = createStringResult(nativeVizResult, 'firstName');
@@ -1212,7 +1209,6 @@ class VizResult {
                 .toList()
             : null;
     vehicleOwner = createStringResult(nativeVizResult, 'vehicleOwner');
-    isEmpty = nativeVizResult.isEmpty;
   }
 }
 
@@ -1301,9 +1297,6 @@ class MrzResult {
   /// The sanitized document number. Result without additional '<' characters if they exist.
   String? sanitizedDocumentNumber;
 
-  /// Checks if the MRZ result contains any values
-  bool? isEmpty;
-
   /// Represents the result of the MRZ recognition.
   MrzResult(Map<String, dynamic> nativeMRZResult) {
     documentType = enumFromValue(
@@ -1339,7 +1332,6 @@ class MrzResult {
     sanitizedIssuer = nativeMRZResult['sanitizedIssuer'];
     sanitizedDocumentCode = nativeMRZResult['sanitizedDocumentCode'];
     sanitizedDocumentNumber = nativeMRZResult['sanitizedDocumentNumber'];
-    isEmpty = nativeMRZResult.isEmpty;
   }
 }
 
@@ -1425,9 +1417,6 @@ class BarcodeResult {
   /// Currently this is only filled for AAMVACompliant documents.
   BarcodeExtendedElements? extendedElements;
 
-  /// Checks if the Barcode result contains any values
-  bool? isEmpty;
-
   ///  Represents the data extracted from the barcode.
   BarcodeResult(Map<String, dynamic> nativeBarcodeResult) {
     barcodeData =
@@ -1498,7 +1487,6 @@ class BarcodeResult {
               ),
             )
             : null;
-    isEmpty = nativeBarcodeResult.isEmpty;
   }
 }
 

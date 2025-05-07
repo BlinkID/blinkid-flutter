@@ -2,44 +2,45 @@ import 'package:blinkid_flutter/blinkid_result.dart';
 
 class BlinkIdResultBuilder {
   static String getIdResultString(BlinkIdScanningResult? result) {
-    if (result != null) {
-      return "Recognition mode: ${result.recognitionMode?.name}\n" +
-          buildResult(result.firstName, "First name") +
-          buildResult(result.lastName, "Last name") +
-          buildResult(result.fullName, "Full name") +
-          buildResult(result.localizedName, "Localized name") +
-          buildResult(
-            result.additionalNameInformation,
-            "Additional name info",
-          ) +
-          buildResult(result.address, "Address") +
-          buildResult(
-            result.additionalAddressInformation,
-            "Additional address info",
-          ) +
-          buildResult(result.documentNumber, "Document number") +
-          buildResult(
-            result.documentAdditionalNumber,
-            "Additional document number",
-          ) +
-          buildResult(result.sex, "Sex") +
-          buildResult(result.issuingAuthority, "Issuing authority") +
-          buildResult(result.nationality, "Nationality") +
-          buildDateResult(result.dateOfBirth, "Date of birth") +
-          buildDateResult(result.dateOfIssue, "Date of issue") +
-          buildDateResult(result.dateOfExpiry, "Date of expiry") +
-          buildResult(result.maritalStatus, "Martial status") +
-          buildResult(result.personalIdNumber, "Personal Id Number") +
-          buildResult(result.profession, "Profession") +
-          buildResult(result.race, "Race") +
-          buildResult(result.religion, "Religion") +
-          buildResult(result.residentialStatus, "Residential Status") +
-          buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
-          buildDataMatchResult(result.dataMatchResult) +
-          buildDocumentClassInfoResult(result.documentClassInfo) +
-          buildSubresults(result.subResults);
+    if (result == null) {
+      return "";
     }
-    return "";
+
+    String resultString =
+        buildStringResult(result.recognitionMode?.name, "Recognition mode") +
+        buildResult(result.firstName, "First name") +
+        buildResult(result.lastName, "Last name") +
+        buildResult(result.fullName, "Full name") +
+        buildResult(result.localizedName, "Localized name") +
+        buildResult(result.additionalNameInformation, "Additional name info") +
+        buildResult(result.address, "Address") +
+        buildResult(
+          result.additionalAddressInformation,
+          "Additional address info",
+        ) +
+        buildResult(result.documentNumber, "Document number") +
+        buildResult(
+          result.documentAdditionalNumber,
+          "Additional document number",
+        ) +
+        buildResult(result.sex, "Sex") +
+        buildResult(result.issuingAuthority, "Issuing authority") +
+        buildResult(result.nationality, "Nationality") +
+        buildDateResult(result.dateOfBirth, "Date of birth") +
+        buildDateResult(result.dateOfIssue, "Date of issue") +
+        buildDateResult(result.dateOfExpiry, "Date of expiry") +
+        buildResult(result.maritalStatus, "Martial status") +
+        buildResult(result.personalIdNumber, "Personal Id Number") +
+        buildResult(result.profession, "Profession") +
+        buildResult(result.race, "Race") +
+        buildResult(result.religion, "Religion") +
+        buildResult(result.residentialStatus, "Residential Status") +
+        buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
+        buildDataMatchResult(result.dataMatchResult) +
+        buildDocumentClassInfoResult(result.documentClassInfo) +
+        buildSubresults(result.subResults);
+
+    return "$resultString\n";
   }
 
   static String buildSubresults(List<SingleSideScanningResult>? subResults) {
@@ -63,7 +64,7 @@ class BlinkIdResultBuilder {
       return "";
     }
 
-    return "\nMRZ result:\n" +
+    String resultString =
         buildStringResult(result.documentCode, "Document code") +
         buildStringResult(result.documentNumber, "Document number") +
         buildStringResult(result.gender, "Gender") +
@@ -77,13 +78,15 @@ class BlinkIdResultBuilder {
         buildStringResult(result.secondaryID, "Secondary ID") +
         buildDateResult(result.dateOfBirth, "Date of birth") +
         buildDateResult(result.dateOfExpiry, "Date of expiry");
+
+    return resultString == "" ? "" : "MRZ result:\n$resultString\n";
   }
 
   static String buildBarcodeResult(BarcodeResult? result) {
     if (result == null) {
       return "";
     }
-    return "\nBarcode result:\n" +
+    String resultString =
         buildStringResult(
           result.additionalNameInformation,
           "Additional name information",
@@ -105,13 +108,15 @@ class BlinkIdResultBuilder {
         buildDateResult(result.dateOfBirth, "Date of birth") +
         buildDateResult(result.dateOfExpiry, "Date of expiry") +
         buildDateResult(result.dateOfIssue, "Date of issue");
+
+    return resultString == "" ? "" : "Barcode result:\n$resultString\n";
   }
 
   static String buildVizResult(VizResult? result) {
     if (result == null) {
       return "";
     }
-    return "\nVIZ result:\n" +
+    String resultString =
         buildResult(
           result.additionalAddressInformation,
           "Additional address information",
@@ -135,6 +140,8 @@ class BlinkIdResultBuilder {
         buildDateResult(result.dateOfBirth, "Date of birth") +
         buildDateResult(result.dateOfExpiry, "Date of expiry") +
         buildDateResult(result.dateOfIssue, "Nationality");
+
+    return resultString == "" ? "" : "VIZ result:\n$resultString\n";
   }
 
   static String buildResult(StringResult? result, String propertyName) {
@@ -150,7 +157,7 @@ class BlinkIdResultBuilder {
       return "";
     }
 
-    return "\nDocument class information:\nCountry: ${result.country?.name}\nRegion:${result.region?.name}\nDocument type: ${result.documentType?.name}\n";
+    return "\nDocument class information:\nCountry: ${result.country?.name}\nRegion: ${result.region?.name}\nDocument type: ${result.documentType?.name}\n";
   }
 
   static String buildDateResult(DateResult? result, String propertyName) {

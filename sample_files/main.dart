@@ -122,15 +122,10 @@ class _MyAppState extends State<MyApp> {
       sessionSettings.scanningSettings = scanningSettings;
 
       /// CLASS FILTER
-      final classFilter = ClassFilter();
-      classFilter.includeDocuments = [
-        DocumentFilter(Country.usa),
+      final classFilter = ClassFilter.withExcludedDocumentClasses([
+        DocumentFilter(Country.canada),
         DocumentFilter(Country.usa, Region.california),
-      ];
-      classFilter.excludeDocuments = [
-        DocumentFilter(Country.croatia),
-        DocumentFilter(null, Region.texas, DocumentType.dl),
-      ];
+      ]);
 
       /// call the 'performScan' method and handle the results
       await blinkIdPlugin
@@ -349,7 +344,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     Widget firstDocumentImage = Container();
-    if (firstDocumentImageBase64 != null && firstDocumentImageBase64 != "") {
+    if (firstDocumentImageBase64 != "") {
       firstDocumentImage = Column(
         children: <Widget>[
           Text("First document image:"),
@@ -363,7 +358,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     Widget secondDocumentImage = Container();
-    if (secondDocumentImageBase64 != null && secondDocumentImageBase64 != "") {
+    if (secondDocumentImageBase64 != "") {
       secondDocumentImage = Column(
         children: <Widget>[
           Text("Second document image:"),
@@ -377,7 +372,7 @@ class _MyAppState extends State<MyApp> {
     }
 
     Widget faceImage = Container();
-    if (faceImageBase64 != null && faceImageBase64 != "") {
+    if (faceImageBase64 != "") {
       faceImage = Column(
         children: <Widget>[
           Text("Face Image:"),

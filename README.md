@@ -130,11 +130,11 @@ imageSettings.returnFaceImage = true;
 /// Place the image settings in the scanning settings
 scanningSettings.croppedImageSettings = imageSettings;
 
-/// Add the document filter. This parameter is optional.
-final classFilter = ClassFilter();
-classFilter.includeDocuments = [
-    DocumentFilter.countryRegion(Country.Usa, Region.California),
-];
+/// Add the document class filter. This parameter is optional.
+final classFilter = ClassFilter.withIncludedDocumentClasses([
+    DocumentFilter(Country.canada),
+    DocumentFilter(Country.usa, Region.california),
+]);
 ```
 
 4. Call the appropriate scanning method (with the default UX, or DirectAPI for static images), handle the results and catch any errors:
