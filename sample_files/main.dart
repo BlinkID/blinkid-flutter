@@ -69,10 +69,11 @@ class _MyAppState extends State<MyApp> {
       /// Place the image settings in the scanning settings
       scanningSettings.croppedImageSettings = imageSettings;
 
-      final filter = DocumentFilter.country(Country.croatia);
-      final filterTwo = DocumentFilter.typeRegion(
-        DocumentType.dl,
+      final filter = DocumentFilter(Country.croatia);
+      final filterTwo = DocumentFilter(
+        null,
         Region.california,
+        DocumentType.dl,
       );
 
       /// DOCUMENT RULES
@@ -90,12 +91,11 @@ class _MyAppState extends State<MyApp> {
       scanningSettings.customDocumentRules = documentRules;
 
       /// ADDITIONAL ANONYMIZATION SETTINGS
-      final additionalAnonSettings =
-          DocumentAnonymizationSettings.withAllParameters(
-            [FieldType.firstName, FieldType.address],
-            filter,
-            DocumentNumberAnonymizationSettings.withAllParemeters(1, 2),
-          );
+      final additionalAnonSettings = DocumentAnonymizationSettings(
+        [FieldType.firstName, FieldType.address],
+        filter,
+        DocumentNumberAnonymizationSettings.withAllParameters(1, 2),
+      );
 
       final additionalAnonSettingsTwo = DocumentAnonymizationSettings([
         FieldType.bloodType,
@@ -124,18 +124,19 @@ class _MyAppState extends State<MyApp> {
       /// CLASS FILTER
       final classFilter = ClassFilter();
       classFilter.includeDocuments = [
-        DocumentFilter.country(Country.usa),
-        DocumentFilter.countryRegion(Country.usa, Region.california),
+        DocumentFilter(Country.usa),
+        DocumentFilter(Country.usa, Region.california),
       ];
       classFilter.excludeDocuments = [
-        DocumentFilter.country(Country.croatia),
-        DocumentFilter.typeRegion(DocumentType.dl, Region.texas),
+        DocumentFilter(Country.croatia),
+        DocumentFilter(null, Region.texas, DocumentType.dl),
       ];
 
       /// call the 'performScan' method and handle the results
       await blinkIdPlugin
           .performScan(sdkSettings, sessionSettings) //, classFilter)
           .then((result) {
+            resetImages();
             setState(() {
               if (result != null) {
                 resultString = BlinkIdResultBuilder.getIdResultString(result);
@@ -155,15 +156,11 @@ class _MyAppState extends State<MyApp> {
             });
           })
           .catchError((scanningError) {
-            print("Scanning error: $scanningError");
             setState(() {
               if (scanningError is PlatformException) {
                 final errorMessage = scanningError.message;
                 resultString = "BlinkID scanning error: $errorMessage";
-                firstDocumentImageBase64 = "";
-                secondDocumentImageBase64 = "";
-                faceImageBase64 = "";
-                signatureImageBase64 = "";
+                resetImages();
               }
             });
           });
@@ -172,6 +169,7 @@ class _MyAppState extends State<MyApp> {
         final errorMessage = blinkidScanningError.message;
         setState(() {
           resultString = "BlinkID scanning error: $errorMessage";
+          resetImages();
         });
       }
     }
@@ -227,6 +225,7 @@ class _MyAppState extends State<MyApp> {
           )
           .then((result) {
             setState(() {
+              resetImages();
               if (result != null) {
                 resultString = BlinkIdResultBuilder.getIdResultString(result);
                 if (result.firstDocumentImage != null) {
@@ -249,10 +248,7 @@ class _MyAppState extends State<MyApp> {
               if (scanningError is PlatformException) {
                 final errorMessage = scanningError.message;
                 resultString = "BlinkID scanning error: $errorMessage";
-                firstDocumentImageBase64 = "";
-                secondDocumentImageBase64 = "";
-                faceImageBase64 = "";
-                signatureImageBase64 = "";
+                resetImages();
               }
             });
           });
@@ -261,6 +257,7 @@ class _MyAppState extends State<MyApp> {
         final errorMessage = blinkidScanningError.message;
         setState(() {
           resultString = "BlinkID scanning error: $errorMessage";
+          resetImages();
         });
       }
     }
@@ -306,6 +303,7 @@ class _MyAppState extends State<MyApp> {
           .performDirectApiScan(sdkSettings, sessionSettings, imageBase64)
           .then((result) {
             setState(() {
+              resetImages();
               if (result != null) {
                 resultString = BlinkIdResultBuilder.getIdResultString(result);
                 if (result.firstDocumentImage != null) {
@@ -326,10 +324,7 @@ class _MyAppState extends State<MyApp> {
               if (scanningError is PlatformException) {
                 final errorMessage = scanningError.message;
                 resultString = "BlinkID scanning error: $errorMessage";
-                firstDocumentImageBase64 = "";
-                secondDocumentImageBase64 = "";
-                faceImageBase64 = "";
-                signatureImageBase64 = "";
+                resetImages();
               }
             });
           });
@@ -338,9 +333,17 @@ class _MyAppState extends State<MyApp> {
         final errorMessage = blinkidScanningError.message;
         setState(() {
           resultString = "BlinkID scanning error: $errorMessage";
+          resetImages();
         });
       }
     }
+  }
+
+  void resetImages() {
+    firstDocumentImageBase64 = "";
+    secondDocumentImageBase64 = "";
+    faceImageBase64 = "";
+    signatureImageBase64 = "";
   }
 
   @override
