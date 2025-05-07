@@ -257,13 +257,13 @@ object BlinkIdDeserializationUtils {
         filteredClass: Map<String, Any>,
         classInfo: DocumentClassInfo
     ): Boolean {
-        val country = filteredClass["country"] as? Int
-        val region = filteredClass["region"] as? Int
-        val documentType = filteredClass["documentType"] as? Int
+        val country = filteredClass["country"] as? String
+        val region = filteredClass["region"] as? String
+        val documentType = filteredClass["documentType"] as? String
 
-        return (country == null || country == classInfo.country?.ordinal) &&
-                (region == null || region == classInfo.region?.ordinal) &&
-                (documentType == null || documentType == classInfo.type?.ordinal)
+        return (country == null || enumValueOf<Country>(country.replaceFirstChar { char -> char.uppercase() }) == classInfo.country) &&
+                (region == null || enumValueOf<Region>(region.replaceFirstChar { char -> char.uppercase() }) == classInfo.region) &&
+                (documentType == null || enumValueOf<Type>(documentType.replaceFirstChar { char -> char.uppercase() }) == classInfo.type)
     }
 
     fun base64ToBitmap(base64Str: String?): Bitmap? {
