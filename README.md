@@ -60,25 +60,29 @@ cd sample && flutter run
 4. Pick the platform to run the BlinkID SDK on.
 
 Note: the plugin can be run directly via Xcode (iOS) and Android Studio (Android):
-1. Open the `Runner.xcworkspace` in the path: `sample/ios/Runner.xcworkspace` to run the iOS sample application.
+1. Open the `Runner.xcodeproj` in the path: `sample/ios/Runner.xcodeproj` to run the iOS sample application.
 2. Open the `android` folder via Android Studio in the `sample` folder to run the Android sample application.
 
 
 ## <a name="plugin-integration"></a> Plugin integration
 
 1. To add the BlinkID plugin to a Flutter project, first create empty project if needed:
-```shell
+```bash
 flutter create project_name
 ```
+2. Since the native BlinkID iOS SDK is only distributed via Swift Package Manager, Flutter's Swift Package Manager support also needs to be enabled:
+```bash
+flutter config --enable-swift-package-manager
+```
 
-2. Add the blinkid_flutter dependency to your `pubspec.yaml` file:
+3. Add the blinkid_flutter dependency to your `pubspec.yaml` file:
 ```yaml
 dependencies:
   ...
   blinkid_flutter:
 ```
 
-3. Run the command to install the dependency:
+4. Run the command to install the dependency:
 ```bash
 flutter pub get
 ```
