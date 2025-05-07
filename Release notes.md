@@ -1,3 +1,66 @@
+## 7.1.0
+
+The version 7 release of the BlinkID SDK.
+- Updated to [Android SDK v7.1.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.1.0) and [iOS SDK v7.1.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.1.0)
+- For more information about the inital version 7release, see the release notes for the native SDKs for [Android](https://github.com/BlinkID/blinkid-android/releases/tag/v7.0.0) and [iOS](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.0.0).
+
+## Breaking changes
+- The plugin now requires:
+    - iOS version 16.0 and above.
+    - Android API version 24 and above.
+    - Flutter version 3.29 and above.
+
+- Class `MicroblinkScanner` has been renamed to `BlinkidFlutter`.
+- Method `scanWithCamera` has been renamed to `performScan`.
+- Method `scanWithDirectApi` has been renamed to `performDirectApiScan`.
+- Many of the older settings have been renamed to be more intuitive, for more information see the [blinkid_settings.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file.
+- See section **Version 7 plugin usage** for more details about how to use each method, and how to handle the scanned results.
+
+### Version 7 plugin usage
+**The `performScan` method**
+
+The `performScan` method launches the BlinkID scanning process with the default UX properties.\
+It takes the following parameters: 
+1. BlinkID SDK settings
+2. BlinkID session settings
+3. The optional ClassFilter object for filtering documents.
+
+**BlinkID SDK Settings** - `BlinkIdSdkSettings`: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
+
+**BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the `ScanningMode` and `BlinkIdScanningSettings`, which define various parameters that control the scanning process.
+
+The optional **ClassFilter** class - `ClassFilter`: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
+
+- The implementation of the `performScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
+
+**The `performDirectApiScanning` method**
+
+The `performDirectApiScan` method launches the BlinkID scanning process inteded for information extraction from static images.\
+It takes the following parameters: 
+1. BlinkID SDK settings
+2. BlinkID session settings
+3. First image string in the Base64 format
+4. The optional second image string in the Base64 format
+
+**BlinkID SDK Settings** - `BlinkIdSdkSettings`: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
+
+**BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
+
+The first image Base64 string - `String`: image that represents one side of the document. If the document contains two sides and the `ScanningMode` is set to `automatic`, this should contain the image of the front side of the document. In case the `ScanningMode` is set to `single`, it can be either the front or the back side of the document. If the document contains only one side (for example, various passports), the SDK will automatically detect it, and will not look for the other side.
+
+The optional second image Base64 string - `String`: needed if the information from back side of the document is required and the `ScanningMode` is set to `automatic`.
+
+- The implementation of the `performDirectApiScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
+
+**BlinkID result**
+
+- Both methods return the `BlinkIdScanningResult` object, which contains the results of scanning a document, including the extracted data and images from the document.
+
+- All of the available results can be viewed [here](https://github.com/BlinkID/blinkid-flutter/blob/feature/dart-types/BlinkID/lib/blinkid_result.dart).
+
+**Implementation guide**
+- A detailed guide about the integration and usage of the plugin can be viewed [here](https://github.com/BlinkID/blinkid-flutter/tree/master?tab=readme-ov-file#plugin-integration).
+
 ## 6.13.1
 
 **Bug fixes**

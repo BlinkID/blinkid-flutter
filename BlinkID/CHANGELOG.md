@@ -2,6 +2,7 @@
 
 The version 7 release of the BlinkID SDK.
 - Updated to [Android SDK v7.1.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.1.0) and [iOS SDK v7.1.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.1.0)
+- For more information about the inital version 7 release, see the release notes for the native SDKs for [Android](https://github.com/BlinkID/blinkid-android/releases/tag/v7.0.0) and [iOS](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.0.0).
 
 ## Breaking changes
 - The plugin now requires:
@@ -12,9 +13,10 @@ The version 7 release of the BlinkID SDK.
 - Class `MicroblinkScanner` has been renamed to `BlinkidFlutter`.
 - Method `scanWithCamera` has been renamed to `performScan`.
 - Method `scanWithDirectApi` has been renamed to `performDirectApiScan`.
+- Many of the older settings have been renamed to be more intuitive, for more information see the [blinkid_settings.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file.
 - See section **Version 7 plugin usage** for more details about how to use each method, and how to handle the scanned results.
 
-### Version 7 plugin usage
+## Version 7 plugin usage
 **The `performScan` method**
 
 The `performScan` method launches the BlinkID scanning process with the default UX properties.\
