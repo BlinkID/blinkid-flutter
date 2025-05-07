@@ -1,7 +1,9 @@
+import 'blinkid_flutter_platform_interface.dart';
 import 'package:blinkid_flutter/blinkid_result.dart';
 import 'package:blinkid_flutter/blinkid_settings.dart';
 
-import 'blinkid_flutter_platform_interface.dart';
+export './blinkid_settings.dart';
+export './blinkid_result.dart';
 
 /// BlinkidFlutter plugin exposes the appropriate native BlinkID module as a Flutter/Dart module,
 /// based on the detected platform: Android or iOS.

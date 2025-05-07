@@ -88,11 +88,9 @@ flutter pub get
 ```
 
 ## <a name="plugin-usage"></a> Plugin usage
-1. After the dependency has been added to the project, first add the necessary imports:
+1. After the dependency has been added to the project, first add the necessary import:
 ```dart
 import 'package:blinkid_flutter/blinkid_flutter.dart';
-import 'package:blinkid_flutter/blinkid_result.dart';
-import 'package:blinkid_flutter/blinkid_settings.dart';
 ```
 2. Initialize the BlinkID plugin:
 ```dart

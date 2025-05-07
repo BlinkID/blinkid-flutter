@@ -1,12 +1,12 @@
 // ignore_for_file: constant_identifier_names
 
 import 'dart:convert';
-import 'package:blinkid_flutter/blinkid_result.dart';
-import 'package:blinkid_flutter/blinkid_settings.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'blinkid_flutter_platform_interface.dart';
+import 'package:blinkid_flutter/blinkid_result.dart';
+import 'package:blinkid_flutter/blinkid_settings.dart';
 
 /// An implementation of [BlinkidFlutterPlatform] that uses method channels.
 ///

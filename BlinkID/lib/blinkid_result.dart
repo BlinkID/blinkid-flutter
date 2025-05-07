@@ -1,5 +1,5 @@
-import 'package:blinkid_flutter/blinkid_settings.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:blinkid_flutter/blinkid_settings.dart';
 
 /// Represents the results of scanning a document.
 ///

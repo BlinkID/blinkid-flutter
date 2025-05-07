@@ -1,12 +1,12 @@
 import 'dart:io';
-
-import 'package:blinkid_flutter/blinkid_settings.dart';
 import 'package:flutter/material.dart';
 import "dart:async";
 import 'package:flutter/services.dart';
-import 'package:blinkid_flutter/blinkid_flutter.dart';
 import "dart:convert";
 import 'package:image_picker/image_picker.dart';
+
+/// import the blinkid_flutter package
+import 'package:blinkid_flutter/blinkid_flutter.dart';
 import 'blinkid_result_builder.dart';
 
 void main() {
