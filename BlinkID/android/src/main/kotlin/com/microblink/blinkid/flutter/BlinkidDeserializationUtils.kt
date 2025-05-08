@@ -30,6 +30,7 @@ import kotlinx.parcelize.RawValue
 import android.graphics.Bitmap
 import android.util.Base64
 import com.microblink.blinkid.core.session.InputImageSource
+import com.microblink.blinkid.core.settings.DocumentNumberAnonymizationSettings
 import com.microblink.core.network.RequestTimeout
 
 object BlinkIdDeserializationUtils {
@@ -190,7 +191,8 @@ object BlinkIdDeserializationUtils {
                 customAnonymizationList.add(
                     DocumentAnonymizationSettings(
                         deserializeDocumentFilter(customAnonymizationSettingsMap["documentFilter"] as? Map<String, Any>),
-                        deserializedFields
+                        deserializedFields,
+                        deserializeDocumentNumberAnonymizationSettings(customAnonymizationSettingsMap["documentNumberAnonymizationSettings"] as? Map<String, Any>)
                     )
                 )
             } ?: continue
@@ -198,6 +200,13 @@ object BlinkIdDeserializationUtils {
         return customAnonymizationList
     }
 
+    private fun deserializeDocumentNumberAnonymizationSettings(documentNumberAnonymizationSettingsMap: Map<String, Any>?): DocumentNumberAnonymizationSettings? {
+        if (documentNumberAnonymizationSettingsMap == null) return null
+        return DocumentNumberAnonymizationSettings(
+            prefixDigitsVisible = (documentNumberAnonymizationSettingsMap["prefixDigitsVisible"] as? Int)?.toUByte() ?: 0u,
+            suffixDigitsVisible = (documentNumberAnonymizationSettingsMap["suffixDigitsVisible"] as? Int)?.toUByte() ?: 0u,
+        )
+    }
 
     private fun deserializeRecognitionModeFilter(recognitionModeFilterMap: Map<String, Any>?): RecognitionModeFilter {
         if (recognitionModeFilterMap == null) return RecognitionModeFilter()
