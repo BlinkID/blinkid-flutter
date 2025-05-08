@@ -124,7 +124,7 @@ class _MyAppState extends State<MyApp> {
       sessionSettings.scanningSettings = scanningSettings;
 
       /// CLASS FILTER
-      final classFilter = ClassFilter.withExcludedDocumentClasses([
+      final classFilter = ClassFilter.withIncludedDocumentClasses([
         DocumentFilter(Country.canada),
         DocumentFilter(Country.usa, Region.california),
       ]);

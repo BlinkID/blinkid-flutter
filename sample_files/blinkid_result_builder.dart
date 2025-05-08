@@ -77,7 +77,24 @@ class BlinkIdResultBuilder {
         buildStringResult(result.primaryID, "Primary ID") +
         buildStringResult(result.secondaryID, "Secondary ID") +
         buildDateResult(result.dateOfBirth, "Date of birth") +
-        buildDateResult(result.dateOfExpiry, "Date of expiry");
+        buildDateResult(result.dateOfExpiry, "Date of expiry") +
+        buildStringResult(result.rawMRZString, "Raw MRZ string") +
+        buildStringResult(
+          result.sanitizedDocumentCode,
+          "Sanitized document code",
+        ) +
+        buildStringResult(
+          result.sanitizedDocumentNumber,
+          "Sanitized document number",
+        ) +
+        buildStringResult(result.sanitizedIssuer, "Sanitized issuer") +
+        buildStringResult(
+          result.sanitizedNationality,
+          "Sanitized nationality",
+        ) +
+        buildStringResult(result.sanitizedOpt1, "Sanitized Opt1") +
+        buildStringResult(result.sanitizedOpt2, "Sanitized Opt2") +
+        buildStringResult(result.documentType?.toString(), "Document type");
 
     return resultString == "" ? "" : "MRZ result:\n$resultString\n";
   }
@@ -107,7 +124,16 @@ class BlinkIdResultBuilder {
         buildStringResult(result.personalIdNumber, "Personal ID number") +
         buildDateResult(result.dateOfBirth, "Date of birth") +
         buildDateResult(result.dateOfExpiry, "Date of expiry") +
-        buildDateResult(result.dateOfIssue, "Date of issue");
+        buildDateResult(result.dateOfIssue, "Date of issue") +
+        buildStringResult(result.middleName, "Middle name") +
+        buildStringResult(result.placeOfBirth, "Place of birth") +
+        buildStringResult(result.race, "Race") +
+        buildStringResult(result.religion, "Religion") +
+        buildStringResult(result.profession, "Profession") +
+        buildStringResult(result.residentialStatus, "Residential status") +
+        buildStringResult(result.sex, "Sex") +
+        buildAddressDetailedInfo(result.addressDetailedInfo) +
+        buildDriverLicenseInfo(result.driverLicenseDetailedInfo);
 
     return resultString == "" ? "" : "Barcode result:\n$resultString\n";
   }
@@ -118,30 +144,62 @@ class BlinkIdResultBuilder {
     }
     String resultString =
         buildResult(
-          result.additionalAddressInformation,
-          "Additional address information",
+          result.additionalOptionalAddressInformation,
+          "Additional optional address information",
         ) +
         buildResult(
-          result.additionalNameInformation,
-          "Additional name information",
+          result.additionalPersonalIdNumber,
+          "Additional personal ID number",
         ) +
-        buildResult(result.address, "Address") +
-        buildResult(result.bloodType, "Blood type") +
-        buildResult(result.documentNumber, "Document number") +
-        buildResult(result.documentSubtype, "Document subtype") +
-        buildResult(result.employer, "Employer") +
-        buildResult(result.firstName, "First name") +
-        buildResult(result.lastName, "Last name") +
-        buildResult(result.fullName, "Full name") +
-        buildResult(result.issuingAuthority, "Issuing authority") +
-        buildResult(result.maritalStatus, "Marital status") +
-        buildResult(result.nationality, "Nationality") +
-        buildResult(result.placeOfBirth, "Place of birth") +
-        buildDateResult(result.dateOfBirth, "Date of birth") +
-        buildDateResult(result.dateOfExpiry, "Date of expiry") +
-        buildDateResult(result.dateOfIssue, "Nationality");
+        buildResult(
+          result.documentAdditionalNumber,
+          "Document additional number",
+        ) +
+        buildResult(
+          result.documentOptionalAdditionalNumber,
+          "Document optional additional number",
+        ) +
+        buildResult(result.eligibilityCategory, "Eligibility category") +
+        buildResult(result.fathersName, "Father's name") +
+        buildResult(result.localizedName, "Localized name") +
+        buildResult(result.manufacturingYear, "Manufacturing year") +
+        buildResult(result.mothersName, "Mother's name") +
+        buildResult(result.personalIdNumber, "Personal ID number") +
+        buildResult(result.profession, "Profession") +
+        buildResult(result.race, "Race") +
+        buildResult(result.religion, "Religion") +
+        buildResult(result.remarks, "Remarks") +
+        buildResult(result.residencePermitType, "Residence permit type") +
+        buildResult(result.residentialStatus, "Residential status") +
+        buildResult(result.sex, "Sex") +
+        buildResult(
+          result.specificDocumentValidity,
+          "Specific document validity",
+        ) +
+        buildResult(result.sponsor, "Sponsor") +
+        buildResult(result.vehicleOwner, "Vehicle owner") +
+        buildResult(result.vehicleType, "Vehicle type") +
+        buildResult(result.visaType, "Visa type") +
+        buildDependentsInfoResult(result.dependentsInfo);
 
     return resultString == "" ? "" : "VIZ result:\n$resultString\n";
+  }
+
+  static String buildAddressDetailedInfo(AddressDetailedInfo? info) {
+    if (info == null) return "";
+    return buildStringResult(info.street, "Street") +
+        buildStringResult(info.city, "City") +
+        buildStringResult(info.postalCode, "Postal code") +
+        buildStringResult(info.jurisdiction, "Jurisdiction");
+  }
+
+  static String buildDriverLicenseInfo(
+    DriverLicenseDetailedInfo<String>? info,
+  ) {
+    if (info == null) return "";
+    return buildStringResult(info.restrictions, "Restrictions") +
+        buildStringResult(info.endorsements, "Endorsements") +
+        buildStringResult(info.vehicleClass, "Vehicle class");
   }
 
   static String buildResult(StringResult? result, String propertyName) {
@@ -210,5 +268,22 @@ class BlinkIdResultBuilder {
       dataMatchResultString += "${field.field?.name}: ${field.state?.name}\n";
     }
     return dataMatchResultString;
+  }
+
+  static String buildDependentsInfoResult(
+    List<DependentInfo>? dependentInfoResult,
+  ) {
+    if (dependentInfoResult == null) return "";
+
+    String resultString = "";
+    for (DependentInfo dependentInfo in dependentInfoResult) {
+      resultString +=
+          buildResult(dependentInfo.documentNumber, "Document number") +
+          buildResult(dependentInfo.fullName, "Full name") +
+          buildResult(dependentInfo.sex, "Sex") +
+          buildDateResult(dependentInfo.dateOfBirth, "Date of birth");
+    }
+
+    return resultString == "" ? "" : "Dependent info:\n$resultString";
   }
 }

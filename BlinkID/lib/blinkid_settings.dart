@@ -376,8 +376,8 @@ class ClassFilter {
   ///  ```
   ///   final classFilter = ClassFilter();
   ///    classFilter.includeDocuments = [
-  ///      DocumentFilter.country(Country.Usa),
-  ///      DocumentFilter.countryType(Country.Croatia, DocumentType.Id),
+  ///      DocumentFilter.country(Country.usa),
+  ///      DocumentFilter.countryType(Country.croatia, DocumentType.id),
   ///    ];
   ///
   ///    await blinkIdPlugin.performScan(sdkSettings, sessionSettings classFilter)
@@ -402,8 +402,8 @@ class ClassFilter {
   ///  ```
   ///   final classFilter = ClassFilter();
   ///    classFilter.excludeDocuments = [
-  ///      DocumentFilter.country(Country.Usa),
-  ///      DocumentFilter.countryType(Country.Croatia, DocumentType.Id),
+  ///      DocumentFilter.country(Country.usa),
+  ///      DocumentFilter.countryType(Country.croatia, DocumentType.id),
   ///    ];
   ///
   ///    await blinkIdPlugin.performScan(sdkSettings, sessionSettings classFilter)
