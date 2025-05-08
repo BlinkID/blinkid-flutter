@@ -24,8 +24,11 @@ class _MyAppState extends State<MyApp> {
   String resultString = "";
   String firstDocumentImageBase64 = "";
   String secondDocumentImageBase64 = "";
+  String firstInputImageBase64 = "";
+  String secondInputImageBase64 = "";
   String faceImageBase64 = "";
   String signatureImageBase64 = "";
+  String barcodeInputImageBase64 = "";
   String sdkLicenseKey = "";
 
   final blinkIdPlugin = BlinkidFlutter();
@@ -61,6 +64,7 @@ class _MyAppState extends State<MyApp> {
       scanningSettings.glareDetectionLevel = DetectionLevel.mid;
       scanningSettings.skipImagesOccludedByHand = false;
       scanningSettings.skipImagesWithInadequateLightingConditions = false;
+      scanningSettings.returnInputImages = true;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
@@ -148,6 +152,15 @@ class _MyAppState extends State<MyApp> {
                 }
                 if (result.signatureImage != null) {
                   signatureImageBase64 = result.signatureImage!.image!;
+                }
+                if (result.firstInputImage != null) {
+                  firstInputImageBase64 = result.firstInputImage!;
+                }
+                if (result.secondInputImage != null) {
+                  secondInputImageBase64 = result.secondInputImage!;
+                }
+                if (result.barcodeInputImage != null) {
+                  barcodeInputImageBase64 = result.barcodeInputImage!;
                 }
               }
             });
@@ -376,6 +389,45 @@ class _MyAppState extends State<MyApp> {
         ],
       );
     }
+    Widget firstInputImage = Container();
+    if (firstInputImageBase64 != "") {
+      firstInputImage = Column(
+        children: <Widget>[
+          Text("First input image:"),
+          Image.memory(
+            Base64Decoder().convert(firstInputImageBase64),
+            height: 180,
+            width: 350,
+          ),
+        ],
+      );
+    }
+    Widget secondInputImage = Container();
+    if (secondDocumentImageBase64 != "") {
+      secondInputImage = Column(
+        children: <Widget>[
+          Text("Second input image:"),
+          Image.memory(
+            Base64Decoder().convert(secondInputImageBase64),
+            height: 180,
+            width: 350,
+          ),
+        ],
+      );
+    }
+    Widget barcodeInputImage = Container();
+    if (barcodeInputImageBase64 != "") {
+      barcodeInputImage = Column(
+        children: <Widget>[
+          Text("Barcode input image:"),
+          Image.memory(
+            Base64Decoder().convert(barcodeInputImageBase64),
+            height: 180,
+            width: 350,
+          ),
+        ],
+      );
+    }
 
     Widget faceImage = Container();
     if (faceImageBase64 != "") {
@@ -478,6 +530,9 @@ class _MyAppState extends State<MyApp> {
                   Text(resultString),
                   firstDocumentImage,
                   secondDocumentImage,
+                  firstInputImage,
+                  secondInputImage,
+                  barcodeInputImage,
                   faceImage,
                   signatureImage,
                 ],
