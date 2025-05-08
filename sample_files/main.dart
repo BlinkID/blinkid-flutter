@@ -38,10 +38,10 @@ class _MyAppState extends State<MyApp> {
     /// A valid license key can be obtained from the Microblink Developer Hub, here: https://developer.microblink.com
     if (Platform.isAndroid) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTkRRNE56UTBOVEEzTURrc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9PQFqJ4q5cbrifIIzl/hZUv6kE1yuVi9JtleDjJowLJ8dNiwAGk1UsePWt8CO8WUH/+i1YBKciSxRfqFkTiMpPsLKEGvQ1zVG+3HZ4C4PMTwSEgtFu7HayF1P6Z7Bsb0=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTkRZM01ETXhOREEwTkRnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PRa9SyKj7hAPz1SXQtyKj4KqR7EaKJiHiKtUjMvnpse12U2wrgGGOd4w61PGSxu0C+lp3pS+oHB0LNlHXKaVu2n9VsKWnPtEymQflYdUM4LjlsYhdzuOg8WBsvpvrA==";
     } else if (Platform.isIOS) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTkRReE1ETTFOell6TVRjc0lrTnlaV0YwWldSR2IzSWlPaUkwT1RabFpEQXpaUzAwT0RBeExUUXpZV1F0WVRrMU5DMDBNemMyWlRObU9UTTVNR1FpZlE9Pa1EwEJ3KLtMGjfmgRGOpUrMLWyfJe7tCCCLMuyeuP25X0o8dUrLuPg+7SIra6+iruDS6gp8ksWoJ6jr3E1by7OALtyBtgV2jj16iY8GZM6nDBl+gBjDjPZu7qxD3yo=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTkRZM01ETXhNREk1T0RRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PZj1qzwW3YWd5hB0gRmxRAs1HcAzNYHM32LNFCsjU8syiBzQqljDpF9KFwmvmwrOaFfyggW5qd+vc2DZWZanqcrs2ApDoHhhRa3b2MEOe3QvVHsoR1u6tl9QDAewWQ==";
     }
   }
 
@@ -59,6 +59,8 @@ class _MyAppState extends State<MyApp> {
       final scanningSettings = BlinkIdScanningSettings();
       // scanningSettings.anonymizationMode = AnonymizationMode.none;
       scanningSettings.glareDetectionLevel = DetectionLevel.mid;
+      scanningSettings.skipImagesOccludedByHand = false;
+      scanningSettings.skipImagesWithInadequateLightingConditions = false;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
@@ -183,8 +185,6 @@ class _MyAppState extends State<MyApp> {
       // Convert the picked image to the Base64 format
       String backImageBase64 = base64Encode(await images[1].readAsBytes());
 
-      final blinkIdPlugin = BlinkidFlutter();
-
       /// Set the BlinkID SDK settings
       final sdkSettings = BlinkIdSdkSettings(sdkLicenseKey);
       sdkSettings.downloadResources = true;
@@ -195,8 +195,12 @@ class _MyAppState extends State<MyApp> {
 
       /// Create and modify the scanning settings
       final scanningSettings = BlinkIdScanningSettings();
-      scanningSettings.anonymizationMode = AnonymizationMode.none;
+      scanningSettings.anonymizationMode = AnonymizationMode.fullResult;
       scanningSettings.glareDetectionLevel = DetectionLevel.mid;
+
+      /// Uncomment the following line if you are passing input images
+      /// that consist solely of the cropped document image.
+      // scanningSettings.scanCroppedDocumentImage = true;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
@@ -266,8 +270,6 @@ class _MyAppState extends State<MyApp> {
       // Convert the picked image to the Base64 format
       String imageBase64 = base64Encode(await image.readAsBytes());
 
-      final blinkIdPlugin = BlinkidFlutter();
-
       /// Set the BlinkID SDK settings
       final sdkSettings = BlinkIdSdkSettings(sdkLicenseKey);
       sdkSettings.downloadResources = true;
@@ -278,8 +280,12 @@ class _MyAppState extends State<MyApp> {
 
       /// Create and modify the scanning settings
       final scanningSettings = BlinkIdScanningSettings();
-      scanningSettings.anonymizationMode = AnonymizationMode.none;
+      scanningSettings.anonymizationMode = AnonymizationMode.fullResult;
       scanningSettings.glareDetectionLevel = DetectionLevel.mid;
+
+      /// Uncomment the following line if you are passing input images
+      /// that consist solely of the cropped document image.
+      // scanningSettings.scanCroppedDocumentImage = true;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
