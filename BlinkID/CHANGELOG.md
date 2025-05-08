@@ -1,7 +1,7 @@
-## 7.1.0
+## 7.2.0
 
 The version 7 release of the BlinkID SDK.
-- Updated to [Android SDK v7.1.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.1.0) and [iOS SDK v7.1.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.1.0)
+- Updated to [Android SDK v7.2.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.2.0) and [iOS SDK v7.2.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.2.0)
 - For more information about the inital version 7 release, see the release notes for the native SDKs for [Android](https://github.com/BlinkID/blinkid-android/releases/tag/v7.0.0) and [iOS](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.0.0).
 
 ## Breaking changes
