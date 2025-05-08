@@ -141,27 +141,7 @@ class _MyAppState extends State<MyApp> {
             setState(() {
               if (result != null) {
                 resultString = BlinkIdResultBuilder.getIdResultString(result);
-                if (result.firstDocumentImage != null) {
-                  firstDocumentImageBase64 = result.firstDocumentImage!;
-                }
-                if (result.secondDocumentImage != null) {
-                  secondDocumentImageBase64 = result.secondDocumentImage!;
-                }
-                if (result.faceImage != null) {
-                  faceImageBase64 = result.faceImage!.image!;
-                }
-                if (result.signatureImage != null) {
-                  signatureImageBase64 = result.signatureImage!.image!;
-                }
-                if (result.firstInputImage != null) {
-                  firstInputImageBase64 = result.firstInputImage!;
-                }
-                if (result.secondInputImage != null) {
-                  secondInputImageBase64 = result.secondInputImage!;
-                }
-                if (result.barcodeInputImage != null) {
-                  barcodeInputImageBase64 = result.barcodeInputImage!;
-                }
+                setImages(result);
               }
             });
           })
@@ -240,18 +220,7 @@ class _MyAppState extends State<MyApp> {
               resetImages();
               if (result != null) {
                 resultString = BlinkIdResultBuilder.getIdResultString(result);
-                if (result.firstDocumentImage != null) {
-                  firstDocumentImageBase64 = result.firstDocumentImage!;
-                }
-                if (result.secondDocumentImage != null) {
-                  secondDocumentImageBase64 = result.secondDocumentImage!;
-                }
-                if (result.faceImage != null) {
-                  faceImageBase64 = result.faceImage!.image!;
-                }
-                if (result.signatureImage != null) {
-                  signatureImageBase64 = result.signatureImage!.image!;
-                }
+                setImages(result);
               }
             });
           })
@@ -320,16 +289,7 @@ class _MyAppState extends State<MyApp> {
               resetImages();
               if (result != null) {
                 resultString = BlinkIdResultBuilder.getIdResultString(result);
-                if (result.firstDocumentImage != null) {
-                  firstDocumentImageBase64 = result.firstDocumentImage!;
-                }
-                secondDocumentImageBase64 = "";
-                if (result.faceImage != null) {
-                  faceImageBase64 = result.faceImage!.image!;
-                }
-                if (result.signatureImage != null) {
-                  signatureImageBase64 = result.signatureImage!.image!;
-                }
+                setImages(result);
               }
             });
           })
@@ -353,9 +313,35 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  void setImages(BlinkIdScanningResult? result) {
+    if (result?.firstDocumentImage != null) {
+      firstDocumentImageBase64 = result!.firstDocumentImage!;
+    }
+    if (result?.secondDocumentImage != null) {
+      secondDocumentImageBase64 = result!.secondDocumentImage!;
+    }
+    if (result?.faceImage != null) {
+      faceImageBase64 = result!.faceImage!.image!;
+    }
+    if (result?.signatureImage != null) {
+      signatureImageBase64 = result!.signatureImage!.image!;
+    }
+    if (result?.firstInputImage != null) {
+      firstInputImageBase64 = result!.firstInputImage!;
+    }
+    if (result?.secondInputImage != null) {
+      secondInputImageBase64 = result!.secondInputImage!;
+    }
+    if (result?.barcodeInputImage != null) {
+      barcodeInputImageBase64 = result!.barcodeInputImage!;
+    }
+  }
+
   void resetImages() {
     firstDocumentImageBase64 = "";
     secondDocumentImageBase64 = "";
+    firstInputImageBase64 = "";
+    secondInputImageBase64 = "";
     faceImageBase64 = "";
     signatureImageBase64 = "";
   }
@@ -403,7 +389,7 @@ class _MyAppState extends State<MyApp> {
       );
     }
     Widget secondInputImage = Container();
-    if (secondDocumentImageBase64 != "") {
+    if (secondInputImageBase64 != "") {
       secondInputImage = Column(
         children: <Widget>[
           Text("Second input image:"),
