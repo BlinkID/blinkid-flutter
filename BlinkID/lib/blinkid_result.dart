@@ -1042,13 +1042,13 @@ class VizResult {
   StringResult? bloodType;
 
   /// The date of birth of the document owner.
-  DateResult? dateOfBirth;
+  DateResult<StringResult>? dateOfBirth;
 
   /// The date of issue of the document.
-  DateResult? dateOfIssue;
+  DateResult<StringResult>? dateOfIssue;
 
   /// The date of expiry of the document.
-  DateResult? dateOfExpiry;
+  DateResult<StringResult>? dateOfExpiry;
 
   /// Determines if date of expiry is permanent.
   bool? dateOfExpiryPermanent;
@@ -1141,19 +1141,19 @@ class VizResult {
     bloodType = createStringResult(nativeVizResult, 'bloodType');
     dateOfBirth =
         nativeVizResult["dateOfBirth"] != null
-            ? DateResult(
+            ? DateResult<StringResult>(
               Map<String, dynamic>.from(nativeVizResult["dateOfBirth"]),
             )
             : null;
     dateOfIssue =
         nativeVizResult["dateOfIssue"] != null
-            ? DateResult(
+            ? DateResult<StringResult>(
               Map<String, dynamic>.from(nativeVizResult["dateOfIssue"]),
             )
             : null;
     dateOfExpiry =
         nativeVizResult["dateOfExpiry"] != null
-            ? DateResult(
+            ? DateResult<StringResult>(
               Map<String, dynamic>.from(nativeVizResult["dateOfExpiry"]),
             )
             : null;
