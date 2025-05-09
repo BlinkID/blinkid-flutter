@@ -226,8 +226,21 @@ class BlinkIdResultBuilder {
     if (result == null || result.value == null || result!.value!.isEmpty) {
       return "";
     }
+    String resultString = "";
+    if (result.latin != null || result.latin!.isNotEmpty) {
+      resultString += "${result.latin} ";
+    }
 
-    return "$propertyName: ${result.value!}\n";
+    if (result.arabic != null || result.arabic!.isNotEmpty) {
+      resultString += "${result.arabic} ";
+    }
+    if (result.cyrillic != null || result.cyrillic!.isNotEmpty) {
+      resultString += "${result.cyrillic} ";
+    }
+    if (result.greek != null || result.greek!.isNotEmpty) {
+      resultString += "${result.greek} ";
+    }
+    return "$propertyName: $resultString\n";
   }
 
   static String buildDocumentClassInfoResult(DocumentClassInfo? result) {
