@@ -587,21 +587,13 @@ class DocumentNumberAnonymizationSettings {
   /// This results that no digits within the document number will be visible.
   DocumentNumberAnonymizationSettings();
 
-  /// Represents the document number anonymization settings, additionally with setting the `prefixDigitsVisible`.
-  DocumentNumberAnonymizationSettings.withPrefixDigitsVisible(
-    this.prefixDigitsVisible,
-  );
-
-  /// Represents the document number anonymization settings, additionally with setting the `suffixDigitsVisible`.
-  DocumentNumberAnonymizationSettings.withsuffixDigitsVisible(
-    this.suffixDigitsVisible,
-  );
-
   /// Represents the document number anonymization settings, additionally with setting both `prefixDigitsVisible` and `suffixDigitsVisible`.
-  DocumentNumberAnonymizationSettings.withAllParameters(
-    this.prefixDigitsVisible,
-    this.suffixDigitsVisible,
-  );
+  /// If any parameter is null, the value of the parameter will set to `0`.
+  DocumentNumberAnonymizationSettings.withAllParameters([
+    int? prefixDigitsVisible,
+    int? suffixDigitsVisible,
+  ]) : prefixDigitsVisible = prefixDigitsVisible ?? 0,
+       suffixDigitsVisible = suffixDigitsVisible ?? 0;
 
   factory DocumentNumberAnonymizationSettings.fromJson(
     Map<String, dynamic> json,

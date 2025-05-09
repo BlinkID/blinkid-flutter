@@ -62,6 +62,8 @@ class _MyAppState extends State<MyApp> {
       final scanningSettings = BlinkIdScanningSettings();
       // scanningSettings.anonymizationMode = AnonymizationMode.none;
       scanningSettings.glareDetectionLevel = DetectionLevel.mid;
+      scanningSettings.skipImagesOccludedByHand = false;
+      scanningSettings.skipImagesWithInadequateLightingConditions = false;
       scanningSettings.returnInputImages = true;
 
       /// Create and modify the Image settings
@@ -98,7 +100,7 @@ class _MyAppState extends State<MyApp> {
       final additionalAnonSettings = DocumentAnonymizationSettings(
         [FieldType.firstName, FieldType.address],
         filter,
-        DocumentNumberAnonymizationSettings.withAllParameters(1, 2),
+        DocumentNumberAnonymizationSettings.withAllParameters(null, 2),
       );
 
       final additionalAnonSettingsTwo = DocumentAnonymizationSettings([
@@ -191,7 +193,8 @@ class _MyAppState extends State<MyApp> {
 
       /// Uncomment the following line if you are passing input images
       /// that consist solely of the cropped document image.
-      // scanningSettings.scanCroppedDocumentImage = true;
+      scanningSettings.scanCroppedDocumentImage = true;
+      scanningSettings.enableBarcodeScanOnly = true;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
@@ -265,7 +268,7 @@ class _MyAppState extends State<MyApp> {
 
       /// Uncomment the following line if you are passing input images
       /// that consist solely of the cropped document image.
-      // scanningSettings.scanCroppedDocumentImage = true;
+      scanningSettings.scanCroppedDocumentImage = true;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
