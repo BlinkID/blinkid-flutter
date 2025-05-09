@@ -13,7 +13,7 @@ The version 7 release of the BlinkID SDK.
 - Class `MicroblinkScanner` has been renamed to `BlinkidFlutter`.
 - Method `scanWithCamera` has been renamed to `performScan`.
 - Method `scanWithDirectApi` has been renamed to `performDirectApiScan`.
-- Many of the older settings have been renamed to be more intuitive, for more information see the [blinkid_settings.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file.
+- Many of the older settings have been renamed to be more intuitive, for more information see the [blinkid_settings.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file, and the native documentation for [Android](https://blinkid.github.io/blinkid-android/blinkid-core/com.microblink.blinkid.core/index.html) and [iOS](https://blinkid.github.io/blinkid-swift-package/documentation/blinkid/).
 - See section **Version 7 plugin usage** for more details about how to use each method, and how to handle the scanned results.
 
 ## Version 7 plugin usage
@@ -60,6 +60,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 **Implementation guide**
 - A detailed guide about the integration and usage of the plugin can be viewed [here](https://github.com/BlinkID/blinkid-flutter/tree/master?tab=readme-ov-file#plugin-integration).
+- The sample application which demonstrates the usage of the SDK can be found in the [main.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/sample_files/main.dart) file.
 
 ## 6.1.2
 - Fixed date and `documentDataMatch` errors

@@ -572,7 +572,6 @@ object BlinkIdSerializationUtils {
         detailedCroppedImageResult?.location?.let {
             detailedCroppedImageResultDict["location"] = serializeLocation(it)
         }
-        println("detailedCroppedImageResultDict[\"location\"]" + detailedCroppedImageResultDict["location"])
         detailedCroppedImageResult?.side?.let {
             detailedCroppedImageResultDict["side"] = it.ordinal
         }
