@@ -62,8 +62,6 @@ class _MyAppState extends State<MyApp> {
       final scanningSettings = BlinkIdScanningSettings();
       // scanningSettings.anonymizationMode = AnonymizationMode.none;
       scanningSettings.glareDetectionLevel = DetectionLevel.mid;
-      scanningSettings.skipImagesOccludedByHand = false;
-      scanningSettings.skipImagesWithInadequateLightingConditions = false;
       scanningSettings.returnInputImages = true;
 
       /// Create and modify the Image settings

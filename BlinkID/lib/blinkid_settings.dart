@@ -155,8 +155,8 @@ class BlinkIdScanningSettings {
   ///     - If inadequate light conditions are detected `ProcessingStatus` will be `ImagePreprocessingFailed` and lighting status will be
   ///       reported in the `ProcessResult`.
   ///
-  /// Default: `false`
-  bool skipImagesWithInadequateLightingConditions = false;
+  /// Default: `true`
+  bool skipImagesWithInadequateLightingConditions = true;
 
   /// Indicates whether images occluded by hand should be rejected.
   ///
@@ -165,8 +165,8 @@ class BlinkIdScanningSettings {
   ///       in the `ProcessResult`
   /// This setting is applicable only if `scanCroppedDocumentImage` = false.
   ///
-  /// Default: `false`
-  bool skipImagesOccludedByHand = false;
+  /// Default: `true`
+  bool skipImagesOccludedByHand = true;
 
   /// Indicates whether the aggregation of data from multiple images is enabled.
   ///

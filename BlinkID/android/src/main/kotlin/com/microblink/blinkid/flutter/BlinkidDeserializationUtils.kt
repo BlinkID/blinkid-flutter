@@ -76,9 +76,9 @@ object BlinkIdDeserializationUtils {
             tiltDetectionLevel = DetectionLevel.entries[scanningSettingsMap["tiltDetectionLevel"] as? Int
                 ?: DetectionLevel.Off.ordinal],
             skipImagesWithInadequateLightingConditions = scanningSettingsMap["skipImagesWithInadequateLightingConditions"] as? Boolean
-                ?: false,
+                ?: true,
             skipImagesOccludedByHand = scanningSettingsMap["skipImagesOccludedByHand"] as? Boolean
-                ?: false,
+                ?: true,
             combineResultsFromMultipleInputImages = scanningSettingsMap["combineResultsFromMultipleInputImages"] as? Boolean
                 ?: true,
             enableBarcodeScanOnly = scanningSettingsMap["enableBarcodeScanOnly"] as? Boolean
