@@ -127,13 +127,15 @@ class BlinkIdResultBuilder {
         buildDateResult(result.dateOfIssue, "Date of issue") +
         buildStringResult(result.middleName, "Middle name") +
         buildStringResult(result.placeOfBirth, "Place of birth") +
+        buildStringResult(result.personalIdNumber, "Personal ID number") +
         buildStringResult(result.race, "Race") +
         buildStringResult(result.religion, "Religion") +
         buildStringResult(result.profession, "Profession") +
         buildStringResult(result.residentialStatus, "Residential status") +
         buildStringResult(result.sex, "Sex") +
         buildAddressDetailedInfo(result.addressDetailedInfo) +
-        buildDriverLicenseInfo(result.driverLicenseDetailedInfo);
+        buildDriverLicenseInfo(result.driverLicenseDetailedInfo) +
+        buildBarcodeData(result.barcodeData);
 
     return resultString == "" ? "" : "Barcode result:\n$resultString\n";
   }
@@ -143,6 +145,23 @@ class BlinkIdResultBuilder {
       return "";
     }
     String resultString =
+        buildResult(result.firstName, "First name") +
+        buildResult(result.lastName, "Last name") +
+        buildResult(result.fullName, "Full name") +
+        buildResult(result.address, "Address") +
+        buildResult(result.placeOfBirth, "Place of birth") +
+        buildResult(result.nationality, "Nationality") +
+        buildResult(result.maritalStatus, "Marital status") +
+        buildResult(result.residentialStatus, "Residential status") +
+        buildResult(result.employer, "Employer") +
+        buildResult(result.sponsor, "Sponsor") +
+        buildResult(result.bloodType, "Blood type") +
+        buildDateResult(result.dateOfBirth, "Date of birth") +
+        buildDateResult(result.dateOfExpiry, "Date of expiry") +
+        buildDateResult(result.dateOfIssue, "Date of issue") +
+        buildResult(result.documentNumber, "Document number") +
+        buildResult(result.issuingAuthority, "Issuing authority") +
+        buildResult(result.documentSubtype, "Document subtype") +
         buildResult(
           result.additionalOptionalAddressInformation,
           "Additional optional address information",
@@ -164,6 +183,7 @@ class BlinkIdResultBuilder {
         buildResult(result.localizedName, "Localized name") +
         buildResult(result.manufacturingYear, "Manufacturing year") +
         buildResult(result.mothersName, "Mother's name") +
+        buildResult(result.fathersName, "Father's name") +
         buildResult(result.personalIdNumber, "Personal ID number") +
         buildResult(result.profession, "Profession") +
         buildResult(result.race, "Race") +
@@ -285,5 +305,18 @@ class BlinkIdResultBuilder {
     }
 
     return resultString == "" ? "" : "Dependent info:\n$resultString";
+  }
+
+  static String buildBarcodeData(BarcodeData? barcodeDataResult) {
+    if (barcodeDataResult == null) return "";
+    return buildStringResult(
+          barcodeDataResult.barcodeType.toString(),
+          "Barcode type",
+        ) +
+        buildStringResult(barcodeDataResult.stringData, "Barcode string data") +
+        buildStringResult(
+          barcodeDataResult.uncertain.toString(),
+          "Barcode uncertain",
+        );
   }
 }
