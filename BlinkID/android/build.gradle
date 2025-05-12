@@ -1,45 +1,69 @@
-group 'com.microblink.blinkid.flutter'
-version '1.0'
+group = "com.microblink.blinkid_flutter"
+version = "1.0"
 
 buildscript {
+    ext.kotlin_version = "2.1.0"
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.8.2'
+        classpath("com.android.tools.build:gradle:8.9.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
 }
-
-rootProject.allprojects {
+allprojects {
     repositories {
         google()
-        jcenter()
-        maven { url 'https://maven.microblink.com' }
+        mavenCentral()
     }
 }
 
-apply plugin: 'com.android.library'
+apply plugin: "com.android.library"
+apply plugin: "kotlin-android"
+apply plugin: 'kotlin-parcelize'
 
 android {
-    
-    if (project.android.hasProperty("namespace")) {
-        namespace 'com.microblink.blinkid.flutter'
+    namespace = "com.microblink.blinkid.flutter"
+
+    compileSdk = 35
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    compileSdkVersion 34
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_17
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
 
     defaultConfig {
-        minSdkVersion 21
+        minSdk = 24
+        targetSdk = 35
     }
-    lintOptions {
-        disable 'InvalidPackage'
+
+    dependencies {
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.mockito:mockito-core:5.1.1")
+        implementation("com.microblink:blinkid-ux:7.2.0")
+
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+               events "passed", "skipped", "failed", "standardOut", "standardError"
+               outputs.upToDateWhen {false}
+               showStandardStreams = true
+            }
+        }
     }
 }
-
-dependencies {
-    implementation('com.microblink:blinkid:6.13.0@aar') {
-        transitive = true
-    }
-}
-

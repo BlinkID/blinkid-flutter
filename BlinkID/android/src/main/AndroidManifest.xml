@@ -1,7 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-  <application>
-    <activity android:name="com.microblink.activity.DocumentScanActivity" android:noHistory="true" />
-    <activity android:name="com.microblink.activity.DocumentVerificationActivity" android:noHistory="true" />
-    <activity android:name="com.microblink.activity.BlinkIdActivity" android:noHistory="true" />
-  </application>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="com.microblink.blinkid.flutter">
 </manifest>
