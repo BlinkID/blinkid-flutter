@@ -21,16 +21,22 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  String sdkLicenseKey = "";
   String resultString = "";
+
   String firstDocumentImageBase64 = "";
   String secondDocumentImageBase64 = "";
-  String firstInputImageBase64 = "";
-  String secondInputImageBase64 = "";
   String faceImageBase64 = "";
   String signatureImageBase64 = "";
-  String barcodeInputImageBase64 = "";
-  String sdkLicenseKey = "";
 
+  String firstInputImageBase64 = "";
+  String secondInputImageBase64 = "";
+  String barcodeInputImageBase64 = "";
+
+  /// Initialize the BlinkID plugin
+  ///
+  /// It will be used both for the default UX scan (performScan method),
+  /// and the DirectAPI scan (directApiMultiSideScan and directApiSingleSideScan methods).
   final blinkIdPlugin = BlinkidFlutter();
 
   @override
@@ -60,11 +66,9 @@ class _MyAppState extends State<MyApp> {
 
       /// Create and modify the scanning settings
       final scanningSettings = BlinkIdScanningSettings();
-      // scanningSettings.anonymizationMode = AnonymizationMode.none;
+      scanningSettings.anonymizationMode = AnonymizationMode.fullResult;
       scanningSettings.glareDetectionLevel = DetectionLevel.mid;
-      scanningSettings.skipImagesOccludedByHand = false;
-      scanningSettings.skipImagesWithInadequateLightingConditions = false;
-      scanningSettings.returnInputImages = true;
+      scanningSettings.blurDetectionLevel = DetectionLevel.mid;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
@@ -75,65 +79,18 @@ class _MyAppState extends State<MyApp> {
       /// Place the image settings in the scanning settings
       scanningSettings.croppedImageSettings = imageSettings;
 
-      final filter = DocumentFilter(Country.croatia);
-      final filterTwo = DocumentFilter(
-        null,
-        Region.california,
-        DocumentType.dl,
-      );
-
-      /// DOCUMENT RULES
-      final documentRules = [
-        DocumentRules([
-          DetailedFieldType(FieldType.address, AlphabetType.latin),
-          DetailedFieldType(FieldType.firstName, AlphabetType.latin),
-        ], filter),
-        DocumentRules([
-          DetailedFieldType(FieldType.address, AlphabetType.latin),
-          DetailedFieldType(FieldType.firstName, AlphabetType.latin),
-        ], filterTwo),
-      ];
-
-      scanningSettings.customDocumentRules = documentRules;
-
-      /// ADDITIONAL ANONYMIZATION SETTINGS
-      final additionalAnonSettings = DocumentAnonymizationSettings(
-        [FieldType.firstName, FieldType.address],
-        filter,
-        DocumentNumberAnonymizationSettings.withAllParameters(null, 2),
-      );
-
-      final additionalAnonSettingsTwo = DocumentAnonymizationSettings([
-        FieldType.bloodType,
-        FieldType.address,
-      ]);
-
-      scanningSettings.customDocumentAnonymizationSettings = [
-        additionalAnonSettings,
-        additionalAnonSettingsTwo,
-      ];
-
-      /// RECOGNITION MODE FILTER
-      final recognitionModeFilter = RecognitionModeFilter();
-      recognitionModeFilter.enableBarcodeId = true;
-      recognitionModeFilter.enableFullDocumentRecognition = true;
-      recognitionModeFilter.enableMrzId = true;
-      recognitionModeFilter.enableMrzPassport = true;
-      recognitionModeFilter.enableMrzVisa = true;
-      recognitionModeFilter.enablePhotoId = true;
-
-      scanningSettings.recognitionModeFilter = recognitionModeFilter;
-
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
 
-      /// CLASS FILTER
+      /// Place the optional ClassFilter class
+      /// The filter is currently modified to only accept Canada documents, and USA California documents
       final classFilter = ClassFilter.withIncludedDocumentClasses([
         DocumentFilter(Country.canada),
         DocumentFilter(Country.usa, Region.california),
       ]);
 
-      /// call the 'performScan' method and handle the results
+      /// Call the 'performScan' method and handle the results
+      /// Check how the results are handled in the blinkid_result_builder.dart file
       await blinkIdPlugin
           .performScan(sdkSettings, sessionSettings) //, classFilter)
           .then((result) {
@@ -167,15 +124,15 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> directApiMultiSideScan() async {
     try {
-      // Get the front and the back side of the document with the pickMultiImage method
-      // First select the front and the then back side of the image
+      /// Get the front and the back side of the document with the pickMultiImage method
+      /// First select the front and the then back side of the image
       final images = await ImagePicker().pickMultiImage();
 
-      // Convert the first picked image to the Base64 format
+      /// Convert the first picked image to the Base64 format
       String frontImageBase64 = base64Encode(await images[0].readAsBytes());
 
-      // Get the second selected image as the back side of the document
-      // Convert the picked image to the Base64 format
+      /// Get the second selected image as the back side of the document
+      /// Convert the picked image to the Base64 format
       String backImageBase64 = base64Encode(await images[1].readAsBytes());
 
       /// Set the BlinkID SDK settings
@@ -193,8 +150,8 @@ class _MyAppState extends State<MyApp> {
 
       /// Uncomment the following line if you are passing input images
       /// that consist solely of the cropped document image.
-      scanningSettings.scanCroppedDocumentImage = true;
-      scanningSettings.enableBarcodeScanOnly = true;
+      ///
+      /// scanningSettings.scanCroppedDocumentImage = true;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
@@ -208,7 +165,8 @@ class _MyAppState extends State<MyApp> {
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
 
-      /// call the 'performScan' method and handle the results
+      /// Call the 'performDirectApiScan' method and handle the results
+      /// Check how the results are handled in the blinkid_result_builder.dart file
       await blinkIdPlugin
           .performDirectApiScan(
             sdkSettings,
@@ -247,10 +205,11 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> directApiSingleSideScan() async {
     try {
+      /// Get either the front or the back side of the document with the pickImage method
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (image == null) return;
 
-      // Convert the picked image to the Base64 format
+      /// Convert the picked image to the Base64 format
       String imageBase64 = base64Encode(await image.readAsBytes());
 
       /// Set the BlinkID SDK settings
@@ -268,7 +227,8 @@ class _MyAppState extends State<MyApp> {
 
       /// Uncomment the following line if you are passing input images
       /// that consist solely of the cropped document image.
-      scanningSettings.scanCroppedDocumentImage = true;
+      ///
+      /// scanningSettings.scanCroppedDocumentImage = true;
 
       /// Create and modify the Image settings
       final imageSettings = CroppedImageSettings();
@@ -282,7 +242,8 @@ class _MyAppState extends State<MyApp> {
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
 
-      /// call the 'performScan' method and handle the results
+      /// Call the 'performDirectApiScan' method and handle the results
+      /// Check how the results are handled in the blinkid_result_builder.dart file
       await blinkIdPlugin
           .performDirectApiScan(sdkSettings, sessionSettings, imageBase64)
           .then((result) {
