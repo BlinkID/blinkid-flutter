@@ -39,7 +39,7 @@ A valid license key is required to initialize the BlinkID plugin. A free trial l
 
 
 ## <a name="quickstart-with-the-sample-application"></a> Quickstart with the sample application
-The sample application demonstrates how the BlinkID SDK is implemented, used and shows how to obtain the captured results. It contains the implementation for:
+The sample application demonstrates how the BlinkID plugin is implemented, used and shows how to obtain the scanned results. It contains the implementation for:
 1. The **default implementation** with the default BlinkID UX scanning experience.
 2. **Multiside DirectAPI scanning** - extracting the document information from multiple static images (from the gallery).
 3. **Singleside DirectAPI scanning** - extracting the document information from a single static images (from the gallery).
@@ -57,7 +57,7 @@ cd blinkid-flutter && ./initBlinkIdFlutterSample.sh
 ```bash
 cd sample && flutter run
 ```
-4. Pick the platform to run the BlinkID SDK on.
+4. Pick the platform to run the BlinkID plugin on.
 
 Note: the plugin can be run directly via Xcode (iOS) and Android Studio (Android):
 1. Open the `Runner.xcodeproj` in the path: `sample/ios/Runner.xcodeproj` to run the iOS sample application.
@@ -154,7 +154,7 @@ await blinkIdPlugin
       }
     });
 ```
-- The whole integration process can be found in the sample app `main.dart` file [here](https://github.com/BlinkID/blinkid-flutter/blob/main/sample_files/main.dart).
+- The whole integration process can be found in the sample app `main.dart` file [here](https://github.com/BlinkID/blinkid-flutter/blob/master/sample_files/main.dart).
 - The settings and the results that can be used with the BlinkID plugin can be found in the paragraphs below, but also in the comments of each BlinkID Dart file.
 
 ## <a name="plugin-specifics"></a> Plugin specifics
@@ -190,7 +190,7 @@ It takes the following parameters:
 
 **BlinkID SDK Settings** - `BlinkIdSdkSettings`: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
 
-**BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
+**BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the `ScanningMode` and `BlinkIdScanningSettings`, which define various parameters that control the scanning process.
 
 The first image Base64 string - `String`: image that represents one side of the document. If the document contains two sides and the `ScanningMode` is set to `automatic`, this should contain the image of the front side of the document. In case the `ScanningMode` is set to `single`, it can be either the front or the back side of the document. If the document contains only one side (for example, various passports), the SDK will automatically detect it, and will not look for the other side.
 
