@@ -191,8 +191,8 @@ Map<String, dynamic> _$ClassFilterToJson(ClassFilter instance) =>
 
 DocumentRules _$DocumentRulesFromJson(Map<String, dynamic> json) =>
     DocumentRules(
-      (json['fields'] as List<dynamic>?)
-          ?.map((e) => DetailedFieldType.fromJson(e as Map<String, dynamic>))
+      (json['fields'] as List<dynamic>)
+          .map((e) => DetailedFieldType.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['documentFilter'] == null
           ? null
@@ -810,9 +810,10 @@ const _$DocumentTypeEnumMap = {
 
 DocumentNumberAnonymizationSettings
 _$DocumentNumberAnonymizationSettingsFromJson(Map<String, dynamic> json) =>
-    DocumentNumberAnonymizationSettings()
-      ..prefixDigitsVisible = (json['prefixDigitsVisible'] as num?)?.toInt()
-      ..suffixDigitsVisible = (json['suffixDigitsVisible'] as num?)?.toInt();
+    DocumentNumberAnonymizationSettings(
+      (json['prefixDigitsVisible'] as num?)?.toInt(),
+      (json['suffixDigitsVisible'] as num?)?.toInt(),
+    );
 
 Map<String, dynamic> _$DocumentNumberAnonymizationSettingsToJson(
   DocumentNumberAnonymizationSettings instance,
