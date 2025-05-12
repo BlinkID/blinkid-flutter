@@ -5,13 +5,13 @@
 Pod::Spec.new do |s|
   s.name             = 'blinkid_flutter'
   s.version          = '7.2.0'
-  s.summary          = 'A new Flutter plugin project.'
+  s.summary          = 'The BlinkID SDK for Flutter'
   s.description      = <<-DESC
-A new Flutter plugin project.
+  The BlinkID SDK is a comprehensive solution for implementing secure document scanning on the Flutter cross-platform. It offers powerful capabilities for capturing and analyzing a wide range of identification documents. The Flutter plugin consists of BlinkID, which serves as the core module, and the BlinkIDUX package that provides a complete, ready-to-use solution with a user-friendly interface.
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'http://microblink.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'Microblink' => 'milan.paradina@microblink.com' }
   s.source           = { :path => '.' }
   s.source_files = 'blinkid_flutter/Sources/blinkid_flutter/**/*.swift'
   s.dependency 'Flutter'
@@ -24,10 +24,4 @@ A new Flutter plugin project.
    }
    
   s.swift_version = '5.0'
-
-  # If your plugin requires a privacy manifest, for example if it uses any
-  # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your
-  # plugin's privacy impact, and then uncomment this line. For more information,
-  # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
-  # s.resource_bundles = {'blinkid_flutter_privacy' => ['blinkid_flutter/Sources/blinkid_flutter/PrivacyInfo.xcprivacy']}
 end
