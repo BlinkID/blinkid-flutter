@@ -1,3 +1,8 @@
+## 6.13.2
+
+**Bug fixes**
+- Fixed an issue where the SDK did not update its language based on the device's language settings.
+
 ## 6.13.1
 
 **Bug fixes**
