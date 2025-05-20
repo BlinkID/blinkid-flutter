@@ -148,11 +148,14 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
 
   private void setLanguage(JSONObject jsonOverlaySettings) {
       try {
-          LanguageUtils.setLanguageAndCountry(jsonOverlaySettings.getString("language"),
-                  jsonOverlaySettings.getString("country"),
-                  context);
-      } catch (Exception e) {
-      }
+          String language = jsonOverlaySettings.getString("language");
+          String country = jsonOverlaySettings.getString("country");
+          if (!country.equals("null")) {
+              LanguageUtils.setLanguageAndCountry(language, country, context);
+          } else if (!language.equals("null")){
+              LanguageUtils.setLanguageAndCountry(language, "", context);
+          }
+      } catch (Exception e) {}
   }
 
   private void startScanning(int requestCode, UISettings uiSettings) {

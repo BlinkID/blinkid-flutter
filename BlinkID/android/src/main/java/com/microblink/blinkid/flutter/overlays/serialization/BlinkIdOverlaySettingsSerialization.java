@@ -16,6 +16,8 @@ import org.json.JSONObject;
 
 import static com.microblink.blinkid.flutter.SerializationUtils.getStringFromJSONObject;
 
+import java.util.Objects;
+
 public final class BlinkIdOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
     public UISettings createUISettings(Context context, JSONObject jsonUISettings, RecognizerBundle recognizerBundle) {
@@ -162,9 +164,9 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         }
 
         String language = getStringFromJSONObject(jsonUISettings, "language");
-        if (language != null) {
+        if (!Objects.equals(language, "null") && language != null) {
             String country = getStringFromJSONObject(jsonUISettings, "country");
-            if (country != null) {
+            if (!Objects.equals(country, "null") && country != null ) {
                 LanguageUtils.setLanguageAndCountry(language, country, context);
             } else {
                 LanguageUtils.setLanguageAndCountry(language, "", context);
