@@ -1104,6 +1104,15 @@ class VizResult {
   /// The vehicle owner.
   StringResult? vehicleOwner;
 
+  /// The country code of the document owner.
+  StringResult? countryCode;
+
+  /// The certificate number of the document owner.
+  StringResult? certificateNumber;
+
+  /// The national insurance number of the document owner.
+  StringResult? nationalInsuranceNumber;
+
   /// Represents the result of the Visual Inspection Zone of a document.
   VizResult(Map<String, dynamic> nativeVizResult) {
     firstName = createStringResult(nativeVizResult, 'firstName');
@@ -1209,6 +1218,9 @@ class VizResult {
                 .toList()
             : null;
     vehicleOwner = createStringResult(nativeVizResult, 'vehicleOwner');
+    countryCode = createStringResult(nativeVizResult, 'countryCode');
+    certificateNumber = createStringResult(nativeVizResult, 'certificateNumber');
+    nationalInsuranceNumber = createStringResult(nativeVizResult, 'nationalInsuranceNumber');
   }
 }
 
