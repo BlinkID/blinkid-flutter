@@ -51,8 +51,7 @@ android {
     dependencies {
         testImplementation("org.jetbrains.kotlin:kotlin-test")
         testImplementation("org.mockito:mockito-core:5.1.1")
-        implementation("com.microblink:blinkid-ux:7.2.0")
-
+        implementation("com.microblink:blinkid-ux:7.3.0")
     }
 
     testOptions {
