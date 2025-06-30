@@ -255,11 +255,18 @@ class BlinkIdResultBuilder {
     if (result == null || result!.date == null || result.date!.year == 0) {
       return "";
     }
+
+    String stringResult =
+        buildIntResult(result.date?.day, "Day") +
+        buildIntResult(result.date?.month, "Month") +
+        buildIntResult(result.date?.year, "Year");
+
     if (result.originalString is StringResult) {
-      return buildResult(result.originalString, propertyName);
+      stringResult += buildResult(result.originalString, propertyName);
     } else {
-      return buildStringResult(result.originalString, propertyName);
+      stringResult += buildStringResult(result.originalString, propertyName);
     }
+    return stringResult;
   }
 
   static String buildStringResult(String? result, String propertyName) {
