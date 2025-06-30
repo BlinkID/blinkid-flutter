@@ -15,6 +15,7 @@ BlinkIdSdkSettings _$BlinkIdSdkSettingsFromJson(Map<String, dynamic> json) =>
       json['resourceLocalFolder'],
       json['bundleURL'],
       json['resourceRequestTimeout'],
+      json['microblinkProxyURL'],
     );
 
 Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
@@ -26,6 +27,7 @@ Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
       'resourceLocalFolder': instance.resourceLocalFolder,
       'bundleURL': instance.bundleURL,
       'resourceRequestTimeout': instance.resourceRequestTimeout,
+      'microblinkProxyURL': instance.microblinkProxyURL,
     };
 
 BlinkIdSessionSettings _$BlinkIdSessionSettingsFromJson(
@@ -284,6 +286,9 @@ const _$FieldTypeEnumMap = {
   FieldType.eligibilityCategory: 'eligibilityCategory',
   FieldType.specificDocumentValidity: 'specificDocumentValidity',
   FieldType.vehicleOwner: 'vehicleOwner',
+  FieldType.nationalInsuranceNumber: 'nationalInsuranceNumber',
+  FieldType.countryCode: 'countryCode',
+  FieldType.certificateNumber: 'certificateNumber',
 };
 
 const _$AlphabetTypeEnumMap = {
@@ -817,6 +822,8 @@ const _$DocumentTypeEnumMap = {
   DocumentType.esaadCard: 'esaadCard',
   DocumentType.registrationCertificate: 'registrationCertificate',
   DocumentType.medicalMarijuanaId: 'medicalMarijuanaId',
+  DocumentType.nonCardTribalId: 'nonCardTribalId',
+  DocumentType.diplomaticId: 'diplomaticId',
 };
 
 DocumentNumberAnonymizationSettings
