@@ -274,13 +274,20 @@ class BlinkIdSerializationUtils {
     
     static func serializeDateResult<T>(_ dateResult: DateResult<T>?) -> Dictionary<String, Any>? {
         return [
-            "day": dateResult?.day,
-            "month": dateResult?.month,
-            "year": dateResult?.year,
+            "date": serializeSimpleDate(dateResult)
             "filledByDomainKnowledge": dateResult?.filledByDomainKnowledge,
             "successfullyParsed": dateResult?.successfullyParsed,
             "originalString": serializeStringType(dateResult?.originalString)
         ]
+    }
+    
+    static func serializeSimpleDate<T>(_ dateResult: DateResult<T>?) -> Dictionary<String, Any>? {
+        let simpleDateDict: [String: Any?] = [
+        "day": dateResult?.day,
+        "month": dateResult?.month,
+        "year": dateResult?.year,
+      ]
+        return simpleDateDict.compactMapValues { $0 }
     }
     
     static func serializeDriverLicenseDetailedInfo<T>(_ driverLicenseDetailedInfo:  DriverLicenseDetailedInfo<T>?) -> Dictionary<String, Any>? {

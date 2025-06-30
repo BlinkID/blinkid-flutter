@@ -195,19 +195,25 @@ object BlinkIdSerializationUtils {
 
     private fun <T> serializeDateResult(dateResult: DateResult<T>?): Map<String, Any?> {
         val dateResultDict: MutableMap<String, Any?> = mutableMapOf()
-        dateResult?.day?.let {
-            dateResultDict["day"] = it
-        }
-        dateResult?.month?.let {
-            dateResultDict["month"] = it
-        }
-        dateResult?.year?.let {
-            dateResultDict["year"] = it
-        }
+        dateResultDict["date"] = serializeSimpleDateResult(dateResult)
         dateResultDict["filledByDomainKnowledge"] = dateResult?.filledByDomainKnowledge
         dateResultDict["successfullyParsed"] = dateResult?.successfullyParsed
         dateResultDict["originalString"] = serializeStringType(dateResult?.originalString)
         return dateResultDict
+    }
+
+    private fun <T> serializeSimpleDateResult(dateResult: DateResult<T>?): JSONObject {
+        val simpleDateResultJson = JSONObject()
+        dateResult?.day?.let {
+            simpleDateResultJson.put("day", it)
+        }
+        dateResult?.month?.let {
+            simpleDateResultJson.put("month", it)
+        }
+        dateResult?.year?.let {
+            simpleDateResultJson.put("year", it)
+        }
+        return simpleDateResultJson;
     }
 
     private fun serializeDocumentClassInfo(documentClassInfo: DocumentClassInfo): Map<String, Any> {
