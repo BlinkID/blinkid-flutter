@@ -357,6 +357,29 @@ class CroppedImageSettings {
   Map<String, dynamic> toJson() => _$CroppedImageSettingsToJson(this);
 }
 
+/// Allows customization of various aspects of the UI
+/// used during the scanning process.
+@JsonSerializable()
+class BlinkIdUiSettings {
+  /// A boolean indicating whether to show a help button
+  /// and enable help screens during the scanning session.
+  ///
+  /// Default: `true`
+  bool showHelpButton = true;
+
+  /// A boolean indicating whether to show an onboarding dialog
+  /// at the beginning of the scanning session.
+  ///
+  /// Default: `true`
+  bool showOnboardingDialog = true;
+
+  BlinkIdUiSettings();
+
+  factory BlinkIdUiSettings.fromJson(Map<String, dynamic> json) =>
+      _$BlinkIdUiSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$BlinkIdUiSettingsToJson(this);
+}
+
 /// ClassFilter represents the document filter used to determine which documents will be processed.
 /// Document information (Country, Region, Type) is evaluated with the content set in the filter, and their inclusion or exclusion depends on the defined rules.
 /// To set the document information, use [DocumentFilter].

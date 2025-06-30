@@ -22,6 +22,7 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   static const String ARG_SCAN_DIRECT_API_METHOD = 'performDirectApiScan';
   static const String ARG_BLINKID_SDK_SETTINGS = 'blinkidSdkSettings';
   static const String ARG_SESSION_SETTINGS = 'blinkidSessionSettings';
+  static const String ARG_UI_SETTINGS = 'blinkidUiSettings';
   static const String ARG_CLASS_FILTER = 'blinkidClassFilter';
   static const String ARG_FIRST_IMAGE = 'firstImage';
   static const String ARG_SECOND_IMAGE = 'secondImage';
@@ -35,18 +36,22 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
   ///
-  /// 3. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
+  /// 3. The optional BlinkID UI class - [BlinkIdUiSettings] - the class that allows customization of various aspects of the UI used during the scanning process.
+  ///
+  /// 4. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
   ///
   @override
   Future<BlinkIdScanningResult?> performScan(
     BlinkIdSdkSettings blinkidSdkSettings,
     BlinkIdSessionSettings blinkidSessionSettings, [
+    BlinkIdUiSettings? blinkidUiSettings,
     ClassFilter? classFilter,
   ]) async {
     final jsonBlinkIdResult = await methodChannel
         .invokeMethod(ARG_SCAN_METHOD, {
           ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkidSdkSettings)),
           ARG_SESSION_SETTINGS: jsonDecode(jsonEncode(blinkidSessionSettings)),
+          ARG_UI_SETTINGS: jsonDecode(jsonEncode(blinkidUiSettings)),
           ARG_CLASS_FILTER: jsonDecode(jsonEncode(classFilter)),
         });
 

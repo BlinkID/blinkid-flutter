@@ -172,6 +172,17 @@ Map<String, dynamic> _$CroppedImageSettingsToJson(
   'returnSignatureImage': instance.returnSignatureImage,
 };
 
+BlinkIdUiSettings _$BlinkIdUiSettingsFromJson(Map<String, dynamic> json) =>
+    BlinkIdUiSettings()
+      ..showHelpButton = json['showHelpButton'] as bool
+      ..showOnboardingDialog = json['showOnboardingDialog'] as bool;
+
+Map<String, dynamic> _$BlinkIdUiSettingsToJson(BlinkIdUiSettings instance) =>
+    <String, dynamic>{
+      'showHelpButton': instance.showHelpButton,
+      'showOnboardingDialog': instance.showOnboardingDialog,
+    };
+
 ClassFilter _$ClassFilterFromJson(Map<String, dynamic> json) =>
     ClassFilter()
       ..includeDocuments =

@@ -26,16 +26,18 @@ abstract class BlinkidFlutterPlatform extends PlatformInterface {
   }
 
   /// Returns the `performScan` method from the [MethodChannelBlinkidFlutter].
-  /// It takes the following parameters: [BlinkIdSdkSettings], [BlinkIdSessionSettings] and the optional [ClassFilter] class.
+  /// It takes the following parameters: [BlinkIdSdkSettings], [BlinkIdSessionSettings] and the optional [BlinkIdUiSettings] and [ClassFilter] classes.
   /// See [MethodChannelBlinkidFlutter] for more detailed information.
   Future<BlinkIdScanningResult?> performScan(
     BlinkIdSdkSettings blinkidSdkSettings,
     BlinkIdSessionSettings blinkidSessionSettings, [
+    BlinkIdUiSettings? blinkIdUisettings,
     ClassFilter? classFilter,
   ]) async {
     return MethodChannelBlinkidFlutter().performScan(
       blinkidSdkSettings,
       blinkidSessionSettings,
+      blinkIdUisettings,
       classFilter,
     );
   }
