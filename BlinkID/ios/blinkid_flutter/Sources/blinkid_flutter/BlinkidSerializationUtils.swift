@@ -10,7 +10,7 @@ import BlinkID
 import UIKit
 
 class BlinkIdSerializationUtils {
-    
+
     static func serializeBlinkIdScanningResult(_ scanningResult: BlinkIDScanningResult?) -> String? {
         var scanningResultDict = Dictionary<String, Any>()
         
@@ -612,7 +612,10 @@ class BlinkIdSerializationUtils {
             "sponsor": serializeStringResult(vizResult?.sponsor),
             "vehicleOwner": serializeStringResult(vizResult?.vehicleOwner),
             "vehicleType": serializeStringResult(vizResult?.vehicleType),
-            "visaType": serializeStringResult(vizResult?.visaType)
+            "visaType": serializeStringResult(vizResult?.visaType),
+            "countryCode": serializeStringResult(vizResult?.countryCode),
+            "certificateNumber": serializeStringResult(vizResult?.certificateNumber),
+            "nationalInsuranceNumber": serializeStringResult(vizResult?.nationalInsuranceNumber)
         ]
     }
     

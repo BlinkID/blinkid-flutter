@@ -46,7 +46,8 @@ object BlinkIdDeserializationUtils {
                 ?: defaultResourceDownloadUrl,
             resourceLocalFolder = blinkIdSdkSettingsMap["resourceLocalFolder"] as? String
                 ?: defaultResourcesLocalFolder,
-            resourceRequestTimeout = deserializeResourceRequestTimeout(blinkIdSdkSettingsMap["resourceRequestTimeout"] as? Map<String, Any>)
+            resourceRequestTimeout = deserializeResourceRequestTimeout(blinkIdSdkSettingsMap["resourceRequestTimeout"] as? Map<String, Any>),
+            microblinkProxyUrl = blinkIdSdkSettingsMap["microblinkProxyURL"] as? String
         )
     }
 
