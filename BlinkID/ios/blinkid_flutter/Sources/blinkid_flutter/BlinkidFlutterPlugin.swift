@@ -100,7 +100,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             let scanningUxModel = await BlinkIDUXModel(
                 analyzer: analyzer,
                 shouldShowIntroductionAlert: shouldShowIntroductionAlert,
-                shouldShowHelpButton: shouldShowHelpButton
+                showHelpButton: shouldShowHelpButton
             )
             let scannedResults =  await scanningUxModel.$result
                 .sink { [weak self] scanningResultState in

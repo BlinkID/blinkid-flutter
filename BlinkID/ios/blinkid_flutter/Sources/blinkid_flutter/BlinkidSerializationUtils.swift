@@ -267,14 +267,18 @@ class BlinkIdSerializationUtils {
     }
     
     static func serializeRect(_ rectangle:  BlinkID.RectangleF?) -> Dictionary<String, Any> {
-        return [:]
+        let rectangleDict: [String: Any?] = [
+          "x": rectangle?.origin.x,
+          "y": rectangle?.origin.y,
+          "width": rectangle?.width,
+          "height": rectangle?.height
+        ]
+        return rectangleDict.compactMapValues { $0 }
     }
-    
-    
     
     static func serializeDateResult<T>(_ dateResult: DateResult<T>?) -> Dictionary<String, Any>? {
         return [
-            "date": serializeSimpleDate(dateResult)
+            "date": serializeSimpleDate(dateResult),
             "filledByDomainKnowledge": dateResult?.filledByDomainKnowledge,
             "successfullyParsed": dateResult?.successfullyParsed,
             "originalString": serializeStringType(dateResult?.originalString)
