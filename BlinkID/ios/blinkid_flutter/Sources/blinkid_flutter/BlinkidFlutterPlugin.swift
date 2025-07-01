@@ -88,7 +88,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             )
             
             var shouldShowIntroductionAlert = true, shouldShowHelpButton = true
-            if let blinkidUiSettings = arguments["blinkIdUiSettings"] as? [String: Any] {
+            if let blinkidUiSettings = arguments["blinkidUiSettings"] as? [String: Any] {
                 if let showOnboardingDialog = blinkidUiSettings["showOnboardingDialog"] as? Bool {
                     shouldShowIntroductionAlert = showOnboardingDialog
                 }

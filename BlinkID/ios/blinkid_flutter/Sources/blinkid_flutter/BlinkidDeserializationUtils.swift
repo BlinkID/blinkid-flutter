@@ -34,7 +34,6 @@ struct BlinkIdDeserializationUtils {
         if let bundleURL = sdkSettingsDict?["bundleURL"] as? String,
            let url = URL(string: bundleURL) {
             blinkidSdkSettings?.bundleURL = url
-            blinkidSdkSettings?.microblinkProxyURL
         }
         if let resourceRequestTimeout = sdkSettingsDict?["resourceRequestTimeout"] as? Int {
             blinkidSdkSettings?.resourceRequestTimeout = BlinkID.RequestTimeout.default
