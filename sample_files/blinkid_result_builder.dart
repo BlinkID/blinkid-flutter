@@ -3,7 +3,6 @@ import 'package:blinkid_flutter/blinkid_result.dart';
 class BlinkIdResultBuilder {
   static String getIdResultString(BlinkIdScanningResult? result) {
     if (result == null) {
-      print("here i guess");
       return "";
     }
 
@@ -269,17 +268,11 @@ class BlinkIdResultBuilder {
       return "";
     }
 
-    String stringResult =
-        buildIntResult(result.date?.day, "Day") +
-        buildIntResult(result.date?.month, "Month") +
-        buildIntResult(result.date?.year, "Year");
-
     if (result.originalString is StringResult) {
-      stringResult += buildResult(result.originalString, propertyName);
+      return buildResult(result.originalString, propertyName);
     } else {
-      stringResult += buildStringResult(result.originalString, propertyName);
+      return buildStringResult(result.originalString, propertyName);
     }
-    return stringResult;
   }
 
   static String buildStringResult(String? result, String propertyName) {
