@@ -143,7 +143,15 @@ object BlinkIdSerializationUtils {
         scanningResult?.visaType?.let {
             scanningResultDict["visaType"] = serializeStringResult(it)
         }
-
+        scanningResult?.countryCode?.let {
+            scanningResultDict["countryCode"] = serializeStringResult(it)
+        }
+        scanningResult?.certificateNumber?.let {
+            scanningResultDict["certificateNumber"] = serializeStringResult(it)
+        }
+        scanningResult?.nationalInsuranceNumber?.let {
+            scanningResultDict["nationalInsuranceNumber"] = serializeStringResult(it)
+        }
         scanningResult?.dateOfBirth?.let {
             scanningResultDict["dateOfBirth"] = serializeDateResult(it)
         }
