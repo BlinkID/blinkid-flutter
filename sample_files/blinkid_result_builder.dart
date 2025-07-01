@@ -200,6 +200,9 @@ class BlinkIdResultBuilder {
         buildResult(result.vehicleOwner, "Vehicle owner") +
         buildResult(result.vehicleType, "Vehicle type") +
         buildResult(result.visaType, "Visa type") +
+        buildResult(result.countryCode, "Country code") +
+        buildResult(result.certificateNumber, "Certificate number") +
+        buildResult(result.nationalInsuranceNumber, "National insurance number") +
         buildDependentsInfoResult(result.dependentsInfo);
 
     return resultString == "" ? "" : "VIZ result:\n$resultString\n";
