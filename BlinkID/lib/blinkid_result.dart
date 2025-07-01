@@ -753,9 +753,9 @@ class Date {
 
   /// Represents the extracted date.
   Date(Map<String, dynamic> nativeDate) {
-    day = nativeDate['day'];
-    month = nativeDate['month'];
-    year = nativeDate['year'];
+    day = nativeDate['date']['day'];
+    month = nativeDate['date']['month'];
+    year = nativeDate['date']['year'];
   }
 }
 
@@ -1219,8 +1219,14 @@ class VizResult {
             : null;
     vehicleOwner = createStringResult(nativeVizResult, 'vehicleOwner');
     countryCode = createStringResult(nativeVizResult, 'countryCode');
-    certificateNumber = createStringResult(nativeVizResult, 'certificateNumber');
-    nationalInsuranceNumber = createStringResult(nativeVizResult, 'nationalInsuranceNumber');
+    certificateNumber = createStringResult(
+      nativeVizResult,
+      'certificateNumber',
+    );
+    nationalInsuranceNumber = createStringResult(
+      nativeVizResult,
+      'nationalInsuranceNumber',
+    );
   }
 }
 
