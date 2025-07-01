@@ -189,7 +189,6 @@ object BlinkIdSerializationUtils {
             scanningResultDict["signatureImage"] = serializeDetailedCroppedImageResult(it)
         }
 
-
         return JSONObject(scanningResultDict).toString()
     }
 
@@ -202,18 +201,18 @@ object BlinkIdSerializationUtils {
         return dateResultDict
     }
 
-    private fun <T> serializeSimpleDateResult(dateResult: DateResult<T>?): JSONObject {
-        val simpleDateResultJson = JSONObject()
+    private fun <T> serializeSimpleDateResult(dateResult: DateResult<T>?): Map<String, Any?> {
+        val simpleDateResultDict: MutableMap<String, Any?> = mutableMapOf()
         dateResult?.day?.let {
-            simpleDateResultJson.put("day", it)
+            simpleDateResultDict["day"] = it
         }
         dateResult?.month?.let {
-            simpleDateResultJson.put("month", it)
+            simpleDateResultDict["month"] = it
         }
         dateResult?.year?.let {
-            simpleDateResultJson.put("year", it)
+            simpleDateResultDict["year"] = it
         }
-        return simpleDateResultJson;
+        return simpleDateResultDict;
     }
 
     private fun serializeDocumentClassInfo(documentClassInfo: DocumentClassInfo): Map<String, Any> {
