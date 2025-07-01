@@ -126,6 +126,15 @@ class BlinkIdScanningResult {
   /// The visa type of the document.
   StringResult? visaType;
 
+  /// The country code of the document owner.
+  StringResult? countryCode;
+
+  /// The certificate number of the document owner.
+  StringResult? certificateNumber;
+
+  /// The national insurance number of the document owner.
+  StringResult? nationalInsuranceNumber;
+
   /// The date of birth of the document owner.
   DateResult<StringResult>? dateOfBirth;
 
@@ -384,6 +393,19 @@ class BlinkIdScanningResult {
               ),
             )
             : null;
+
+    countryCode = createStringResult(
+      nativeBlinkIdScanningResult,
+      'countryCode',
+    );
+    certificateNumber = createStringResult(
+      nativeBlinkIdScanningResult,
+      'certificateNumber',
+    );
+    nationalInsuranceNumber = createStringResult(
+      nativeBlinkIdScanningResult,
+      'nationalInsuranceNumber',
+    );
   }
 }
 
