@@ -46,7 +46,8 @@ object BlinkIdDeserializationUtils {
                 ?: defaultResourceDownloadUrl,
             resourceLocalFolder = blinkIdSdkSettingsMap["resourceLocalFolder"] as? String
                 ?: defaultResourcesLocalFolder,
-            resourceRequestTimeout = deserializeResourceRequestTimeout(blinkIdSdkSettingsMap["resourceRequestTimeout"] as? Map<String, Any>)
+            resourceRequestTimeout = deserializeResourceRequestTimeout(blinkIdSdkSettingsMap["resourceRequestTimeout"] as? Map<String, Any>),
+            microblinkProxyUrl = blinkIdSdkSettingsMap["microblinkProxyURL"] as? String
         )
     }
 
@@ -230,7 +231,8 @@ object BlinkIdDeserializationUtils {
         return BlinkIdUxSettings(
             stepTimeoutDuration = (blinkidUxSettingsMap["stepTimeoutDuration"] as? Int
                 ?: 15000).milliseconds,
-            classFilter = CustomClassFilter(classFilterMap)
+            classFilter = CustomClassFilter(classFilterMap),
+
         )
     }
 

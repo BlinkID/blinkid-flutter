@@ -20,17 +20,21 @@ class BlinkidFlutter {
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
   ///
-  /// 3. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
+  /// 3. The optional BlinkID UI class - [BlinkIdUiSettings] - the class that allows customization of various aspects of the UI used during the scanning process.
+  ///
+  /// 4. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
   ///
   /// Returns the `performScan` method from the [BlinkidFlutterPlatform].
   Future<BlinkIdScanningResult?> performScan(
     BlinkIdSdkSettings blinkidSdkSettings,
     BlinkIdSessionSettings blinkidSessionSettings, [
+    BlinkIdUiSettings? blinkidUiSettings,
     ClassFilter? classFilter,
   ]) {
     return BlinkidFlutterPlatform.instance.performScan(
       blinkidSdkSettings,
       blinkidSessionSettings,
+      blinkidUiSettings,
       classFilter,
     );
   }

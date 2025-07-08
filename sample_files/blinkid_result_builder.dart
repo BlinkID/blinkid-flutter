@@ -35,6 +35,12 @@ class BlinkIdResultBuilder {
         buildResult(result.race, "Race") +
         buildResult(result.religion, "Religion") +
         buildResult(result.residentialStatus, "Residential Status") +
+        buildResult(result.countryCode, "Country code") +
+        buildResult(result.certificateNumber, "Certificate number") +
+        buildResult(
+          result.nationalInsuranceNumber,
+          "National insurace number",
+        ) +
         buildDriverLicenceResult(result.driverLicenseDetailedInfo) +
         buildDataMatchResult(result.dataMatchResult) +
         buildDocumentClassInfoResult(result.documentClassInfo) +
@@ -200,6 +206,12 @@ class BlinkIdResultBuilder {
         buildResult(result.vehicleOwner, "Vehicle owner") +
         buildResult(result.vehicleType, "Vehicle type") +
         buildResult(result.visaType, "Visa type") +
+        buildResult(result.countryCode, "Country code") +
+        buildResult(result.certificateNumber, "Certificate number") +
+        buildResult(
+          result.nationalInsuranceNumber,
+          "National insurance number",
+        ) +
         buildDependentsInfoResult(result.dependentsInfo);
 
     return resultString == "" ? "" : "VIZ result:\n$resultString\n";
@@ -255,6 +267,7 @@ class BlinkIdResultBuilder {
     if (result == null || result!.date == null || result.date!.year == 0) {
       return "";
     }
+
     if (result.originalString is StringResult) {
       return buildResult(result.originalString, propertyName);
     } else {

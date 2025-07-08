@@ -126,6 +126,15 @@ class BlinkIdScanningResult {
   /// The visa type of the document.
   StringResult? visaType;
 
+  /// The country code of the document owner.
+  StringResult? countryCode;
+
+  /// The certificate number of the document owner.
+  StringResult? certificateNumber;
+
+  /// The national insurance number of the document owner.
+  StringResult? nationalInsuranceNumber;
+
   /// The date of birth of the document owner.
   DateResult<StringResult>? dateOfBirth;
 
@@ -384,6 +393,19 @@ class BlinkIdScanningResult {
               ),
             )
             : null;
+
+    countryCode = createStringResult(
+      nativeBlinkIdScanningResult,
+      'countryCode',
+    );
+    certificateNumber = createStringResult(
+      nativeBlinkIdScanningResult,
+      'certificateNumber',
+    );
+    nationalInsuranceNumber = createStringResult(
+      nativeBlinkIdScanningResult,
+      'nationalInsuranceNumber',
+    );
   }
 }
 
@@ -753,9 +775,9 @@ class Date {
 
   /// Represents the extracted date.
   Date(Map<String, dynamic> nativeDate) {
-    day = nativeDate['day'];
-    month = nativeDate['month'];
-    year = nativeDate['year'];
+    day = nativeDate['date']['day'];
+    month = nativeDate['date']['month'];
+    year = nativeDate['date']['year'];
   }
 }
 
@@ -1104,6 +1126,15 @@ class VizResult {
   /// The vehicle owner.
   StringResult? vehicleOwner;
 
+  /// The country code of the document owner.
+  StringResult? countryCode;
+
+  /// The certificate number of the document owner.
+  StringResult? certificateNumber;
+
+  /// The national insurance number of the document owner.
+  StringResult? nationalInsuranceNumber;
+
   /// Represents the result of the Visual Inspection Zone of a document.
   VizResult(Map<String, dynamic> nativeVizResult) {
     firstName = createStringResult(nativeVizResult, 'firstName');
@@ -1209,6 +1240,15 @@ class VizResult {
                 .toList()
             : null;
     vehicleOwner = createStringResult(nativeVizResult, 'vehicleOwner');
+    countryCode = createStringResult(nativeVizResult, 'countryCode');
+    certificateNumber = createStringResult(
+      nativeVizResult,
+      'certificateNumber',
+    );
+    nationalInsuranceNumber = createStringResult(
+      nativeVizResult,
+      'nationalInsuranceNumber',
+    );
   }
 }
 

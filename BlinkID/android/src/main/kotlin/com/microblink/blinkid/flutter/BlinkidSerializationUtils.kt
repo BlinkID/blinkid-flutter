@@ -143,7 +143,15 @@ object BlinkIdSerializationUtils {
         scanningResult?.visaType?.let {
             scanningResultDict["visaType"] = serializeStringResult(it)
         }
-
+        scanningResult?.countryCode?.let {
+            scanningResultDict["countryCode"] = serializeStringResult(it)
+        }
+        scanningResult?.certificateNumber?.let {
+            scanningResultDict["certificateNumber"] = serializeStringResult(it)
+        }
+        scanningResult?.nationalInsuranceNumber?.let {
+            scanningResultDict["nationalInsuranceNumber"] = serializeStringResult(it)
+        }
         scanningResult?.dateOfBirth?.let {
             scanningResultDict["dateOfBirth"] = serializeDateResult(it)
         }
@@ -189,25 +197,30 @@ object BlinkIdSerializationUtils {
             scanningResultDict["signatureImage"] = serializeDetailedCroppedImageResult(it)
         }
 
-
         return JSONObject(scanningResultDict).toString()
     }
 
     private fun <T> serializeDateResult(dateResult: DateResult<T>?): Map<String, Any?> {
         val dateResultDict: MutableMap<String, Any?> = mutableMapOf()
-        dateResult?.day?.let {
-            dateResultDict["day"] = it
-        }
-        dateResult?.month?.let {
-            dateResultDict["month"] = it
-        }
-        dateResult?.year?.let {
-            dateResultDict["year"] = it
-        }
+        dateResultDict["date"] = serializeSimpleDateResult(dateResult)
         dateResultDict["filledByDomainKnowledge"] = dateResult?.filledByDomainKnowledge
         dateResultDict["successfullyParsed"] = dateResult?.successfullyParsed
         dateResultDict["originalString"] = serializeStringType(dateResult?.originalString)
         return dateResultDict
+    }
+
+    private fun <T> serializeSimpleDateResult(dateResult: DateResult<T>?): Map<String, Any?> {
+        val simpleDateResultDict: MutableMap<String, Any?> = mutableMapOf()
+        dateResult?.day?.let {
+            simpleDateResultDict["day"] = it
+        }
+        dateResult?.month?.let {
+            simpleDateResultDict["month"] = it
+        }
+        dateResult?.year?.let {
+            simpleDateResultDict["year"] = it
+        }
+        return simpleDateResultDict;
     }
 
     private fun serializeDocumentClassInfo(documentClassInfo: DocumentClassInfo): Map<String, Any> {
@@ -558,6 +571,15 @@ object BlinkIdSerializationUtils {
         }
         vizResult?.visaType?.let {
             vizResultDict["visaType"] = serializeStringResult(it)
+        }
+        vizResult?.countryCode?.let {
+            vizResultDict["countryCode"] = serializeStringResult(it)
+        }
+        vizResult?.certificateNumber?.let {
+            vizResultDict["certificateNumber"] = serializeStringResult(it)
+        }
+        vizResult?.nationalInsuranceNumber?.let {
+            vizResultDict["nationalInsuranceNumber"] = serializeStringResult(it)
         }
         return vizResultDict
     }

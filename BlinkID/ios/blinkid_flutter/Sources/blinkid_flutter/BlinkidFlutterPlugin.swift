@@ -86,8 +86,22 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                 eventStream: BlinkIDEventStream(),
                 classFilter: self
             )
-
-            let scanningUxModel = await BlinkIDUXModel(analyzer: analyzer, shouldShowIntroductionAlert: true)
+            
+            var shouldShowIntroductionAlert = true, shouldShowHelpButton = true
+            if let blinkidUiSettings = arguments["blinkidUiSettings"] as? [String: Any] {
+                if let showOnboardingDialog = blinkidUiSettings["showOnboardingDialog"] as? Bool {
+                    shouldShowIntroductionAlert = showOnboardingDialog
+                }
+                
+                if let showHelpButton = blinkidUiSettings["showHelpButton"] as? Bool {
+                    shouldShowHelpButton = showHelpButton
+                }
+            }
+            let scanningUxModel = await BlinkIDUXModel(
+                analyzer: analyzer,
+                shouldShowIntroductionAlert: shouldShowIntroductionAlert,
+                showHelpButton: shouldShowHelpButton
+            )
             let scannedResults =  await scanningUxModel.$result
                 .sink { [weak self] scanningResultState in
                     if let scanningResultState {

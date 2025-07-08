@@ -1,3 +1,66 @@
+## 7.3.0
+- Updated to [Android SDK v7.3.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.3.0) and [iOS SDK v7.3.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.3.1)
+
+### What's new
+- Improved extraction for Canada/Nunavut ID and DL by introducing error correction for "1" and "I" characters which look the same in the font used on a document
+- Added `BlinkIdUiSettings` for customizing various aspects of the UI used during the scanning process
+
+#### New Documents Support
+- Canada, Nunavut - Driver's License
+- Canada, Nunavut - Identity Card
+- Liberia - Identity Card
+- Mali - Identity Card
+- UK - Military ID
+
+#### New Document Versions for Supported Documents
+- Bahrain - Identity Card
+- Canada - Weapon Permit
+- Chile - Alien ID
+- Chile - Identity Card
+- Finland - Driver's License
+- Indonesia - Driver's License
+- Kosovo - Identity Card
+- Latvia - Polycarbonate Passport
+- Mexico, Chiapas - Driver's License
+- Mexico, Ciudad de Mexico - Driver's License
+- Mexico, Durango - Driver's License
+- Mexico, Jalisco - Driver's License
+- Sri Lanka - Driver's License
+- USA, Alaska - Driver's License
+- USA, New Hampshire - Driver's License
+- European Union - Health Insurance Card
+
+#### New Beta Documents Support
+- Canada - Non Card Tribal ID
+- Dominica - Paper Passport
+- Dominica - Polycarbonate Passport
+- UAE - Diplomatic ID
+- USA, Georgia - Medical Marijuana ID
+
+#### New Document Versions for Beta-Supported Documents
+- Egypt - Driver's License
+- Mexico, Quintana Roo - Driver's License
+- Philippines - Postal ID
+- Vietnam - Identity Card
+
+#### New Segments Supported on Documents
+- European Union, Health Insurance Card - `countryCode`
+- Italy, Identity Card - `documentOptionalAdditionalNumber`
+- France, Identity Card - `additionalNameInformation`
+- UK, Asylum Request - `residencePermitType`, `remarks`
+- UK, Residence Permit - `residencePermitType`, `remarks`, `certificateNumber`, `nationalInsuranceNumber`
+
+#### Renamed segments
+- Bahrain - Identity Card - `documentNumber` -> `personalIdNumber`
+
+### Bugs and fixes
+- Fixed document number extraction from Canada/Nunavut barcodes
+- Fix for ARGENTINA ID and ALIEN_ID documents - made separate barcode scanning step optional for these documents; they have a barcode on the front side, and requiring barcode extraction was causing the scanning process to get stuck on the front
+- Fixed issue with `DateResult` where `day`, `month` and `year` were not properly returned
+
+#### iOS-specific
+- Fixed issue with adding `customDocumentRules` in `BlinkIdScanningSettings`
+
 ## 7.2.0
 
 The version 7 release of the BlinkID SDK.

@@ -31,6 +31,15 @@ class BlinkIdSdkSettings {
   /// Timeout settings for resource downloads.
   int? resourceRequestTimeout;
 
+  /// Set a custom HTTPS URL to be used as a proxy for Ping and license checks.
+  /// The proxy URL will be applied only if the license has the appropriate rights.
+  /// The URL must use the HTTPS protocol. Example: https://your-proxy.com/     
+  /// 
+  /// If this value is defined, SDK initialization will not be successful in the following cases:
+  ///   - if the URL does not use HTTPS or if the URL is invalid    
+  ///   - if the license does not allow proxy usage
+  String? microblinkProxyURL;
+
   /// Settings for the initialization of the BlinkID SDK.
   BlinkIdSdkSettings(
     this.licenseKey, [
@@ -40,6 +49,7 @@ class BlinkIdSdkSettings {
     resourceLocalFolder,
     bundleURL,
     resourceRequestTimeout,
+    microblinkProxyURL
   ]);
 
   factory BlinkIdSdkSettings.fromJson(Map<String, dynamic> json) =>
@@ -355,6 +365,29 @@ class CroppedImageSettings {
   factory CroppedImageSettings.fromJson(Map<String, dynamic> json) =>
       _$CroppedImageSettingsFromJson(json);
   Map<String, dynamic> toJson() => _$CroppedImageSettingsToJson(this);
+}
+
+/// Allows customization of various aspects of the UI
+/// used during the scanning process.
+@JsonSerializable()
+class BlinkIdUiSettings {
+  /// A boolean indicating whether to show a help button
+  /// and enable help screens during the scanning session.
+  ///
+  /// Default: `true`
+  bool showHelpButton = true;
+
+  /// A boolean indicating whether to show an onboarding dialog
+  /// at the beginning of the scanning session.
+  ///
+  /// Default: `true`
+  bool showOnboardingDialog = true;
+
+  BlinkIdUiSettings();
+
+  factory BlinkIdUiSettings.fromJson(Map<String, dynamic> json) =>
+      _$BlinkIdUiSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$BlinkIdUiSettingsToJson(this);
 }
 
 /// ClassFilter represents the document filter used to determine which documents will be processed.
@@ -1678,6 +1711,10 @@ enum DocumentType {
   registrationCertificate,
   @JsonValue("medicalMarijuanaId")
   medicalMarijuanaId,
+  @JsonValue("nonCardTribalId")
+  nonCardTribalId,
+  @JsonValue("diplomaticId")
+  diplomaticId,
 }
 
 /// Represents all possible field types that can be extracted from the document.
@@ -1784,4 +1821,10 @@ enum FieldType {
   specificDocumentValidity,
   @JsonValue("vehicleOwner")
   vehicleOwner,
+  @JsonValue("nationalInsuranceNumber")
+  nationalInsuranceNumber,
+  @JsonValue("countryCode")
+  countryCode,
+  @JsonValue("certificateNumber")
+  certificateNumber,
 }

@@ -65,6 +65,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
         try {
             val blinkIdSdkSettings = call.argument<Map<String, Any>>("blinkidSdkSettings")
             val blinkidSessionSettings = call.argument<Map<String, Any>>("blinkidSessionSettings")
+            val blinkidUiSettings = call.argument<Map<String, Any>>("blinkidUiSettings")
             val classFilterMap = call.argument<Map<String, Any>>("blinkidClassFilter")
             val sdkSettings = BlinkIdDeserializationUtils
                 .deserializeBlinkIdSdkSettings(blinkIdSdkSettings)
@@ -82,7 +83,9 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                         uxSettings = BlinkIdDeserializationUtils.deserializeBlinkIdUxSettings(
                             blinkidSessionSettings,
                             classFilterMap
-                        )
+                        ),
+                        showOnboardingDialog = blinkidUiSettings?.getOrDefault("showOnboardingDialog", true) as Boolean,
+                        showHelpButton = blinkidUiSettings.getOrDefault("showHelpButton", true) as Boolean
                     )
                 )
                 it.startActivityForResult(intent, BLINKID_REQUEST_CODE)

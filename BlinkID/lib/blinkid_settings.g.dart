@@ -15,6 +15,7 @@ BlinkIdSdkSettings _$BlinkIdSdkSettingsFromJson(Map<String, dynamic> json) =>
       json['resourceLocalFolder'],
       json['bundleURL'],
       json['resourceRequestTimeout'],
+      json['microblinkProxyURL'],
     );
 
 Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
@@ -26,6 +27,7 @@ Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
       'resourceLocalFolder': instance.resourceLocalFolder,
       'bundleURL': instance.bundleURL,
       'resourceRequestTimeout': instance.resourceRequestTimeout,
+      'microblinkProxyURL': instance.microblinkProxyURL,
     };
 
 BlinkIdSessionSettings _$BlinkIdSessionSettingsFromJson(
@@ -172,6 +174,17 @@ Map<String, dynamic> _$CroppedImageSettingsToJson(
   'returnSignatureImage': instance.returnSignatureImage,
 };
 
+BlinkIdUiSettings _$BlinkIdUiSettingsFromJson(Map<String, dynamic> json) =>
+    BlinkIdUiSettings()
+      ..showHelpButton = json['showHelpButton'] as bool
+      ..showOnboardingDialog = json['showOnboardingDialog'] as bool;
+
+Map<String, dynamic> _$BlinkIdUiSettingsToJson(BlinkIdUiSettings instance) =>
+    <String, dynamic>{
+      'showHelpButton': instance.showHelpButton,
+      'showOnboardingDialog': instance.showOnboardingDialog,
+    };
+
 ClassFilter _$ClassFilterFromJson(Map<String, dynamic> json) =>
     ClassFilter()
       ..includeDocuments =
@@ -273,6 +286,9 @@ const _$FieldTypeEnumMap = {
   FieldType.eligibilityCategory: 'eligibilityCategory',
   FieldType.specificDocumentValidity: 'specificDocumentValidity',
   FieldType.vehicleOwner: 'vehicleOwner',
+  FieldType.nationalInsuranceNumber: 'nationalInsuranceNumber',
+  FieldType.countryCode: 'countryCode',
+  FieldType.certificateNumber: 'certificateNumber',
 };
 
 const _$AlphabetTypeEnumMap = {
@@ -806,6 +822,8 @@ const _$DocumentTypeEnumMap = {
   DocumentType.esaadCard: 'esaadCard',
   DocumentType.registrationCertificate: 'registrationCertificate',
   DocumentType.medicalMarijuanaId: 'medicalMarijuanaId',
+  DocumentType.nonCardTribalId: 'nonCardTribalId',
+  DocumentType.diplomaticId: 'diplomaticId',
 };
 
 DocumentNumberAnonymizationSettings
