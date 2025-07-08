@@ -130,6 +130,11 @@ imageSettings.returnFaceImage = true;
 /// Place the image settings in the scanning settings
 scanningSettings.croppedImageSettings = imageSettings;
 
+/// Create and modify the UI settings. This paramater is optional.
+final uiSettings = BlinkIdUiSettings();
+uiSettings.showHelpButton = true;
+uiSettings.showOnboardingDialog = false;
+
 /// Add the document class filter. This parameter is optional.
 final classFilter = ClassFilter.withIncludedDocumentClasses([
     DocumentFilter(Country.canada),
@@ -142,7 +147,7 @@ final classFilter = ClassFilter.withIncludedDocumentClasses([
 // Call the performScan method, where the SDK and session settings need to be passed
 // Here, you can also pass the optional ClassFilter object from step 3.
 await blinkIdPlugin
-    .performScan(sdkSettings, sessionSettings) //, classFilter) -> optional 
+    .performScan(sdkSettings, sessionSettings, uiSettings) //, classFilter) -> optional 
     .then((blinkidResult) {
       //handle the results here.
       print(blinkidResult.firstName?.value);
@@ -169,11 +174,14 @@ The `performScan` method launches the BlinkID scanning process with the default 
 It takes the following parameters: 
 1. BlinkID SDK settings
 2. BlinkID session settings
-3. The optional ClassFilter object for filtering documents.
+3. The optional BlinkID UI settings
+4. The optional ClassFilter object for filtering documents.
 
 **BlinkID SDK Settings** - `BlinkIdSdkSettings`: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
 
 **BlinkID Session Settings** - `BlinkIdSessionSettings`: the class that contains various settings for the scanning session. It contains the settings for the `ScanningMode` and `BlinkIdScanningSettings`, which define various parameters that control the scanning process.
+
+**BlinkID UI class** - `BlinkIdUiSettings` - the optional class that allows customization of various aspects of the UI used during the scanning process.
 
 The optional **ClassFilter** class - `ClassFilter`: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
 
@@ -203,15 +211,18 @@ The BlinkID SDK contains various settings, modifying different parts of scanning
 1. [BlinkID SDK settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L6) - `BlinkIdSdkSettings` \
 These settings are used for the initialization of the BlinkID SDK.
 
-2. [BlinkID session settings](https://github.com/BlinkID/blinkid-flutter/master/BlinkID/lib/blinkid_settings.dart#L56) - `BlinkIdSessionSettings`\
+2. [BlinkID session settings](https://github.com/BlinkID/blinkid-flutter/master/BlinkID/lib/blinkid_settings.dart#L66) - `BlinkIdSessionSettings`\
 These settings represent the configuration settings for a scanning session.\
 This class holds the settings related to the resources initialization, scanning mode, and specific scanning configurations that define how the scanning session should behave.
 
-3. [BlinkID scanning settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L92) - `BlinkIdScanningSettings`
+3. [BlinkID scanning settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L102) - `BlinkIdScanningSettings`\
 These settings represent the configurable settings for scanning a document.`
 This class defines various parameters and policies related to the scanning process, including image quality handling, data extraction and anonymization, along with options for frame processing and image extraction.
 
-4. [Cropped image settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L326) - `CroppedImageSettings`\
+4. [BlinkID UI settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L373) - `BlinkIdUiSettings`\
+Allows customization of various aspects of the UI used during the scanning process.
+
+5. [Cropped image settings](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart#L336) - `CroppedImageSettings`\
 These settings represent the image cropping settings.
 
 **Additional notes:**
