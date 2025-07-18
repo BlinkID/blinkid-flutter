@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'blinkid_flutter'
-  s.version          = '6.13.2'
+  s.version          = '6.13.3'
   s.summary          = 'A new flutter plugin project.'
   s.description      = <<-DESC
 A new flutter plugin project.
