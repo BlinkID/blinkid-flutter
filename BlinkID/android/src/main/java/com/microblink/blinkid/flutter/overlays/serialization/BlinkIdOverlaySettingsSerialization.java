@@ -163,7 +163,6 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         if (errorScanningWrongPageRight != null) {
             overlasStringsBuilder.setErrorScanningWrongPageRight(errorScanningWrongPageRight);
         }
-        // here
         String dataMismatchTitle = getStringFromJSONObject(jsonUISettings, "dataMismatchTitle");
         if (dataMismatchTitle != null) {
             overlasStringsBuilder.setDataMismatchTitle(dataMismatchTitle);
