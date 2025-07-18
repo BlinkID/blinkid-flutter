@@ -1,3 +1,8 @@
+## 6.13.3
+
+**Bug fixes**
+- Additional localization fixes.
+
 ## 6.13.2
 
 **Bug fixes**
