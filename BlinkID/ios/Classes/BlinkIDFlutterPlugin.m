@@ -123,6 +123,10 @@ static NSString* const kScanWithDirectApiMethodName = @"scanWithDirectApi";
     self.recognizerCollection = [[MBRecognizerSerializers sharedInstance] deserializeRecognizerCollection:recognizerCollectionDict];
     [self setLanguage:overlaySettingsDict];
     
+    if (overlaySettingsDict[@"iosCustomLocalizationFile"] != nil) {
+        MBMicroblinkApp.sharedInstance.customLocalizationFileName = overlaySettingsDict[@"iosCustomLocalizationFile"];
+    }
+    
     _overlayVc = [[MBOverlaySettingsSerializers sharedInstance] createOverlayViewController:overlaySettingsDict recognizerCollection:self.recognizerCollection delegate:self];
     for (MBRecognizer *recognizer in self.recognizerCollection.recognizerList) {
         if([recognizer isKindOfClass:[MBBlinkIdMultiSideRecognizer class]]) {

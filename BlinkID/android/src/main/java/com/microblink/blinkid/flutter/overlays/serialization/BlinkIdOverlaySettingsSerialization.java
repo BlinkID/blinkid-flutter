@@ -1,22 +1,18 @@
 package com.microblink.blinkid.flutter.overlays.serialization;
 
 import android.content.Context;
-
 import com.microblink.blinkid.entities.recognizers.RecognizerBundle;
 import com.microblink.blinkid.fragment.overlay.blinkid.reticleui.ReticleOverlayStrings;
 import com.microblink.blinkid.uisettings.BlinkIdUISettings;
 import com.microblink.blinkid.uisettings.UISettings;
 import com.microblink.blinkid.flutter.overlays.OverlaySettingsSerialization;
-import com.microblink.blinkid.flutter.SerializationUtils;
-import com.microblink.blinkid.locale.LanguageUtils;
 import com.microblink.blinkid.hardware.camera.VideoResolutionPreset;
 import com.microblink.blinkid.uisettings.CameraSettings;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import static com.microblink.blinkid.flutter.SerializationUtils.getStringFromJSONObject;
-
-import java.util.Objects;
 
 public final class BlinkIdOverlaySettingsSerialization implements OverlaySettingsSerialization {
     @Override
@@ -70,6 +66,10 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         if (firstSideInstructionsText != null) {
             overlasStringsBuilder.setFirstSideInstructionsText(firstSideInstructionsText);
         }
+        String backsideInstructionText = getStringFromJSONObject(jsonUISettings, "backsideInstructionText");
+        if (backsideInstructionText != null) {
+            overlasStringsBuilder.setBackSideInstructions(backsideInstructionText);
+        }
         String flipInstructions = getStringFromJSONObject(jsonUISettings, "flipInstructions");
         if (flipInstructions != null) {
             overlasStringsBuilder.setFlipInstructions(flipInstructions);
@@ -109,6 +109,7 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         String retryButtonText = getStringFromJSONObject(jsonUISettings, "retryButtonText");
         if (retryButtonText != null) {
             overlasStringsBuilder.setRetryButtonText(retryButtonText);
+
         }
         String scanBarcodeText = getStringFromJSONObject(jsonUISettings, "scanBarcodeText");
         if (scanBarcodeText != null) {
@@ -162,15 +163,78 @@ public final class BlinkIdOverlaySettingsSerialization implements OverlaySetting
         if (errorScanningWrongPageRight != null) {
             overlasStringsBuilder.setErrorScanningWrongPageRight(errorScanningWrongPageRight);
         }
-
-        String language = getStringFromJSONObject(jsonUISettings, "language");
-        if (!Objects.equals(language, "null") && language != null) {
-            String country = getStringFromJSONObject(jsonUISettings, "country");
-            if (!Objects.equals(country, "null") && country != null ) {
-                LanguageUtils.setLanguageAndCountry(language, country, context);
-            } else {
-                LanguageUtils.setLanguageAndCountry(language, "", context);
+        // here
+        String dataMismatchTitle = getStringFromJSONObject(jsonUISettings, "dataMismatchTitle");
+        if (dataMismatchTitle != null) {
+            overlasStringsBuilder.setDataMismatchTitle(dataMismatchTitle);
+        }
+        String dataMismatchMessage = getStringFromJSONObject(jsonUISettings, "dataMismatchMessage");
+        if (dataMismatchTitle != null) {
+            overlasStringsBuilder.setDataMismatchMessage(dataMismatchMessage);
+        }
+        String errorDocumentNotFullyVisible = getStringFromJSONObject(jsonUISettings, "errorDocumentNotFullyVisible");
+        if (errorDocumentNotFullyVisible != null) {
+            overlasStringsBuilder.setErrorDocumentNotFullyVisible(errorDocumentNotFullyVisible);
+        }
+        String errorScanningWrongSide = getStringFromJSONObject(jsonUISettings, "errorScanningWrongSide");
+        if (errorScanningWrongSide != null) {
+            overlasStringsBuilder.setErrorScanningWrongSide(errorScanningWrongSide);
+        }
+        String errorFacePhotoNotFullyVisible = getStringFromJSONObject(jsonUISettings, "errorFacePhotoNotFullyVisible");
+        if (errorFacePhotoNotFullyVisible != null) {
+            overlasStringsBuilder.setErrorFacePhotoNotFullyVisible(errorFacePhotoNotFullyVisible);
+        }
+        String flashlightWarningMessage = getStringFromJSONObject(jsonUISettings, "flashlightWarningMessage");
+        if (flashlightWarningMessage != null) {
+            overlasStringsBuilder.setFlashlightWarningMessage(flashlightWarningMessage);
+        }
+        String helpTooltipMessage = getStringFromJSONObject(jsonUISettings, "helpTooltipMessage");
+        if (helpTooltipMessage != null) {
+            overlasStringsBuilder.setHelpTooltip(helpTooltipMessage);
+        }
+        String onboardingSkipButtonText = getStringFromJSONObject(jsonUISettings, "onboardingSkipButtonText");
+        if (onboardingSkipButtonText != null) {
+            overlasStringsBuilder.setOnboardingSkipButtonText(onboardingSkipButtonText);
+        }
+        String onboardingBackButtonText = getStringFromJSONObject(jsonUISettings, "onboardingBackButtonText");
+        if (onboardingBackButtonText != null) {
+            overlasStringsBuilder.setOnboardingBackButtonText(onboardingBackButtonText);
+        }
+        String onboardingNextButtonText = getStringFromJSONObject(jsonUISettings, "onboardingNextButtonText");
+        if (onboardingNextButtonText != null) {
+            overlasStringsBuilder.setOnboardingNextButtonText(onboardingNextButtonText);
+        }
+        String onboardingDoneButtonText = getStringFromJSONObject(jsonUISettings, "onboardingDoneButtonText");
+        if (onboardingDoneButtonText != null) {
+            overlasStringsBuilder.setOnboardingDoneButtonText(onboardingDoneButtonText);
+        }
+        JSONArray onboardingTitles = jsonUISettings.optJSONArray("onboardingTitles");
+        if (onboardingTitles != null) {
+            String[] onboardingTitlesStrings = new String[onboardingTitles.length()];
+            for(int i = 0; i < onboardingTitles.length(); i++) {
+                onboardingTitlesStrings[i] = onboardingTitles.optString(i);
             }
+            overlasStringsBuilder.setOnboardingTitles(onboardingTitlesStrings);
+        }
+        JSONArray onboardingMessages = jsonUISettings.optJSONArray("onboardingMessages");
+        if (onboardingMessages != null) {
+            String[] onboardingMessagesStrings = new String[onboardingMessages.length()];
+            for (int i = 0; i < onboardingMessages.length(); i++) {
+                onboardingMessagesStrings[i] = onboardingMessages.optString(i);
+            }
+            overlasStringsBuilder.setOnboardingMessages(onboardingMessagesStrings);
+        }
+        String introductionDialogTitle  = getStringFromJSONObject(jsonUISettings, "introductionDialogTitle");
+        if (introductionDialogTitle != null) {
+            overlasStringsBuilder.setIntroductionDialogTitle(introductionDialogTitle);
+        }
+        String introductionDialogMessage  = getStringFromJSONObject(jsonUISettings, "introductionDialogMessage");
+        if (introductionDialogMessage != null) {
+            overlasStringsBuilder.setIntroductionDialogMessage(introductionDialogMessage);
+        }
+        String introductionDoneButtonText  = getStringFromJSONObject(jsonUISettings, "introductionDoneButtonText");
+        if (introductionDoneButtonText != null) {
+            overlasStringsBuilder.setIntroductionDialogDoneButtonText(introductionDoneButtonText);
         }
 
         settings.setStrings(overlasStringsBuilder.build());

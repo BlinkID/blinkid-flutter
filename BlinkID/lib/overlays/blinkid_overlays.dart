@@ -23,6 +23,10 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// If null, default value will be used.
   String? firstSideInstructionsText;
 
+  /// String: message that is shown while scanning back side of the document.
+  /// If null, default value will be used.
+  String? backsideInstructionText;
+
   /// String: instructions to flip document, shown when scanning of the first side is done, before scanning the second
   /// side of the document.
   /// If null, default value will be used.
@@ -89,7 +93,7 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   bool showOnboardingInfo = true;
 
   /// Define whether introduction dialog is turned on by default.
-  /// 
+  ///
   /// Default: false
   bool showIntroductionDialog = false;
 
@@ -111,12 +115,12 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// If null, default value will be used.
   String? errorDocumentTooCloseToEdge;
 
-  /// (optional) if default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used 
-  /// example: "en" 
+  /// (optional) if default overlay contains textual information, text will be localized to this language. Otherwise device langauge will be used
+  /// example: "en"
   String? language;
 
-  /// (optional) to be used with language variable, it defines the country locale 
-  /// example: "US" to use "en_US" on Android and en-US on iOS 
+  /// (optional) to be used with language variable, it defines the country locale
+  /// example: "US" to use "en_US" on Android and en-US on iOS
   String? country;
 
   /// Defines whether torch button used for turning the flashlight on and off is shown on the screen during the scanning session.
@@ -125,7 +129,7 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   bool showTorchButton = true;
 
   /// Defines whether exit (cancel) button used for cancelling the scan is shown on the screen during the scanning session.
-  ///  
+  ///
   /// Default: true
   bool showCancelButton = true;
 
@@ -140,12 +144,20 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   /// Defines possible Android device camera video resolution preset.
   ///
   /// Default: PresetDefault
-  AndroidCameraResolutionPreset androidCameraResolutionPreset = AndroidCameraResolutionPreset.PresetDefault;
+  AndroidCameraResolutionPreset androidCameraResolutionPreset =
+      AndroidCameraResolutionPreset.PresetDefault;
 
   /// Defines possible iOS device camera video resolution preset.
   ///
   /// Default: PresetOptimal
-  iOSCameraResolutionPreset iosCameraResolutionPreset = iOSCameraResolutionPreset.PresetOptimal;
+  iOSCameraResolutionPreset iosCameraResolutionPreset =
+      iOSCameraResolutionPreset.PresetOptimal;
+
+  /// iOS specific\
+  /// Localization file in the Main bundle used for overrideing framework’s localizations
+  ///
+  /// Example: if the custom localization file is named "en.strings", "en" needs to be passed to `iosCustomLocalizationFile`
+  String? iosCustomLocalizationFile;
 
   /// Option to set whether legacy camera API should be used even on Lollipop devices that support newer Camera2 API.
   /// WARNING: This setting should only be used if the new Camera2 API is not working on the device. This setting should not be applied on all devices.
@@ -154,37 +166,37 @@ class BlinkIdOverlaySettings extends OverlaySettings {
 
   /// String: Instructions to scan the passport, shown when scanning of the first side is done, before
   /// scanning the second side of the document.
-  /// 
+  ///
   /// If null, default value will be used.
   String? topPageInstructions;
 
   /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
   /// side of the document.
-  /// 
+  ///
   /// If null, default value will be used.
   String? leftPageInstructions;
 
   /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
   /// side of the document.
-  /// 
+  ///
   /// If null, default value will be used.
   String? rightPageInstructions;
 
   /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
   /// side of the document.
-  /// 
+  ///
   /// If null, default value will be used.
   String? turnTopPageInstructions;
 
   /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
   /// side of the document.
-  /// 
+  ///
   /// If null, default value will be used.
   String? turnLeftPageInstructions;
 
   /// String: Instructions to scan the passport, shown when scanning of the first side is done, before scanning the second
   /// side of the document.
-  /// 
+  ///
   ///  If null, default value will be used.
   String? turnRightPageInstructions;
 
@@ -194,14 +206,94 @@ class BlinkIdOverlaySettings extends OverlaySettings {
   String? errorScanningWrongPageTop;
 
   /// String: Instructions for the user when wrong side of passport is being scanned.
-  /// 
+  ///
   /// If null, default value will be used.
   String? errorScanningWrongPageLeft;
 
   /// String: Instructions for the user when wrong side of passport is being scanned.
-  /// 
+  ///
   /// If null, default value will be used.
   String? errorScanningWrongPageRight;
+
+  /// String: Title for the data mismatch alert.
+  ///
+  /// If null, default value will be used.
+  String? dataMismatchTitle;
+
+  /// String: Message for the data mismatch alert.
+  ///
+  /// If null, default value will be used.
+  String? dataMismatchMessage;
+
+  /// String: Instructions for the user when the document is not fully visible.
+  ///
+  /// If null, default value will be used.
+  String? errorDocumentNotFullyVisible;
+
+  /// String: Instructions for the user when the wrong side of the document is being scanned.
+  ///
+  /// If null, default value will be used.
+  String? errorScanningWrongSide;
+
+  /// String: Instructions for the user when the face photo is not fully visible.
+  ///
+  /// If null, default value will be used.
+  String? errorFacePhotoNotFullyVisible;
+
+  /// String: Flashlight warning message.
+  ///
+  /// If null, default value will be used.
+  String? flashlightWarningMessage;
+
+  /// String: Help toolip message.
+  ///
+  /// If null, default value will be used.
+  String? helpTooltipMessage;
+
+  /// String: Text for the skip button on the onboarding UI element.
+  ///
+  /// If null, default value will be used.
+  String? onboardingSkipButtonText;
+
+  /// String: Text for the back button on the onboarding UI element.
+  ///
+  /// If null, default value will be used.
+  String? onboardingBackButtonText;
+
+  /// String: Text for the next button on the onboarding UI element.
+  ///
+  /// If null, default value will be used.
+  String? onboardingNextButtonText;
+
+  /// String: Text for the done button on the onboarding UI element.
+  ///
+  /// If null, default value will be used.
+  String? onboardingDoneButtonText;
+
+  /// List<String>: Title text for all onboarding elements.
+  ///
+  /// If null, default values will be used.
+  List<String>? onboardingTitles;
+
+  /// List<String>: Message text for all onboarding elements.
+  ///
+  /// If null, default values will be used.
+  List<String>? onboardingMessages;
+
+  /// String: Introduction dialog title text.
+  ///
+  /// If null, default value will be used.
+  String? introductionDialogTitle;
+
+  /// String: Introduction dialog message text.
+  ///
+  /// If null, default value will be used.
+  String? introductionDialogMessage;
+
+  /// String: Introduction dialog done button text.
+  ///
+  /// If null, default value will be used.
+  String? introductionDoneButtonText;
 
   BlinkIdOverlaySettings() : super('BlinkIdOverlaySettings');
 
@@ -246,6 +338,6 @@ class DocumentVerificationOverlaySettings extends OverlaySettings {
   factory DocumentVerificationOverlaySettings.fromJson(
           Map<String, dynamic> json) =>
       _$DocumentVerificationOverlaySettingsFromJson(json);
-          Map<String, dynamic> toJson() =>
+  Map<String, dynamic> toJson() =>
       _$DocumentVerificationOverlaySettingsToJson(this);
 }

@@ -3,9 +3,13 @@ package com.microblink.blinkid.flutter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import androidx.annotation.NonNull;
+
+import android.os.Build;
 import android.util.Base64;
 import java.util.*;
 
@@ -92,10 +96,24 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
 
           JSONObject jsonOverlaySettings = new JSONObject((Map) call.argument(ARG_OVERLAY_SETTINGS));
           JSONObject jsonRecognizerCollection = new JSONObject((Map) call.argument(ARG_RECOGNIZER_COLLECTION));
+
           if (isLicenseKeyValid) {
-              setLanguage(jsonOverlaySettings);
               mRecognizerBundle = RecognizerSerializers.INSTANCE.deserializeRecognizerCollection(jsonRecognizerCollection);
-              UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(context, jsonOverlaySettings, mRecognizerBundle);
+
+              Context uiContext = context;
+              try {
+                  String language = jsonOverlaySettings.optString("language", null);
+                  String country = jsonOverlaySettings.optString("country", "");
+
+                  if (language != null && !"null".equals(language)) {
+                      uiContext = getLocalizedContext(context, language, country);
+                  }
+              } catch (Exception ignored) {}
+              setLanguage(jsonOverlaySettings, uiContext);
+
+              UISettings uiSettings = OverlaySettingsSerializers.INSTANCE.getOverlaySettings(
+                      uiContext, jsonOverlaySettings, mRecognizerBundle);
+
               startScanning(SCAN_REQ_CODE, uiSettings);
           }
       } else if (call.method.equals(METHOD_SCAN_DIRECT_API)) {
@@ -146,7 +164,7 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
       return isLicenseKeyValid;
   }
 
-  private void setLanguage(JSONObject jsonOverlaySettings) {
+  private void setLanguage(JSONObject jsonOverlaySettings, Context context) {
       try {
           String language = jsonOverlaySettings.getString("language");
           String country = jsonOverlaySettings.getString("country");
@@ -157,6 +175,22 @@ public class BlinkIDFlutterPlugin implements FlutterPlugin, MethodCallHandler, P
           }
       } catch (Exception e) {}
   }
+    private Context getLocalizedContext(Context baseContext, String language, String country) {
+        Locale locale = (country != null && !country.equals("null")) ?
+                new Locale(language, country) : new Locale(language);
+        Locale.setDefault(locale);
+
+        Configuration config = new Configuration(baseContext.getResources().getConfiguration());
+        config.setLocale(locale);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return baseContext.createConfigurationContext(config);
+        } else {
+            Resources res = baseContext.getResources();
+            res.updateConfiguration(config, res.getDisplayMetrics());
+            return baseContext;
+        }
+    }
 
   private void startScanning(int requestCode, UISettings uiSettings) {
       if (context instanceof Activity) {

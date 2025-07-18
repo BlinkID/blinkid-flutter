@@ -32,6 +32,7 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..useFrontCamera = json['useFrontCamera'] as bool
       ..enableBeep = json['enableBeep'] as bool
       ..firstSideInstructionsText = json['firstSideInstructionsText'] as String?
+      ..backsideInstructionText = json['backsideInstructionText'] as String?
       ..flipInstructions = json['flipInstructions'] as String?
       ..errorMoveCloser = json['errorMoveCloser'] as String?
       ..errorMoveFarther = json['errorMoveFarther'] as String?
@@ -68,6 +69,7 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
           json['androidCameraResolutionPreset'])
       ..iosCameraResolutionPreset = $enumDecode(
           _$iOSCameraResolutionPresetEnumMap, json['iosCameraResolutionPreset'])
+      ..iosCustomLocalizationFile = json['iosCustomLocalizationFile'] as String?
       ..enableAndroidLegacyCameraApi =
           json['enableAndroidLegacyCameraApi'] as bool
       ..topPageInstructions = json['topPageInstructions'] as String?
@@ -80,7 +82,30 @@ BlinkIdOverlaySettings _$BlinkIdOverlaySettingsFromJson(
       ..errorScanningWrongPageLeft =
           json['errorScanningWrongPageLeft'] as String?
       ..errorScanningWrongPageRight =
-          json['errorScanningWrongPageRight'] as String?;
+          json['errorScanningWrongPageRight'] as String?
+      ..dataMismatchTitle = json['dataMismatchTitle'] as String?
+      ..dataMismatchMessage = json['dataMismatchMessage'] as String?
+      ..errorDocumentNotFullyVisible =
+          json['errorDocumentNotFullyVisible'] as String?
+      ..errorScanningWrongSide = json['errorScanningWrongSide'] as String?
+      ..errorFacePhotoNotFullyVisible =
+          json['errorFacePhotoNotFullyVisible'] as String?
+      ..flashlightWarningMessage = json['flashlightWarningMessage'] as String?
+      ..helpTooltipMessage = json['helpTooltipMessage'] as String?
+      ..onboardingSkipButtonText = json['onboardingSkipButtonText'] as String?
+      ..onboardingBackButtonText = json['onboardingBackButtonText'] as String?
+      ..onboardingNextButtonText = json['onboardingNextButtonText'] as String?
+      ..onboardingDoneButtonText = json['onboardingDoneButtonText'] as String?
+      ..onboardingTitles = (json['onboardingTitles'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
+      ..onboardingMessages = (json['onboardingMessages'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList()
+      ..introductionDialogTitle = json['introductionDialogTitle'] as String?
+      ..introductionDialogMessage = json['introductionDialogMessage'] as String?
+      ..introductionDoneButtonText =
+          json['introductionDoneButtonText'] as String?;
 
 Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
         BlinkIdOverlaySettings instance) =>
@@ -89,6 +114,7 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'useFrontCamera': instance.useFrontCamera,
       'enableBeep': instance.enableBeep,
       'firstSideInstructionsText': instance.firstSideInstructionsText,
+      'backsideInstructionText': instance.backsideInstructionText,
       'flipInstructions': instance.flipInstructions,
       'errorMoveCloser': instance.errorMoveCloser,
       'errorMoveFarther': instance.errorMoveFarther,
@@ -120,6 +146,7 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
           instance.androidCameraResolutionPreset]!,
       'iosCameraResolutionPreset': _$iOSCameraResolutionPresetEnumMap[
           instance.iosCameraResolutionPreset]!,
+      'iosCustomLocalizationFile': instance.iosCustomLocalizationFile,
       'enableAndroidLegacyCameraApi': instance.enableAndroidLegacyCameraApi,
       'topPageInstructions': instance.topPageInstructions,
       'leftPageInstructions': instance.leftPageInstructions,
@@ -130,6 +157,22 @@ Map<String, dynamic> _$BlinkIdOverlaySettingsToJson(
       'errorScanningWrongPageTop': instance.errorScanningWrongPageTop,
       'errorScanningWrongPageLeft': instance.errorScanningWrongPageLeft,
       'errorScanningWrongPageRight': instance.errorScanningWrongPageRight,
+      'dataMismatchTitle': instance.dataMismatchTitle,
+      'dataMismatchMessage': instance.dataMismatchMessage,
+      'errorDocumentNotFullyVisible': instance.errorDocumentNotFullyVisible,
+      'errorScanningWrongSide': instance.errorScanningWrongSide,
+      'errorFacePhotoNotFullyVisible': instance.errorFacePhotoNotFullyVisible,
+      'flashlightWarningMessage': instance.flashlightWarningMessage,
+      'helpTooltipMessage': instance.helpTooltipMessage,
+      'onboardingSkipButtonText': instance.onboardingSkipButtonText,
+      'onboardingBackButtonText': instance.onboardingBackButtonText,
+      'onboardingNextButtonText': instance.onboardingNextButtonText,
+      'onboardingDoneButtonText': instance.onboardingDoneButtonText,
+      'onboardingTitles': instance.onboardingTitles,
+      'onboardingMessages': instance.onboardingMessages,
+      'introductionDialogTitle': instance.introductionDialogTitle,
+      'introductionDialogMessage': instance.introductionDialogMessage,
+      'introductionDoneButtonText': instance.introductionDoneButtonText,
     };
 
 const _$AndroidCameraResolutionPresetEnumMap = {

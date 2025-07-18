@@ -173,6 +173,27 @@
     }
     
     {
+        id backSideInstructionsText = [jsonOverlaySettings valueForKey:@"backSideInstructionsText"];
+        if (backSideInstructionsText != nil) {
+            sett.backSideInstructionsText = (NSString *)backSideInstructionsText;
+        }
+    }
+    
+    {
+        id faceImageMissingMessage = [jsonOverlaySettings valueForKey:@"faceImageMissingMessage"];
+        if (faceImageMissingMessage != nil) {
+            sett.faceImageMissingMessage = (NSString *)faceImageMissingMessage;
+        }
+    }
+    
+    {
+        id scanningWrongSideMessage = [jsonOverlaySettings valueForKey:@"scanningWrongSideMessage"];
+        if (scanningWrongSideMessage != nil) {
+            sett.scanningWrongSideMessage = (NSString *)scanningWrongSideMessage;
+        }
+    }
+    
+    {
         id showOnboardingInfo = [jsonOverlaySettings valueForKey:@"showOnboardingInfo"];
         if (showOnboardingInfo != nil) {
             sett.showOnboardingInfo = [showOnboardingInfo boolValue];
