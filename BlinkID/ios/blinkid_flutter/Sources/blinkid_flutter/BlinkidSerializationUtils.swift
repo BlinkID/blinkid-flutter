@@ -609,7 +609,9 @@ class BlinkIdSerializationUtils {
             if let dateOfIssue = vizResult.dateOfIssue {
                 vizResultDict["dateOfIssue"] = serializeDateResult(dateOfIssue)
             }
-            vizResultDict["dependentsInfo"] = vizResult.dependentsInfo.compactMap(serializeDependentInfo(_:))
+            if let dependentsInfo = vizResult.dependentsInfo {
+                vizResultDict["dependentsInfo"] = dependentsInfo.compactMap(serializeDependentInfo(_:))
+            }
             if let documentAdditionalNumber = vizResult.documentAdditionalNumber {
                 vizResultDict["documentAdditionalNumber"] = serializeStringResult(documentAdditionalNumber)
             }
