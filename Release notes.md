@@ -1,5 +1,4 @@
 ## v7.4.0
-
 - Updated to [Android SDK v7.4.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.4.0) and [iOS SDK v7.4.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.4.0)
 
 #### New Documents Support
@@ -11,6 +10,9 @@
 
 #### New Document Versions for Supported Documents
 - Canada, Yukon - Driver's License
+
+**Bug fixes**
+- Fixed issue with incorrect `DriverLicenseDetailedInfo` serialization
 
 ## 7.3.0
 - Updated to [Android SDK v7.3.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.3.0) and [iOS SDK v7.3.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.3.1)
