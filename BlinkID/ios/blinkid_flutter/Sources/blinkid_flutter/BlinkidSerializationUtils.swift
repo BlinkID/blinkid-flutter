@@ -316,8 +316,8 @@ class BlinkIdSerializationUtils {
     
     static func serializeVehicleClassInfo<T>(_ vehicleClassInfo: VehicleClassInfo<T>?) -> Dictionary<String, Any> {
         return [
-            "effectiveDate": serializeStringType(vehicleClassInfo?.effectiveDate),
-            "expiryDate":  serializeStringType(vehicleClassInfo?.expiryDate),
+            "effectiveDate": serializeDateResult(vehicleClassInfo?.effectiveDate),
+            "expiryDate":  serializeDateResult(vehicleClassInfo?.expiryDate),
             "licenceType": serializeStringType(vehicleClassInfo?.licenceType),
             "vehicleClass": serializeStringType(vehicleClassInfo?.vehicleClass as? String)
         ]
@@ -609,7 +609,9 @@ class BlinkIdSerializationUtils {
             if let dateOfIssue = vizResult.dateOfIssue {
                 vizResultDict["dateOfIssue"] = serializeDateResult(dateOfIssue)
             }
-            vizResultDict["dependentsInfo"] = vizResult.dependentsInfo.compactMap(serializeDependentInfo(_:))
+            if let dependentsInfo = vizResult.dependentsInfo {
+                vizResultDict["dependentsInfo"] = dependentsInfo.compactMap(serializeDependentInfo(_:))
+            }
             if let documentAdditionalNumber = vizResult.documentAdditionalNumber {
                 vizResultDict["documentAdditionalNumber"] = serializeStringResult(documentAdditionalNumber)
             }

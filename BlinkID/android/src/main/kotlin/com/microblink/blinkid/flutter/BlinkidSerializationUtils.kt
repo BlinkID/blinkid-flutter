@@ -326,8 +326,8 @@ object BlinkIdSerializationUtils {
 
     private fun <T> serializeVehicleClassInfo(vehicleClassInfo: VehicleClassInfo<T>): Map<String, Any?> {
         return mapOf(
-            "effectiveDate" to serializeStringType(vehicleClassInfo.effectiveDate),
-            "expiryDate" to serializeStringType(vehicleClassInfo.expiryDate),
+            "effectiveDate" to serializeDateResult(vehicleClassInfo.effectiveDate),
+            "expiryDate" to serializeDateResult(vehicleClassInfo.expiryDate),
             "licenceType" to serializeStringType(vehicleClassInfo.licenceType),
             "vehicleClass" to serializeStringType(vehicleClassInfo.vehicleClass)
         )

@@ -47,10 +47,10 @@ class _MyAppState extends State<MyApp> {
     /// A valid license key can be obtained from the Microblink Developer Hub, here: https://developer.microblink.com
     if (Platform.isAndroid) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTlRFeU9ERTVPVE0xTmpFc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PbpfCzRw9gf/6F93cmQEN/XWTdStZh94uIy9lC+HB6UqEx332sU79wX5RgyoyteUsdB4vXPOpyLOuCYzGZ0vPoB7vc/JaF3JpJuRIpBbkn3YqQm2dAfUQ8jfxtW6FQ==";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTlRNeE56VXhOVEE0T0RVc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PTw1RZxpiaiPphwDAz+ymrsPRl/FNa+kTcFq6+8OWbVJiyv5mIb7IJgjZEKDNRVYbKYGb7wteoWgDPd/PbydBWxgGAP5KwD69kINQ8dCVZEI5LFQ/ffW79i7Eoshug==";
     } else if (Platform.isIOS) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTlRFeU9ESXdNelV5TnpRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PTR7M88y4E5W2a6aJXzNCVQm2wsHQAKOY2lVVzXuZrpMNnwK2Ie4YeOJuyvyGF6HH53JRtxGZ5jnlzwADkBLSA29yfO0ijABa9mGjLwGdLYP+0or4XP6t6yQ0N9dHg==";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTlRNeU5UZ3lNemd5TWpZc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaTQzrfmnkykcV3qlqzI6Zp2T7vmQI5Qlz8qCcTaq9hv9/wXvwb8yQ536ICbOpdnQisfk1Y7NGMfLAd1b4NfAksBXz0mZZU+d4HEQLLRXhOQdxdOrZM8DMD19fnZNA==";
     }
   }
 
