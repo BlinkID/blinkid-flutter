@@ -391,7 +391,8 @@ object BlinkIdSerializationUtils {
             "race" to barcodeResult?.race,
             "religion" to barcodeResult?.religion,
             "residentialStatus" to barcodeResult?.residentialStatus,
-            "sex" to barcodeResult?.sex
+            "sex" to barcodeResult?.sex,
+            "parsed" to barcodeResult?.parsed
         )
     }
 

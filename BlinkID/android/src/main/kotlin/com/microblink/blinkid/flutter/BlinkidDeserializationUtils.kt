@@ -38,7 +38,7 @@ object BlinkIdDeserializationUtils {
     fun deserializeBlinkIdSdkSettings(blinkIdSdkSettingsMap: Map<String, Any>?): BlinkIdSdkSettings? {
         val licenseKey = blinkIdSdkSettingsMap?.get("licenseKey") as? String ?: return null
 
-        return BlinkIdSdkSettings(
+        val sdkSettings = BlinkIdSdkSettings(
             licenseKey = licenseKey,
             licensee = blinkIdSdkSettingsMap["licensee"] as? String,
             downloadResources = blinkIdSdkSettingsMap["downloadResources"] as? Boolean ?: true,
@@ -47,8 +47,10 @@ object BlinkIdDeserializationUtils {
             resourceLocalFolder = blinkIdSdkSettingsMap["resourceLocalFolder"] as? String
                 ?: defaultResourcesLocalFolder,
             resourceRequestTimeout = deserializeResourceRequestTimeout(blinkIdSdkSettingsMap["resourceRequestTimeout"] as? Map<String, Any>),
-            microblinkProxyUrl = blinkIdSdkSettingsMap["microblinkProxyURL"] as? String
-        )
+            microblinkProxyUrl = blinkIdSdkSettingsMap["microblinkProxyURL"] as? String,
+            )
+
+        return sdkSettings
     }
 
     fun deserializeBlinkIdSessionSettings(

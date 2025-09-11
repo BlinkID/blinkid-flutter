@@ -10,6 +10,8 @@ import com.microblink.blinkid.ux.contract.BlinkIdScanActivitySettings
 import com.microblink.blinkid.ux.contract.MbBlinkIdScan
 import com.microblink.core.LicenseLockedException
 import com.microblink.core.image.InputImage
+import com.microblink.core.ping.PingManager
+import com.microblink.core.ping.pinglets.WrapperProductInfo
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -88,6 +90,9 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                         showHelpButton = blinkidUiSettings.getOrDefault("showHelpButton", true) as Boolean
                     )
                 )
+
+                addFlutterPinglet(context)
+
                 it.startActivityForResult(intent, BLINKID_REQUEST_CODE)
             } ?: result.error(BLINKID_ERROR_RESULT_CODE, "Activity not found.", null)
         } catch (error: Exception) {
@@ -112,7 +117,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
             BlinkIdDeserializationUtils.deserializeBlinkIdSdkSettings(blinkIdSdkSettings)?.let {
                 val blinkidInstance = BlinkIdSdk.initializeSdk(context, it)
-
+                addFlutterPinglet(context)
                 when {
                     blinkidInstance.isSuccess -> {
 
@@ -179,6 +184,13 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
         } catch (error: Exception) {
             flutterResult?.error(BLINKID_ERROR_RESULT_CODE, error.message, null)
         }
+    }
+
+    private fun addFlutterPinglet(context: Context) {
+        PingManager.getInstance(context).add(
+            WrapperProductInfo(
+                wrapperProduct = WrapperProductInfo.WrapperProduct.CROSSPLATFORMFLUTTER),
+            0)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
