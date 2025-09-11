@@ -51,6 +51,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             ))
             return nil
         }
+        
         return settings
     }
     
@@ -87,6 +88,8 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                 classFilter: self
             )
             
+            await addFlutterPinglet(with: analyzer.sessionNumber)
+            
             var shouldShowIntroductionAlert = true, shouldShowHelpButton = true
             if let blinkidUiSettings = arguments["blinkidUiSettings"] as? [String: Any] {
                 if let showOnboardingDialog = blinkidUiSettings["showOnboardingDialog"] as? Bool {
@@ -97,11 +100,14 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                     shouldShowHelpButton = showHelpButton
                 }
             }
+            
             let scanningUxModel = await BlinkIDUXModel(
                 analyzer: analyzer,
                 shouldShowIntroductionAlert: shouldShowIntroductionAlert,
-                showHelpButton: shouldShowHelpButton
+                showHelpButton: shouldShowHelpButton,
+                sessionNumber: analyzer.sessionNumber
             )
+            
             let scannedResults =  await scanningUxModel.$result
                 .sink { [weak self] scanningResultState in
                     if let scanningResultState {
@@ -126,11 +132,18 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             }
             
         } catch {
-            result?(FlutterError(
-                code: BlinkIdStrings.iosError,
-                message: "\(BlinkIdStrings.ErrorMessage.initError) Reason: \(error.localizedDescription)",
-                details: nil
-            ))
+            if let error = error as? InvalidLicenseKeyError {
+                result?(FlutterError(
+                    code: BlinkIdStrings.iosError,
+                    message: "\(BlinkIdStrings.ErrorMessage.initError) Reason: \(error.message)",
+                    details: nil
+                ))
+            } else {
+                result?(FlutterError(
+                    code: BlinkIdStrings.iosError,
+                    message: "\(BlinkIdStrings.ErrorMessage.initError) Reason: \(error.localizedDescription)",
+                    details: nil))
+            }
         }
     }
     
@@ -145,7 +158,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         viewController.modalPresentationStyle = .fullScreen
         rootVC.present(viewController, animated: true)
     }
-        
+    
     func performDirectApiScan(_ call: FlutterMethodCall) async {
         if let arguments = call.arguments as? Dictionary<String, Any> {
             
@@ -169,6 +182,8 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                     
                     let session = try await blinkidSdk.createScanningSession(sessionSettings: sessionSettings)
                     
+                    await addFlutterPinglet(with: session.getSessionNumber())
+                    
                     guard let frontUIImage = BlinkIdDeserializationUtils.deserializeBase64Image(arguments["firstImage"] as? String) else {
                         result?(FlutterError(
                             code: BlinkIdStrings.iosError,
@@ -177,7 +192,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                         ))
                         return
                     }
-                                    
+                    
                     await session.process(inputImage: InputImage(uiImage: frontUIImage))
                     
                     if let backUIImage = BlinkIdDeserializationUtils.deserializeBase64Image(arguments["secondImage"] as? String) {
@@ -197,9 +212,20 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                     return
                 }
             } catch {
-                result?(FlutterError(code: BlinkIdStrings.iosError, message: error.localizedDescription, details: nil))
+                if let error = error as? InvalidLicenseKeyError {
+                    result?(FlutterError(code: BlinkIdStrings.iosError, message: error.message, details: nil))
+                } else {
+                    result?(FlutterError(code: BlinkIdStrings.iosError, message: error.localizedDescription, details: nil))
+                }
+
             }
         }
+    }
+    
+    private func addFlutterPinglet(with sessionNumber: Int) async {
+        await PingManager.shared.addPinglet(
+            pinglet: WrapperProductInfoPinglet(wrapperProduct: .crossplatformflutter),
+            sessionNumber: sessionNumber)
     }
 }
 

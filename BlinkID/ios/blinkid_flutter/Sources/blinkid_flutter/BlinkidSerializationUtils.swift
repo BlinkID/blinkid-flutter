@@ -371,7 +371,8 @@ class BlinkIdSerializationUtils {
             "race": barcodeResult?.race,
             "religion": barcodeResult?.religion,
             "residentialStatus": barcodeResult?.residentialStatus,
-            "sex": barcodeResult?.sex
+            "sex": barcodeResult?.sex,
+            "parsed": barcodeResult?.parsed
         ]
     }
     
