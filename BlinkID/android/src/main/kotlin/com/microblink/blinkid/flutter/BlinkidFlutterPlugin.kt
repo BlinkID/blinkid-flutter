@@ -86,8 +86,8 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                             blinkidSessionSettings,
                             classFilterMap
                         ),
-                        showOnboardingDialog = blinkidUiSettings?.getOrDefault("showOnboardingDialog", true) as Boolean,
-                        showHelpButton = blinkidUiSettings.getOrDefault("showHelpButton", true) as Boolean
+                        showOnboardingDialog = (blinkidUiSettings?.getOrDefault("showOnboardingDialog", true) as? Boolean) ?: true,
+                        showHelpButton = (blinkidUiSettings?.getOrDefault("showHelpButton", true) as? Boolean) ?: true
                     )
                 )
 
