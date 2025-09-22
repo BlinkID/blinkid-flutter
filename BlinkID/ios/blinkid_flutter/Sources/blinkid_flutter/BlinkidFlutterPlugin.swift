@@ -107,7 +107,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                 showHelpButton: shouldShowHelpButton,
                 sessionNumber: analyzer.sessionNumber
             )
-            
+
             let scannedResults =  await scanningUxModel.$result
                 .sink { [weak self] scanningResultState in
                     if let scanningResultState {
@@ -118,6 +118,10 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                             }
                         }
                         else {
+                            Task {
+                                await BlinkIDSdk.terminateBlinkIDSdk()
+                            }
+                            
                             DispatchQueue.main.async {
                                 self?.result?(FlutterError(code: BlinkIdStrings.iosError, message: "Scanning has been canceled", details: nil))
                                 self?.rootVc?.dismiss(animated: true)
@@ -202,6 +206,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                     let scannedResults = await session.getResult()
                     DispatchQueue.main.async {
                         self.result?(BlinkIdSerializationUtils.serializeBlinkIdScanningResult(scannedResults))
+                        
                     }
                 } else {
                     result?(FlutterError(
@@ -209,6 +214,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
                         message: BlinkIdStrings.ErrorMessage.initError,
                         details: nil
                     ))
+                    
                     return
                 }
             } catch {
