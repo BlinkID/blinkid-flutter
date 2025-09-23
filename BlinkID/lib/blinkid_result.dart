@@ -1457,6 +1457,9 @@ class BarcodeResult {
   /// Currently this is only filled for AAMVACompliant documents.
   BarcodeExtendedElements? extendedElements;
 
+  /// Indicates whether the barcode was successfully parsed.
+  bool? parsed;
+
   ///  Represents the data extracted from the barcode.
   BarcodeResult(Map<String, dynamic> nativeBarcodeResult) {
     barcodeData =
@@ -1527,6 +1530,7 @@ class BarcodeResult {
               ),
             )
             : null;
+    parsed = nativeBarcodeResult['parsed'];
   }
 }
 

@@ -10,6 +10,8 @@ import com.microblink.blinkid.ux.contract.BlinkIdScanActivitySettings
 import com.microblink.blinkid.ux.contract.MbBlinkIdScan
 import com.microblink.core.LicenseLockedException
 import com.microblink.core.image.InputImage
+import com.microblink.core.ping.PingManager
+import com.microblink.core.ping.pinglets.WrapperProductInfo
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -84,10 +86,13 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                             blinkidSessionSettings,
                             classFilterMap
                         ),
-                        showOnboardingDialog = blinkidUiSettings?.getOrDefault("showOnboardingDialog", true) as Boolean,
-                        showHelpButton = blinkidUiSettings.getOrDefault("showHelpButton", true) as Boolean
+                        showOnboardingDialog = (blinkidUiSettings?.getOrDefault("showOnboardingDialog", true) as? Boolean) ?: true,
+                        showHelpButton = (blinkidUiSettings?.getOrDefault("showHelpButton", true) as? Boolean) ?: true
                     )
                 )
+
+                addFlutterPinglet(context)
+
                 it.startActivityForResult(intent, BLINKID_REQUEST_CODE)
             } ?: result.error(BLINKID_ERROR_RESULT_CODE, "Activity not found.", null)
         } catch (error: Exception) {
@@ -112,7 +117,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
             BlinkIdDeserializationUtils.deserializeBlinkIdSdkSettings(blinkIdSdkSettings)?.let {
                 val blinkidInstance = BlinkIdSdk.initializeSdk(context, it)
-
+                addFlutterPinglet(context)
                 when {
                     blinkidInstance.isSuccess -> {
 
@@ -181,6 +186,13 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
         }
     }
 
+    private fun addFlutterPinglet(context: Context) {
+        PingManager.getInstance(context).add(
+            WrapperProductInfo(
+                wrapperProduct = WrapperProductInfo.WrapperProduct.CROSSPLATFORMFLUTTER),
+            0)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?): Boolean {
         if (requestCode == BLINKID_REQUEST_CODE) {
 
@@ -199,6 +211,9 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
                 BlinkIdScanActivityResultStatus.Canceled -> {
                     flutterResult?.error(BLINKID_ERROR_RESULT_CODE, "Scanning is canceled.", null)
+                    suspend {
+                        BlinkIdSdk.sdkInstance?.close()
+                    }
                 }
 
                 BlinkIdScanActivityResultStatus.ErrorSdkInit -> {
