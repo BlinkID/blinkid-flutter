@@ -27,6 +27,8 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
     ActivityResultListener {
     private val BLINKID_METHOD_PERFORM_SCAN = "performScan"
     private val BLINKID_METHOD_PERFORM_DIRECTAPI_SCAN = "performDirectApiScan"
+    private val BLINKID_LOAD_SDK = "loadBlinkIdSdk"
+    private val BLINKID_UNLOAD_SDK = "unloadBlinkIdSdk"
     private val BLINKID_REQUEST_CODE = 1452
     private val BLINKID_ERROR_RESULT_CODE = "blinkid_android_error"
 
@@ -45,13 +47,11 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
     override fun onMethodCall(call: MethodCall, result: Result) {
         flutterResult = result
         when (call.method) {
+            BLINKID_LOAD_SDK -> (CoroutineScope(Dispatchers.Main).launch { loadBlinkIdSdk(call, result) })
+            BLINKID_UNLOAD_SDK -> (unloadBlinkIdSdk(call, result))
             BLINKID_METHOD_PERFORM_SCAN -> (performScan(call, result))
-            BLINKID_METHOD_PERFORM_DIRECTAPI_SCAN -> {
-                CoroutineScope(Dispatchers.Main).launch {
-                    performDirectApiScan(call)
-                }
+            BLINKID_METHOD_PERFORM_DIRECTAPI_SCAN -> { CoroutineScope(Dispatchers.Main).launch { performDirectApiScan(call) }
             }
-
             else -> {
                 result.notImplemented()
             }
@@ -61,6 +61,56 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
+    }
+
+    private suspend fun loadBlinkIdSdk(call: MethodCall, result: Result) {
+        try {
+            val blinkIdSdkSettings = call.argument<Map<String, Any>>("blinkidSdkSettings")
+            val sdkSettings = BlinkIdDeserializationUtils
+                .deserializeBlinkIdSdkSettings(blinkIdSdkSettings)
+                ?: return result.error(BLINKID_ERROR_RESULT_CODE, "Incorrect SDK Settings.", null)
+
+            flutterPluginActivity?.let {
+                val maybeInstance = BlinkIdSdk.initializeSdk(it, sdkSettings)
+                when {
+                    maybeInstance.isSuccess -> {
+                        result.success("")
+                    }
+
+                    maybeInstance.isFailure -> {
+                        val exception = maybeInstance.exceptionOrNull()
+                        result.error(BLINKID_ERROR_RESULT_CODE, exception?.message, null)
+                    }
+                }
+            }
+        } catch (error: Exception) {
+            when (error) {
+                is LicenseLockedException -> {
+                    result.error(BLINKID_ERROR_RESULT_CODE, error.message, null)
+                }
+
+                else -> {
+                    result.error(BLINKID_ERROR_RESULT_CODE, error.message, null)
+                }
+            }
+        }
+    }
+
+    private fun unloadBlinkIdSdk(call: MethodCall, result: Result) {
+        try {
+            val deleteCachedResources = call.argument<Boolean>("deleteCachedResources")
+            deleteCachedResources?.let {
+                if (it) {
+                    BlinkIdSdk.sdkInstance?.closeAndDeleteCachedAssets()
+                } else {
+                    BlinkIdSdk.sdkInstance?.close()
+                }
+                result.success("")
+            }
+        } catch (exception: Exception) {
+            result.error(BLINKID_ERROR_RESULT_CODE, exception.message, null)
+        }
+
     }
 
     private fun performScan(call: MethodCall, result: Result) {
