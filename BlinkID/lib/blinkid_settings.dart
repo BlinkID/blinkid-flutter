@@ -25,7 +25,7 @@ class BlinkIdSdkSettings {
   /// application's cache folder where resources will be cached.
   String? resourceLocalFolder;
 
-  /// If resources downloading is disabled, this defines the bundle of your app where the resources reside.
+  /// [iOS-specific] If resources downloading is disabled for iOS, this defines the bundle identifier of your iOS app where the resources reside.
   String? bundleURL;
 
   /// Timeout settings for resource downloads.
@@ -33,10 +33,10 @@ class BlinkIdSdkSettings {
 
   /// Set a custom HTTPS URL to be used as a proxy for Ping and license checks.
   /// The proxy URL will be applied only if the license has the appropriate rights.
-  /// The URL must use the HTTPS protocol. Example: https://your-proxy.com/     
-  /// 
+  /// The URL must use the HTTPS protocol. Example: https://your-proxy.com/
+  ///
   /// If this value is defined, SDK initialization will not be successful in the following cases:
-  ///   - if the URL does not use HTTPS or if the URL is invalid    
+  ///   - if the URL does not use HTTPS or if the URL is invalid
   ///   - if the license does not allow proxy usage
   String? microblinkProxyURL;
 
@@ -49,7 +49,7 @@ class BlinkIdSdkSettings {
     resourceLocalFolder,
     bundleURL,
     resourceRequestTimeout,
-    microblinkProxyURL
+    microblinkProxyURL,
   ]);
 
   factory BlinkIdSdkSettings.fromJson(Map<String, dynamic> json) =>

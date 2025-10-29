@@ -67,4 +67,14 @@ class BlinkidFlutter {
       secondImage,
     );
   }
+
+  Future<void> loadBlinkIdSdk(BlinkIdSdkSettings blinkidSdkSettings) async {
+    return BlinkidFlutterPlatform.instance.loadBlinkIdSdk(blinkidSdkSettings);
+  }
+
+  Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {
+    return BlinkidFlutterPlatform.instance.unloadBlinkIdSdk(
+      deleteCachedResources: deleteCachedResources,
+    );
+  }
 }

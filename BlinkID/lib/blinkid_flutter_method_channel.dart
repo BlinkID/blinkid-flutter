@@ -20,6 +20,13 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   final methodChannel = const MethodChannel('blinkid_flutter');
   static const String ARG_SCAN_METHOD = 'performScan';
   static const String ARG_SCAN_DIRECT_API_METHOD = 'performDirectApiScan';
+  static const String ARG_LOAD_BLINKID_SDK = 'loadBlinkIdSdk';
+  static const String ARG_UNLOAD_BLINKID_SDK = 'unloadBlinkIdSdk';
+  static const String ARG_DELETE_CACHED_RESOURCES = 'deleteCachedResources';
+  static const String ARG_PERFORM_SCAN_WITH_LOADED_SDK_SETTINGS =
+      'performScanWithLoadedSdkSettings';
+  static const String ARG_PERFORM_DIRECT_API_SCAN_WITH_LOADED_SDK_SETTINGS =
+      'performDirectApiScanWithLoadedSdkSettings';
   static const String ARG_BLINKID_SDK_SETTINGS = 'blinkidSdkSettings';
   static const String ARG_SESSION_SETTINGS = 'blinkidSessionSettings';
   static const String ARG_UI_SETTINGS = 'blinkidUiSettings';
@@ -91,5 +98,21 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
       jsonDecode(jsonBlinkIdDirectApiResult),
     );
     return BlinkIdScanningResult(decodedMap);
+  }
+
+  @override
+  Future<void> loadBlinkIdSdk(BlinkIdSdkSettings blinkidSdkSettings) async {
+    await methodChannel.invokeMethod(ARG_LOAD_BLINKID_SDK, {
+      ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkidSdkSettings)),
+    });
+  }
+
+  @override
+  Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {
+    await methodChannel.invokeMethod(ARG_UNLOAD_BLINKID_SDK, {
+      ARG_DELETE_CACHED_RESOURCES: jsonDecode(
+        jsonEncode(deleteCachedResources),
+      ),
+    });
   }
 }

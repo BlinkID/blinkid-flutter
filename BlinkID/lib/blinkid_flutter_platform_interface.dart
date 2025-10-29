@@ -59,4 +59,14 @@ abstract class BlinkidFlutterPlatform extends PlatformInterface {
       secondImage,
     );
   }
+
+  Future<void> loadBlinkIdSdk(BlinkIdSdkSettings blinkidSdkSettings) async {
+    return MethodChannelBlinkidFlutter().loadBlinkIdSdk(blinkidSdkSettings);
+  }
+
+  Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {
+    return MethodChannelBlinkidFlutter().unloadBlinkIdSdk(
+      deleteCachedResources: deleteCachedResources,
+    );
+  }
 }

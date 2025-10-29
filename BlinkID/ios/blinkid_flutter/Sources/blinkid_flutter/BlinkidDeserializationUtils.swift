@@ -32,9 +32,10 @@ struct BlinkIdDeserializationUtils {
             blinkidSdkSettings?.resourceLocalFolder = resourceLocalFolder
         }
         if let bundleURL = sdkSettingsDict?["bundleURL"] as? String,
-           let url = URL(string: bundleURL) {
-            blinkidSdkSettings?.bundleURL = url
+           let bundle = Bundle.init(identifier: bundleURL) {
+            blinkidSdkSettings?.bundleURL = bundle.bundleURL
         }
+
         if let resourceRequestTimeout = sdkSettingsDict?["resourceRequestTimeout"] as? Int {
             blinkidSdkSettings?.resourceRequestTimeout = BlinkID.RequestTimeout.default
         }
