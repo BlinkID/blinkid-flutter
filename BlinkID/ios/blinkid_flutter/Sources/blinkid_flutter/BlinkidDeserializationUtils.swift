@@ -7,6 +7,7 @@
 
 import Foundation
 import BlinkID
+import BlinkIDUX
 import UIKit
 
 struct BlinkIdDeserializationUtils {
@@ -156,6 +157,31 @@ struct BlinkIdDeserializationUtils {
         return croppedImageSettings
     }
     
+    static func deserializeBlinkIdUxScanningSettings(_ scanningUxSettingsDict: Dictionary<String, Any>?) -> ScanningUXSettings {
+        if let scanningUxSettingsDict = scanningUxSettingsDict,
+           let allowHapticFeedback = scanningUxSettingsDict["allowHapticFeedback"] as? Bool,
+           let preferredCameraPosition = scanningUxSettingsDict["preferredCamera"] as? String,
+           let showHelpButton = scanningUxSettingsDict["showHelpButton"] as? Bool,
+           let showIntroductionAlert = scanningUxSettingsDict["showOnboardingDialog"] as? Bool {
+            return ScanningUXSettings(
+                showIntroductionAlert: showIntroductionAlert,
+                showHelpButton: showHelpButton,
+                preferredCameraPosition: deserializePrefferedCameraPosition(preferredCameraPosition),
+                allowHapticFeedback: allowHapticFeedback)
+        }
+        return ScanningUXSettings()
+    }
+    
+    static func deserializePrefferedCameraPosition(_ value: String) -> Camera.CameraPosition {
+        switch value {
+        case "front":
+            return Camera.CameraPosition.front
+        case "back":
+            return Camera.CameraPosition.back
+        default:
+            return Camera.CameraPosition.back
+        }
+    }
     
     static func deseralizeDetectionLevel(_ value: Int) -> DetectionLevel {
         switch value {
@@ -349,7 +375,7 @@ struct BlinkIdDeserializationUtils {
             }
             return sanitized
         }
-        return nil
+        return dictionary
     }
     
     static func deserializeBase64Image(_ base64Image: String?) -> UIImage? {

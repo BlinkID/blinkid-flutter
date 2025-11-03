@@ -32,6 +32,8 @@ import android.util.Base64
 import com.microblink.blinkid.core.session.InputImageSource
 import com.microblink.blinkid.core.settings.DocumentNumberAnonymizationSettings
 import com.microblink.core.network.RequestTimeout
+import com.microblink.ux.camera.CameraLensFacing
+import com.microblink.ux.camera.CameraSettings
 
 object BlinkIdDeserializationUtils {
 
@@ -233,11 +235,25 @@ object BlinkIdDeserializationUtils {
         return BlinkIdUxSettings(
             stepTimeoutDuration = (blinkidUxSettingsMap["stepTimeoutDuration"] as? Int
                 ?: 15000).milliseconds,
+            allowHapticFeedback = (blinkidUxSettingsMap["allowHapticFeedback"] as? Boolean)?: true,
             classFilter = CustomClassFilter(classFilterMap),
 
         )
     }
 
+    fun deserializeCameraSettings(blinkIdScanningUxSettingsMap: Map<String, Any>?): CameraSettings {
+        if (blinkIdScanningUxSettingsMap == null) return CameraSettings()
+        return CameraSettings(
+            lensFacing = deserializeCameraLens(blinkIdScanningUxSettingsMap["preferredCamera"] as? String)
+        )
+    }
+    fun deserializeCameraLens(value: String?): CameraLensFacing {
+        return when (value?.lowercase()) {
+            "front" -> CameraLensFacing.LensFacingFront
+            "back" -> CameraLensFacing.LensFacingBack
+            else -> CameraLensFacing.LensFacingBack
+        }
+    }
     fun deserializeClassFilter(
         classFilterMap: Map<String, Any>?,
         classInfo: DocumentClassInfo
