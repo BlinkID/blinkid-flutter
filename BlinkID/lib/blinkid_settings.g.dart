@@ -13,10 +13,9 @@ BlinkIdSdkSettings _$BlinkIdSdkSettingsFromJson(Map<String, dynamic> json) =>
       json['downloadResources'],
       json['resourceDownloadUrl'],
       json['resourceLocalFolder'],
-      json['bundleURL'],
       json['resourceRequestTimeout'],
       json['microblinkProxyURL'],
-    );
+    )..bundleIdentifier = json['bundleIdentifier'] as String?;
 
 Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
     <String, dynamic>{
@@ -25,7 +24,7 @@ Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
       'downloadResources': instance.downloadResources,
       'resourceDownloadUrl': instance.resourceDownloadUrl,
       'resourceLocalFolder': instance.resourceLocalFolder,
-      'bundleURL': instance.bundleURL,
+      'bundleIdentifier': instance.bundleIdentifier,
       'resourceRequestTimeout': instance.resourceRequestTimeout,
       'microblinkProxyURL': instance.microblinkProxyURL,
     };
@@ -303,6 +302,16 @@ const _$FieldTypeEnumMap = {
   FieldType.nationalInsuranceNumber: 'nationalInsuranceNumber',
   FieldType.countryCode: 'countryCode',
   FieldType.certificateNumber: 'certificateNumber',
+  FieldType.municipalityOfRegistration: 'municipalityOfRegistration',
+  FieldType.localityCode: 'localityCode',
+  FieldType.maidenName: 'maidenName',
+  FieldType.stateCode: 'stateCode',
+  FieldType.dateOfEntry: 'dateOfEntry',
+  FieldType.municipalityCode: 'municipalityCode',
+  FieldType.pollingStationCode: 'pollingStationCode',
+  FieldType.sectionCode: 'sectionCode',
+  FieldType.registrationCenterCode: 'registrationCenterCode',
+  FieldType.stateName: 'stateName',
 };
 
 const _$AlphabetTypeEnumMap = {
@@ -753,6 +762,7 @@ const _$RegionEnumMap = {
   Region.sergipe: 'sergipe',
   Region.alagos: 'alagos',
   Region.bangsamoro: 'bangsamoro',
+  Region.telangana: 'telangana',
 };
 
 const _$DocumentTypeEnumMap = {
@@ -838,6 +848,10 @@ const _$DocumentTypeEnumMap = {
   DocumentType.medicalMarijuanaId: 'medicalMarijuanaId',
   DocumentType.nonCardTribalId: 'nonCardTribalId',
   DocumentType.diplomaticId: 'diplomaticId',
+  DocumentType.emergencyPassport: 'emergencyPassport',
+  DocumentType.temporaryPassport: 'temporaryPassport',
+  DocumentType.metisFederationCard: 'metisFederationCard',
+  DocumentType.adrCertificate: 'adrCertificate',
 };
 
 DocumentNumberAnonymizationSettings

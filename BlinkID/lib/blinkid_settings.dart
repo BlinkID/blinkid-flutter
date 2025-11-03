@@ -26,7 +26,7 @@ class BlinkIdSdkSettings {
   String? resourceLocalFolder;
 
   /// [iOS-specific] If resources downloading is disabled for iOS, this defines the bundle identifier of your iOS app where the resources reside.
-  String? bundleURL;
+  String? bundleIdentifier;
 
   /// Timeout settings for resource downloads.
   int? resourceRequestTimeout;

@@ -103,9 +103,8 @@ class BlinkidFlutter {
   ///
   /// The method accepts a single `bool` parameter, [deleteCachedResources].
   ///
-  /// If [deleteCachedResources] is `false` (default), only runtime resources are released.
-  /// If set to `true`, the method performs a **complete cleanup**, including deletion of
-  /// all downloaded and cached SDK resources from the device.
+  /// If set to `true` (`false` is default), the method performs a **complete cleanup**,
+  /// including deletion of all downloaded and cached SDK resources from the device.
   ///
   /// This method is automatically called after each successful scan session.
   Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {

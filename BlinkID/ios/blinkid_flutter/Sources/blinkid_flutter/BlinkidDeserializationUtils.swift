@@ -32,8 +32,8 @@ struct BlinkIdDeserializationUtils {
         if let resourceLocalFolder = sdkSettingsDict?["resourceLocalFolder"] as? String {
             blinkidSdkSettings?.resourceLocalFolder = resourceLocalFolder
         }
-        if let bundleURL = sdkSettingsDict?["bundleURL"] as? String,
-           let bundle = Bundle.init(identifier: bundleURL) {
+        if let bundleURL = sdkSettingsDict?["bundleIdentifier"] as? String,
+           let bundle: Bundle = Bundle.init(identifier: bundleURL) {
             blinkidSdkSettings?.bundleURL = bundle.bundleURL
         }
 
