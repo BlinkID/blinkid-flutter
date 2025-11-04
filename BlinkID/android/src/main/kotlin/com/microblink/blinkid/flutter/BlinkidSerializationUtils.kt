@@ -134,6 +134,9 @@ object BlinkIdSerializationUtils {
         scanningResult?.vehicleType?.let {
             scanningResultDict["vehicleType"] = serializeStringResult(it)
         }
+        scanningResult?.vehicleOwner?.let {
+            scanningResultDict["vehicleOwner"] = serializeStringResult(it)
+        }
         scanningResult?.eligibilityCategory?.let {
             scanningResultDict["eligibilityCategory"] = serializeStringResult(it)
         }

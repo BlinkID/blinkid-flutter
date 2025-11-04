@@ -211,7 +211,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                         )
                     }
                     it.close()
-            }?: result.error(BLINKID_ERROR_RESULT_CODE, "Reason: The BlinkID SDK is not initialized. Call the loadBlinkIdSdk() method to pre-load the SDK first, or try running the performScan() method with a valid internet connection.", null)
+            }?: result.error(BLINKID_ERROR_RESULT_CODE, "The BlinkID SDK is not initialized. Call the loadBlinkIdSdk() method to pre-load the SDK first, or try running the performDirectApiScan() method with a valid internet connection.", null)
         } catch (error: Exception) {
             flutterResult?.error(BLINKID_ERROR_RESULT_CODE, error.message, null)
         }

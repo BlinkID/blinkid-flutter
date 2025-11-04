@@ -64,6 +64,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
     
     private func ensureLoadedSdk(_ call: FlutterMethodCall) async throws -> BlinkIDSdk? {
         if let blinkIdSdk = blinkIdSdk { return blinkIdSdk }
+        
         do {
             guard let settings = await setupBlinkIdSettings(call) else { throw BlinkIdFlutterError.incorrectArgument("Incorrect BlinkID SDK settings!") }
             blinkIdSdk = try await BlinkIDSdk.createBlinkIDSdk(withSettings: settings)

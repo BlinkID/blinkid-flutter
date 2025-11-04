@@ -153,8 +153,8 @@ class BlinkIdScanningSettings {
   /// `low` – less sensitive to tilt.
   /// `high` – highly sensitive to tilt.
   ///
-  /// Default: [DetectionLevel.off]
-  DetectionLevel tiltDetectionLevel = DetectionLevel.off;
+  /// Default: [DetectionLevel.mid]
+  DetectionLevel tiltDetectionLevel = DetectionLevel.mid;
 
   /// Indicates whether images with inadequate lighting conditions should be rejected.
   ///

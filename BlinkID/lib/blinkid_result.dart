@@ -117,6 +117,9 @@ class BlinkIdScanningResult {
   /// The vehicle type.
   StringResult? vehicleType;
 
+  /// The vehicle owner.
+  StringResult? vehicleOwner;
+
   /// The eligibility category.
   StringResult? eligibilityCategory;
 
@@ -342,6 +345,10 @@ class BlinkIdScanningResult {
     vehicleType = createStringResult(
       nativeBlinkIdScanningResult,
       'vehicleType',
+    );
+    vehicleOwner = createStringResult(
+      nativeBlinkIdScanningResult,
+      'vehicleOwner',
     );
     eligibilityCategory = createStringResult(
       nativeBlinkIdScanningResult,

@@ -119,6 +119,9 @@ class BlinkIdSerializationUtils {
         if let vehicleType = scanningResult?.vehicleType {
             scanningResultDict["vehicleType"] = serializeStringResult(vehicleType)
         }
+        if let vehicleOwner = scanningResult?.vehicleOwner {
+            scanningResultDict["vehicleOwner"] = serializeStringResult(vehicleOwner)
+        }
         if let countryCode = scanningResult?.countryCode {
             scanningResultDict["countryCode"] = serializeStringResult(countryCode)
         }
