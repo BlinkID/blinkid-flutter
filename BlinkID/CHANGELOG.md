@@ -4,19 +4,11 @@
 
 ### What's New
 - Added two new methods in `BlinkidFlutter`: `loadBlinkIdSdk` & `unloadBlinkIdSdk`
-    - `loadBlinkIdSdk` - Initializes and loads the BlinkID SDK if it is not already loaded. This method can be called in advance to **preload** the SDK before starting a scanning session. Doing so reduces loading time for the [`performScan`] and [`performDirectApiScan`] methods since all resources will already be available and the license verified.
+    - `loadBlinkIdSdk` - Initializes and loads the BlinkID SDK if it is not already loaded. This method can be called in advance to **preload** the SDK before starting a scanning session. Doing so reduces loading time for the `performScan` and `performDirectApiScan` methods since all resources will already be available and the license verified.
     - `unloadBlinkIdSdk` - Terminates the BlinkID SDK and releases all associated resources. This method safely shuts down the SDK instance and frees any allocated memory. If the parameter `deleteCachedResources` is set to `true`, the method performs a complete cleanup, including deletion of all downloaded and cached SDK resources from the device.
 - You can now configure the SDK to load resources locally instead of downloading them. Set `downloadResources` to false, and provide the local resource path using `resourceLocalFolder` (Android) and `bundleIdentifier` (iOS).
 - Added support for capturing the back of US and India passports that feature a barcode
 - Prevent parsing of two-line MRZ in TD1 format unless it's explicitly allowed. This will prevent false positive MRZ extraction on documents where the last line of the MRZ is covered or not fully visible
-
-### Breaking changes
-- Renamed the `bundleURL` to `bundleIdentifier` in `BlinkIdSdkSettings`.
-- Renamed `BlinkIdUiSettings` to `BlinkIdScanningUxSettings`.
-
-### Bugfixes
-- Users are no longer forced to scan back sides of Alien and Refugee passports
-- Fixed the issue with Togo ID where document number from VIZ was overriden by a wrong value from MRZ
 
 ### New Documents Support
 - Angola - Paper Passport
@@ -82,6 +74,22 @@
 
 ### New languages
 - Added 33 new languages (see full list [here](https://github.com/BlinkID/blinkid-android?tab=readme-ov-file#-new-languages-v76))
+
+### Breaking changes
+- Renamed the `bundleURL` to `bundleIdentifier` in `BlinkIdSdkSettings`.
+- Renamed `BlinkIdUiSettings` to `BlinkIdScanningUxSettings`.
+
+### Native platform changes
+**iOS**
+- The SDK was built with Xcode 26
+
+**Android**
+- Updated Kotlin to `v2.0.21` in the `blinkid-core` library. The `blinkid-ux` and `microblink-ux` libraries already used Kotlin `v2.1.20`.
+- Target SDK updated to API Level 36
+
+### Bugfixes
+- Users are no longer forced to scan back sides of Alien and Refugee passports
+- Fixed the issue with Togo ID where document number from VIZ was overriden by a wrong value from MRZ
 
 ### Other changes
 - Changed default `tiltDetectionLevel` from `Off` to `Mid`
