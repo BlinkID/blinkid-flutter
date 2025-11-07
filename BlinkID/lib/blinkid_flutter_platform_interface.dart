@@ -31,13 +31,13 @@ abstract class BlinkidFlutterPlatform extends PlatformInterface {
   Future<BlinkIdScanningResult?> performScan(
     BlinkIdSdkSettings blinkidSdkSettings,
     BlinkIdSessionSettings blinkidSessionSettings, [
-    BlinkIdUiSettings? blinkIdUisettings,
+    BlinkIdScanningUxSettings? blinkidScanningUxSettings,
     ClassFilter? classFilter,
   ]) async {
     return MethodChannelBlinkidFlutter().performScan(
       blinkidSdkSettings,
       blinkidSessionSettings,
-      blinkIdUisettings,
+      blinkidScanningUxSettings,
       classFilter,
     );
   }
@@ -57,6 +57,22 @@ abstract class BlinkidFlutterPlatform extends PlatformInterface {
       blinkidSessionSettings,
       firstImage,
       secondImage,
+    );
+  }
+
+  /// Returns the `loadBlinkIdSdk` method from the [MethodChannelBlinkidFlutter].
+  /// It takes the following parameter: [BlinkIdSdkSettings]
+  /// See [MethodChannelBlinkidFlutter] for more detailed information.
+  Future<void> loadBlinkIdSdk(BlinkIdSdkSettings blinkidSdkSettings) async {
+    return MethodChannelBlinkidFlutter().loadBlinkIdSdk(blinkidSdkSettings);
+  }
+
+  /// Returns the `unloadBlinkIdSdk` method from the [MethodChannelBlinkidFlutter].
+  /// It takes the following parameter: [BlinkIdSdkSettings]
+  /// See [MethodChannelBlinkidFlutter] for more detailed information.
+  Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {
+    return MethodChannelBlinkidFlutter().unloadBlinkIdSdk(
+      deleteCachedResources: deleteCachedResources,
     );
   }
 }

@@ -25,18 +25,18 @@ class BlinkIdSdkSettings {
   /// application's cache folder where resources will be cached.
   String? resourceLocalFolder;
 
-  /// If resources downloading is disabled, this defines the bundle of your app where the resources reside.
-  String? bundleURL;
+  /// [iOS-specific] If resources downloading is disabled for iOS, this defines the bundle identifier of your iOS app where the resources reside.
+  String? bundleIdentifier;
 
   /// Timeout settings for resource downloads.
   int? resourceRequestTimeout;
 
   /// Set a custom HTTPS URL to be used as a proxy for Ping and license checks.
   /// The proxy URL will be applied only if the license has the appropriate rights.
-  /// The URL must use the HTTPS protocol. Example: https://your-proxy.com/     
-  /// 
+  /// The URL must use the HTTPS protocol. Example: https://your-proxy.com/
+  ///
   /// If this value is defined, SDK initialization will not be successful in the following cases:
-  ///   - if the URL does not use HTTPS or if the URL is invalid    
+  ///   - if the URL does not use HTTPS or if the URL is invalid
   ///   - if the license does not allow proxy usage
   String? microblinkProxyURL;
 
@@ -49,7 +49,7 @@ class BlinkIdSdkSettings {
     resourceLocalFolder,
     bundleURL,
     resourceRequestTimeout,
-    microblinkProxyURL
+    microblinkProxyURL,
   ]);
 
   factory BlinkIdSdkSettings.fromJson(Map<String, dynamic> json) =>
@@ -153,8 +153,8 @@ class BlinkIdScanningSettings {
   /// `low` – less sensitive to tilt.
   /// `high` – highly sensitive to tilt.
   ///
-  /// Default: [DetectionLevel.off]
-  DetectionLevel tiltDetectionLevel = DetectionLevel.off;
+  /// Default: [DetectionLevel.mid]
+  DetectionLevel tiltDetectionLevel = DetectionLevel.mid;
 
   /// Indicates whether images with inadequate lighting conditions should be rejected.
   ///
@@ -367,10 +367,10 @@ class CroppedImageSettings {
   Map<String, dynamic> toJson() => _$CroppedImageSettingsToJson(this);
 }
 
-/// Allows customization of various aspects of the UI
+/// Allows customization of various aspects of the UI/UX
 /// used during the scanning process.
 @JsonSerializable()
-class BlinkIdUiSettings {
+class BlinkIdScanningUxSettings {
   /// A boolean indicating whether to show a help button
   /// and enable help screens during the scanning session.
   ///
@@ -383,11 +383,33 @@ class BlinkIdUiSettings {
   /// Default: `true`
   bool showOnboardingDialog = true;
 
-  BlinkIdUiSettings();
+  /// Determines whether haptic feedback is played for scanning-related events.
+  ///
+  /// When enabled, haptic responses are generated during scanning activities,
+  /// such as detection updates or user interactions (e.g., toggling the flashlight).
+  /// When disabled, no haptic feedback is produced.
+  ///
+  /// Default: `true`
+  bool allowHapticFeedback = true;
 
-  factory BlinkIdUiSettings.fromJson(Map<String, dynamic> json) =>
-      _$BlinkIdUiSettingsFromJson(json);
-  Map<String, dynamic> toJson() => _$BlinkIdUiSettingsToJson(this);
+  /// The preferred camera position to use when capturing document.
+  /// This value represents the user’s choice of front or back camera.
+  ///
+  /// The system determines the actual physical camera device.
+  ///
+  /// Default: [PrefferedCamera.back]
+  PreferredCamera preferredCamera = PreferredCamera.back;
+
+  BlinkIdScanningUxSettings({
+    this.allowHapticFeedback = true,
+    this.showHelpButton = true,
+    this.showOnboardingDialog = true,
+    this.preferredCamera = PreferredCamera.back,
+  });
+
+  factory BlinkIdScanningUxSettings.fromJson(Map<String, dynamic> json) =>
+      _$BlinkIdScanningUxSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$BlinkIdScanningUxSettingsToJson(this);
 }
 
 /// ClassFilter represents the document filter used to determine which documents will be processed.
@@ -1547,6 +1569,8 @@ enum Region {
   alagos,
   @JsonValue("bangsamoro")
   bangsamoro,
+  @JsonValue("telangana")
+  telangana,
 }
 
 /// Document type.
@@ -1715,6 +1739,14 @@ enum DocumentType {
   nonCardTribalId,
   @JsonValue("diplomaticId")
   diplomaticId,
+  @JsonValue("emergencyPassport")
+  emergencyPassport,
+  @JsonValue("temporaryPassport")
+  temporaryPassport,
+  @JsonValue("metisFederationCard")
+  metisFederationCard,
+  @JsonValue("adrCertificate")
+  adrCertificate,
 }
 
 /// Represents all possible field types that can be extracted from the document.
@@ -1827,4 +1859,37 @@ enum FieldType {
   countryCode,
   @JsonValue("certificateNumber")
   certificateNumber,
+  @JsonValue("municipalityOfRegistration")
+  municipalityOfRegistration,
+  @JsonValue("localityCode")
+  localityCode,
+  @JsonValue("maidenName")
+  maidenName,
+  @JsonValue("stateCode")
+  stateCode,
+  @JsonValue("dateOfEntry")
+  dateOfEntry,
+  @JsonValue("municipalityCode")
+  municipalityCode,
+  @JsonValue("pollingStationCode")
+  pollingStationCode,
+  @JsonValue("sectionCode")
+  sectionCode,
+  @JsonValue("registrationCenterCode")
+  registrationCenterCode,
+  @JsonValue("stateName")
+  stateName,
+}
+
+/// An enum indicating preffered camera position for document capturing.
+enum PreferredCamera {
+  /// Use the back-facing camera
+  ///
+  /// This is the default value
+  @JsonValue("back")
+  back,
+
+  /// Use the front-facing camera
+  @JsonValue("front")
+  front,
 }

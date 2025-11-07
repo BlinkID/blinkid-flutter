@@ -134,6 +134,9 @@ object BlinkIdSerializationUtils {
         scanningResult?.vehicleType?.let {
             scanningResultDict["vehicleType"] = serializeStringResult(it)
         }
+        scanningResult?.vehicleOwner?.let {
+            scanningResultDict["vehicleOwner"] = serializeStringResult(it)
+        }
         scanningResult?.eligibilityCategory?.let {
             scanningResultDict["eligibilityCategory"] = serializeStringResult(it)
         }
@@ -160,6 +163,36 @@ object BlinkIdSerializationUtils {
         }
         scanningResult?.dateOfExpiry?.let {
             scanningResultDict["dateOfExpiry"] = serializeDateResult(it)
+        }
+        scanningResult?.dateOfEntry?.let {
+            scanningResultDict["dateOfEntry"] = serializeDateResult(it)
+        }
+        scanningResult?.localityCode?.let {
+            scanningResultDict["localityCode"] = serializeStringResult(it)
+        }
+        scanningResult?.maidenName?.let {
+            scanningResultDict["maidenName"] = serializeStringResult(it)
+        }
+        scanningResult?.municipalityCode?.let {
+            scanningResultDict["municipalityCode"] = serializeStringResult(it)
+        }
+        scanningResult?.municipalityOfRegistration?.let {
+            scanningResultDict["municipalityOfRegistration"] = serializeStringResult(it)
+        }
+        scanningResult?.pollingStationCode?.let {
+            scanningResultDict["pollingStationCode"] = serializeStringResult(it)
+        }
+        scanningResult?.registrationCenterCode?.let {
+            scanningResultDict["registrationCenterCode"] = serializeStringResult(it)
+        }
+        scanningResult?.sectionCode?.let {
+            scanningResultDict["sectionCode"] = serializeStringResult(it)
+        }
+        scanningResult?.stateCode?.let {
+            scanningResultDict["stateCode"] = serializeStringResult(it)
+        }
+        scanningResult?.stateName?.let {
+            scanningResultDict["stateName"] = serializeStringResult(it)
         }
         scanningResult?.dateOfExpiryPermanent?.let {
             scanningResultDict["dateOfExpiryPermanent"] = it
@@ -470,6 +503,39 @@ object BlinkIdSerializationUtils {
         }
         vizResult?.dateOfIssue?.let {
             vizResultDict["dateOfIssue"] = serializeDateResult(it)
+        }
+        vizResult?.dateOfEntry?.let {
+            vizResultDict["dateOfEntry"] = serializeDateResult(it)
+        }
+        vizResult?.localityCode?.let {
+            vizResultDict["localityCode"] = serializeStringResult(it)
+        }
+        vizResult?.maidenName?.let {
+            vizResultDict["maidenName"] = serializeStringResult(it)
+        }
+        vizResult?.municipalityCode?.let {
+            vizResultDict["municipalityCode"] = serializeStringResult(it)
+        }
+        vizResult?.municipalityOfRegistration?.let {
+            vizResultDict["municipalityOfRegistration"] = serializeStringResult(it)
+        }
+        vizResult?.pollingStationCode?.let {
+            vizResultDict["pollingStationCode"] = serializeStringResult(it)
+        }
+        vizResult?.registrationCenterCode?.let {
+            vizResultDict["registrationCenterCode"] = serializeStringResult(it)
+        }
+        vizResult?.sectionCode?.let {
+            vizResultDict["sectionCode"] = serializeStringResult(it)
+        }
+        vizResult?.stateCode?.let {
+            vizResultDict["stateCode"] = serializeStringResult(it)
+        }
+        vizResult?.stateName?.let {
+            vizResultDict["stateName"] = serializeStringResult(it)
+        }
+        vizResult?.dateOfExpiryPermanent?.let {
+            vizResultDict["dateOfExpiryPermanent"] = it
         }
         vizResult?.dateOfExpiryPermanent?.let {
             vizResultDict["dateOfExpiryPermanent"] = it

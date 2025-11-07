@@ -20,9 +20,12 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   final methodChannel = const MethodChannel('blinkid_flutter');
   static const String ARG_SCAN_METHOD = 'performScan';
   static const String ARG_SCAN_DIRECT_API_METHOD = 'performDirectApiScan';
+  static const String ARG_LOAD_BLINKID_SDK = 'loadBlinkIdSdk';
+  static const String ARG_UNLOAD_BLINKID_SDK = 'unloadBlinkIdSdk';
+  static const String ARG_DELETE_CACHED_RESOURCES = 'deleteCachedResources';
   static const String ARG_BLINKID_SDK_SETTINGS = 'blinkidSdkSettings';
   static const String ARG_SESSION_SETTINGS = 'blinkidSessionSettings';
-  static const String ARG_UI_SETTINGS = 'blinkidUiSettings';
+  static const String ARG_UX_SETTINGS = 'blinkIdScanningUxSettings';
   static const String ARG_CLASS_FILTER = 'blinkidClassFilter';
   static const String ARG_FIRST_IMAGE = 'firstImage';
   static const String ARG_SECOND_IMAGE = 'secondImage';
@@ -36,7 +39,8 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
   ///
-  /// 3. The optional BlinkID UI class - [BlinkIdUiSettings] - the class that allows customization of various aspects of the UI used during the scanning process.
+  /// 3. The optional BlinkID scanning UX settings class - [BlinkIdScanningUxSettings] - the class that allows customization of various aspects of the UI & UX
+  /// used during the scanning process.
   ///
   /// 4. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
   ///
@@ -44,14 +48,14 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   Future<BlinkIdScanningResult?> performScan(
     BlinkIdSdkSettings blinkidSdkSettings,
     BlinkIdSessionSettings blinkidSessionSettings, [
-    BlinkIdUiSettings? blinkidUiSettings,
+    BlinkIdScanningUxSettings? blinkIdScanningUxSettings,
     ClassFilter? classFilter,
   ]) async {
     final jsonBlinkIdResult = await methodChannel
         .invokeMethod(ARG_SCAN_METHOD, {
           ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkidSdkSettings)),
           ARG_SESSION_SETTINGS: jsonDecode(jsonEncode(blinkidSessionSettings)),
-          ARG_UI_SETTINGS: jsonDecode(jsonEncode(blinkidUiSettings)),
+          ARG_UX_SETTINGS: jsonDecode(jsonEncode(blinkIdScanningUxSettings)),
           ARG_CLASS_FILTER: jsonDecode(jsonEncode(classFilter)),
         });
 
@@ -91,5 +95,56 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
       jsonDecode(jsonBlinkIdDirectApiResult),
     );
     return BlinkIdScanningResult(decodedMap);
+  }
+
+  /// The `loadBlinkIdSdk` platform channel method creates or retrieves the instance of the BlinkID SDK.
+  ///
+  /// Initializes and loads the BlinkID SDK if it is not already loaded.
+  ///
+  /// This method handles:
+  /// - SDK initialization
+  /// - Resource downloading
+  /// - License verification
+  ///
+  /// It ensures that only one SDK instance exists at any time.
+  ///
+  /// You can call this method in advance to **preload** the SDK before starting a scanning session.
+  /// Doing so reduces loading time for the [`performScan`] and [`performDirectApiScan`] methods,
+  /// since all resources will already be available and the license verified.
+  ///
+  /// If you do not call this method beforehand, it will still be automatically invoked on the native platform channels
+  /// when a scan starts. However, the initial scan may take longer due to resource loading and license checks.
+  ///
+  /// It takes the following parameter: [BlinkIdSdkSettings].
+  ///
+  /// BlinkID SDK Settings - [BlinkIdSdkSettings]: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK
+  /// needs for the scanning process, should be obtained.
+  /// To obtain a valid license key, please visit https://developer.microblink.com/ or contact us directly at https://help.microblink.com
+  @override
+  Future<void> loadBlinkIdSdk(BlinkIdSdkSettings blinkidSdkSettings) async {
+    await methodChannel.invokeMethod(ARG_LOAD_BLINKID_SDK, {
+      ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkidSdkSettings)),
+    });
+  }
+
+  /// The `unloadBlinkIdSdk` platform channel method terminates the BlinkID SDK and releases all associated resources.
+  ///
+  /// This method safely shuts down the SDK instance and frees any allocated memory.
+  /// After calling this method, you must reinitialize the SDK (by calling [`loadBlinkIdSdk`]
+  /// or any of the scanning methods) before using it again.
+  ///
+  /// The method accepts a single `bool` parameter, [deleteCachedResources].
+  ///
+  /// If set to `true` (`false` is default), the method performs a **complete cleanup**, including deletion of
+  /// all downloaded and cached SDK resources from the device.
+  ///
+  /// This method is automatically called after each successful scan session.
+  @override
+  Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {
+    await methodChannel.invokeMethod(ARG_UNLOAD_BLINKID_SDK, {
+      ARG_DELETE_CACHED_RESOURCES: jsonDecode(
+        jsonEncode(deleteCachedResources),
+      ),
+    });
   }
 }

@@ -13,10 +13,9 @@ BlinkIdSdkSettings _$BlinkIdSdkSettingsFromJson(Map<String, dynamic> json) =>
       json['downloadResources'],
       json['resourceDownloadUrl'],
       json['resourceLocalFolder'],
-      json['bundleURL'],
       json['resourceRequestTimeout'],
       json['microblinkProxyURL'],
-    );
+    )..bundleIdentifier = json['bundleIdentifier'] as String?;
 
 Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
     <String, dynamic>{
@@ -25,7 +24,7 @@ Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
       'downloadResources': instance.downloadResources,
       'resourceDownloadUrl': instance.resourceDownloadUrl,
       'resourceLocalFolder': instance.resourceLocalFolder,
-      'bundleURL': instance.bundleURL,
+      'bundleIdentifier': instance.bundleIdentifier,
       'resourceRequestTimeout': instance.resourceRequestTimeout,
       'microblinkProxyURL': instance.microblinkProxyURL,
     };
@@ -174,16 +173,30 @@ Map<String, dynamic> _$CroppedImageSettingsToJson(
   'returnSignatureImage': instance.returnSignatureImage,
 };
 
-BlinkIdUiSettings _$BlinkIdUiSettingsFromJson(Map<String, dynamic> json) =>
-    BlinkIdUiSettings()
-      ..showHelpButton = json['showHelpButton'] as bool
-      ..showOnboardingDialog = json['showOnboardingDialog'] as bool;
+BlinkIdScanningUxSettings _$BlinkIdScanningUxSettingsFromJson(
+  Map<String, dynamic> json,
+) => BlinkIdScanningUxSettings(
+  allowHapticFeedback: json['allowHapticFeedback'] as bool? ?? true,
+  showHelpButton: json['showHelpButton'] as bool? ?? true,
+  showOnboardingDialog: json['showOnboardingDialog'] as bool? ?? true,
+  preferredCamera:
+      $enumDecodeNullable(_$PreferredCameraEnumMap, json['preferredCamera']) ??
+      PreferredCamera.back,
+);
 
-Map<String, dynamic> _$BlinkIdUiSettingsToJson(BlinkIdUiSettings instance) =>
-    <String, dynamic>{
-      'showHelpButton': instance.showHelpButton,
-      'showOnboardingDialog': instance.showOnboardingDialog,
-    };
+Map<String, dynamic> _$BlinkIdScanningUxSettingsToJson(
+  BlinkIdScanningUxSettings instance,
+) => <String, dynamic>{
+  'showHelpButton': instance.showHelpButton,
+  'showOnboardingDialog': instance.showOnboardingDialog,
+  'allowHapticFeedback': instance.allowHapticFeedback,
+  'preferredCamera': _$PreferredCameraEnumMap[instance.preferredCamera]!,
+};
+
+const _$PreferredCameraEnumMap = {
+  PreferredCamera.back: 'back',
+  PreferredCamera.front: 'front',
+};
 
 ClassFilter _$ClassFilterFromJson(Map<String, dynamic> json) =>
     ClassFilter()
@@ -289,6 +302,16 @@ const _$FieldTypeEnumMap = {
   FieldType.nationalInsuranceNumber: 'nationalInsuranceNumber',
   FieldType.countryCode: 'countryCode',
   FieldType.certificateNumber: 'certificateNumber',
+  FieldType.municipalityOfRegistration: 'municipalityOfRegistration',
+  FieldType.localityCode: 'localityCode',
+  FieldType.maidenName: 'maidenName',
+  FieldType.stateCode: 'stateCode',
+  FieldType.dateOfEntry: 'dateOfEntry',
+  FieldType.municipalityCode: 'municipalityCode',
+  FieldType.pollingStationCode: 'pollingStationCode',
+  FieldType.sectionCode: 'sectionCode',
+  FieldType.registrationCenterCode: 'registrationCenterCode',
+  FieldType.stateName: 'stateName',
 };
 
 const _$AlphabetTypeEnumMap = {
@@ -739,6 +762,7 @@ const _$RegionEnumMap = {
   Region.sergipe: 'sergipe',
   Region.alagos: 'alagos',
   Region.bangsamoro: 'bangsamoro',
+  Region.telangana: 'telangana',
 };
 
 const _$DocumentTypeEnumMap = {
@@ -824,6 +848,10 @@ const _$DocumentTypeEnumMap = {
   DocumentType.medicalMarijuanaId: 'medicalMarijuanaId',
   DocumentType.nonCardTribalId: 'nonCardTribalId',
   DocumentType.diplomaticId: 'diplomaticId',
+  DocumentType.emergencyPassport: 'emergencyPassport',
+  DocumentType.temporaryPassport: 'temporaryPassport',
+  DocumentType.metisFederationCard: 'metisFederationCard',
+  DocumentType.adrCertificate: 'adrCertificate',
 };
 
 DocumentNumberAnonymizationSettings

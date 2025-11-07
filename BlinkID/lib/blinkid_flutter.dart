@@ -20,7 +20,7 @@ class BlinkidFlutter {
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
   ///
-  /// 3. The optional BlinkID UI class - [BlinkIdUiSettings] - the class that allows customization of various aspects of the UI used during the scanning process.
+  /// 3. The optional BlinkID scanning UX settings class - [BlinkIdScanningUxSettings] - the class that allows customization of various aspects of the UI & UX used during the scanning process.
   ///
   /// 4. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
   ///
@@ -28,13 +28,13 @@ class BlinkidFlutter {
   Future<BlinkIdScanningResult?> performScan(
     BlinkIdSdkSettings blinkidSdkSettings,
     BlinkIdSessionSettings blinkidSessionSettings, [
-    BlinkIdUiSettings? blinkidUiSettings,
+    BlinkIdScanningUxSettings? blinkidScanningUxSettings,
     ClassFilter? classFilter,
   ]) {
     return BlinkidFlutterPlatform.instance.performScan(
       blinkidSdkSettings,
       blinkidSessionSettings,
-      blinkidUiSettings,
+      blinkidScanningUxSettings,
       classFilter,
     );
   }
@@ -65,6 +65,51 @@ class BlinkidFlutter {
       blinkidSessionSettings,
       firstImage,
       secondImage,
+    );
+  }
+
+  /// The `loadBlinkIdSdk` method creates or retrieves the instance of the BlinkID SDK.
+  ///
+  /// Initializes and loads the BlinkID SDK if it is not already loaded.
+  ///
+  /// This method handles:
+  /// - SDK initialization
+  /// - Resource downloading
+  /// - License verification
+  ///
+  /// It ensures that only one SDK instance exists at any time.
+  ///
+  /// You can call this method in advance to **preload** the SDK before starting a scanning session.
+  /// Doing so reduces loading time for the [`performScan`] and [`performDirectApiScan`] methods,
+  /// since all resources will already be available and the license verified.
+  ///
+  /// If you do not call this method beforehand, it will still be automatically invoked on the native platform channels
+  /// when a scan starts. However, the initial scan may take longer due to resource loading and license checks.
+  ///
+  /// It takes the following parameter: [BlinkIdSdkSettings].
+  ///
+  /// BlinkID SDK Settings - [BlinkIdSdkSettings]: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK
+  /// needs for the scanning process, should be obtained.
+  /// To obtain a valid license key, please visit https://developer.microblink.com/ or contact us directly at https://help.microblink.com
+  Future<void> loadBlinkIdSdk(BlinkIdSdkSettings blinkidSdkSettings) async {
+    return BlinkidFlutterPlatform.instance.loadBlinkIdSdk(blinkidSdkSettings);
+  }
+
+  /// The `unloadBlinkIdSdk` method terminates the BlinkID SDK and releases all associated resources.
+  ///
+  /// This method safely shuts down the SDK instance and frees any allocated memory.
+  /// After calling this method, you must reinitialize the SDK (by calling [`loadBlinkIdSdk`]
+  /// or any of the scanning methods) before using it again.
+  ///
+  /// The method accepts a single `bool` parameter, [deleteCachedResources].
+  ///
+  /// If set to `true` (`false` is default), the method performs a **complete cleanup**,
+  /// including deletion of all downloaded and cached SDK resources from the device.
+  ///
+  /// This method is automatically called after each successful scan session.
+  Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {
+    return BlinkidFlutterPlatform.instance.unloadBlinkIdSdk(
+      deleteCachedResources: deleteCachedResources,
     );
   }
 }

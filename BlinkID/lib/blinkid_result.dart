@@ -117,6 +117,9 @@ class BlinkIdScanningResult {
   /// The vehicle type.
   StringResult? vehicleType;
 
+  /// The vehicle owner.
+  StringResult? vehicleOwner;
+
   /// The eligibility category.
   StringResult? eligibilityCategory;
 
@@ -144,8 +147,37 @@ class BlinkIdScanningResult {
   /// The date of expiry of the document.
   DateResult<StringResult>? dateOfExpiry;
 
+  /// The date of entry of the document owner.
+  DateResult<StringResult>? dateOfEntry;
+
+  /// The locality code of the document owner.
+  StringResult? localityCode;
+
+  /// The maiden name of the document owner.
+  StringResult? maidenName;
+
+  /// The municipality code of the document owner.
+  StringResult? municipalityCode;
+
+  /// The municipality of registration of the document owner.
+  StringResult? municipalityOfRegistration;
+
+  /// The polling station code of the document owner.
+  StringResult? pollingStationCode;
+
+  /// The registration center code of the document owner.
+  StringResult? registrationCenterCode;
+
+  /// The section code of the document owner.
+  StringResult? sectionCode;
+
+  /// The state code of the document owner.
+  StringResult? stateCode;
+
+  /// The state of the document owner.
+  StringResult? stateName;
+
   /// Determines if date of expiry is permanent.
-  ///
   bool? dateOfExpiryPermanent;
 
   /// The driver license detailed info.
@@ -314,6 +346,10 @@ class BlinkIdScanningResult {
       nativeBlinkIdScanningResult,
       'vehicleType',
     );
+    vehicleOwner = createStringResult(
+      nativeBlinkIdScanningResult,
+      'vehicleOwner',
+    );
     eligibilityCategory = createStringResult(
       nativeBlinkIdScanningResult,
       'eligibilityCategory',
@@ -347,6 +383,41 @@ class BlinkIdScanningResult {
               ),
             )
             : null;
+    dateOfEntry =
+        nativeBlinkIdScanningResult["dateOfEntry"] != null
+            ? DateResult<StringResult>(
+              Map<String, dynamic>.from(
+                nativeBlinkIdScanningResult["dateOfEntry"],
+              ),
+            )
+            : null;
+    localityCode = createStringResult(
+      nativeBlinkIdScanningResult,
+      "localityCode",
+    );
+    maidenName = createStringResult(nativeBlinkIdScanningResult, "maidenName");
+    municipalityCode = createStringResult(
+      nativeBlinkIdScanningResult,
+      "municipalityCode",
+    );
+    municipalityOfRegistration = createStringResult(
+      nativeBlinkIdScanningResult,
+      "municipalityOfRegistration",
+    );
+    pollingStationCode = createStringResult(
+      nativeBlinkIdScanningResult,
+      "pollingStationCode",
+    );
+    registrationCenterCode = createStringResult(
+      nativeBlinkIdScanningResult,
+      "registrationCenterCode",
+    );
+    sectionCode = createStringResult(
+      nativeBlinkIdScanningResult,
+      "sectionCode",
+    );
+    stateCode = createStringResult(nativeBlinkIdScanningResult, "stateCode");
+    stateName = createStringResult(nativeBlinkIdScanningResult, "stateName");
     dateOfExpiryPermanent =
         nativeBlinkIdScanningResult["dateOfExpiryPermanent"];
     driverLicenseDetailedInfo =
@@ -1072,6 +1143,36 @@ class VizResult {
   /// The date of expiry of the document.
   DateResult<StringResult>? dateOfExpiry;
 
+  /// The date of entry of the document owner.
+  DateResult<StringResult>? dateOfEntry;
+
+  /// The locality code of the document owner.
+  StringResult? localityCode;
+
+  /// The maiden name of the document owner.
+  StringResult? maidenName;
+
+  /// The municipality code of the document owner.
+  StringResult? municipalityCode;
+
+  /// The municipality of registration of the document owner.
+  StringResult? municipalityOfRegistration;
+
+  /// The polling station code of the document owner.
+  StringResult? pollingStationCode;
+
+  /// The registration center code of the document owner.
+  StringResult? registrationCenterCode;
+
+  /// The section code of the document owner.
+  StringResult? sectionCode;
+
+  /// The state code of the document owner.
+  StringResult? stateCode;
+
+  /// The state of the document owner.
+  StringResult? stateName;
+
   /// Determines if date of expiry is permanent.
   bool? dateOfExpiryPermanent;
 
@@ -1188,6 +1289,30 @@ class VizResult {
               Map<String, dynamic>.from(nativeVizResult["dateOfExpiry"]),
             )
             : null;
+    dateOfEntry =
+        nativeVizResult["dateOfEntry"] != null
+            ? DateResult<StringResult>(
+              Map<String, dynamic>.from(nativeVizResult["dateOfEntry"]),
+            )
+            : null;
+    localityCode = createStringResult(nativeVizResult, "localityCode");
+    maidenName = createStringResult(nativeVizResult, "maidenName");
+    municipalityCode = createStringResult(nativeVizResult, "municipalityCode");
+    municipalityOfRegistration = createStringResult(
+      nativeVizResult,
+      "municipalityOfRegistration",
+    );
+    pollingStationCode = createStringResult(
+      nativeVizResult,
+      "pollingStationCode",
+    );
+    registrationCenterCode = createStringResult(
+      nativeVizResult,
+      "registrationCenterCode",
+    );
+    sectionCode = createStringResult(nativeVizResult, "sectionCode");
+    stateCode = createStringResult(nativeVizResult, "stateCode");
+    stateName = createStringResult(nativeVizResult, "stateName");
     dateOfExpiryPermanent = nativeVizResult["dateOfExpiryPermanent"];
     documentNumber = createStringResult(nativeVizResult, 'documentNumber');
     personalIdNumber = createStringResult(nativeVizResult, 'personalIdNumber');

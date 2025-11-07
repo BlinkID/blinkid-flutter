@@ -47,11 +47,16 @@ class _MyAppState extends State<MyApp> {
     /// A valid license key can be obtained from the Microblink Developer Hub, here: https://developer.microblink.com
     if (Platform.isAndroid) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTlRnMk1qVXdNVEUwTVRFc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PUNjywBb+jl19HvimWYl9nT65zjTggOygi15/sM0R5q/pxIaxO2Z/bp6Ns/lePdj7abWCk+9+BYzaGleKLNh+psPaanLy65HsWCAlfy7sy/EvmtxL6TnxnT0+twgVW0=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTmpJeE56QTRNakF3TkRRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PRpURkVPwuO0koYgtsId0UoOnkvZdrc5+ewfldLFcoG9SoE1NurAQ6fYusivk5aUxIRrbWM7ak7bZfr/Y8ud9ayh2GEgB96T6uufqumXoW22/XJDPAcU4Mp8uzbIjps=";
     } else if (Platform.isIOS) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTlRnMk1qVXhNVEV3T1Rnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9Pc8snatOV5SnR23Izz/uVmAxlnjnKTX5yTXm0dgc5MlwEfBm78B0zTyIs+M1V6v1X3ki3fRM+oR0s6TrzSyQMOfiVz7pfds3nrkMFi7TJszhagRgIyFceyoBM6wEbJU=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTmpJeE56QTROVE01Tnpnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYp8/JA4wSFGiNehLMfx8e5TtiIcdUR0YKx2/x/XlY+a10Qzw9Jsm/+aZS0QMqn14qrI6pmDxwkACGS4XkicR81ECuJIKtxe+7Tc/rLcmO2wjnFwuATJm69ERvdGDPw=";
     }
+
+    // If neccessary, the SDK can be pre-loaded with the neccessary resources before the scanning session starts.
+    // This will decreasing the SDK loading time when starting a scanning session (since the resources will be downloaded and the license verified).
+
+    // blinkIdPlugin.loadBlinkIdSdk(BlinkIdSdkSettings(sdkLicenseKey));
   }
 
   Future<void> performScan() async {
@@ -82,11 +87,13 @@ class _MyAppState extends State<MyApp> {
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
 
-      /// Create and modify the UI settings
+      /// Create and modify the UX settings
       /// This paramater is optional
-      final uiSettings = BlinkIdUiSettings();
+      final uiSettings = BlinkIdScanningUxSettings();
       uiSettings.showHelpButton = true;
       uiSettings.showOnboardingDialog = false;
+      uiSettings.allowHapticFeedback = true;
+      uiSettings.preferredCamera = PreferredCamera.back;
 
       /// Place the optional ClassFilter class
       /// The filter is currently modified to only accept Canada documents, and USA California documents
