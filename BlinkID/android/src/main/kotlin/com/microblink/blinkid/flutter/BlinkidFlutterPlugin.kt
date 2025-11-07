@@ -170,6 +170,7 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
             val blinkidSessionSettings = call.argument<Map<String, Any>>("blinkidSessionSettings")
             val firstImage = call.argument<String>("firstImage")
             val secondImage = call.argument<String>("secondImage")
+            flutterResult = result
             blinkIdSdk = ensureLoadedSdk(call)
             blinkIdSdk?.let {
                 addFlutterPinglet(context)
@@ -210,7 +211,8 @@ class BlinkidFlutterPlugin() : FlutterPlugin, MethodCallHandler, ActivityAware,
                             null
                         )
                     }
-                    it.close()
+                    BlinkIdSdk.sdkInstance?.close()
+                    blinkIdSdk = null
             }?: result.error(BLINKID_ERROR_RESULT_CODE, "The BlinkID SDK is not initialized. Call the loadBlinkIdSdk() method to pre-load the SDK first, or try running the performDirectApiScan() method with a valid internet connection.", null)
         } catch (error: Exception) {
             flutterResult?.error(BLINKID_ERROR_RESULT_CODE, error.message, null)

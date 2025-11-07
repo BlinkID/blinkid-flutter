@@ -53,9 +53,9 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
         guard let arguments = call.arguments as? [String: Any] else { return }
         if let deleteResources = arguments["deleteCachedResources"] as? Bool {
             if deleteResources {
-                await BlinkIDSdk.terminateBlinkIDSdk()
-            } else {
                 await BlinkIDSdk.terminateBlinkIDSdkAndDeleteCachedResources()
+            } else {
+                await BlinkIDSdk.terminateBlinkIDSdk()
             }
             blinkIdSdk = nil
             result?(true)
@@ -201,10 +201,8 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
     
     func performDirectApiScan(_ call: FlutterMethodCall) async {
         guard let arguments = call.arguments as? [String: Any],
-              let argumentsClean = BlinkIdDeserializationUtils.sanitizeDictionary(arguments) else { print("rip here"); return }
-        print("DAPI ARGS: \(argumentsClean )")
+              let argumentsClean = BlinkIdDeserializationUtils.sanitizeDictionary(arguments) else { return }
         do {
-            
             guard let blinkIdSdk = try await ensureLoadedSdk(call) else {
                 result?(FlutterError(
                     code: BlinkIdStrings.iosError,

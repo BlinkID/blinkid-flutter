@@ -364,15 +364,17 @@ class BlinkIdSerializationUtils {
     }
     
     static func serializeSingleSideScanningResult(_ singleSideScanningResult: SingleSideScanningResult?) -> Dictionary<String, Any> {
+        guard let singleSideScanningResult else { return [:] }
+        
         return [
-                "barcode": serializeBarcodeResult(singleSideScanningResult?.barcode),
-                "barcodeInputImage": encodeImage(singleSideScanningResult?.barcodeInputImage?.uiImage),
-                "documentImage": encodeImage(singleSideScanningResult?.documentImage?.uiImage),
-                "faceImage": serializeDetailedCroppedImageResult(singleSideScanningResult?.faceImage),
-                "inputImage": encodeImage(singleSideScanningResult?.inputImage?.uiImage),
-                "mrz": serializeMrzResult(singleSideScanningResult?.mrz),
-                "signatureImage": serializeDetailedCroppedImageResult(singleSideScanningResult?.signatureImage),
-                "viz": serializeVizResult(singleSideScanningResult?.viz)
+                "barcode": serializeBarcodeResult(singleSideScanningResult.barcode),
+                "barcodeInputImage": encodeImage(singleSideScanningResult.barcodeInputImage?.uiImage),
+                "documentImage": encodeImage(singleSideScanningResult.documentImage?.uiImage),
+                "faceImage": serializeDetailedCroppedImageResult(singleSideScanningResult.faceImage),
+                "inputImage": encodeImage(singleSideScanningResult.inputImage?.uiImage),
+                "mrz": serializeMrzResult(singleSideScanningResult.mrz),
+                "signatureImage": serializeDetailedCroppedImageResult(singleSideScanningResult.signatureImage),
+                "viz": serializeVizResult(singleSideScanningResult.viz)
             ]
     }
     
@@ -638,7 +640,9 @@ class BlinkIdSerializationUtils {
             if let dateOfExpiry = vizResult.dateOfExpiry {
                 vizResultDict["dateOfExpiry"] = serializeDateResult(dateOfExpiry)
             }
+            
             vizResultDict["dateOfExpiryPermanent"] = vizResult.dateOfExpiryPermanent
+            
             if let dateOfIssue = vizResult.dateOfIssue {
                 vizResultDict["dateOfIssue"] = serializeDateResult(dateOfIssue)
             }
