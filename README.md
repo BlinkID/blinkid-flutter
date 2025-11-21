@@ -64,6 +64,26 @@ Note: the plugin can be run directly via Xcode (iOS) and Android Studio (Android
 1. Open the `Runner.xcodeproj` in the path: `sample/ios/Runner.xcodeproj` to run the iOS sample application.
 2. Open the `android` folder via Android Studio in the `sample` folder to run the Android sample application.
 
+**Sample app on iOS additional instructions**
+- Error: `Module 'blinkid-flutter' not found`
+
+If you are getting the error above when running the sample application, this usually means that support for Swift Package Manager was not enabled in the Flutter configuration. Simply run the following command to enable it:
+```bash
+flutter config --enable-swift-package-manager
+```
+After this, try to run the sample application again.
+
+- Error: `FlutterGeneratedPluginSwiftPackage has a lower minimum deployment target`
+
+To resolve the issue with the minimum deployment target for the `FlutterGeneratedPluginSwiftPackage` package, do the following:
+1. Exit Xcode
+2. Run the following command:
+```bash
+flutter build ios --config-only
+```
+3. Run the sample application
+
+This should properly configure the minimum deployment target of the package.
 
 ## <a name="plugin-integration"></a> Plugin integration
 
