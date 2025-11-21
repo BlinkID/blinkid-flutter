@@ -351,7 +351,7 @@ class BlinkIdSerializationUtils {
             "effectiveDate": serializeDateResult(vehicleClassInfo?.effectiveDate),
             "expiryDate":  serializeDateResult(vehicleClassInfo?.expiryDate),
             "licenceType": serializeStringType(vehicleClassInfo?.licenceType),
-            "vehicleClass": serializeStringType(vehicleClassInfo?.vehicleClass as? String)
+            "vehicleClass": serializeStringType(vehicleClassInfo?.vehicleClass)
         ]
     }
     static func serializeDependentInfo(_ dependentInfo: DependentInfo?) -> Dictionary<String, Any> {
@@ -460,6 +460,7 @@ class BlinkIdSerializationUtils {
 
     static func serializeBarcodeExtendedElements(_ barcodeExtendedElements: BarcodeElements?) -> [String: Any] {
         var elements = barcodeExtendedElements
+        
         return [
             "addressCity": elements?.getValue(for: .addressCity),
             "addressJurisdictionCode": elements?.getValue(for: .addressJurisdictionCode),
@@ -544,6 +545,7 @@ class BlinkIdSerializationUtils {
             "weightKilograms": elements?.getValue(for: .weightKilograms),
             "weightPounds": elements?.getValue(for: .weightPounds),
             "weightRange": elements?.getValue(for: .weightRange),
+            "subFieldDesignator": elements?.getValue(for: .subfieldDesignator)
         ]
     }
 
