@@ -2443,7 +2443,7 @@ class BarcodeExtendedElements {
   /// It is located immediately after the IIN and the variable metadata structure in the PDF417 barcode data structure.
   ///
   /// For example: ANSI 636010090002DL00410267ZF03080067DLDAQS1234567812300000000000000 ^^ |           | |           +-- SubField Designator (DL, ID, EN, etc.) +----- IIN (636010)
-  String? subfieldDesignator;
+  String? subFieldDesignator;
 
   /// Represents the fields present in the barcode.
   /// Currently this is only used for AAMVACompliant documents.
@@ -2564,7 +2564,7 @@ class BarcodeExtendedElements {
       weightKilograms = nativeBarcodeExtendedElements['weightKilograms'],
       weightPounds = nativeBarcodeExtendedElements['weightPounds'],
       weightRange = nativeBarcodeExtendedElements['weightRange'],
-      subfieldDesignator = nativeBarcodeExtendedElements['subfieldDesignator'];
+      subFieldDesignator = nativeBarcodeExtendedElements['subFieldDesignator'];
 }
 
 /// Represents the document type found on the Machine Readable Zone

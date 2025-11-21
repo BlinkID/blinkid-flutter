@@ -545,7 +545,7 @@ class BlinkIdSerializationUtils {
             "weightKilograms": elements?.getValue(for: .weightKilograms),
             "weightPounds": elements?.getValue(for: .weightPounds),
             "weightRange": elements?.getValue(for: .weightRange),
-            "subfieldDesignator": elements?.getValue(for: .subfieldDesignator)
+            "subFieldDesignator": elements?.getValue(for: .subfieldDesignator)
         ]
     }
 
