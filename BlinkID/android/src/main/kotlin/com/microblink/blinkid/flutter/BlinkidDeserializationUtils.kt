@@ -11,10 +11,8 @@ import com.microblink.blinkid.core.result.classinfo.Region
 import com.microblink.blinkid.core.result.classinfo.Type
 import com.microblink.blinkid.core.session.BlinkIdSessionSettings
 import com.microblink.blinkid.core.session.ScanningMode
-import com.microblink.blinkid.core.settings.AnonymizationMode
 import com.microblink.blinkid.core.settings.CroppedImageSettings
 import com.microblink.blinkid.core.settings.DetailedFieldType
-import com.microblink.blinkid.core.settings.DetectionLevel
 import com.microblink.blinkid.core.settings.DocumentFilter
 import com.microblink.blinkid.core.settings.DocumentRules
 import com.microblink.blinkid.core.settings.RecognitionModeFilter
@@ -29,9 +27,11 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import android.graphics.Bitmap
 import android.util.Base64
-import com.microblink.blinkid.core.session.InputImageSource
 import com.microblink.blinkid.core.settings.DocumentNumberAnonymizationSettings
 import com.microblink.core.network.RequestTimeout
+import com.microblink.core.session.InputImageSource
+import com.microblink.core.settings.AnonymizationMode
+import com.microblink.core.settings.DetectionLevel
 import com.microblink.ux.camera.CameraLensFacing
 import com.microblink.ux.camera.CameraSettings
 
