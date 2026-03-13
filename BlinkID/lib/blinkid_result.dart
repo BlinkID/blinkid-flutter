@@ -228,6 +228,26 @@ class BlinkIdScanningResult {
   /// See [DetailedCroppedImageResult] for more information.
   DetailedCroppedImageResult? signatureImage;
 
+  ///  The effective date of the document.
+  DateResult<StringResult>? effectiveDate;
+
+  /// The parents info.
+  ///
+  /// See [ParentInfo] for more information.
+  List<ParentInfo>? parentsInfo;
+
+  /// The husband name of the document owner.
+  StringResult? husbandName;
+
+  /// The legal status of the document owner.
+  StringResult? legalStatus;
+
+  /// The social security status of the document owner.
+  StringResult? socialSecurityStatus;
+
+  /// The work restriction of the document owner.
+  StringResult? workRestriction;
+
   /// Represents the results of scanning a document.
   ///
   /// This class contains the results of scanning a document, including the extracted data
@@ -476,6 +496,36 @@ class BlinkIdScanningResult {
     nationalInsuranceNumber = createStringResult(
       nativeBlinkIdScanningResult,
       'nationalInsuranceNumber',
+    );
+    effectiveDate =
+        nativeBlinkIdScanningResult["effectiveDate"] != null
+            ? DateResult<StringResult>(
+              Map<String, dynamic>.from(
+                nativeBlinkIdScanningResult["effectiveDate"],
+              ),
+            )
+            : null;
+    parentsInfo =
+        nativeBlinkIdScanningResult["parentsInfo"] != null
+            ? (nativeBlinkIdScanningResult["parentsInfo"] as List<dynamic>)
+                .map((item) => ParentInfo(Map<String, dynamic>.from(item)))
+                .toList()
+            : null;
+    husbandName = createStringResult(
+      nativeBlinkIdScanningResult,
+      'husbandName',
+    );
+    legalStatus = createStringResult(
+      nativeBlinkIdScanningResult,
+      'legalStatus',
+    );
+    socialSecurityStatus = createStringResult(
+      nativeBlinkIdScanningResult,
+      'socialSecurityStatus',
+    );
+    workRestriction = createStringResult(
+      nativeBlinkIdScanningResult,
+      'workRestriction',
     );
   }
 }
@@ -1236,6 +1286,26 @@ class VizResult {
   /// The national insurance number of the document owner.
   StringResult? nationalInsuranceNumber;
 
+  ///  The effective date of the document.
+  DateResult<StringResult>? effectiveDate;
+
+  /// The parents info.
+  ///
+  /// See [ParentInfo] for more information.
+  List<ParentInfo>? parentsInfo;
+
+  /// The husband name of the document owner.
+  StringResult? husbandName;
+
+  /// The legal status of the document owner.
+  StringResult? legalStatus;
+
+  /// The social security status of the document owner.
+  StringResult? socialSecurityStatus;
+
+  /// The work restriction of the document owner.
+  StringResult? workRestriction;
+
   /// Represents the result of the Visual Inspection Zone of a document.
   VizResult(Map<String, dynamic> nativeVizResult) {
     firstName = createStringResult(nativeVizResult, 'firstName');
@@ -1374,6 +1444,25 @@ class VizResult {
       nativeVizResult,
       'nationalInsuranceNumber',
     );
+    effectiveDate =
+        nativeVizResult["effectiveDate"] != null
+            ? DateResult<StringResult>(
+              Map<String, dynamic>.from(nativeVizResult["effectiveDate"]),
+            )
+            : null;
+    parentsInfo =
+        nativeVizResult["parentsInfo"] != null
+            ? (nativeVizResult["parentsInfo"] as List<dynamic>)
+                .map((item) => ParentInfo(Map<String, dynamic>.from(item)))
+                .toList()
+            : null;
+    husbandName = createStringResult(nativeVizResult, 'husbandName');
+    legalStatus = createStringResult(nativeVizResult, 'legalStatus');
+    socialSecurityStatus = createStringResult(
+      nativeVizResult,
+      'socialSecurityStatus',
+    );
+    workRestriction = createStringResult(nativeVizResult, 'workRestriction');
   }
 }
 
@@ -1468,8 +1557,8 @@ class MrzResult {
       MRZDocumentType.values,
       nativeMRZResult["documentType"],
     );
-    primaryID = nativeMRZResult['primaryId'];
-    secondaryID = nativeMRZResult['secondaryId'];
+    primaryID = nativeMRZResult['primaryID'];
+    secondaryID = nativeMRZResult['secondaryID'];
     issuer = nativeMRZResult['issuer'];
     dateOfBirth =
         nativeMRZResult['dateOfBirth'] != null
@@ -2635,6 +2724,20 @@ enum ScanningSide {
 
   /// The second side of the scanned document
   second,
+}
+
+/// The results of parents info.
+class ParentInfo {
+  /// The first name of one of the document owner's parents.
+  StringResult? firstName;
+
+  /// The last name of one of the document owner's parents.
+  StringResult? lastName;
+
+  ParentInfo(Map<String, dynamic> nativeParentInfo) {
+    firstName = createStringResult(nativeParentInfo, 'firstName');
+    lastName = createStringResult(nativeParentInfo, 'lastName');
+  }
 }
 
 /// Helper method for serializing enums from the native Android and iOS platforms.
