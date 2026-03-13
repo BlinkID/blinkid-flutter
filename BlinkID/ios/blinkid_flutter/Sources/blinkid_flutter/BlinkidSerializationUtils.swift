@@ -14,204 +14,221 @@ class BlinkIdSerializationUtils {
     static func serializeBlinkIdScanningResult(_ scanningResult: BlinkIDScanningResult?) -> String? {
         var scanningResultDict = Dictionary<String, Any>()
         
-        if let recognitionMode = scanningResult?.recognitionMode {
-            scanningResultDict["recognitionMode"] = serializeRecognitionMode(recognitionMode)
-        }
-        if let documentClassInfo = scanningResult?.documentClassInfo {
-            scanningResultDict["documentClassInfo"] = serializeDocumentClassInfo(documentClassInfo)
-        }
-        if let dataMatchResult = scanningResult?.dataMatchResult {
-            scanningResultDict["dataMatchResult"] = serializeDataMatchResult(dataMatchResult)
-        }
-        if let firstName = scanningResult?.firstName {
-            scanningResultDict["firstName"] = serializeStringResult(firstName)
-        }
-        if let lastName = scanningResult?.lastName {
-            scanningResultDict["lastName"] = serializeStringResult(lastName)
-        }
-        if let fullName = scanningResult?.fullName {
-            scanningResultDict["fullName"] = serializeStringResult(fullName)
-        }
-        if let additionalNameInformation = scanningResult?.additionalNameInformation {
-            scanningResultDict["additionalNameInformation"] = serializeStringResult(additionalNameInformation)
-        }
-        if let localizedName = scanningResult?.localizedName {
-            scanningResultDict["localizedName"] = serializeStringResult(localizedName)
-        }
-        if let fathersName = scanningResult?.fathersName {
-            scanningResultDict["fathersName"] = serializeStringResult(fathersName)
-        }
-        if let mothersName = scanningResult?.mothersName {
-            scanningResultDict["mothersName"] = serializeStringResult(mothersName)
-        }
-        if let address = scanningResult?.address {
-            scanningResultDict["address"] = serializeStringResult(address)
-        }
-        if let additionalAddressInformation = scanningResult?.additionalAddressInformation {
-            scanningResultDict["additionalAddressInformation"] = serializeStringResult(additionalAddressInformation)
-        }
-        if let additionalOptionalAddressInformation = scanningResult?.additionalOptionalAddressInformation {
-            scanningResultDict["additionalOptionalAddressInformation"] = serializeStringResult(additionalOptionalAddressInformation)
-        }
-        if let placeOfBirth = scanningResult?.placeOfBirth {
-            scanningResultDict["placeOfBirth"] = serializeStringResult(placeOfBirth)
-        }
-        if let nationality = scanningResult?.nationality {
-            scanningResultDict["nationality"] = serializeStringResult(nationality)
-        }
-        if let race = scanningResult?.race {
-            scanningResultDict["race"] = serializeStringResult(race)
-        }
-        if let religion = scanningResult?.religion {
-            scanningResultDict["religion"] = serializeStringResult(religion)
-        }
-        if let profession = scanningResult?.profession {
-            scanningResultDict["profession"] = serializeStringResult(profession)
-        }
-        if let maritalStatus = scanningResult?.maritalStatus {
-            scanningResultDict["maritalStatus"] = serializeStringResult(maritalStatus)
-        }
-        if let residentialStatus = scanningResult?.residentialStatus {
-            scanningResultDict["residentialStatus"] = serializeStringResult(residentialStatus)
-        }
-        if let employer = scanningResult?.employer {
-            scanningResultDict["employer"] = serializeStringResult(employer)
-        }
-        if let sex = scanningResult?.sex {
-            scanningResultDict["sex"] = serializeStringResult(sex)
-        }
-        if let sponsor = scanningResult?.sponsor {
-            scanningResultDict["sponsor"] = serializeStringResult(sponsor)
-        }
-        if let bloodType = scanningResult?.bloodType {
-            scanningResultDict["bloodType"] = serializeStringResult(bloodType)
-        }
-        if let documentNumber = scanningResult?.documentNumber {
-            scanningResultDict["documentNumber"] = serializeStringResult(documentNumber)
-        }
-        if let personalIdNumber = scanningResult?.personalIdNumber {
-            scanningResultDict["personalIdNumber"] = serializeStringResult(personalIdNumber)
-        }
-        if let documentAdditionalNumber = scanningResult?.documentAdditionalNumber {
-            scanningResultDict["documentAdditionalNumber"] = serializeStringResult(documentAdditionalNumber)
-        }
-        if let documentOptionalAdditionalNumber = scanningResult?.documentOptionalAdditionalNumber {
-            scanningResultDict["documentOptionalAdditionalNumber"] = serializeStringResult(documentOptionalAdditionalNumber)
-        }
-        if let additionalPersonalIdNumber = scanningResult?.additionalPersonalIdNumber {
-            scanningResultDict["additionalPersonalIdNumber"] = serializeStringResult(additionalPersonalIdNumber)
-        }
-        if let issuingAuthority = scanningResult?.issuingAuthority {
-            scanningResultDict["issuingAuthority"] = serializeStringResult(issuingAuthority)
-        }
-        if let documentSubtype = scanningResult?.documentSubtype {
-            scanningResultDict["documentSubtype"] = serializeStringResult(documentSubtype)
-        }
-        if let remarks = scanningResult?.remarks {
-            scanningResultDict["remarks"] = serializeStringResult(remarks)
-        }
-        if let residencePermitType = scanningResult?.residencePermitType {
-            scanningResultDict["residencePermitType"] = serializeStringResult(residencePermitType)
-        }
-        if let manufacturingYear = scanningResult?.manufacturingYear {
-            scanningResultDict["manufacturingYear"] = serializeStringResult(manufacturingYear)
-        }
-        if let vehicleType = scanningResult?.vehicleType {
-            scanningResultDict["vehicleType"] = serializeStringResult(vehicleType)
-        }
-        if let vehicleOwner = scanningResult?.vehicleOwner {
-            scanningResultDict["vehicleOwner"] = serializeStringResult(vehicleOwner)
-        }
-        if let countryCode = scanningResult?.countryCode {
-            scanningResultDict["countryCode"] = serializeStringResult(countryCode)
-        }
-        if let certificateNumber = scanningResult?.certificateNumber {
-            scanningResultDict["certificateNumber"] = serializeStringResult(certificateNumber)
-        }
-        if let nationalInsuranceNumber = scanningResult?.nationalInsuranceNumber {
-            scanningResultDict["nationalInsuranceNumber"] = serializeStringResult(nationalInsuranceNumber)
-        }
-        if let eligibilityCategory = scanningResult?.eligibilityCategory {
-            scanningResultDict["eligibilityCategory"] = serializeStringResult(eligibilityCategory)
-        }
-        if let specificDocumentValidity = scanningResult?.specificDocumentValidity {
-            scanningResultDict["specificDocumentValidity"] = serializeStringResult(specificDocumentValidity)
-        }
-        if let visaType = scanningResult?.visaType {
-            scanningResultDict["visaType"] = serializeStringResult(visaType)
-        }
-        if let dateOfExpiryPermanent = scanningResult?.dateOfExpiryPermanent {
-            scanningResultDict["dateOfExpiryPermanent"] = dateOfExpiryPermanent
-        }
-        if let dateOfBirth = scanningResult?.dateOfBirth {
-            scanningResultDict["dateOfBirth"] = serializeDateResult(dateOfBirth)
-        }
-        if let dateOfIssue = scanningResult?.dateOfIssue {
-            scanningResultDict["dateOfIssue"] = serializeDateResult(dateOfIssue)
-        }
-        if let dateOfExpiry = scanningResult?.dateOfExpiry {
-            scanningResultDict["dateOfExpiry"] = serializeDateResult(dateOfExpiry)
-        }
-        if let dateOfEntry = scanningResult?.dateOfEntry {
-            scanningResultDict["dateOfEntry"] = serializeDateResult(dateOfEntry)
-        }
-        if let localityCode = scanningResult?.localityCode {
-            scanningResultDict["localityCode"] = serializeStringResult(localityCode)
-        }
-        if let maidenName = scanningResult?.maidenName {
-            scanningResultDict["maidenName"] = serializeStringResult(maidenName)
-        }
-        if let municipalityCode = scanningResult?.municipalityCode {
-            scanningResultDict["municipalityCode"] = serializeStringResult(municipalityCode)
-        }
-        if let municipalityOfRegistration = scanningResult?.municipalityOfRegistration {
-            scanningResultDict["municipalityOfRegistration"] = serializeStringResult(municipalityOfRegistration)
-        }
-        if let pollingStationCode = scanningResult?.pollingStationCode {
-            scanningResultDict["pollingStationCode"] = serializeStringResult(pollingStationCode)
-        }
-        if let registrationCenterCode = scanningResult?.registrationCenterCode {
-            scanningResultDict["registrationCenterCode"] = serializeStringResult(registrationCenterCode)
-        }
-        if let sectionCode = scanningResult?.sectionCode {
-            scanningResultDict["sectionCode"] = serializeStringResult(sectionCode)
-        }
-        if let stateCode = scanningResult?.stateCode {
-            scanningResultDict["stateCode"] = serializeStringResult(stateCode)
-        }
-        if let stateName = scanningResult?.stateName {
-            scanningResultDict["stateName"] = serializeStringResult(stateName)
-        }
-        if let driverLicenseDetailedInfo = scanningResult?.driverLicenseDetailedInfo {
-            scanningResultDict["driverLicenseDetailedInfo"] = serializeDriverLicenseDetailedInfo(driverLicenseDetailedInfo)
-        }
-        if let dependentsInfo = scanningResult?.dependentsInfo {
-            scanningResultDict["dependentsInfo"] = dependentsInfo.map(serializeDependentInfo(_:))
-        }
-        if let subResults = scanningResult?.subResults {
-            scanningResultDict["subResults"] = subResults.map(serializeSingleSideScanningResult(_:))
-        }
-        if let firstInputImage = scanningResult?.getInputImage(scanningSide: .first) {
-            scanningResultDict["firstInputImage"] = encodeImage(firstInputImage.uiImage)
-        }
-        if let secondInputImage = scanningResult?.getInputImage(scanningSide: .second) {
-            scanningResultDict["secondInputImage"] = encodeImage(secondInputImage.uiImage)
-        }
-        if let barcodeInputImage = scanningResult?.getBarcodeInputImage() {
-            scanningResultDict["barcodeInputImage"] = encodeImage(barcodeInputImage.uiImage)
-        }
-        if let firstDocumentImage = scanningResult?.getDocumentImage(scanningSide: .first) {
-            scanningResultDict["firstDocumentImage"] = encodeImage(firstDocumentImage.uiImage)
-        }
-        if let secondDocumentImage = scanningResult?.getDocumentImage(scanningSide: .second) {
-            scanningResultDict["secondDocumentImage"] = encodeImage(secondDocumentImage.uiImage)
-        }
-        if let faceImage = scanningResult?.getFaceImage() {
-            scanningResultDict["faceImage"] = serializeDetailedCroppedImageResult(faceImage)
-        }
-        if let signatureImage = scanningResult?.getSignatureImage() {
-            scanningResultDict["signatureImage"] = serializeDetailedCroppedImageResult(signatureImage)
-        }
+        if let scanningResult {
+            scanningResultDict["recognitionMode"] = serializeRecognitionMode(scanningResult.recognitionMode)
+            scanningResultDict["documentClassInfo"] = serializeDocumentClassInfo(scanningResult.documentClassInfo)
+
+            if let dataMatchResult = scanningResult.dataMatchResult {
+                scanningResultDict["dataMatchResult"] = serializeDataMatchResult(dataMatchResult)
+            }
+            if let firstName = scanningResult.firstName {
+                scanningResultDict["firstName"] = serializeStringResult(firstName)
+            }
+            if let lastName = scanningResult.lastName {
+                scanningResultDict["lastName"] = serializeStringResult(lastName)
+            }
+            if let fullName = scanningResult.fullName {
+                scanningResultDict["fullName"] = serializeStringResult(fullName)
+            }
+            if let additionalNameInformation = scanningResult.additionalNameInformation {
+                scanningResultDict["additionalNameInformation"] = serializeStringResult(additionalNameInformation)
+            }
+            if let localizedName = scanningResult.localizedName {
+                scanningResultDict["localizedName"] = serializeStringResult(localizedName)
+            }
+            if let fathersName = scanningResult.fathersName {
+                scanningResultDict["fathersName"] = serializeStringResult(fathersName)
+            }
+            if let mothersName = scanningResult.mothersName {
+                scanningResultDict["mothersName"] = serializeStringResult(mothersName)
+            }
+            if let address = scanningResult.address {
+                scanningResultDict["address"] = serializeStringResult(address)
+            }
+            if let additionalAddressInformation = scanningResult.additionalAddressInformation {
+                scanningResultDict["additionalAddressInformation"] = serializeStringResult(additionalAddressInformation)
+            }
+            if let additionalOptionalAddressInformation = scanningResult.additionalOptionalAddressInformation {
+                scanningResultDict["additionalOptionalAddressInformation"] = serializeStringResult(additionalOptionalAddressInformation)
+            }
+            if let placeOfBirth = scanningResult.placeOfBirth {
+                scanningResultDict["placeOfBirth"] = serializeStringResult(placeOfBirth)
+            }
+            if let nationality = scanningResult.nationality {
+                scanningResultDict["nationality"] = serializeStringResult(nationality)
+            }
+            if let race = scanningResult.race {
+                scanningResultDict["race"] = serializeStringResult(race)
+            }
+            if let religion = scanningResult.religion {
+                scanningResultDict["religion"] = serializeStringResult(religion)
+            }
+            if let profession = scanningResult.profession {
+                scanningResultDict["profession"] = serializeStringResult(profession)
+            }
+            if let maritalStatus = scanningResult.maritalStatus {
+                scanningResultDict["maritalStatus"] = serializeStringResult(maritalStatus)
+            }
+            if let residentialStatus = scanningResult.residentialStatus {
+                scanningResultDict["residentialStatus"] = serializeStringResult(residentialStatus)
+            }
+            if let employer = scanningResult.employer {
+                scanningResultDict["employer"] = serializeStringResult(employer)
+            }
+            if let sex = scanningResult.sex {
+                scanningResultDict["sex"] = serializeStringResult(sex)
+            }
+            if let sponsor = scanningResult.sponsor {
+                scanningResultDict["sponsor"] = serializeStringResult(sponsor)
+            }
+            if let bloodType = scanningResult.bloodType {
+                scanningResultDict["bloodType"] = serializeStringResult(bloodType)
+            }
+            if let documentNumber = scanningResult.documentNumber {
+                scanningResultDict["documentNumber"] = serializeStringResult(documentNumber)
+            }
+            if let personalIdNumber = scanningResult.personalIdNumber {
+                scanningResultDict["personalIdNumber"] = serializeStringResult(personalIdNumber)
+            }
+            if let documentAdditionalNumber = scanningResult.documentAdditionalNumber {
+                scanningResultDict["documentAdditionalNumber"] = serializeStringResult(documentAdditionalNumber)
+            }
+            if let documentOptionalAdditionalNumber = scanningResult.documentOptionalAdditionalNumber {
+                scanningResultDict["documentOptionalAdditionalNumber"] = serializeStringResult(documentOptionalAdditionalNumber)
+            }
+            if let additionalPersonalIdNumber = scanningResult.additionalPersonalIdNumber {
+                scanningResultDict["additionalPersonalIdNumber"] = serializeStringResult(additionalPersonalIdNumber)
+            }
+            if let issuingAuthority = scanningResult.issuingAuthority {
+                scanningResultDict["issuingAuthority"] = serializeStringResult(issuingAuthority)
+            }
+            if let documentSubtype = scanningResult.documentSubtype {
+                scanningResultDict["documentSubtype"] = serializeStringResult(documentSubtype)
+            }
+            if let remarks = scanningResult.remarks {
+                scanningResultDict["remarks"] = serializeStringResult(remarks)
+            }
+            if let residencePermitType = scanningResult.residencePermitType {
+                scanningResultDict["residencePermitType"] = serializeStringResult(residencePermitType)
+            }
+            if let manufacturingYear = scanningResult.manufacturingYear {
+                scanningResultDict["manufacturingYear"] = serializeStringResult(manufacturingYear)
+            }
+            if let vehicleType = scanningResult.vehicleType {
+                scanningResultDict["vehicleType"] = serializeStringResult(vehicleType)
+            }
+            if let vehicleOwner = scanningResult.vehicleOwner {
+                scanningResultDict["vehicleOwner"] = serializeStringResult(vehicleOwner)
+            }
+            if let countryCode = scanningResult.countryCode {
+                scanningResultDict["countryCode"] = serializeStringResult(countryCode)
+            }
+            if let certificateNumber = scanningResult.certificateNumber {
+                scanningResultDict["certificateNumber"] = serializeStringResult(certificateNumber)
+            }
+            if let nationalInsuranceNumber = scanningResult.nationalInsuranceNumber {
+                scanningResultDict["nationalInsuranceNumber"] = serializeStringResult(nationalInsuranceNumber)
+            }
+            if let eligibilityCategory = scanningResult.eligibilityCategory {
+                scanningResultDict["eligibilityCategory"] = serializeStringResult(eligibilityCategory)
+            }
+            if let specificDocumentValidity = scanningResult.specificDocumentValidity {
+                scanningResultDict["specificDocumentValidity"] = serializeStringResult(specificDocumentValidity)
+            }
+            if let visaType = scanningResult.visaType {
+                scanningResultDict["visaType"] = serializeStringResult(visaType)
+            }
+            if let dateOfExpiryPermanent = scanningResult.dateOfExpiryPermanent {
+                scanningResultDict["dateOfExpiryPermanent"] = dateOfExpiryPermanent
+            }
+            if let dateOfBirth = scanningResult.dateOfBirth {
+                scanningResultDict["dateOfBirth"] = serializeDateResult(dateOfBirth)
+            }
+            if let dateOfIssue = scanningResult.dateOfIssue {
+                scanningResultDict["dateOfIssue"] = serializeDateResult(dateOfIssue)
+            }
+            if let dateOfExpiry = scanningResult.dateOfExpiry {
+                scanningResultDict["dateOfExpiry"] = serializeDateResult(dateOfExpiry)
+            }
+            if let dateOfEntry = scanningResult.dateOfEntry {
+                scanningResultDict["dateOfEntry"] = serializeDateResult(dateOfEntry)
+            }
+            if let localityCode = scanningResult.localityCode {
+                scanningResultDict["localityCode"] = serializeStringResult(localityCode)
+            }
+            if let maidenName = scanningResult.maidenName {
+                scanningResultDict["maidenName"] = serializeStringResult(maidenName)
+            }
+            if let municipalityCode = scanningResult.municipalityCode {
+                scanningResultDict["municipalityCode"] = serializeStringResult(municipalityCode)
+            }
+            if let municipalityOfRegistration = scanningResult.municipalityOfRegistration {
+                scanningResultDict["municipalityOfRegistration"] = serializeStringResult(municipalityOfRegistration)
+            }
+            if let pollingStationCode = scanningResult.pollingStationCode {
+                scanningResultDict["pollingStationCode"] = serializeStringResult(pollingStationCode)
+            }
+            if let registrationCenterCode = scanningResult.registrationCenterCode {
+                scanningResultDict["registrationCenterCode"] = serializeStringResult(registrationCenterCode)
+            }
+            if let sectionCode = scanningResult.sectionCode {
+                scanningResultDict["sectionCode"] = serializeStringResult(sectionCode)
+            }
+            if let stateCode = scanningResult.stateCode {
+                scanningResultDict["stateCode"] = serializeStringResult(stateCode)
+            }
+            if let stateName = scanningResult.stateName {
+                scanningResultDict["stateName"] = serializeStringResult(stateName)
+            }
+            if let driverLicenseDetailedInfo = scanningResult.driverLicenseDetailedInfo {
+                scanningResultDict["driverLicenseDetailedInfo"] = serializeDriverLicenseDetailedInfo(driverLicenseDetailedInfo)
+            }
+            if let dependentsInfo = scanningResult.dependentsInfo {
+                scanningResultDict["dependentsInfo"] = dependentsInfo.map(serializeDependentInfo(_:))
+            }
+            if let parentsInfo = scanningResult.parentsInfo {
+                scanningResultDict["parentsInfo"] = parentsInfo.map(serializeParentInfo(_:))
+            }
+            if let effectiveDate = scanningResult.effectiveDate {
+                scanningResultDict["effectiveDate"] = serializeDateResult(effectiveDate)
+            }
+            if let husbandName = scanningResult.husbandName {
+                scanningResultDict["husbandName"] = serializeStringResult(husbandName)
+            }
+            if let legalStatus = scanningResult.legalStatus {
+                scanningResultDict["legalStatus"] = serializeStringResult(legalStatus)
+            }
+            if let socialSecurityStatus = scanningResult.socialSecurityStatus {
+                scanningResultDict["socialSecurityStatus"] = serializeStringResult(socialSecurityStatus)
+            }
+            if let workRestriction = scanningResult.workRestriction {
+                scanningResultDict["workRestriction"] = serializeStringResult(workRestriction)
+            }
+            scanningResultDict["subResults"] = scanningResult.subResults.map(serializeSingleSideScanningResult(_:))
+
+            if let firstInputImage = scanningResult.getInputImage(scanningSide: .first) {
+                scanningResultDict["firstInputImage"] = encodeImage(firstInputImage.uiImage)
+            }
+            if let secondInputImage = scanningResult.getInputImage(scanningSide: .second) {
+                scanningResultDict["secondInputImage"] = encodeImage(secondInputImage.uiImage)
+            }
+            if let barcodeInputImage = scanningResult.getBarcodeInputImage() {
+                scanningResultDict["barcodeInputImage"] = encodeImage(barcodeInputImage.uiImage)
+            }
+            if let firstDocumentImage = scanningResult.getDocumentImage(scanningSide: .first) {
+                scanningResultDict["firstDocumentImage"] = encodeImage(firstDocumentImage.uiImage)
+            }
+            if let secondDocumentImage = scanningResult.getDocumentImage(scanningSide: .second) {
+                scanningResultDict["secondDocumentImage"] = encodeImage(secondDocumentImage.uiImage)
+            }
+            if let faceImage = scanningResult.getFaceImage() {
+                scanningResultDict["faceImage"] = serializeDetailedCroppedImageResult(faceImage)
+            }
+            if let signatureImage = scanningResult.getSignatureImage() {
+                scanningResultDict["signatureImage"] = serializeDetailedCroppedImageResult(signatureImage)
+            }
+        }
+        
         return encodeToJson(scanningResultDict)
     }
     
@@ -545,7 +562,6 @@ class BlinkIdSerializationUtils {
             "weightKilograms": elements?.getValue(for: .weightKilograms),
             "weightPounds": elements?.getValue(for: .weightPounds),
             "weightRange": elements?.getValue(for: .weightRange),
-            "subFieldDesignator": elements?.getValue(for: .subfieldDesignator)
         ]
     }
 
@@ -783,6 +799,24 @@ class BlinkIdSerializationUtils {
             if let stateName = vizResult.stateName {
                 vizResultDict["stateName"] = serializeStringResult(stateName)
             }
+            if let parentsInfo = vizResult.parentsInfo {
+                vizResultDict["parentsInfo"] = parentsInfo.map(serializeParentInfo(_:))
+            }
+            if let effectiveDate = vizResult.effectiveDate {
+                vizResultDict["effectiveDate"] = serializeDateResult(effectiveDate)
+            }
+            if let husbandName = vizResult.husbandName {
+                vizResultDict["husbandName"] = serializeStringResult(husbandName)
+            }
+            if let legalStatus = vizResult.legalStatus {
+                vizResultDict["legalStatus"] = serializeStringResult(legalStatus)
+            }
+            if let socialSecurityStatus = vizResult.socialSecurityStatus {
+                vizResultDict["socialSecurityStatus"] = serializeStringResult(socialSecurityStatus)
+            }
+            if let workRestriction = vizResult.workRestriction {
+                vizResultDict["workRestriction"] = serializeStringResult(workRestriction)
+            }
         }
         return vizResultDict
     }
@@ -817,6 +851,17 @@ class BlinkIdSerializationUtils {
         @unknown default:
             return 0
         }
+    }
+    
+    static func serializeParentInfo(_ parentInfo: ParentInfo) -> Dictionary<String, Any> {
+        var parentInfoDict: [String: Any] = [:]
+        if let firstName = parentInfo.firstName {
+            parentInfoDict["firstName"] = serializeStringResult(firstName)
+        }
+        if let lastName = parentInfo.lastName {
+            parentInfoDict["lastName"] = serializeStringResult(lastName)
+        }
+        return parentInfoDict
     }
     
     static func encodeToJson(_ dict: Dictionary<String, Any>) -> String? {
