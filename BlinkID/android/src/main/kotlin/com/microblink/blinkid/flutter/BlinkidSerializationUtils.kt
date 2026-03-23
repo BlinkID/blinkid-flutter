@@ -5,25 +5,27 @@ import com.microblink.blinkid.core.result.AddressDetailedInfo
 import com.microblink.blinkid.core.result.AlphabetType
 import com.microblink.blinkid.core.result.DataMatchFieldState
 import com.microblink.blinkid.core.result.DataMatchResult
-import com.microblink.blinkid.core.result.DateResult
 import com.microblink.blinkid.core.result.DependentInfo
 import com.microblink.blinkid.core.result.DriverLicenseDetailedInfo
-import com.microblink.blinkid.core.result.Rectangle
 import com.microblink.blinkid.core.result.SingleSideScanningResult
 import com.microblink.blinkid.core.result.StringResult
 import com.microblink.blinkid.core.result.VehicleClassInfo
 import com.microblink.blinkid.core.result.barcode.BarcodeData
 import com.microblink.blinkid.core.result.barcode.BarcodeResult
 import com.microblink.blinkid.core.result.classinfo.DocumentClassInfo
-import com.microblink.blinkid.core.result.image.DetailedCroppedImageResult
 import com.microblink.blinkid.core.result.mrz.MrzResult
 import com.microblink.blinkid.core.result.viz.VizResult
 import com.microblink.blinkid.core.session.BlinkIdScanningResult
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import android.util.Base64
-import com.microblink.blinkid.core.result.ScanningSide
+import com.microblink.blinkid.core.result.ParentInfo
 import com.microblink.blinkid.core.result.barcode.BarcodeElement
+import com.microblink.core.result.DateResult
+import com.microblink.core.result.DetailedCroppedImageResult
+import com.microblink.core.result.Rectangle
+import com.microblink.core.result.ScanningSide
+import kotlin.collections.set
 
 object BlinkIdSerializationUtils {
     fun serializeBlinkIdScanningResult(scanningResult: BlinkIdScanningResult?): String? {
@@ -207,7 +209,24 @@ object BlinkIdSerializationUtils {
         scanningResult?.subResults?.let {
             scanningResultDict["subResults"] = it.map { subResult -> serializeSubResult(subResult) }
         }
-
+        scanningResult?.parentsInfo?.let {
+            scanningResultDict["parentsInfo"] = it.map { parentInfo -> serializeParentInfo(parentInfo)}
+        }
+        scanningResult?.effectiveDate?.let {
+            scanningResultDict["effectiveDate"] = serializeDateResult(it)
+        }
+        scanningResult?.husbandName?.let {
+            scanningResultDict["husbandName"] = serializeStringResult(it)
+        }
+        scanningResult?.legalStatus?.let {
+            scanningResultDict["legalStatus"] = serializeStringResult(it)
+        }
+        scanningResult?.socialSecurityStatus?.let {
+            scanningResultDict["socialSecurityStatus"] = serializeStringResult(it)
+        }
+        scanningResult?.workRestriction?.let {
+            scanningResultDict["workRestriction"] = serializeStringResult(it)
+        }
         scanningResult?.inputImage(ScanningSide.First)?.let {
             scanningResultDict["firstInputImage"] = encodeBase64Image(it.bitmap)
         }
@@ -648,6 +667,24 @@ object BlinkIdSerializationUtils {
         vizResult?.nationalInsuranceNumber?.let {
             vizResultDict["nationalInsuranceNumber"] = serializeStringResult(it)
         }
+        vizResult?.parentsInfo?.let {
+            vizResultDict["parentsInfo"] = it.map { parentInfo -> serializeParentInfo(parentInfo)}
+        }
+        vizResult?.effectiveDate?.let {
+            vizResultDict["effectiveDate"] = serializeDateResult(it)
+        }
+        vizResult?.husbandName?.let {
+            vizResultDict["husbandName"] = serializeStringResult(it)
+        }
+        vizResult?.legalStatus?.let {
+            vizResultDict["legalStatus"] = serializeStringResult(it)
+        }
+        vizResult?.socialSecurityStatus?.let {
+            vizResultDict["socialSecurityStatus"] = serializeStringResult(it)
+        }
+        vizResult?.workRestriction?.let {
+            vizResultDict["workRestriction"] = serializeStringResult(it)
+        }
         return vizResultDict
     }
 
@@ -676,6 +713,17 @@ object BlinkIdSerializationUtils {
             }
         }
         return barcodeExtendedElementsDict
+    }
+
+    private fun serializeParentInfo(parentInfo: ParentInfo): Map<String, Any> {
+        val parentInfoDict: MutableMap<String, Any> = mutableMapOf()
+        parentInfo.firstName?.let {
+            parentInfoDict["firstName"] = serializeStringResult(it)
+        }
+        parentInfo.lastName?.let {
+            parentInfoDict["lastName"] = serializeStringResult(it)
+        }
+        return parentInfoDict
     }
 
     private fun serializeStringType(value: Any?): Any? {

@@ -312,6 +312,16 @@ const _$FieldTypeEnumMap = {
   FieldType.sectionCode: 'sectionCode',
   FieldType.registrationCenterCode: 'registrationCenterCode',
   FieldType.stateName: 'stateName',
+  FieldType.effectiveDate: 'effectiveDate',
+  FieldType.parentsLastName: 'parentsLastName',
+  FieldType.parentsLastName2: 'parentsLastName2',
+  FieldType.parentsFirstName: 'parentsFirstName',
+  FieldType.parentsFirstName2: 'parentsFirstName2',
+  FieldType.workRestriction: 'workRestriction',
+  FieldType.socialSecurityStatus: 'socialSecurityStatus',
+  FieldType.legalStatus: 'legalStatus',
+  FieldType.husbandName: 'husbandName',
+  FieldType.chinPermanentExpiry: 'chinPermanentExpiry',
 };
 
 const _$AlphabetTypeEnumMap = {
@@ -619,6 +629,7 @@ const _$CountryEnumMap = {
   Country.zambia: 'zambia',
   Country.zimbabwe: 'zimbabwe',
   Country.schengenArea: 'schengenArea',
+  Country.saintThomasAndPrince: 'saintThomasAndPrince',
 };
 
 const _$RegionEnumMap = {
@@ -763,6 +774,15 @@ const _$RegionEnumMap = {
   Region.alagos: 'alagos',
   Region.bangsamoro: 'bangsamoro',
   Region.telangana: 'telangana',
+  Region.acre: 'acre',
+  Region.espiritoSanto: 'espiritoSanto',
+  Region.matoGrossoDoSul: 'matoGrossoDoSul',
+  Region.paraiba: 'paraiba',
+  Region.piaui: 'piaui',
+  Region.rioGrandeDoNorte: 'rioGrandeDoNorte',
+  Region.tocantins: 'tocantins',
+  Region.odisha: 'odisha',
+  Region.uttarakhand: 'uttarakhand',
 };
 
 const _$DocumentTypeEnumMap = {
@@ -851,7 +871,12 @@ const _$DocumentTypeEnumMap = {
   DocumentType.emergencyPassport: 'emergencyPassport',
   DocumentType.temporaryPassport: 'temporaryPassport',
   DocumentType.metisFederationCard: 'metisFederationCard',
+  DocumentType.socialSecurityCard: 'socialSecurityCard',
   DocumentType.adrCertificate: 'adrCertificate',
+  DocumentType.ninCard: 'ninCard',
+  DocumentType.mysssCard: 'mysssCard',
+  DocumentType.gendarmerieId: 'gendarmerieId',
+  DocumentType.policeId: 'policeId',
 };
 
 DocumentNumberAnonymizationSettings

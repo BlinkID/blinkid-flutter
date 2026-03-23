@@ -1285,6 +1285,8 @@ enum Country {
   zimbabwe,
   @JsonValue("schengenArea")
   schengenArea,
+  @JsonValue("saintThomasAndPrince")
+  saintThomasAndPrince,
 }
 
 /// Document region.
@@ -1571,6 +1573,24 @@ enum Region {
   bangsamoro,
   @JsonValue("telangana")
   telangana,
+  @JsonValue("acre")
+  acre,
+  @JsonValue("espiritoSanto")
+  espiritoSanto,
+  @JsonValue("matoGrossoDoSul")
+  matoGrossoDoSul,
+  @JsonValue("paraiba")
+  paraiba,
+  @JsonValue("piaui")
+  piaui,
+  @JsonValue("rioGrandeDoNorte")
+  rioGrandeDoNorte,
+  @JsonValue("tocantins")
+  tocantins,
+  @JsonValue("odisha")
+  odisha,
+  @JsonValue("uttarakhand")
+  uttarakhand,
 }
 
 /// Document type.
@@ -1745,8 +1765,18 @@ enum DocumentType {
   temporaryPassport,
   @JsonValue("metisFederationCard")
   metisFederationCard,
+  @JsonValue("socialSecurityCard")
+  socialSecurityCard,
   @JsonValue("adrCertificate")
   adrCertificate,
+  @JsonValue("ninCard")
+  ninCard,
+  @JsonValue("mysssCard")
+  mysssCard,
+  @JsonValue("gendarmerieId")
+  gendarmerieId,
+  @JsonValue("policeId")
+  policeId,
 }
 
 /// Represents all possible field types that can be extracted from the document.
@@ -1879,6 +1909,26 @@ enum FieldType {
   registrationCenterCode,
   @JsonValue("stateName")
   stateName,
+  @JsonValue("effectiveDate")
+  effectiveDate,
+  @JsonValue("parentsLastName")
+  parentsLastName,
+  @JsonValue("parentsLastName2")
+  parentsLastName2,
+  @JsonValue("parentsFirstName")
+  parentsFirstName,
+  @JsonValue("parentsFirstName2")
+  parentsFirstName2,
+  @JsonValue("workRestriction")
+  workRestriction,
+  @JsonValue("socialSecurityStatus")
+  socialSecurityStatus,
+  @JsonValue("legalStatus")
+  legalStatus,
+  @JsonValue("husbandName")
+  husbandName,
+  @JsonValue("chinPermanentExpiry")
+  chinPermanentExpiry,
 }
 
 /// An enum indicating preffered camera position for document capturing.

@@ -41,12 +41,19 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             let _ = await try ensureLoadedSdk(call)
             result?(true)
         } catch {
-            result?(FlutterError(
-                code: BlinkIdStrings.iosError,
-                message: "\(BlinkIdStrings.ErrorMessage.initError) Reason: \(error.localizedDescription)",
-                details: nil))
+            if let error = error as? InvalidLicenseKeyError {
+                result?(FlutterError(
+                    code: BlinkIdStrings.iosError,
+                    message: "\(BlinkIdStrings.ErrorMessage.initError) Reason: \(error.message)",
+                    details: nil
+                ))
+            } else {
+                result?(FlutterError(
+                    code: BlinkIdStrings.iosError,
+                    message: "\(BlinkIdStrings.ErrorMessage.initError) Reason: \(error.localizedDescription)",
+                    details: nil))
+            }
         }
-        
     }
     
     private func unloadSdk(_ call: FlutterMethodCall) async {
@@ -141,8 +148,7 @@ public class BlinkidFlutterPlugin: NSObject, FlutterPlugin {
             
             let scanningUxModel = await BlinkIDUXModel(
                 analyzer: analyzer,
-                uxSettings:  uxSettings,
-                sessionNumber: analyzer.sessionNumber)
+                uxSettings:  uxSettings)
             
             let scannedResults =  await scanningUxModel.$result
                 .sink { [weak self] scanningResultState in
