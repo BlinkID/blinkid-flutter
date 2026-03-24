@@ -36,15 +36,13 @@ BlinkIdSessionSettings _$BlinkIdSessionSettingsFromJson(
       ..scanningMode = $enumDecode(_$ScanningModeEnumMap, json['scanningMode'])
       ..scanningSettings = BlinkIdScanningSettings.fromJson(
         json['scanningSettings'] as Map<String, dynamic>,
-      )
-      ..stepTimeoutDuration = (json['stepTimeoutDuration'] as num).toInt();
+      );
 
 Map<String, dynamic> _$BlinkIdSessionSettingsToJson(
   BlinkIdSessionSettings instance,
 ) => <String, dynamic>{
   'scanningMode': _$ScanningModeEnumMap[instance.scanningMode]!,
   'scanningSettings': instance.scanningSettings,
-  'stepTimeoutDuration': instance.stepTimeoutDuration,
 };
 
 const _$ScanningModeEnumMap = {
@@ -182,6 +180,7 @@ BlinkIdScanningUxSettings _$BlinkIdScanningUxSettingsFromJson(
   preferredCamera:
       $enumDecodeNullable(_$PreferredCameraEnumMap, json['preferredCamera']) ??
       PreferredCamera.back,
+  stepTimeoutDuration: (json['stepTimeoutDuration'] as num?)?.toInt() ?? 15000,
 );
 
 Map<String, dynamic> _$BlinkIdScanningUxSettingsToJson(
@@ -191,6 +190,7 @@ Map<String, dynamic> _$BlinkIdScanningUxSettingsToJson(
   'showOnboardingDialog': instance.showOnboardingDialog,
   'allowHapticFeedback': instance.allowHapticFeedback,
   'preferredCamera': _$PreferredCameraEnumMap[instance.preferredCamera]!,
+  'stepTimeoutDuration': instance.stepTimeoutDuration,
 };
 
 const _$PreferredCameraEnumMap = {
