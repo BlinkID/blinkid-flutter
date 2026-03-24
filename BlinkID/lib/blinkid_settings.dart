@@ -76,11 +76,6 @@ class BlinkIdSessionSettings {
   /// Defines various parameters that control the scanning process.
   BlinkIdScanningSettings scanningSettings = BlinkIdScanningSettings();
 
-  /// Duration in seconds before scanning step times out and is cancelled.
-  /// If less than zero, scanning will not time out.
-  /// Defaults to 15.0
-  int stepTimeoutDuration = 15000;
-
   /// Represents the configuration settings for a scanning session.
   ///
   /// This class holds the settings related to the resources initialization,
@@ -400,11 +395,17 @@ class BlinkIdScanningUxSettings {
   /// Default: [PrefferedCamera.back]
   PreferredCamera preferredCamera = PreferredCamera.back;
 
+  /// Duration in seconds before scanning step times out and is cancelled.
+  /// If less than zero, scanning will not time out.
+  /// Defaults to 15.0
+  int stepTimeoutDuration = 15000;
+
   BlinkIdScanningUxSettings({
     this.allowHapticFeedback = true,
     this.showHelpButton = true,
     this.showOnboardingDialog = true,
     this.preferredCamera = PreferredCamera.back,
+    this.stepTimeoutDuration = 15000,
   });
 
   factory BlinkIdScanningUxSettings.fromJson(Map<String, dynamic> json) =>
