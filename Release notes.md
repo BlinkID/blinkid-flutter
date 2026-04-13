@@ -1,5 +1,5 @@
 ## v7.7.0
-- Updated to [Android SDK v7.7.1](https://github.com/BlinkID/blinkid-android/releases/tag/v7.7.1) and [iOS SDK v7.7.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.7.0)
+- Updated to [Android SDK v7.7.1](https://github.com/microblink/blinkid-android/releases/tag/v7.7.1) and [iOS SDK v7.7.0](https://github.com/microblink/blinkid-ios/releases/tag/v7.7.0)
 
 ### What's New
 - Barcode extraction is marked as optional on documents where barcode detecton has bad performance (Cuba ID and Passport, Philippines DL, Haiti ID, Sudan ID, Egypt ID, Ecuador Passport, Ghana Passport, Iraq Passport, Nicaragua Passport, Pakistan Passport)
@@ -130,7 +130,7 @@
 
 ## v7.6.1
 
-- Updated to [Android SDK v7.6.1](https://github.com/BlinkID/blinkid-android/releases/tag/v7.6.1) and [iOS SDK v7.6.2](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.6.2)
+- Updated to [Android SDK v7.6.1](https://github.com/microblink/blinkid-android/releases/tag/v7.6.1) and [iOS SDK v7.6.2](https://github.com/microblink/blinkid-ios/releases/tag/v7.6.2)
 
 ### What's New
 - For some documents document type was returned as None, which was causing confusion. To prevent this, we are filling in document type from the barcode in case customers are using BarcodeId mode.
@@ -138,7 +138,7 @@
 
 ## v7.6.0
 
-- Updated to [Android SDK v7.6.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.6.0) and [iOS SDK v7.6.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.6.0)
+- Updated to [Android SDK v7.6.0](https://github.com/microblink/blinkid-android/releases/tag/v7.6.0) and [iOS SDK v7.6.0](https://github.com/microblink/blinkid-ios/releases/tag/v7.6.0)
 
 ### What's New
 - Added two new methods in `BlinkidFlutter`: `loadBlinkIdSdk` & `unloadBlinkIdSdk`
@@ -211,7 +211,7 @@
 - Hungary - Identity Card - `additionalNameInformation` -> `mothersName`
 
 ### New languages
-- Added 33 new languages (see full list [here](https://github.com/BlinkID/blinkid-android?tab=readme-ov-file#-new-languages-v76))
+- Added 33 new languages (see full list [here](https://github.com/microblink/blinkid-android?tab=readme-ov-file#-new-languages-v76))
 
 ### Breaking changes
 - Renamed the `bundleURL` to `bundleIdentifier` in `BlinkIdSdkSettings`.
@@ -234,7 +234,7 @@
 
 ## v7.5.0
 
-- Updated to [Android SDK v7.5.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.5.0) and [iOS SDK v7.5.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.5.0)
+- Updated to [Android SDK v7.5.0](https://github.com/microblink/blinkid-android/releases/tag/v7.5.0) and [iOS SDK v7.5.0](https://github.com/microblink/blinkid-ios/releases/tag/v7.5.0)
 
 ### What's New
 - We introduced event tracking across the SDK lifecycle, giving you deeper insights into user journeys, success rates, and drop-off points during scanning sessions. These enhanced analytics make it easier to identify optimization opportunities and ensure the best possible user experience.
@@ -246,7 +246,7 @@
 - Fixed crash when the optional `BlinkIdUiSettings` parameter was not being passed to the `performScan` method.
 
 ## v7.4.0
-- Updated to [Android SDK v7.4.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.4.0) and [iOS SDK v7.4.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.4.0)
+- Updated to [Android SDK v7.4.0](https://github.com/microblink/blinkid-android/releases/tag/v7.4.0) and [iOS SDK v7.4.0](https://github.com/microblink/blinkid-ios/releases/tag/v7.4.0)
 
 #### New Documents Support
 - Canada, Newfoundland And Labrador - Identity Card
@@ -262,7 +262,7 @@
 - Fixed issue with incorrect `DriverLicenseDetailedInfo` serialization
 
 ## 7.3.0
-- Updated to [Android SDK v7.3.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.3.0) and [iOS SDK v7.3.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.3.1)
+- Updated to [Android SDK v7.3.0](https://github.com/microblink/blinkid-android/releases/tag/v7.3.0) and [iOS SDK v7.3.1](https://github.com/microblink/blinkid-ios/releases/tag/v7.3.1)
 
 ### What's new
 - Improved extraction for Canada/Nunavut ID and DL by introducing error correction for "1" and "I" characters which look the same in the font used on a document
@@ -327,8 +327,8 @@
 ## 7.2.0
 
 The version 7 release of the BlinkID SDK.
-- Updated to [Android SDK v7.2.0](https://github.com/BlinkID/blinkid-android/releases/tag/v7.2.0) and [iOS SDK v7.2.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.2.0)
-- For more information about the inital version 7 release, see the release notes for the native SDKs for [Android](https://github.com/BlinkID/blinkid-android/releases/tag/v7.0.0) and [iOS](https://github.com/BlinkID/blinkid-ios/releases/tag/v7.0.0).
+- Updated to [Android SDK v7.2.0](https://github.com/microblink/blinkid-android/releases/tag/v7.2.0) and [iOS SDK v7.2.0](https://github.com/microblink/blinkid-ios/releases/tag/v7.2.0)
+- For more information about the inital version 7 release, see the release notes for the native SDKs for [Android](https://github.com/microblink/blinkid-android/releases/tag/v7.0.0) and [iOS](https://github.com/microblink/blinkid-ios/releases/tag/v7.0.0).
 
 ## Breaking changes
 - The plugin now requires:
@@ -339,7 +339,7 @@ The version 7 release of the BlinkID SDK.
 - Class `MicroblinkScanner` has been renamed to `BlinkidFlutter`.
 - Method `scanWithCamera` has been renamed to `performScan`.
 - Method `scanWithDirectApi` has been renamed to `performDirectApiScan`.
-- Many of the older settings have been renamed to be more intuitive, for more information see the [blinkid_settings.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file, and the native documentation for [Android](https://blinkid.github.io/blinkid-android/blinkid-core/com.microblink.blinkid.core/index.html) and [iOS](https://blinkid.github.io/blinkid-swift-package/documentation/blinkid/).
+- Many of the older settings have been renamed to be more intuitive, for more information see the [blinkid_settings.dart](https://github.com/microblink/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file, and the native documentation for [Android](https://blinkid.github.io/blinkid-android/blinkid-core/com.microblink.blinkid.core/index.html) and [iOS](https://blinkid.github.io/blinkid-swift-package/documentation/blinkid/).
 - See section **Version 7 plugin usage** for more details about how to use each method, and how to handle the scanned results.
 
 ## Version 7 plugin usage
@@ -357,7 +357,7 @@ It takes the following parameters:
 
 The optional **ClassFilter** class - `ClassFilter`: the class which controls which documents will be accepted or reject for information extraction during the scanning session.
 
-- The implementation of the `performScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
+- The implementation of the `performScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/microblink/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
 
 **The `performDirectApiScanning` method**
 
@@ -376,18 +376,18 @@ The first image Base64 string - `String`: image that represents one side of the 
 
 The optional second image Base64 string - `String`: needed if the information from back side of the document is required and the `ScanningMode` is set to `automatic`.
 
-- The implementation of the `performDirectApiScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
-- All of the mentioned settings can be found in the [blinkid_settings.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file.
+- The implementation of the `performDirectApiScan` method can be viewed here in the [blinkid_flutter_method_channel.dart](https://github.com/microblink/blinkid-flutter/blob/master/BlinkID/lib/blinkid_flutter_method_channel.dart) file.
+- All of the mentioned settings can be found in the [blinkid_settings.dart](https://github.com/microblink/blinkid-flutter/blob/master/BlinkID/lib/blinkid_settings.dart) file.
 
 **BlinkID result**
 
 - Both methods return the `BlinkIdScanningResult` object, which contains the results of scanning a document, including the extracted data and images from the document.
 
-- All of the available results can be viewed [here](https://github.com/BlinkID/blinkid-flutter/blob/feature/dart-types/BlinkID/lib/blinkid_result.dart).
+- All of the available results can be viewed [here](https://github.com/microblink/blinkid-flutter/blob/feature/dart-types/BlinkID/lib/blinkid_result.dart).
 
 **Implementation guide**
-- A detailed guide about the integration and usage of the plugin can be viewed [here](https://github.com/BlinkID/blinkid-flutter/tree/master?tab=readme-ov-file#plugin-integration).
-- The sample application which demonstrates the usage of the SDK can be found in the [main.dart](https://github.com/BlinkID/blinkid-flutter/blob/master/sample_files/main.dart) file.
+- A detailed guide about the integration and usage of the plugin can be viewed [here](https://github.com/microblink/blinkid-flutter/tree/master?tab=readme-ov-file#plugin-integration).
+- The sample application which demonstrates the usage of the SDK can be found in the [main.dart](https://github.com/microblink/blinkid-flutter/blob/master/sample_files/main.dart) file.
 
 ## 6.13.1
 
@@ -395,7 +395,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 - Fixed compatibility issues with Flutter v3.29
 
 ## 6.13.0
-- Updated the plugin to [Android SDK v6.13.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.13.0) and [iOS SDK v6.13.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.13.0)
+- Updated the plugin to [Android SDK v6.13.0](https://github.com/microblink/blinkid-android/releases/tag/v6.13.0) and [iOS SDK v6.13.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.13.0)
 
 **New features**
 - **ClassFilter**
@@ -419,7 +419,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 6.12.0
 
-- Updated the plugin to [Android SDK v6.12.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.12.0) and [iOS SDK v6.12.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.12.0)
+- Updated the plugin to [Android SDK v6.12.0](https://github.com/microblink/blinkid-android/releases/tag/v6.12.0) and [iOS SDK v6.12.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.12.0)
 
 **New features**
 - **Beta Feature: Second Page Passport Scanning**
@@ -437,7 +437,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 6.11.1
 
-- We have updated the plugin to [Android SDK v6.11.2](https://github.com/BlinkID/blinkid-android/releases/tag/v6.11.2) and [iOS SDK v6.11.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.11.1)
+- We have updated the plugin to [Android SDK v6.11.2](https://github.com/microblink/blinkid-android/releases/tag/v6.11.2) and [iOS SDK v6.11.1](https://github.com/microblink/blinkid-ios/releases/tag/v6.11.1)
 
 **Bug fixes**
 
@@ -446,7 +446,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 6.11.0
 
-- We have updated the plugin to [Android SDK v6.11.1](https://github.com/BlinkID/blinkid-android/releases/tag/v6.11.1) and [iOS SDK v6.11.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.11.0)
+- We have updated the plugin to [Android SDK v6.11.1](https://github.com/microblink/blinkid-android/releases/tag/v6.11.1) and [iOS SDK v6.11.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.11.0)
 
 **Expanded document coverage**
 
@@ -467,7 +467,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 6.10.0
 
-- We have updated the plugin to [Android SDK v6.10.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.10.0) and [iOS SDK v6.10.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.10.1)
+- We have updated the plugin to [Android SDK v6.10.0](https://github.com/microblink/blinkid-android/releases/tag/v6.10.0) and [iOS SDK v6.10.1](https://github.com/microblink/blinkid-ios/releases/tag/v6.10.1)
 
 **Expanded document coverage**
 
@@ -492,7 +492,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 6.9.0
 
-- We have updated the plugin to [Android SDK v6.9.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.9.0) and [iOS SDK v6.9.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.9.0)
+- We have updated the plugin to [Android SDK v6.9.0](https://github.com/microblink/blinkid-android/releases/tag/v6.9.0) and [iOS SDK v6.9.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.9.0)
 
 **Expanded document coverage**
 
@@ -511,7 +511,7 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 6.8.0
 
-- We have updated the plugin to [Android SDK v6.8.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.8.0) and [iOS SDK v6.8.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.8.0)
+- We have updated the plugin to [Android SDK v6.8.0](https://github.com/microblink/blinkid-android/releases/tag/v6.8.0) and [iOS SDK v6.8.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.8.0)
 
 **Glare and blur detection**
 
@@ -538,8 +538,8 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 6.7.0
 
-- We have updated the plugin to [Android SDK v6.7.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.7.0) and [iOS SDK v6.7.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.7.0)
-- Updated the SDK with new regions and types, which can be found in the native documentation with version 6.6.0 [Android](https://github.com/BlinkID/blinkid-android/releases/tag/v6.6.0) and [iOS](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.6.0)
+- We have updated the plugin to [Android SDK v6.7.0](https://github.com/microblink/blinkid-android/releases/tag/v6.7.0) and [iOS SDK v6.7.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.7.0)
+- Updated the SDK with new regions and types, which can be found in the native documentation with version 6.6.0 [Android](https://github.com/microblink/blinkid-android/releases/tag/v6.6.0) and [iOS](https://github.com/microblink/blinkid-ios/releases/tag/v6.6.0)
 - Added Real ID symbol detection on US driver's licenses in the `ImageAnalysisResult` class.
 - Added partial anonymization of the Document Number field.
     - Anonymization can be added in `ClassAnonymizationSettings` class by additionally adding `DocumentNumberAnonymizationSettings`.
@@ -558,17 +558,17 @@ The optional second image Base64 string - `String`: needed if the information fr
     - `backImage`,  which would represent the back image of the document in the Base64 format string
         - the `backImage` parameter is optional when using the `BlinkIdSingleSideRecognizer`, and can be passed as `null` or an empty string (`””`)
     - `license`, the licenses for iOS and Android required to unlock the SDK
-- An example of its usage can be found in the [sample application](https://github.com/BlinkID/blinkid-flutter/blob/master/sample_files/main.dart) , both for the Multiside and Singleside scanning.
-- More information about the DirectAPI scanning can be found here in the native documentation for [Android](https://github.com/BlinkID/blinkid-android?tab=readme-ov-file#direct-api) and [iOS](https://github.com/BlinkID/blinkid-ios?tab=readme-ov-file#direct-api-processing)
+- An example of its usage can be found in the [sample application](https://github.com/microblink/blinkid-flutter/blob/master/sample_files/main.dart) , both for the Multiside and Singleside scanning.
+- More information about the DirectAPI scanning can be found here in the native documentation for [Android](https://github.com/microblink/blinkid-android?tab=readme-ov-file#direct-api) and [iOS](https://github.com/microblink/blinkid-ios?tab=readme-ov-file#direct-api-processing)
 - We still recommend using direct camera scanning, as static images can sometimes be in lower-quality which can cause SDK extraction error. It would be best to use the `scanWithDirectApi` method when using the device’s camera is not an option.
 
 ## 6.5.0
-- We have updated the plugin to [Android SDK v6.5.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.5.0) and [iOS SDK v6.5.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.5.0)
+- We have updated the plugin to [Android SDK v6.5.0](https://github.com/microblink/blinkid-android/releases/tag/v6.5.0) and [iOS SDK v6.5.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.5.0)
 - Added `cardOrientation` property to `ImageAnalysisResult`
 - Fixed issue with the SDK localization
 
 ## 6.4.0
-- We have updated the plugin to [Android SDK v6.4.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.4.0) and [iOS SDK v6.4.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.4.0)
+- We have updated the plugin to [Android SDK v6.4.0](https://github.com/microblink/blinkid-android/releases/tag/v6.4.0) and [iOS SDK v6.4.0](https://github.com/microblink/blinkid-ios/releases/tag/v6.4.0)
 - Added new values to `Region` and `Type`
 - Added new `ClassAnonymizationSettings` setting that enables custom anonymization for any field per country, region, and type of document
 - Added `isFilledByDomainKnowledge` property to `DateResult` and `Date` that indicates that the date is not extracted from the image but filled based on our internal document knowledge
@@ -585,10 +585,10 @@ The optional second image Base64 string - `String`: needed if the information fr
 - Fixed date and `documentDataMatch` errors
 
 ## 6.1.1
-- Updated to [Android SDK v6.1.1](https://github.com/BlinkID/blinkid-android/releases/tag/v6.1.1) and [iOS SDK v6.1.2](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.1.2)
+- Updated to [Android SDK v6.1.1](https://github.com/microblink/blinkid-android/releases/tag/v6.1.1) and [iOS SDK v6.1.2](https://github.com/microblink/blinkid-ios/releases/tag/v6.1.2)
 
 ## 6.1.0
-- Updated to [Android SDK v6.1.0](https://github.com/BlinkID/blinkid-android/releases/tag/v6.1.0) and [iOS SDK v6.1.1](https://github.com/BlinkID/blinkid-ios/releases/tag/v6.1.1)
+- Updated to [Android SDK v6.1.0](https://github.com/microblink/blinkid-android/releases/tag/v6.1.0) and [iOS SDK v6.1.1](https://github.com/microblink/blinkid-ios/releases/tag/v6.1.1)
 
 ## 5.18.1
 
@@ -596,42 +596,42 @@ The optional second image Base64 string - `String`: needed if the information fr
 
 ## 5.18.0
 
-We have updated the plugin to [Android SDK v5.18.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.18.0) and [iOS SDK v5.18.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.18.0)
+We have updated the plugin to [Android SDK v5.18.0](https://github.com/microblink/blinkid-android/releases/tag/v5.18.0) and [iOS SDK v5.18.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.18.0)
 
 ## 5.17.0
 
-We have updated the plugin to [Android SDK v5.17.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.17.0) and [iOS SDK v5.17.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.17.0)
+We have updated the plugin to [Android SDK v5.17.0](https://github.com/microblink/blinkid-android/releases/tag/v5.17.0) and [iOS SDK v5.17.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.17.0)
 
 ## 5.15.1
 
-We have updated the plugin to [Android SDK v5.15.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.15.0) and [iOS SDK v5.15.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.15.0)
+We have updated the plugin to [Android SDK v5.15.0](https://github.com/microblink/blinkid-android/releases/tag/v5.15.0) and [iOS SDK v5.15.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.15.0)
 
 ## 5.14.0
 
-We have updated the plugin to [Android SDK v5.14.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.14.0) and [iOS SDK v5.14.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.14.0)
+We have updated the plugin to [Android SDK v5.14.0](https://github.com/microblink/blinkid-android/releases/tag/v5.14.0) and [iOS SDK v5.14.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.14.0)
 
 ## 5.13.0
 
-We have updated the plugin to [Android SDK v5.13.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.13.0) and [iOS SDK v5.13.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.13.0)
+We have updated the plugin to [Android SDK v5.13.0](https://github.com/microblink/blinkid-android/releases/tag/v5.13.0) and [iOS SDK v5.13.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.13.0)
 
 ## 5.12.0
 
-We have updated the plugin to [Android SDK v5.12.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.12.0) and [iOS SDK v5.12.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.12.0)
+We have updated the plugin to [Android SDK v5.12.0](https://github.com/microblink/blinkid-android/releases/tag/v5.12.0) and [iOS SDK v5.12.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.12.0)
 
 We also migrated the plugin to sound null safety, which requires you to use Dart 2.12 or newer in your project.
 
 
 ## 5.11.0
 
-We have updated plugin to [Android SDK v5.11.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.11.0) and [iOS SDK v5.11.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.11.0)
+We have updated plugin to [Android SDK v5.11.0](https://github.com/microblink/blinkid-android/releases/tag/v5.11.0) and [iOS SDK v5.11.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.11.0)
 
 ## 5.10.0
 
-We have updated plugin to [Android SDK v5.10.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.10.0) and [iOS SDK v5.10.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.10.0)
+We have updated plugin to [Android SDK v5.10.0](https://github.com/microblink/blinkid-android/releases/tag/v5.10.0) and [iOS SDK v5.10.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.10.0)
 
 ## 5.9.0
 
-We have updated plugin to [Android SDK v5.9.0](https://github.com/BlinkID/blinkid-android/releases/tag/v5.9.0) and [iOS SDK v5.9.0](https://github.com/BlinkID/blinkid-ios/releases/tag/v5.9.0)
+We have updated plugin to [Android SDK v5.9.0](https://github.com/microblink/blinkid-android/releases/tag/v5.9.0) and [iOS SDK v5.9.0](https://github.com/microblink/blinkid-ios/releases/tag/v5.9.0)
 
 ### Fixes
 
