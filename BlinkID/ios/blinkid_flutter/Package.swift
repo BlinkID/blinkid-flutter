@@ -11,15 +11,22 @@ let package = Package(
         .library(name: "blinkid-flutter", targets: ["blinkid_flutter"])
     ],
     dependencies: [
-        .package(url: "https://github.com/BlinkID/blinkid-ios.git", exact: .init(7,7,0)),
+       // .package(url: "https://github.com/BlinkID/blinkid-ios.git", exact: .init(7,7,0)),
     ],
     targets: [
         .target(
             name: "blinkid_flutter",
             dependencies: [
-                .product(name: "BlinkIDUX", package: "blinkid-ios")
+                "BlinkIDUX",
+                "BlinkID"
             ],
             resources: []
-        )
+        ),
+        .binaryTarget(
+            name: "BlinkIDUX",
+            path: "./Frameworks/BlinkIDUX.xcframework"),
+        .binaryTarget(
+            name: "BlinkID",
+            path: "./Frameworks/BlinkID.xcframework")
     ]
 )
