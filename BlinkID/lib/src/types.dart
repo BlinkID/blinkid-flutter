@@ -1,564 +1,1841 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:blinkid_flutter/blinkid_settings.dart';
+part 'types.g.dart';
 
-/// Represents the results of scanning a document.
+/// Settings for the barcode extraction module.
 ///
-/// This class contains the results of scanning a document, including the extracted data
-/// and images from the document.
-class BlinkIdScanningResult {
-  /// Scanning mode used to scan the current document.
+/// This module manages the detection and data extraction from various 1D and 2D
+/// barcode formats (such as PDF417, QR codes, and various retail codes).
+///
+/// It can operate as a standalone module or in combination with document capture.
+///
+@JsonSerializable()
+class BarcodeModuleSettings {
+  /// If set to true, barcode presence becomes mandatory for the scanned document.
+  /// For [ScanningMode.single], the barcode must be present on the scanned side.
+  /// For [ScanningMode.automatic], the barcode must be present on one of the scanned sides.
   ///
-  /// See [RecognitionMode] for more information.
-  RecognitionMode? recognitionMode;
+  /// In case of a timeout and advancement to the next step in the scanning flow,
+  /// if a barcode is detected on the scanned side but cannot be extracted,
+  /// the presence requirement is considered fulfilled. As a result, barcode extraction
+  /// will no longer be a requirement to complete the scan on next side.
+  bool presenceMandatory;
 
-  /// The document class information.
+  /// Indicates whether the barcode image should be returned in the result.
   ///
-  /// See [DocumentClassInfo] for more information.
-  DocumentClassInfo? documentClassInfo;
+  /// The DPI setting and the extension factor do not affect returned barcode image.
+  bool barcodeImageReturnEnabled;
 
-  /// Info on whether the data extracted from multiple sides matches.
+  /// Enables the scanning and processing of Pdf417 barcodes.
   ///
-  /// See [DataMatchResult] for more information.
-  DataMatchResult? dataMatchResult;
+  /// The current analyzer model flags a barcode as "present" if either a `PDF417` or a `QR` code is detected.
+  /// Because the model does not distinguish between the two types at this stage, a conflict can occur:
+  /// if `PDF417` is enabled but `QR` is disabled, the analyzer may trigger for a `QR` code, causing the process to hang.
+  /// To prevent this, `pdf417ScanningEnabled` and `qrScanningEnabled` must be enabled together.
+  bool pdf417ScanningEnabled;
 
-  /// The first name of the document owner.
-  StringResult? firstName;
-
-  /// The last name of the document owner.
-  StringResult? lastName;
-
-  /// The full name of the document owner.
-  StringResult? fullName;
-
-  /// The additional name information of the document owner.
-  StringResult? additionalNameInformation;
-
-  /// The localized name of the document owner.
-  StringResult? localizedName;
-
-  /// The fathers name of the document owner.
-  StringResult? fathersName;
-
-  /// The mothers name of the document owner.
-  StringResult? mothersName;
-
-  /// The address of the document owner.
-  StringResult? address;
-
-  /// The additional address information of the document owner.
-  StringResult? additionalAddressInformation;
-
-  /// The one more additional address information of the document owner.
-  StringResult? additionalOptionalAddressInformation;
-
-  /// The place of birth of the document owner.
-  StringResult? placeOfBirth;
-
-  /// The nationality of the document owner.
-  StringResult? nationality;
-
-  /// The race of the document owner.
-  StringResult? race;
-
-  /// The religion of the document owner.
-  StringResult? religion;
-
-  /// The profession of the document owner.
-  StringResult? profession;
-
-  /// The marital status of the document owner.
-  StringResult? maritalStatus;
-
-  /// The residential status of the document owner.
-  StringResult? residentialStatus;
-
-  /// The employer of the document owner.
-  StringResult? employer;
-
-  /// The sex of the document owner.
-  StringResult? sex;
-
-  /// The sponsor of the document owner.
-  StringResult? sponsor;
-
-  /// The blood type of the document owner.
-  StringResult? bloodType;
-
-  /// The document number.
-  StringResult? documentNumber;
-
-  /// The personal identification number.
-  StringResult? personalIdNumber;
-
-  /// The additional number of the document.
-  StringResult? documentAdditionalNumber;
-
-  /// The one more additional number of the document.
-  StringResult? documentOptionalAdditionalNumber;
-
-  /// The additional personal identification number.
-  StringResult? additionalPersonalIdNumber;
-
-  /// The issuing authority of the document.
-  StringResult? issuingAuthority;
-
-  /// The transcription of the document subtype.
-  StringResult? documentSubtype;
-
-  /// The remarks on the residence permit.
-  StringResult? remarks;
-
-  /// The residence permit type.
-  StringResult? residencePermitType;
-
-  /// The manufacturing year.
-  StringResult? manufacturingYear;
-
-  /// The vehicle type.
-  StringResult? vehicleType;
-
-  /// The vehicle owner.
-  StringResult? vehicleOwner;
-
-  /// The eligibility category.
-  StringResult? eligibilityCategory;
-
-  /// The specific document validity.
-  StringResult? specificDocumentValidity;
-
-  /// The visa type of the document.
-  StringResult? visaType;
-
-  /// The country code of the document owner.
-  StringResult? countryCode;
-
-  /// The certificate number of the document owner.
-  StringResult? certificateNumber;
-
-  /// The national insurance number of the document owner.
-  StringResult? nationalInsuranceNumber;
-
-  /// The date of birth of the document owner.
-  DateResult<StringResult>? dateOfBirth;
-
-  /// The date of issue of the document.
-  DateResult<StringResult>? dateOfIssue;
-
-  /// The date of expiry of the document.
-  DateResult<StringResult>? dateOfExpiry;
-
-  /// The date of entry of the document owner.
-  DateResult<StringResult>? dateOfEntry;
-
-  /// The locality code of the document owner.
-  StringResult? localityCode;
-
-  /// The maiden name of the document owner.
-  StringResult? maidenName;
-
-  /// The municipality code of the document owner.
-  StringResult? municipalityCode;
-
-  /// The municipality of registration of the document owner.
-  StringResult? municipalityOfRegistration;
-
-  /// The polling station code of the document owner.
-  StringResult? pollingStationCode;
-
-  /// The registration center code of the document owner.
-  StringResult? registrationCenterCode;
-
-  /// The section code of the document owner.
-  StringResult? sectionCode;
-
-  /// The state code of the document owner.
-  StringResult? stateCode;
-
-  /// The state of the document owner.
-  StringResult? stateName;
-
-  /// Determines if date of expiry is permanent.
-  bool? dateOfExpiryPermanent;
-
-  /// The driver license detailed info.
+  /// Enables the scanning and processing of QR barcodes.
   ///
-  /// See [DriverLicenseDetailedInfo] for more information.
-  DriverLicenseDetailedInfo<StringResult>? driverLicenseDetailedInfo;
-
-  /// The dependents info.
+  /// The current analyzer model flags a barcode as "present" if either a `PDF417` or a `QR` code is detected.
+  /// Because the model does not distinguish between the two types at this stage, a conflict can occur:
+  /// if `PDF417` is enabled but `QR` is disabled, the analyzer may trigger for a `QR` code, causing the process to hang.
   ///
-  /// See [DependentInfo] for more information.
-  List<DependentInfo>? dependentsInfo;
+  /// To prevent this, `qrScanningEnabled` and `pdf417ScanningEnabled` must be enabled together.
+  bool qrScanningEnabled;
 
-  /// The results of scanning each side of the document.
+  /// Enables the scanning and processing of UPC-E barcodes.
   ///
-  /// See [SingleSideScanningResult] for more information.
-  List<SingleSideScanningResult>? subResults;
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool upceScanningEnabled;
 
-  /// Returns the input image for the first scanning side in the Base64 format.
-  /// or `null` if the input image is not available.
-  String? firstInputImage;
-
-  /// Returns the input image for the second scanning side in the Base64 format.
-  /// or `null` if the input image is not available.
-  String? secondInputImage;
-
-  /// Returns the input image containing parsable barcode.
-  /// or `null` if the barcode input image is not available.
-  String? barcodeInputImage;
-
-  /// Returns the cropped document image for the first scanning side.
-  /// or `null` if the document image is not available.
-  String? firstDocumentImage;
-
-  /// Returns the cropped document image for the second scanning side.
-  /// or `null` if the document image is not available.
+  /// Enables the scanning and processing of UPC-A barcodes.
   ///
-  String? secondDocumentImage;
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool upcaScanningEnabled;
 
-  /// Returns the cropped face image with additional info.
-  /// or `null` if the face image is not available.
+  /// Enables the scanning and processing of Code-128 barcodes.
   ///
-  /// See [DetailedCroppedImageResult] for more information.
-  DetailedCroppedImageResult? faceImage;
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool code128ScanningEnabled;
 
-  /// Returns the cropped signature image with additional info.
-  /// or `null` if the signature image is not available.
+  /// Enables the scanning and processing of Code-39 barcodes.
   ///
-  /// See [DetailedCroppedImageResult] for more information.
-  DetailedCroppedImageResult? signatureImage;
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool code39ScanningEnabled;
 
-  ///  The effective date of the document.
-  DateResult<StringResult>? effectiveDate;
-
-  /// The parents info.
+  /// Enables the scanning and processing of EAN-8 barcodes.
   ///
-  /// See [ParentInfo] for more information.
-  List<ParentInfo>? parentsInfo;
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool ean8ScanningEnabled;
 
-  /// The husband name of the document owner.
-  StringResult? husbandName;
-
-  /// The legal status of the document owner.
-  StringResult? legalStatus;
-
-  /// The social security status of the document owner.
-  StringResult? socialSecurityStatus;
-
-  /// The work restriction of the document owner.
-  StringResult? workRestriction;
-
-  /// Represents the results of scanning a document.
+  /// Enables the scanning and processing of EAN-13 barcodes.
   ///
-  /// This class contains the results of scanning a document, including the extracted data
-  /// and images from the document.
-  BlinkIdScanningResult(Map<String, dynamic> nativeBlinkIdScanningResult) {
-    recognitionMode = enumFromValue(
-      RecognitionMode.values,
-      nativeBlinkIdScanningResult["recognitionMode"],
-    );
-    documentClassInfo =
-        nativeBlinkIdScanningResult['documentClassInfo'] != null
-            ? DocumentClassInfo(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult['documentClassInfo'],
-              ),
-            )
-            : null;
-    dataMatchResult =
-        nativeBlinkIdScanningResult["dataMatchResult"] != null
-            ? DataMatchResult(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["dataMatchResult"],
-              ),
-            )
-            : null;
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool ean13ScanningEnabled;
 
-    firstName = createStringResult(nativeBlinkIdScanningResult, 'firstName');
-    lastName = createStringResult(nativeBlinkIdScanningResult, 'lastName');
-    fullName = createStringResult(nativeBlinkIdScanningResult, 'fullName');
-    additionalNameInformation = createStringResult(
-      nativeBlinkIdScanningResult,
-      'additionalNameInformation',
-    );
-    localizedName = createStringResult(
-      nativeBlinkIdScanningResult,
-      'localizedName',
-    );
-    fathersName = createStringResult(
-      nativeBlinkIdScanningResult,
-      'fathersName',
-    );
-    mothersName = createStringResult(
-      nativeBlinkIdScanningResult,
-      'mothersName',
-    );
-    address = createStringResult(nativeBlinkIdScanningResult, 'address');
-    additionalAddressInformation = createStringResult(
-      nativeBlinkIdScanningResult,
-      'additionalAddressInformation',
-    );
-    additionalOptionalAddressInformation = createStringResult(
-      nativeBlinkIdScanningResult,
-      'additionalOptionalAddressInformation',
-    );
-    placeOfBirth = createStringResult(
-      nativeBlinkIdScanningResult,
-      'placeOfBirth',
-    );
-    nationality = createStringResult(
-      nativeBlinkIdScanningResult,
-      'nationality',
-    );
-    race = createStringResult(nativeBlinkIdScanningResult, 'race');
-    religion = createStringResult(nativeBlinkIdScanningResult, 'religion');
-    profession = createStringResult(nativeBlinkIdScanningResult, 'profession');
-    maritalStatus = createStringResult(
-      nativeBlinkIdScanningResult,
-      'maritalStatus',
-    );
-    residentialStatus = createStringResult(
-      nativeBlinkIdScanningResult,
-      'residentialStatus',
-    );
-    employer = createStringResult(nativeBlinkIdScanningResult, 'employer');
-    sex = createStringResult(nativeBlinkIdScanningResult, 'sex');
-    sponsor = createStringResult(nativeBlinkIdScanningResult, 'sponsor');
-    bloodType = createStringResult(nativeBlinkIdScanningResult, 'bloodType');
-    documentNumber = createStringResult(
-      nativeBlinkIdScanningResult,
-      'documentNumber',
-    );
-    personalIdNumber = createStringResult(
-      nativeBlinkIdScanningResult,
-      'personalIdNumber',
-    );
-    documentAdditionalNumber = createStringResult(
-      nativeBlinkIdScanningResult,
-      'documentAdditionalNumber',
-    );
-    documentOptionalAdditionalNumber = createStringResult(
-      nativeBlinkIdScanningResult,
-      'documentOptionalAdditionalNumber',
-    );
-    additionalPersonalIdNumber = createStringResult(
-      nativeBlinkIdScanningResult,
-      'additionalPersonalIdNumber',
-    );
-    issuingAuthority = createStringResult(
-      nativeBlinkIdScanningResult,
-      'issuingAuthority',
-    );
-    documentSubtype = createStringResult(
-      nativeBlinkIdScanningResult,
-      'documentSubtype',
-    );
-    remarks = createStringResult(nativeBlinkIdScanningResult, 'remarks');
-    residencePermitType = createStringResult(
-      nativeBlinkIdScanningResult,
-      'residencePermitType',
-    );
-    manufacturingYear = createStringResult(
-      nativeBlinkIdScanningResult,
-      'manufacturingYear',
-    );
-    vehicleType = createStringResult(
-      nativeBlinkIdScanningResult,
-      'vehicleType',
-    );
-    vehicleOwner = createStringResult(
-      nativeBlinkIdScanningResult,
-      'vehicleOwner',
-    );
-    eligibilityCategory = createStringResult(
-      nativeBlinkIdScanningResult,
-      'eligibilityCategory',
-    );
-    specificDocumentValidity = createStringResult(
-      nativeBlinkIdScanningResult,
-      'specificDocumentValidity',
-    );
-    visaType = createStringResult(nativeBlinkIdScanningResult, 'visaType');
-    dateOfBirth =
-        nativeBlinkIdScanningResult["dateOfBirth"] != null
-            ? DateResult<StringResult>(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["dateOfBirth"],
-              ),
-            )
-            : null;
-    dateOfIssue =
-        nativeBlinkIdScanningResult["dateOfIssue"] != null
-            ? DateResult<StringResult>(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["dateOfIssue"],
-              ),
-            )
-            : null;
-    dateOfExpiry =
-        nativeBlinkIdScanningResult["dateOfExpiry"] != null
-            ? DateResult<StringResult>(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["dateOfExpiry"],
-              ),
-            )
-            : null;
-    dateOfEntry =
-        nativeBlinkIdScanningResult["dateOfEntry"] != null
-            ? DateResult<StringResult>(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["dateOfEntry"],
-              ),
-            )
-            : null;
-    localityCode = createStringResult(
-      nativeBlinkIdScanningResult,
-      "localityCode",
-    );
-    maidenName = createStringResult(nativeBlinkIdScanningResult, "maidenName");
-    municipalityCode = createStringResult(
-      nativeBlinkIdScanningResult,
-      "municipalityCode",
-    );
-    municipalityOfRegistration = createStringResult(
-      nativeBlinkIdScanningResult,
-      "municipalityOfRegistration",
-    );
-    pollingStationCode = createStringResult(
-      nativeBlinkIdScanningResult,
-      "pollingStationCode",
-    );
-    registrationCenterCode = createStringResult(
-      nativeBlinkIdScanningResult,
-      "registrationCenterCode",
-    );
-    sectionCode = createStringResult(
-      nativeBlinkIdScanningResult,
-      "sectionCode",
-    );
-    stateCode = createStringResult(nativeBlinkIdScanningResult, "stateCode");
-    stateName = createStringResult(nativeBlinkIdScanningResult, "stateName");
-    dateOfExpiryPermanent =
-        nativeBlinkIdScanningResult["dateOfExpiryPermanent"];
-    driverLicenseDetailedInfo =
-        nativeBlinkIdScanningResult["driverLicenseDetailedInfo"] != null
-            ? DriverLicenseDetailedInfo<StringResult>(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["driverLicenseDetailedInfo"],
-              ),
-            )
-            : null;
-    dependentsInfo =
-        nativeBlinkIdScanningResult["dependentsInfo"] != null
-            ? (nativeBlinkIdScanningResult["dependentsInfo"] as List<dynamic>)
-                .map((item) => DependentInfo(Map<String, dynamic>.from(item)))
-                .toList()
-            : null;
-    subResults =
-        nativeBlinkIdScanningResult["subResults"] != null
-            ? (nativeBlinkIdScanningResult["subResults"] as List<dynamic>)
-                .map(
-                  (item) =>
-                      SingleSideScanningResult(Map<String, dynamic>.from(item)),
-                )
-                .toList()
-            : null;
-    firstInputImage = nativeBlinkIdScanningResult["firstInputImage"];
-    secondInputImage = nativeBlinkIdScanningResult["secondInputImage"];
-    barcodeInputImage = nativeBlinkIdScanningResult["barcodeInputImage"];
-    firstDocumentImage = nativeBlinkIdScanningResult["firstDocumentImage"];
-    secondDocumentImage = nativeBlinkIdScanningResult["secondDocumentImage"];
-    faceImage =
-        nativeBlinkIdScanningResult["faceImage"] != null
-            ? DetailedCroppedImageResult(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["faceImage"],
-              ),
-            )
-            : null;
-    signatureImage =
-        nativeBlinkIdScanningResult["signatureImage"] != null
-            ? DetailedCroppedImageResult(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["signatureImage"],
-              ),
-            )
-            : null;
+  /// Enables the scanning and processing of ITF barcodes.
+  ///
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool itfScanningEnabled;
 
-    countryCode = createStringResult(
-      nativeBlinkIdScanningResult,
-      'countryCode',
-    );
-    certificateNumber = createStringResult(
-      nativeBlinkIdScanningResult,
-      'certificateNumber',
-    );
-    nationalInsuranceNumber = createStringResult(
-      nativeBlinkIdScanningResult,
-      'nationalInsuranceNumber',
-    );
-    effectiveDate =
-        nativeBlinkIdScanningResult["effectiveDate"] != null
-            ? DateResult<StringResult>(
-              Map<String, dynamic>.from(
-                nativeBlinkIdScanningResult["effectiveDate"],
-              ),
-            )
-            : null;
-    parentsInfo =
-        nativeBlinkIdScanningResult["parentsInfo"] != null
-            ? (nativeBlinkIdScanningResult["parentsInfo"] as List<dynamic>)
-                .map((item) => ParentInfo(Map<String, dynamic>.from(item)))
-                .toList()
-            : null;
-    husbandName = createStringResult(
-      nativeBlinkIdScanningResult,
-      'husbandName',
-    );
-    legalStatus = createStringResult(
-      nativeBlinkIdScanningResult,
-      'legalStatus',
-    );
-    socialSecurityStatus = createStringResult(
-      nativeBlinkIdScanningResult,
-      'socialSecurityStatus',
-    );
-    workRestriction = createStringResult(
-      nativeBlinkIdScanningResult,
-      'workRestriction',
-    );
-  }
+  /// Enables the scanning and processing of DataMatrix barcodes.
+  ///
+  /// This setting can be enabled only if `documentCaptureEnabled` is disabled.
+  bool dataMatrixScanningEnabled;
+
+  BarcodeModuleSettings({
+    this.presenceMandatory = false,
+    this.barcodeImageReturnEnabled = false,
+    this.pdf417ScanningEnabled = true,
+    this.qrScanningEnabled = true,
+    this.upceScanningEnabled = false,
+    this.upcaScanningEnabled = false,
+    this.code128ScanningEnabled = false,
+    this.code39ScanningEnabled = false,
+    this.ean8ScanningEnabled = false,
+    this.ean13ScanningEnabled = false,
+    this.itfScanningEnabled = false,
+    this.dataMatrixScanningEnabled = false,
+  });
+
+  factory BarcodeModuleSettings.fromJson(Map<String, dynamic> json) =>
+      _$BarcodeModuleSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$BarcodeModuleSettingsToJson(this);
 }
 
-/// Represents possible recognition modes.
-enum RecognitionMode {
-  /// No recognition performed.
-  @JsonValue(0)
+///
+/// Settings for the document capture module.
+///
+/// This module is responsible for the initial document detection, image extraction
+/// (such as face and document images), and image quality validation (blur, glare,
+/// and lighting checks).
+@JsonSerializable()
+class DocumentCaptureModuleSettings {
+  /// Indicates whether the input image is already cropped and perspective-corrected.
+  ///
+  /// Requires the input image to consist solely of the cropped document image with perspective correction applied.
+  /// This only applies to images from the DirectAPI method of scanning — with images from the default scanning, the setting will be ignored.
+  bool inputImageCropped;
+
+  /// Enables the scanning and processing of unsupported document types.
+  ///
+  /// A document is considered unsupported if its classification result is `OTHER`.
+  bool unsupportedDocumentsAllowed;
+
+  /// Indicates whether the back side scan should be skipped if the document supports only image capture on that side.
+  ///
+  /// Some documents have a back side that is supported but contains no extractable data (no MRZ, Barcode, etc.).
+  /// These sides will be "captured only".
+  ///
+  /// If set to `true` (default), the scanning process will stop after the front side for such documents.
+  /// If set to `false`, the back side will be captured, even though no data extraction is performed.
+  bool secondSideWithNoExtractableDataSkipped;
+
+  /// Indicates whether only the passport data page should be scanned.
+  ///
+  /// Scan only the data page (page containing `MRZ`) of the passport.
+  ///
+  /// If set to `false`, it will be required to scan the second page of certain passports.
+  bool passportDataPageScanOnly;
+
+  /// Enables the extraction of the document's face image.
+  ///
+  /// If a face image is present on the document, extraction becomes mandatory if supported.
+  ///
+  /// For supported documents, the requirement for its presence is determined by document rules.
+  /// For unsupported documents, presence is optional.
+  bool faceImageExtractionEnabled;
+
+  /// If set to `true`, face image presence will be mandatory for the scanned document.
+  ///
+  /// For [ScanningMode.automatic], document side with the face image must be scanned first.
+  ///
+  /// In case of a timeout and advancement to the next step in the scanning flow,
+  /// if a face image is detected on the scanned side but cannot be extracted,
+  /// the presence requirement is considered fulfilled. As a result, face image extraction
+  /// will no longer be required to complete the scan on the next side.
+  bool faceImagePresenceMandatory;
+
+  /// Indicates whether input images should be returned in the result.
+  ///
+  /// Saves the input images at the moment of data extraction or timeout.
+  /// This significantly increases memory consumption. Scanning performance is not affected.
+  bool inputImageReturnEnabled;
+
+  /// Indicates whether the cropped document image should be returned in the result.
+  ///
+  bool documentImageReturnEnabled;
+
+  /// Defines the minimum required margin (in percentage) between the edge of the input image and the document.
+  ///
+  /// This setting is implemented to comply with regulations in certain countries that mandate documents
+  /// to be stored with adequate margins in the image.
+  ///
+  /// Default value is `0.02`.
+  /// The setting is applicable only when using images from `Video` source.
+  /// The setting is ignored if `inputImageCropped == true`.
+  ///
+  /// Allowed minimal value is `0.0` and maximum value is `1.0`.
+  double? inputImageMargin;
+
+  /// The DPI value for the cropped document, face and signature image.
+  ///
+  /// Allowed minimal value is `100` and maximum value is `400`.
+  int dotsPerInch;
+
+  /// The extension factor for the cropped document image. Applicable only to document images.
+  /// Allowed minimal value is `0.0` and maximum value is `1.0`.
+  ///
+  double extensionFactor;
+
+  /// The sensitivity of blur detection in the document image.
+  ///
+  /// Defines the severity of blur detected in the document image.
+  ///
+  /// Low – less sensitive to blur; if something is detected as blur, it is almost certainly actual blur,
+  /// but some amount of blur may not be detected.
+  ///
+  /// High – highly sensitive to blur; it may detect blur even if it only resembles blur.
+  ///
+  /// See [SensitivityLevel] for more information
+  SensitivityLevel blurSensitivityLevel;
+
+  /// Indicates whether images with detected blur should be rejected.
+  ///
+  /// If `true`, images with detected blur will be excluded from further processing.
+  ///
+  /// If `false`, images will still be processed and blur status will be reported in the result.
+  bool imageWithBlurRejected;
+
+  /// The sensitivity of glare detection in the document image.
+  ///
+  /// Low – less sensitive to glare.
+  /// High – highly sensitive to glare.
+  /// See [SensitivityLevel] for more information
+  SensitivityLevel glareSensitivityLevel;
+
+  /// Indicates whether images with detected glare should be rejected.
+  ///
+  /// If `true`, images with detected glare will be excluded from further processing.
+  ///
+  /// If `false`, images will still be processed and glare status will be reported in the result.
+  bool imageWithGlareRejected;
+
+  /// The sensitivity of allowed detected tilt of the document in the image.
+  ///
+  /// Low – less sensitive to tilt.
+  /// High – highly sensitive to tilt.
+  /// See [SensitivityLevel] for more information
+  SensitivityLevel tiltSensitivityLevel;
+
+  /// Indicates whether images with poor lighting conditions should be rejected.
+  ///
+  /// Poor lighting conditions are represented as either `tooBright` or `tooDark`.
+  ///
+  /// If `true`, such images will be excluded from further processing.
+  bool imageWithPoorLightingRejected;
+
+  /// Indicates whether images occluded by a hand should be rejected.
+  ///
+  /// If `true`, occluded images will be excluded from further processing.
+  ///
+  /// This setting is applicable only if `inputImageCropped == false`.
+  bool imageWithHandOcclusionRejected;
+
+  DocumentCaptureModuleSettings({
+    this.inputImageCropped = false,
+    this.unsupportedDocumentsAllowed = false,
+    this.secondSideWithNoExtractableDataSkipped = true,
+    this.passportDataPageScanOnly = true,
+    this.faceImageExtractionEnabled = false,
+    this.faceImagePresenceMandatory = false,
+    this.inputImageReturnEnabled = false,
+    this.documentImageReturnEnabled = false,
+    this.inputImageMargin = 0.02,
+    this.dotsPerInch = 250,
+    this.extensionFactor = 0.0,
+    this.blurSensitivityLevel = SensitivityLevel.mid,
+    this.imageWithBlurRejected = true,
+    this.glareSensitivityLevel = SensitivityLevel.mid,
+    this.imageWithGlareRejected = true,
+    this.tiltSensitivityLevel = SensitivityLevel.mid,
+    this.imageWithPoorLightingRejected = true,
+    this.imageWithHandOcclusionRejected = true,
+  });
+
+  factory DocumentCaptureModuleSettings.fromJson(Map<String, dynamic> json) =>
+      _$DocumentCaptureModuleSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$DocumentCaptureModuleSettingsToJson(this);
+}
+
+/// Settings for the MRZ (Machine Readable Zone) extraction module.
+///
+/// This module is dedicated to the detection and parsing of machine-readable
+/// zone typically found on passports, visas, and identity cards.
+@JsonSerializable()
+class MrzModuleSettings {
+  /// If set to `true`, MRZ presence becomes mandatory for the scanned document
+  /// regardless of the document rules.
+  ///
+  /// For [ScanningMode.single], the MRZ must be present on the scanned side.
+  /// For [ScanningMode.automatic], the MRZ must be present on one of the scanned sides.
+  ///
+  /// In case of a timeout and advancement to the next step in the scanning flow,
+  /// if an MRZ is detected on the scanned side but cannot be extracted,
+  /// the presence requirement is considered fulfilled. As a result, MRZ extraction
+  /// will no longer be required to complete the scan on the next side.
+  bool presenceMandatory;
+
+  MrzModuleSettings({this.presenceMandatory = false});
+
+  factory MrzModuleSettings.fromJson(Map<String, dynamic> json) =>
+      _$MrzModuleSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$MrzModuleSettingsToJson(this);
+}
+
+/// Settings for the VIZ (Visual Inspection Zone) extraction module.
+///
+/// This module is responsible for extracting data from the document's
+/// visual fields.
+///
+/// It supports features such as character validation for increased accuracy,
+/// signature image extraction, and data aggregation across multiple video frames.
+@JsonSerializable()
+class VizModuleSettings {
+  /// If set to true, Viz presence becomes mandatory for the scanned document.
+  ///
+  /// For [ScanningMode.single], the Viz must be present on the scanned side.
+  /// Only the front side of supported documents can be scanned.
+  ///
+  /// For [ScanningMode.automatic], this setting won't affect the default behaviour;
+  /// front side must be scanned first followed by the back side.
+  ///
+  /// In case of a timeout and advancement to the next step in the scanning flow,
+  /// if a Viz was not extracted fully from a front side, we'll proceed to extract Viz
+  /// from the back side, if present.
+  bool presenceMandatory;
+
+  /// Enables the extraction of the document's signature image if supported.
+  ///
+  /// For supported documents, signature image extraction is determined by document rules.
+  /// For unsupported documents, extraction won't be performed.
+  bool signatureImageExtractionEnabled;
+
+  /// Indicates whether character validation is enabled.
+  ///
+  /// Allow only results containing expected characters for a given field.
+  /// Each field is validated against a set of rules.
+  /// All fields have to be successfully validated in order to successfully scan a document.
+  /// Setting is used to improve scanning accuracy.
+  ///
+  bool characterValidationEnabled;
+
+  /// Indicates whether the aggregation of data from multiple input images is enabled.
+  ///
+  /// Disabling this setting will yield higher-quality captured images, but it may slow down the scanning process due to the additional
+  /// effort required to find the optimal image.
+  ///
+  /// Enabling this setting will simplify the extraction process, but the extracted data will be aggregated from multiple images instead
+  /// of being sourced from a single image.
+  ///
+  /// This only applies to images from `Video` input image source - for images from `Photo` source, setting will be ignored.
+  bool resultAggregationEnabled;
+
+  VizModuleSettings({
+    this.presenceMandatory = false,
+    this.signatureImageExtractionEnabled = false,
+    this.characterValidationEnabled = true,
+    this.resultAggregationEnabled = true,
+  });
+
+  factory VizModuleSettings.fromJson(Map<String, dynamic> json) =>
+      _$VizModuleSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$VizModuleSettingsToJson(this);
+}
+
+/// ClassFilter represents the document filter used to determine which documents will be processed.
+/// Document information (Country, Region, Type) is evaluated with the content set in the filter, and their inclusion or exclusion depends on the defined rules.
+/// To set the document information, use [DocumentFilter].
+/// The recognition results of the excluded documents will not be returned.
+/// If using the standard BlinkID UX, an alert will be displayed that the document will not be scanned.
+///
+/// By default, the ClassFilter is turned off, and all documents will be included.
+@JsonSerializable()
+class ClassFilter {
+  /// Document classes that will be explicitly accepted by this filter.
+  /// Only documents belonging to the specified classes will be processed. All other documents will be rejected.
+  ///
+  /// If this list is empty, no restrictions are applied, and documents will be accepted unless explicitly excluded by `excludeDocuments`.
+  ///
+  /// Example usage:
+  ///
+  ///  ```
+  ///   final classFilter = ClassFilter();
+  ///    classFilter.includeDocuments = [
+  ///      DocumentFilter.country(Country.usa),
+  ///      DocumentFilter.countryType(Country.croatia, DocumentType.id),
+  ///    ];
+  ///
+  ///    await blinkIdPlugin.performScan(sdkSettings, sessionSettings classFilter)
+  ///  ```
+  ///
+  ///
+  /// NOTE: from the example above, the class filter is set to only accept all documents from USA, and Croatian IDs.
+  /// All other documents will be rejected.
+  ///
+  /// Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+  ///
+  /// See [DocumentFilter] for setting the combinations.
+  List<DocumentFilter>? includeDocuments;
+
+  /// Document classes that will be explicitly rejected by this filter.
+  /// Documents belonging to the specified classes will not be processed. Other documents, not included with `excludeDocuments` will be accepted.
+  ///
+  /// If this array is empty, no restrictions are applied, and documents will be excluded only if not present in `includeDocuments`.
+  ///
+  /// Example usage:
+  ///
+  ///  ```
+  ///   final classFilter = ClassFilter();
+  ///    classFilter.excludeDocuments = [
+  ///      DocumentFilter.country(Country.usa),
+  ///      DocumentFilter.countryType(Country.croatia, DocumentType.id),
+  ///    ];
+  ///
+  ///    await blinkIdPlugin.performScan(sdkSettings, sessionSettings classFilter)
+  ///  ```
+  ///
+  /// NOTE: from the example above, the class filter is set to only exclude all documents from USA, and Croatian IDs.
+  /// All other classes will be accepted.
+  ///
+  /// Rules can be combined, for example, to set all three properties (Country Region, Type), two (e.g., Country and Type) or just one (e.g, Region).
+  ///
+  /// See [DocumentFilter] for setting the combinations.
+  List<DocumentFilter>? excludeDocuments;
+
+  /// ClassFilter represents the document filter used to determine which documents will be processed.
+  /// Document information (Country, Region, Type) is evaluated with the content set in the filter, and their inclusion or exclusion depends on the defined rules.
+  /// To set the document information, use [DocumentFilter].
+  /// The recognition results of the excluded documents will not be returned.
+  /// If using the standard BlinkID UX, an alert will be displayed that the document will not be scanned.
+  ///
+  /// By default, the ClassFilter is turned off, and all documents will be included.
+  ClassFilter();
+
+  /// Constructor for only adding the document clasess that will be included for the scanning process.
+  ClassFilter.withIncludedDocumentClasses(this.includeDocuments);
+
+  /// Constructor for only adding the document clasess that will be excluded for the scanning process.
+  ClassFilter.withExcludedDocumentClasses(this.excludeDocuments);
+
+  factory ClassFilter.fromJson(Map<String, dynamic> json) =>
+      _$ClassFilterFromJson(json);
+  Map<String, dynamic> toJson() => _$ClassFilterToJson(this);
+}
+
+/// Represents the document redaction settings.
+@JsonSerializable()
+class RedactionSettings {
+  /// The mode of redaction applied to the document.
+  RedactionMode mode;
+
+  /// Fields to be redacted.
+  List<FieldType> fields;
+
+  /// Document number redaction settings.
+  ///
+  /// See [DocumentNumberRedactionSettings]
+  DocumentNumberRedactionSettings? documentNumberRedactionSettings;
+
+  /// If true, whole Mrz result will be redacted.
+  ///
+  /// Default: `false`
+  bool redactMrzResult;
+
+  /// If true, whole Barcode result will be redacted.
+  ///
+  /// Default: `false`
+  bool redactBarcodeResult;
+
+  /// Document classes that will be explicitly redacted.
+  /// All other documents will not be redacted.
+  List<DocumentFilter>? documentFilter;
+
+  RedactionSettings({
+    required this.fields,
+    this.mode = RedactionMode.fullResult,
+    this.documentNumberRedactionSettings,
+    this.redactBarcodeResult = false,
+    this.redactMrzResult = false,
+    this.documentFilter,
+  });
+
+  factory RedactionSettings.fromJson(Map<String, dynamic> json) =>
+      _$RedactionSettingsFromJson(json);
+  Map<String, dynamic> toJson() => _$RedactionSettingsToJson(this);
+}
+
+/// A resolver that provides custom [RedactionSettings] for a scanned document
+/// based on its detected class information.
+///
+/// Add the resolver when you need per-document redaction behavior — for example,
+/// anonymizing different fields depending on the document's country or type. The resolver
+/// is invoked by the SDK immediately before the scanning result is finalized.
+///
+/// If not added, the SDK will use the default [RedactionSettings] for a given document class.
+@JsonSerializable()
+class RedactionSettingsResolver {
+  /// A list of redaction configurations evaluated by the SDK.
+  ///
+  /// Each [RedactionSettings] entry can target specific document classes
+  /// using [RedactionSettings.documentFilter].
+  ///
+  /// During scanning, the SDK selects the first matching configuration
+  /// for the detected document class and applies its redaction rules.
+  ///
+  /// If no matching configuration is found, the default SDK redaction
+  /// behavior is used.
+  List<RedactionSettings> documentRedactionList;
+
+  RedactionSettingsResolver(this.documentRedactionList);
+
+  factory RedactionSettingsResolver.fromJson(Map<String, dynamic> json) =>
+      _$RedactionSettingsResolverFromJson(json);
+  Map<String, dynamic> toJson() => _$RedactionSettingsResolverToJson(this);
+}
+
+/// Represents the detailed field type.
+@JsonSerializable()
+class DetailedFieldType {
+  /// The field type.
+  ///
+  /// See [FieldType] for more information.
+  FieldType fieldType;
+
+  /// The alphabet type.
+  ///
+  /// See [AlphabetType] for more information.
+  AlphabetType alphabetType;
+
+  /// Represents the detailed field type.
+  /// Both the [FieldType] and [AlphabetType] are mandatory.
+  DetailedFieldType(this.fieldType, this.alphabetType);
+
+  factory DetailedFieldType.fromJson(Map<String, dynamic> json) =>
+      _$DetailedFieldTypeFromJson(json);
+  Map<String, dynamic> toJson() => _$DetailedFieldTypeToJson(this);
+}
+
+/// Represents the document filter.
+/// Used with other classes like the [ClassFilter], [DocumentRules] and the [DocumentAnonymizationSettings].
+@JsonSerializable()
+class DocumentFilter {
+  /// If set, only specified country will pass the filter criteria.
+  /// Otherwise, issuing country will not betaken into account.
+  Country? country;
+
+  /// If set, only specified country will pass the filter criteria.
+  /// Otherwise, issuing region will not be taken into account.
+  Region? region;
+
+  /// If set, only specified type will pass the filter criteria. Otherwise, issuing type will not be taken into
+  /// account.
+  DocumentType? documentType;
+
+  /// Represents the document filter.
+  /// Used with other classes like the [ClassFilter], [DocumentRules] and the [DocumentAnonymizationSettings].
+  ///
+  /// All parameters are optional, and do not need to be added.
+  /// The filter can be set to be more generic (for example, to only accept document from USA):
+  /// ```
+  /// DocumentFilter(Country.usa);
+  /// ```
+  /// or, it can be set to be more specific (for example, to specifically accept USA drivers licenses from California):
+  /// ```
+  /// DocumentFilter(Country.usa, Region.california, DocumentType.dl);
+  /// ```
+  DocumentFilter({this.country, this.region, this.documentType});
+  factory DocumentFilter.fromJson(Map<String, dynamic> json) =>
+      _$DocumentFilterFromJson(json);
+  Map<String, dynamic> toJson() => _$DocumentFilterToJson(this);
+}
+
+/// Represents the document number anonymization settings.
+@JsonSerializable()
+class DocumentNumberRedactionSettings {
+  /// Defines how many digits at the beginning of the document number remain visible after anonymization.
+  int? prefixDigitsVisible = 0;
+
+  /// Defines how many digits at the end of the document number remain visible after anonymization.
+  int? suffixDigitsVisible = 0;
+
+  /// Represents the document number anonymization settings.
+  ///
+  /// Both settings, `prefixDigitsVisible` and `suffixDigitsVisible`, can be modified and set.
+  ///
+  /// By default, `prefixDigitsVisible` and `suffixDigitsVisible` are set to 0.
+  /// This results that no digits within the document number will be visible.
+  ///
+  /// If any parameter is null, the value of the parameter will set to `0`.
+  DocumentNumberRedactionSettings({
+    int? prefixDigitsVisible,
+    int? suffixDigitsVisible,
+  }) : prefixDigitsVisible = prefixDigitsVisible ?? 0,
+       suffixDigitsVisible = suffixDigitsVisible ?? 0;
+
+  factory DocumentNumberRedactionSettings.fromJson(Map<String, dynamic> json) =>
+      _$DocumentNumberRedactionSettingsFromJson(json);
+  Map<String, dynamic> toJson() =>
+      _$DocumentNumberRedactionSettingsToJson(this);
+}
+
+/// BlinkID enums
+
+/// Represents the mode of document scanning.
+///
+/// This enum class defines whether the scanning process is limited to a single
+/// side of the document or includes multiple sides, automatically identifying how many sides need to be scanned.
+enum ScanningMode {
+  /// Specifies the scanning process to be for single side only.
+  @JsonValue("single")
+  single,
+
+  /// The default [ScanningMode].
+  ///
+  ///  Automatically determines the number of sides to scan.
+  @JsonValue("automatic")
+  automatic,
+}
+
+/// Represents the different levels of detection sensitivity.
+///
+/// This enum class is used to configure detection thresholds and enable or
+/// disable detection functionality. The levels range from turning detection
+/// off completely to setting various levels of sensitivity (low, mid, high).
+enum SensitivityLevel {
+  /// Disables the [SensitivityLevel]
+  @JsonValue("off")
+  off,
+
+  /// Sets the [SensitivityLevel] to be less sensitive.
+  @JsonValue("low")
+  low,
+
+  /// The default [SensitivityLevel] sensitivity.
+  @JsonValue("mid")
+  mid,
+
+  /// Sets the [SensitivityLevel] to be highly sensitive.
+  @JsonValue("high")
+  high,
+}
+
+/// Represents level of anonymization performed on the scanning result.
+enum RedactionMode {
+  /// Anonymization will not be performed.
+  @JsonValue("none")
   none,
 
-  /// Recognition of mrz document (does not include visa and passport).
-  @JsonValue(1)
-  mrzId,
+  /// Full document image is anonymized with black boxes covering sensitive data.
+  @JsonValue("imageOnly")
+  imageOnly,
 
-  /// Recognition of visa mrz.
-  @JsonValue(2)
-  mrzVisa,
+  /// Result fields containing sensitive data are removed from result.
+  @JsonValue("resultFieldsOnly")
+  resultFieldsOnly,
 
-  /// Recognition of passport mrz.
-  @JsonValue(3)
-  mrzPassport,
+  /// This mode is combination of `imageOnly` and `resultFieldsOnly` modes.
+  @JsonValue("fullResult")
+  fullResult,
+}
 
-  /// Recognition of documents that have face photo on the front.
-  @JsonValue(4)
-  photoId,
+/// Represents the type of the alphabet used in the document.
+enum AlphabetType {
+  /// The Latin alphabet type
+  @JsonValue("latin")
+  latin,
 
-  /// Detailed document recognition.
-  @JsonValue(5)
-  fullRecognition,
+  /// The Arabic alphabet type
+  @JsonValue("arabic")
+  arabic,
 
-  /// Recognition of barcode document.
-  @JsonValue(6)
-  barcodeId,
+  /// The Cyrillic alphabet type
+  @JsonValue("cyrillic")
+  cyrillic,
+
+  /// The Greek alphabet type
+  @JsonValue("greek")
+  greek,
+}
+
+/// Document country.
+enum Country {
+  @JsonValue("none")
+  none,
+  @JsonValue("albania")
+  albania,
+  @JsonValue("algeria")
+  algeria,
+  @JsonValue("argentina")
+  argentina,
+  @JsonValue("australia")
+  australia,
+  @JsonValue("austria")
+  austria,
+  @JsonValue("azerbaijan")
+  azerbaijan,
+  @JsonValue("bahrain")
+  bahrain,
+  @JsonValue("bangladesh")
+  bangladesh,
+  @JsonValue("belgium")
+  belgium,
+  @JsonValue("bosniaAndHerzegovina")
+  bosniaAndHerzegovina,
+  @JsonValue("brunei")
+  brunei,
+  @JsonValue("bulgaria")
+  bulgaria,
+  @JsonValue("bambodia")
+  bambodia,
+  @JsonValue("canada")
+  canada,
+  @JsonValue("chile")
+  chile,
+  @JsonValue("colombia")
+  colombia,
+  @JsonValue("costaRica")
+  costaRica,
+  @JsonValue("croatia")
+  croatia,
+  @JsonValue("cyprus")
+  cyprus,
+  @JsonValue("czechia")
+  czechia,
+  @JsonValue("denmark")
+  denmark,
+  @JsonValue("dominicanRepublic")
+  dominicanRepublic,
+  @JsonValue("egypt")
+  egypt,
+  @JsonValue("estonia")
+  estonia,
+  @JsonValue("finland")
+  finland,
+  @JsonValue("france")
+  france,
+  @JsonValue("georgia")
+  georgia,
+  @JsonValue("germany")
+  germany,
+  @JsonValue("ghana")
+  ghana,
+  @JsonValue("greece")
+  greece,
+  @JsonValue("guatemala")
+  guatemala,
+  @JsonValue("hongKong")
+  hongKong,
+  @JsonValue("hungary")
+  hungary,
+  @JsonValue("india")
+  india,
+  @JsonValue("indonesia")
+  indonesia,
+  @JsonValue("ireland")
+  ireland,
+  @JsonValue("israel")
+  israel,
+  @JsonValue("italy")
+  italy,
+  @JsonValue("jordan")
+  jordan,
+  @JsonValue("kazakhstan")
+  kazakhstan,
+  @JsonValue("kenya")
+  kenya,
+  @JsonValue("kosovo")
+  kosovo,
+  @JsonValue("kuwait")
+  kuwait,
+  @JsonValue("latvia")
+  latvia,
+  @JsonValue("lithuania")
+  lithuania,
+  @JsonValue("malaysia")
+  malaysia,
+  @JsonValue("maldives")
+  maldives,
+  @JsonValue("malta")
+  malta,
+  @JsonValue("mauritius")
+  mauritius,
+  @JsonValue("mexico")
+  mexico,
+  @JsonValue("morocco")
+  morocco,
+  @JsonValue("netherlands")
+  netherlands,
+  @JsonValue("newZealand")
+  newZealand,
+  @JsonValue("nigeria")
+  nigeria,
+  @JsonValue("pakistan")
+  pakistan,
+  @JsonValue("panama")
+  panama,
+  @JsonValue("paraguay")
+  paraguay,
+  @JsonValue("philippines")
+  philippines,
+  @JsonValue("poland")
+  poland,
+  @JsonValue("portugal")
+  portugal,
+  @JsonValue("puertoRico")
+  puertoRico,
+  @JsonValue("qatar")
+  qatar,
+  @JsonValue("romania")
+  romania,
+  @JsonValue("russia")
+  russia,
+  @JsonValue("saudiArabia")
+  saudiArabia,
+  @JsonValue("serbia")
+  serbia,
+  @JsonValue("singapore")
+  singapore,
+  @JsonValue("slovakia")
+  slovakia,
+  @JsonValue("slovenia")
+  slovenia,
+  @JsonValue("southAfrica")
+  southAfrica,
+  @JsonValue("spain")
+  spain,
+  @JsonValue("sweden")
+  sweden,
+  @JsonValue("switzerland")
+  switzerland,
+  @JsonValue("taiwan")
+  taiwan,
+  @JsonValue("thailand")
+  thailand,
+  @JsonValue("tunisia")
+  tunisia,
+  @JsonValue("turkey")
+  turkey,
+  @JsonValue("uae")
+  uae,
+  @JsonValue("gganda")
+  gganda,
+  @JsonValue("uK")
+  uK,
+  @JsonValue("ukraine")
+  ukraine,
+  @JsonValue("usa")
+  usa,
+  @JsonValue("vietnam")
+  vietnam,
+  @JsonValue("brazil")
+  brazil,
+  @JsonValue("norway")
+  norway,
+  @JsonValue("oman")
+  oman,
+  @JsonValue("ecuador")
+  ecuador,
+  @JsonValue("elSalvador")
+  elSalvador,
+  @JsonValue("sriLanka")
+  sriLanka,
+  @JsonValue("peru")
+  peru,
+  @JsonValue("uruguay")
+  uruguay,
+  @JsonValue("bahamas")
+  bahamas,
+  @JsonValue("bermuda")
+  bermuda,
+  @JsonValue("bolivia")
+  bolivia,
+  @JsonValue("china")
+  china,
+  @JsonValue("europeanUnion")
+  europeanUnion,
+  @JsonValue("haiti")
+  haiti,
+  @JsonValue("honduras")
+  honduras,
+  @JsonValue("iceland")
+  iceland,
+  @JsonValue("japan")
+  japan,
+  @JsonValue("luxembourg")
+  luxembourg,
+  @JsonValue("montenegro")
+  montenegro,
+  @JsonValue("nicaragua")
+  nicaragua,
+  @JsonValue("southKorea")
+  southKorea,
+  @JsonValue("venezuela")
+  venezuela,
+  @JsonValue("afghanistan")
+  afghanistan,
+  @JsonValue("alandIslands")
+  alandIslands,
+  @JsonValue("americanSamoa")
+  americanSamoa,
+  @JsonValue("andorra")
+  andorra,
+  @JsonValue("angola")
+  angola,
+  @JsonValue("anguilla")
+  anguilla,
+  @JsonValue("antarctica")
+  antarctica,
+  @JsonValue("antiguaAndBarbuda")
+  antiguaAndBarbuda,
+  @JsonValue("armenia")
+  armenia,
+  @JsonValue("aruba")
+  aruba,
+  @JsonValue("bailiwickOfGuernsey")
+  bailiwickOfGuernsey,
+  @JsonValue("bailiwickOfJersey")
+  bailiwickOfJersey,
+  @JsonValue("barbados")
+  barbados,
+  @JsonValue("belarus")
+  belarus,
+  @JsonValue("belize")
+  belize,
+  @JsonValue("benin")
+  benin,
+  @JsonValue("bhutan")
+  bhutan,
+  @JsonValue("bonaireSaintEustatiusAndSaba")
+  bonaireSaintEustatiusAndSaba,
+  @JsonValue("botswana")
+  botswana,
+  @JsonValue("bouvetIsland")
+  bouvetIsland,
+  @JsonValue("britishIndianOceanTerritory")
+  britishIndianOceanTerritory,
+  @JsonValue("burkinaFaso")
+  burkinaFaso,
+  @JsonValue("burundi")
+  burundi,
+  @JsonValue("cameroon")
+  cameroon,
+  @JsonValue("capeVerde")
+  capeVerde,
+  @JsonValue("caribbeanNetherlands")
+  caribbeanNetherlands,
+  @JsonValue("caymanIslands")
+  caymanIslands,
+  @JsonValue("centralAfricanRepublic")
+  centralAfricanRepublic,
+  @JsonValue("chad")
+  chad,
+  @JsonValue("christmasIsland")
+  christmasIsland,
+  @JsonValue("cocosIslands")
+  cocosIslands,
+  @JsonValue("comoros")
+  comoros,
+  @JsonValue("congo")
+  congo,
+  @JsonValue("cookIslands")
+  cookIslands,
+  @JsonValue("cuba")
+  cuba,
+  @JsonValue("curacao")
+  curacao,
+  @JsonValue("democraticRepublicOfTheCongo")
+  democraticRepublicOfTheCongo,
+  @JsonValue("djibouti")
+  djibouti,
+  @JsonValue("dominica")
+  dominica,
+  @JsonValue("eastTimor")
+  eastTimor,
+  @JsonValue("equatorialGuinea")
+  equatorialGuinea,
+  @JsonValue("eritrea")
+  eritrea,
+  @JsonValue("ethiopia")
+  ethiopia,
+  @JsonValue("falklandIslands")
+  falklandIslands,
+  @JsonValue("faroeIslands")
+  faroeIslands,
+  @JsonValue("federatedStatesOfMicronesia")
+  federatedStatesOfMicronesia,
+  @JsonValue("fiji")
+  fiji,
+  @JsonValue("frenchGuiana")
+  frenchGuiana,
+  @JsonValue("frenchPolynesia")
+  frenchPolynesia,
+  @JsonValue("frenchSouthernTerritories")
+  frenchSouthernTerritories,
+  @JsonValue("gabon")
+  gabon,
+  @JsonValue("gambia")
+  gambia,
+  @JsonValue("gibraltar")
+  gibraltar,
+  @JsonValue("greenland")
+  greenland,
+  @JsonValue("grenada")
+  grenada,
+  @JsonValue("guadeloupe")
+  guadeloupe,
+  @JsonValue("guam")
+  guam,
+  @JsonValue("guinea")
+  guinea,
+  @JsonValue("guineaBissau")
+  guineaBissau,
+  @JsonValue("guyana")
+  guyana,
+  @JsonValue("heardIslandAndMcdonaldIslands")
+  heardIslandAndMcdonaldIslands,
+  @JsonValue("iran")
+  iran,
+  @JsonValue("iraq")
+  iraq,
+  @JsonValue("isleOfMan")
+  isleOfMan,
+  @JsonValue("ivoryCoast")
+  ivoryCoast,
+  @JsonValue("jamaica")
+  jamaica,
+  @JsonValue("kiribati")
+  kiribati,
+  @JsonValue("kyrgyzstan")
+  kyrgyzstan,
+  @JsonValue("laos")
+  laos,
+  @JsonValue("lebanon")
+  lebanon,
+  @JsonValue("lesotho")
+  lesotho,
+  @JsonValue("liberia")
+  liberia,
+  @JsonValue("libya")
+  libya,
+  @JsonValue("liechtenstein")
+  liechtenstein,
+  @JsonValue("macau")
+  macau,
+  @JsonValue("madagascar")
+  madagascar,
+  @JsonValue("malawi")
+  malawi,
+  @JsonValue("mali")
+  mali,
+  @JsonValue("marshallIslands")
+  marshallIslands,
+  @JsonValue("martinique")
+  martinique,
+  @JsonValue("mauritania")
+  mauritania,
+  @JsonValue("mayotte")
+  mayotte,
+  @JsonValue("moldova")
+  moldova,
+  @JsonValue("monaco")
+  monaco,
+  @JsonValue("mongolia")
+  mongolia,
+  @JsonValue("montserrat")
+  montserrat,
+  @JsonValue("mozambique")
+  mozambique,
+  @JsonValue("myanmar")
+  myanmar,
+  @JsonValue("namibia")
+  namibia,
+  @JsonValue("nauru")
+  nauru,
+  @JsonValue("nepal")
+  nepal,
+  @JsonValue("newCaledonia")
+  newCaledonia,
+  @JsonValue("niger")
+  niger,
+  @JsonValue("niue")
+  niue,
+  @JsonValue("norfolkIsland")
+  norfolkIsland,
+  @JsonValue("northernCyprus")
+  northernCyprus,
+  @JsonValue("northernMarianaIslands")
+  northernMarianaIslands,
+  @JsonValue("northKorea")
+  northKorea,
+  @JsonValue("northMacedonia")
+  northMacedonia,
+  @JsonValue("palau")
+  palau,
+  @JsonValue("palestine")
+  palestine,
+  @JsonValue("papuaNewGuinea")
+  papuaNewGuinea,
+  @JsonValue("pitcairn")
+  pitcairn,
+  @JsonValue("reunion")
+  reunion,
+  @JsonValue("rwanda")
+  rwanda,
+  @JsonValue("saintBarthelemy")
+  saintBarthelemy,
+  @JsonValue("saintHelenaAscensionAndTristianDaCunha")
+  saintHelenaAscensionAndTristianDaCunha,
+  @JsonValue("saintKittsAndNevis")
+  saintKittsAndNevis,
+  @JsonValue("saintLucia")
+  saintLucia,
+  @JsonValue("saintMartin")
+  saintMartin,
+  @JsonValue("saintPierreAndMiquelon")
+  saintPierreAndMiquelon,
+  @JsonValue("saintVincentAndTheGrenadines")
+  saintVincentAndTheGrenadines,
+  @JsonValue("samoa")
+  samoa,
+  @JsonValue("sanMarino")
+  sanMarino,
+  @JsonValue("saoTomeAndPrincipe")
+  saoTomeAndPrincipe,
+  @JsonValue("senegal")
+  senegal,
+  @JsonValue("seychelles")
+  seychelles,
+  @JsonValue("sierraLeone")
+  sierraLeone,
+  @JsonValue("sintMaarten")
+  sintMaarten,
+  @JsonValue("solomonIslands")
+  solomonIslands,
+  @JsonValue("somalia")
+  somalia,
+  @JsonValue("southGeorgiaAndTheSouthSandwichIslands")
+  southGeorgiaAndTheSouthSandwichIslands,
+  @JsonValue("southSudan")
+  southSudan,
+  @JsonValue("sudan")
+  sudan,
+  @JsonValue("suriname")
+  suriname,
+  @JsonValue("svalbardAndJanMayen")
+  svalbardAndJanMayen,
+  @JsonValue("eswatini")
+  eswatini,
+  @JsonValue("syria")
+  syria,
+  @JsonValue("tajikistan")
+  tajikistan,
+  @JsonValue("tanzania")
+  tanzania,
+  @JsonValue("togo")
+  togo,
+  @JsonValue("tokelau")
+  tokelau,
+  @JsonValue("tonga")
+  tonga,
+  @JsonValue("trinidadAndTobago")
+  trinidadAndTobago,
+  @JsonValue("turkmenistan")
+  turkmenistan,
+  @JsonValue("turksAndCaicosIslands")
+  turksAndCaicosIslands,
+  @JsonValue("tuvalu")
+  tuvalu,
+  @JsonValue("unitedStatesMinorOutlyingIslands")
+  unitedStatesMinorOutlyingIslands,
+  @JsonValue("uzbekistan")
+  uzbekistan,
+  @JsonValue("vanuatu")
+  vanuatu,
+  @JsonValue("vaticanCity")
+  vaticanCity,
+  @JsonValue("virginIslandsBritish")
+  virginIslandsBritish,
+  @JsonValue("virginIslandsOfTheUnitedStates")
+  virginIslandsOfTheUnitedStates,
+  @JsonValue("wallisAndFutuna")
+  wallisAndFutuna,
+  @JsonValue("westernSahara")
+  westernSahara,
+  @JsonValue("yemen")
+  yemen,
+  @JsonValue("yugoslavia")
+  yugoslavia,
+  @JsonValue("zambia")
+  zambia,
+  @JsonValue("zimbabwe")
+  zimbabwe,
+  @JsonValue("schengenArea")
+  schengenArea,
+  @JsonValue("saintThomasAndPrince")
+  saintThomasAndPrince,
+}
+
+/// Document region.
+enum Region {
+  @JsonValue("none")
+  none,
+  @JsonValue("alabama")
+  alabama,
+  @JsonValue("alaska")
+  alaska,
+  @JsonValue("alberta")
+  alberta,
+  @JsonValue("arizona")
+  arizona,
+  @JsonValue("arkansas")
+  arkansas,
+  @JsonValue("australianCapitalTerritory")
+  australianCapitalTerritory,
+  @JsonValue("britishColumbia")
+  britishColumbia,
+  @JsonValue("california")
+  california,
+  @JsonValue("colorado")
+  colorado,
+  @JsonValue("connecticut")
+  connecticut,
+  @JsonValue("delaware")
+  delaware,
+  @JsonValue("districtOfColumbia")
+  districtOfColumbia,
+  @JsonValue("florida")
+  florida,
+  @JsonValue("georgia")
+  georgia,
+  @JsonValue("hawaii")
+  hawaii,
+  @JsonValue("idaho")
+  idaho,
+  @JsonValue("illinois")
+  illinois,
+  @JsonValue("indiana")
+  indiana,
+  @JsonValue("iowa")
+  iowa,
+  @JsonValue("kansas")
+  kansas,
+  @JsonValue("kentucky")
+  kentucky,
+  @JsonValue("louisiana")
+  louisiana,
+  @JsonValue("maine")
+  maine,
+  @JsonValue("manitoba")
+  manitoba,
+  @JsonValue("maryland")
+  maryland,
+  @JsonValue("massachusetts")
+  massachusetts,
+  @JsonValue("michigan")
+  michigan,
+  @JsonValue("minnesota")
+  minnesota,
+  @JsonValue("mississippi")
+  mississippi,
+  @JsonValue("missouri")
+  missouri,
+  @JsonValue("montana")
+  montana,
+  @JsonValue("nebraska")
+  nebraska,
+  @JsonValue("nevada")
+  nevada,
+  @JsonValue("newBrunswick")
+  newBrunswick,
+  @JsonValue("newHampshire")
+  newHampshire,
+  @JsonValue("newJersey")
+  newJersey,
+  @JsonValue("newMexico")
+  newMexico,
+  @JsonValue("newSouthWales")
+  newSouthWales,
+  @JsonValue("newYork")
+  newYork,
+  @JsonValue("northernTerritory")
+  northernTerritory,
+  @JsonValue("northCarolina")
+  northCarolina,
+  @JsonValue("northDakota")
+  northDakota,
+  @JsonValue("novaScotia")
+  novaScotia,
+  @JsonValue("ohio")
+  ohio,
+  @JsonValue("oklahoma")
+  oklahoma,
+  @JsonValue("ontario")
+  ontario,
+  @JsonValue("oregon")
+  oregon,
+  @JsonValue("pennsylvania")
+  pennsylvania,
+  @JsonValue("quebec")
+  quebec,
+  @JsonValue("queensland")
+  queensland,
+  @JsonValue("rhodeIsland")
+  rhodeIsland,
+  @JsonValue("saskatchewan")
+  saskatchewan,
+  @JsonValue("southAustralia")
+  southAustralia,
+  @JsonValue("southCarolina")
+  southCarolina,
+  @JsonValue("southDakota")
+  southDakota,
+  @JsonValue("tasmania")
+  tasmania,
+  @JsonValue("tennessee")
+  tennessee,
+  @JsonValue("texas")
+  texas,
+  @JsonValue("utah")
+  utah,
+  @JsonValue("vermont")
+  vermont,
+  @JsonValue("victoria")
+  victoria,
+  @JsonValue("virginia")
+  virginia,
+  @JsonValue("washington")
+  washington,
+  @JsonValue("westernAustralia")
+  westernAustralia,
+  @JsonValue("westVirginia")
+  westVirginia,
+  @JsonValue("wisconsin")
+  wisconsin,
+  @JsonValue("wyoming")
+  wyoming,
+  @JsonValue("yukon")
+  yukon,
+  @JsonValue("ciudadDeMexico")
+  ciudadDeMexico,
+  @JsonValue("jalisco")
+  jalisco,
+  @JsonValue("newfoundlandAndLabrador")
+  newfoundlandAndLabrador,
+  @JsonValue("nuevoLeon")
+  nuevoLeon,
+  @JsonValue("bajaCalifornia")
+  bajaCalifornia,
+  @JsonValue("chihuahua")
+  chihuahua,
+  @JsonValue("guanajuato")
+  guanajuato,
+  @JsonValue("guerrero")
+  guerrero,
+  @JsonValue("mexico")
+  mexico,
+  @JsonValue("michoacan")
+  michoacan,
+  @JsonValue("newYorkCity")
+  newYorkCity,
+  @JsonValue("tamaulipas")
+  tamaulipas,
+  @JsonValue("veracruz")
+  veracruz,
+  @JsonValue("chiapas")
+  chiapas,
+  @JsonValue("coahuila")
+  coahuila,
+  @JsonValue("durango")
+  durango,
+  @JsonValue("guerreroCocula")
+  guerreroCocula,
+  @JsonValue("guerreroJuchitan")
+  guerreroJuchitan,
+  @JsonValue("guerreroTepecoacuilco")
+  guerreroTepecoacuilco,
+  @JsonValue("guerreroTlacoapa")
+  guerreroTlacoapa,
+  @JsonValue("gujarat")
+  gujarat,
+  @JsonValue("hidalgo")
+  hidalgo,
+  @JsonValue("karnataka")
+  karnataka,
+  @JsonValue("kerala")
+  kerala,
+  @JsonValue("khyberPakhtunkhwa")
+  khyberPakhtunkhwa,
+  @JsonValue("madhyaPradesh")
+  madhyaPradesh,
+  @JsonValue("maharashtra")
+  maharashtra,
+  @JsonValue("morelos")
+  morelos,
+  @JsonValue("nayarit")
+  nayarit,
+  @JsonValue("oaxaca")
+  oaxaca,
+  @JsonValue("puebla")
+  puebla,
+  @JsonValue("punjab")
+  punjab,
+  @JsonValue("queretaro")
+  queretaro,
+  @JsonValue("sanLuisPotosi")
+  sanLuisPotosi,
+  @JsonValue("sinaloa")
+  sinaloa,
+  @JsonValue("sonora")
+  sonora,
+  @JsonValue("tabasco")
+  tabasco,
+  @JsonValue("tamilNadu")
+  tamilNadu,
+  @JsonValue("yucatan")
+  yucatan,
+  @JsonValue("zacatecas")
+  zacatecas,
+  @JsonValue("aguascalientes")
+  aguascalientes,
+  @JsonValue("bajaCaliforniaSur")
+  bajaCaliforniaSur,
+  @JsonValue("campeche")
+  campeche,
+  @JsonValue("colima")
+  colima,
+  @JsonValue("quintanaRooBenitoJuarez")
+  quintanaRooBenitoJuarez,
+  @JsonValue("quintanaRoo")
+  quintanaRoo,
+  @JsonValue("quintanaRooSolidaridad")
+  quintanaRooSolidaridad,
+  @JsonValue("tlaxcala")
+  tlaxcala,
+  @JsonValue("quintanaRooCozumel")
+  quintanaRooCozumel,
+  @JsonValue("saoPaolo")
+  saoPaolo,
+  @JsonValue("rioDeJaneiro")
+  rioDeJaneiro,
+  @JsonValue("rioGrandeDoSul")
+  rioGrandeDoSul,
+  @JsonValue("northWestTerritories")
+  northWestTerritories,
+  @JsonValue("nunavut")
+  nunavut,
+  @JsonValue("princeEdwardIsland")
+  princeEdwardIsland,
+  @JsonValue("distritoFederal")
+  distritoFederal,
+  @JsonValue("maranhao")
+  maranhao,
+  @JsonValue("matoGrosso")
+  matoGrosso,
+  @JsonValue("minasGerais")
+  minasGerais,
+  @JsonValue("para")
+  para,
+  @JsonValue("parana")
+  parana,
+  @JsonValue("pernambuco")
+  pernambuco,
+  @JsonValue("santaCatarina")
+  santaCatarina,
+  @JsonValue("andhraPradesh")
+  andhraPradesh,
+  @JsonValue("ceara")
+  ceara,
+  @JsonValue("goias")
+  goias,
+  @JsonValue("guerreroAcapulcoDeJuarez")
+  guerreroAcapulcoDeJuarez,
+  @JsonValue("haryana")
+  haryana,
+  @JsonValue("sergipe")
+  sergipe,
+  @JsonValue("alagos")
+  alagos,
+  @JsonValue("bangsamoro")
+  bangsamoro,
+  @JsonValue("telangana")
+  telangana,
+  @JsonValue("acre")
+  acre,
+  @JsonValue("espiritoSanto")
+  espiritoSanto,
+  @JsonValue("matoGrossoDoSul")
+  matoGrossoDoSul,
+  @JsonValue("paraiba")
+  paraiba,
+  @JsonValue("piaui")
+  piaui,
+  @JsonValue("rioGrandeDoNorte")
+  rioGrandeDoNorte,
+  @JsonValue("tocantins")
+  tocantins,
+  @JsonValue("odisha")
+  odisha,
+  @JsonValue("uttarakhand")
+  uttarakhand,
+}
+
+/// Document type.
+enum DocumentType {
+  @JsonValue("none")
+  none,
+  @JsonValue("consularId")
+  consularId,
+  @JsonValue("dl")
+  dl,
+  @JsonValue("dlPublicServicesCard")
+  dlPublicServicesCard,
+  @JsonValue("employmentPass")
+  employmentPass,
+  @JsonValue("finCard")
+  finCard,
+  @JsonValue("id")
+  id,
+  @JsonValue("multipurposeId")
+  multipurposeId,
+  @JsonValue("myKad")
+  myKad,
+  @JsonValue("myKid")
+  myKid,
+  @JsonValue("myPR")
+  myPR,
+  @JsonValue("myTentera")
+  myTentera,
+  @JsonValue("panCard")
+  panCard,
+  @JsonValue("professionalId")
+  professionalId,
+  @JsonValue("publicServicesCard")
+  publicServicesCard,
+  @JsonValue("residencePermit")
+  residencePermit,
+  @JsonValue("residentId")
+  residentId,
+  @JsonValue("temporaryResidencePermit")
+  temporaryResidencePermit,
+  @JsonValue("voterId")
+  voterId,
+  @JsonValue("workPermit")
+  workPermit,
+  @JsonValue("iKad")
+  iKad,
+  @JsonValue("militaryId")
+  militaryId,
+  @JsonValue("myKas")
+  myKas,
+  @JsonValue("docialSecurityCard")
+  docialSecurityCard,
+  @JsonValue("healthInsuranceCard")
+  healthInsuranceCard,
+  @JsonValue("passport")
+  passport,
+  @JsonValue("sPass")
+  sPass,
+  @JsonValue("addressCard")
+  addressCard,
+  @JsonValue("alienId")
+  alienId,
+  @JsonValue("alienPassport")
+  alienPassport,
+  @JsonValue("greenCard")
+  greenCard,
+  @JsonValue("minorsId")
+  minorsId,
+  @JsonValue("postalId")
+  postalId,
+  @JsonValue("professionalDl")
+  professionalDl,
+  @JsonValue("taxId")
+  taxId,
+  @JsonValue("weaponPermit")
+  weaponPermit,
+  @JsonValue("visa")
+  visa,
+  @JsonValue("borderCrossingCard")
+  borderCrossingCard,
+  @JsonValue("driverCard")
+  driverCard,
+  @JsonValue("globalEntryCard")
+  globalEntryCard,
+  @JsonValue("mypolis")
+  mypolis,
+  @JsonValue("nexusCard")
+  nexusCard,
+  @JsonValue("passportCard")
+  passportCard,
+  @JsonValue("proofOfAgeCard")
+  proofOfAgeCard,
+  @JsonValue("refugeeId")
+  refugeeId,
+  @JsonValue("tribalId")
+  tribalId,
+  @JsonValue("veteranId")
+  veteranId,
+  @JsonValue("citizenshipCertificate")
+  citizenshipCertificate,
+  @JsonValue("myNumberCard")
+  myNumberCard,
+  @JsonValue("consularPassport")
+  consularPassport,
+  @JsonValue("minorsPassport")
+  minorsPassport,
+  @JsonValue("minorsPublicServicesCard")
+  minorsPublicServicesCard,
+  @JsonValue("drivingPriviligeCard")
+  drivingPriviligeCard,
+  @JsonValue("asylumRequest")
+  asylumRequest,
+  @JsonValue("driverQualificationCard")
+  driverQualificationCard,
+  @JsonValue("provisionalDl")
+  provisionalDl,
+  @JsonValue("refugeePassport")
+  refugeePassport,
+  @JsonValue("specialId")
+  specialId,
+  @JsonValue("uniformedServicesId")
+  uniformedServicesId,
+  @JsonValue("immigrantVisa")
+  immigrantVisa,
+  @JsonValue("consularVoterId")
+  consularVoterId,
+  @JsonValue("twicCard")
+  twicCard,
+  @JsonValue("exitEntryPermit")
+  exitEntryPermit,
+  @JsonValue("mainlandTravelPermitTaiwan")
+  mainlandTravelPermitTaiwan,
+  @JsonValue("nbiClearance")
+  nbiClearance,
+  @JsonValue("proofOfRegistration")
+  proofOfRegistration,
+  @JsonValue("temporaryProtectionPermit")
+  temporaryProtectionPermit,
+  @JsonValue("afghanCitizenCard")
+  afghanCitizenCard,
+  @JsonValue("eId")
+  eId,
+  @JsonValue("pass")
+  pass,
+  @JsonValue("sisId")
+  sisId,
+  @JsonValue("asicCard")
+  asicCard,
+  @JsonValue("bidoonCard")
+  bidoonCard,
+  @JsonValue("interimHealthInsuranceCard")
+  interimHealthInsuranceCard,
+  @JsonValue("nonVoterId")
+  nonVoterId,
+  @JsonValue("reciprocalHealthInsuranceCard")
+  reciprocalHealthInsuranceCard,
+  @JsonValue("vehicleRegistration")
+  vehicleRegistration,
+  @JsonValue("esaadCard")
+  esaadCard,
+  @JsonValue("registrationCertificate")
+  registrationCertificate,
+  @JsonValue("medicalMarijuanaId")
+  medicalMarijuanaId,
+  @JsonValue("nonCardTribalId")
+  nonCardTribalId,
+  @JsonValue("diplomaticId")
+  diplomaticId,
+  @JsonValue("emergencyPassport")
+  emergencyPassport,
+  @JsonValue("temporaryPassport")
+  temporaryPassport,
+  @JsonValue("metisFederationCard")
+  metisFederationCard,
+  @JsonValue("socialSecurityCard")
+  socialSecurityCard,
+  @JsonValue("adrCertificate")
+  adrCertificate,
+  @JsonValue("ninCard")
+  ninCard,
+  @JsonValue("mysssCard")
+  mysssCard,
+  @JsonValue("gendarmerieId")
+  gendarmerieId,
+  @JsonValue("policeId")
+  policeId,
+  @JsonValue("originCard")
+  originCard,
+}
+
+/// Represents all possible field types that can be extracted from the document.
+enum FieldType {
+  @JsonValue("additionalAddressInformation")
+  additionalAddressInformation,
+  @JsonValue("additionalNameInformation")
+  additionalNameInformation,
+  @JsonValue("additionalOptionalAddressInformation")
+  additionalOptionalAddressInformation,
+  @JsonValue("additionalPersonalIdNumber")
+  additionalPersonalIdNumber,
+  @JsonValue("address")
+  address,
+  @JsonValue("classEffectiveDate")
+  classEffectiveDate,
+  @JsonValue("classExpiryDate")
+  classExpiryDate,
+  @JsonValue("conditions")
+  conditions,
+  @JsonValue("dateOfBirth")
+  dateOfBirth,
+  @JsonValue("dateOfExpiry")
+  dateOfExpiry,
+  @JsonValue("dateOfIssue")
+  dateOfIssue,
+  @JsonValue("documentAdditionalNumber")
+  documentAdditionalNumber,
+  @JsonValue("documentOptionalAdditionalNumber")
+  documentOptionalAdditionalNumber,
+  @JsonValue("documentNumber")
+  documentNumber,
+  @JsonValue("employer")
+  employer,
+  @JsonValue("endorsements")
+  endorsements,
+  @JsonValue("fathersName")
+  fathersName,
+  @JsonValue("firstName")
+  firstName,
+  @JsonValue("fullName")
+  fullName,
+  @JsonValue("issuingAuthority")
+  issuingAuthority,
+  @JsonValue("lastName")
+  lastName,
+  @JsonValue("licenceType")
+  licenceType,
+  @JsonValue("localizedName")
+  localizedName,
+  @JsonValue("maritalStatus")
+  maritalStatus,
+  @JsonValue("mothersName")
+  mothersName,
+  @JsonValue("mrz")
+  mrz,
+  @JsonValue("nationality")
+  nationality,
+  @JsonValue("personalIdNumber")
+  personalIdNumber,
+  @JsonValue("placeOfBirth")
+  placeOfBirth,
+  @JsonValue("profession")
+  profession,
+  @JsonValue("race")
+  race,
+  @JsonValue("religion")
+  religion,
+  @JsonValue("residentialStatus")
+  residentialStatus,
+  @JsonValue("restrictions")
+  restrictions,
+  @JsonValue("sex")
+  sex,
+  @JsonValue("vehicleClass")
+  vehicleClass,
+  @JsonValue("bloodType")
+  bloodType,
+  @JsonValue("sponsor")
+  sponsor,
+  @JsonValue("visaType")
+  visaType,
+  @JsonValue("documentSubtype")
+  documentSubtype,
+  @JsonValue("remarks")
+  remarks,
+  @JsonValue("residencePermitType")
+  residencePermitType,
+  @JsonValue("manufacturingYear")
+  manufacturingYear,
+  @JsonValue("vehicleType")
+  vehicleType,
+  @JsonValue("dependentDateOfBirth")
+  dependentDateOfBirth,
+  @JsonValue("dependentSex")
+  dependentSex,
+  @JsonValue("dependentDocumentNumber")
+  dependentDocumentNumber,
+  @JsonValue("dependentFullName")
+  dependentFullName,
+  @JsonValue("eligibilityCategory")
+  eligibilityCategory,
+  @JsonValue("specificDocumentValidity")
+  specificDocumentValidity,
+  @JsonValue("vehicleOwner")
+  vehicleOwner,
+  @JsonValue("nationalInsuranceNumber")
+  nationalInsuranceNumber,
+  @JsonValue("countryCode")
+  countryCode,
+  @JsonValue("certificateNumber")
+  certificateNumber,
+  @JsonValue("municipalityOfRegistration")
+  municipalityOfRegistration,
+  @JsonValue("localityCode")
+  localityCode,
+  @JsonValue("maidenName")
+  maidenName,
+  @JsonValue("stateCode")
+  stateCode,
+  @JsonValue("dateOfEntry")
+  dateOfEntry,
+  @JsonValue("municipalityCode")
+  municipalityCode,
+  @JsonValue("pollingStationCode")
+  pollingStationCode,
+  @JsonValue("sectionCode")
+  sectionCode,
+  @JsonValue("registrationCenterCode")
+  registrationCenterCode,
+  @JsonValue("stateName")
+  stateName,
+  @JsonValue("effectiveDate")
+  effectiveDate,
+  @JsonValue("parentsLastName")
+  parentsLastName,
+  @JsonValue("parentsFirstName")
+  parentsFirstName,
+  @JsonValue("workRestriction")
+  workRestriction,
+  @JsonValue("socialSecurityStatus")
+  socialSecurityStatus,
+  @JsonValue("legalStatus")
+  legalStatus,
+  @JsonValue("husbandName")
+  husbandName,
+  @JsonValue("cardAccessNumber")
+  cardAccessNumber,
+}
+
+/// An enum indicating preffered camera position for document capturing.
+enum PreferredCamera {
+  /// Use the back-facing camera
+  ///
+  /// This is the default value
+  @JsonValue("back")
+  back,
+
+  /// Use the front-facing camera
+  @JsonValue("front")
+  front,
 }
 
 /// Represents the document class information.
@@ -671,42 +1948,42 @@ class DataMatchResultField {
 /// Represents the type of the field used in data match.
 enum DataMatchField {
   /// The date of birth field.
-  @JsonValue(0)
+  @JsonValue("dateOfBirth")
   dateOfBirth,
 
   /// The date of expiry field.
-  @JsonValue(1)
+  @JsonValue("dateOfExpiry")
   dateOfExpiry,
 
   /// The document number field.
-  @JsonValue(2)
+  @JsonValue("documentNumber")
   documentNumber,
 
   /// The document additional number field.
-  @JsonValue(3)
+  @JsonValue("documentAdditionalNumber")
   documentAdditionalNumber,
 
   /// The document optional additional number field.
-  @JsonValue(4)
+  @JsonValue("documentOptionalAdditionalNumber")
   documentOptionalAdditionalNumber,
 
   /// The personal ID number field.
-  @JsonValue(5)
+  @JsonValue("personalIdNumber")
   personalIdNumber,
 }
 
 /// Represents the state of the data match.
 enum DataMatchState {
   /// Data matching has not been performed.
-  @JsonValue(0)
+  @JsonValue("notPerformed")
   notPerformed,
 
   /// Data does not match.
-  @JsonValue(1)
+  @JsonValue("failed")
   failed,
 
   /// Data does match.
-  @JsonValue(2)
+  @JsonValue("success")
   success,
 }
 
@@ -1229,6 +2506,9 @@ class VizResult {
   /// The document number.
   StringResult? documentNumber;
 
+  /// The card access number.
+  StringResult? cardAccessNumber;
+
   /// The personal identification number.
   StringResult? personalIdNumber;
 
@@ -1385,6 +2665,7 @@ class VizResult {
     stateName = createStringResult(nativeVizResult, "stateName");
     dateOfExpiryPermanent = nativeVizResult["dateOfExpiryPermanent"];
     documentNumber = createStringResult(nativeVizResult, 'documentNumber');
+    cardAccessNumber = createStringResult(nativeVizResult, "cardAccessNumber");
     personalIdNumber = createStringResult(nativeVizResult, 'personalIdNumber');
     documentAdditionalNumber = createStringResult(
       nativeVizResult,

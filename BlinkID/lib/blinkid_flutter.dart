@@ -1,16 +1,19 @@
-import 'blinkid_flutter_platform_interface.dart';
-import 'package:blinkid_flutter/blinkid_result.dart';
-import 'package:blinkid_flutter/blinkid_settings.dart';
+import 'package:blinkid_flutter/src/types.dart';
 
-export './blinkid_settings.dart';
-export './blinkid_result.dart';
+import 'src/blinkid_flutter_platform_interface.dart';
+import 'src/blinkid_result.dart';
+import 'src/blinkid_settings.dart';
+
+export 'src/blinkid_settings.dart';
+export 'src/blinkid_result.dart';
+export 'src/types.dart';
 
 /// BlinkidFlutter plugin exposes the appropriate native BlinkID module as a Flutter/Dart module,
 /// based on the detected platform: Android or iOS.
 ///
 /// The BlinkID plugin contains the methods `performScan` and `performDirectApiScan`
 /// which enable the BlinkID scanning process, with the default UX properties, and with static images.
-class BlinkidFlutter {
+class BlinkIdFlutter {
   /// The `performScan` method launches the BlinkID scanning process with the default UX properties.
   /// It takes the following parameters: [BlinkIdSdkSettings], [BlinkIdSessionSettings] and the optional [ClassFilter] class.
   ///
@@ -24,18 +27,25 @@ class BlinkidFlutter {
   ///
   /// 4. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
   ///
+  /// 5. The optional Redaction settings - [RedactionSettings]: Represents the document redaction settings. Use this when need per-document redaction behavior is neede — for example,
+  /// anonymizing different fields depending on the document's country or type.
+  /// The resolver
+  /// is invoked by the SDK immediately before the scanning result is finalized.
+  ///
   /// Returns the `performScan` method from the [BlinkidFlutterPlatform].
-  Future<BlinkIdScanningResult?> performScan(
-    BlinkIdSdkSettings blinkidSdkSettings,
-    BlinkIdSessionSettings blinkidSessionSettings, [
+  Future<BlinkIdScanningResult?> performScan({
+    required BlinkIdSdkSettings blinkIdSdkSettings,
+    required BlinkIdSessionSettings blinkIdSessionSettings,
     BlinkIdScanningUxSettings? blinkidScanningUxSettings,
     ClassFilter? classFilter,
-  ]) {
-    return BlinkidFlutterPlatform.instance.performScan(
-      blinkidSdkSettings,
-      blinkidSessionSettings,
-      blinkidScanningUxSettings,
-      classFilter,
+    RedactionSettingsResolver? redactionSettingsResolver,
+  }) {
+    return BlinkIdFlutterPlatform.instance.performScan(
+      blinkIdSdkSettings: blinkIdSdkSettings,
+      blinkIdSessionSettings: blinkIdSessionSettings,
+      blinkIdScanningUxSettings: blinkidScanningUxSettings,
+      classFilter: classFilter,
+      redactionSettingsResolver: redactionSettingsResolver,
     );
   }
 
@@ -48,23 +58,27 @@ class BlinkidFlutter {
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
   ///
-  /// 3. The `firstImage` Base64 string - [String]: image that represents one side of the document. If the document contains two sides and the [ScanningMode] is set to `automatic`,
+  /// 3. The optional Redaction settings - [RedactionSettings]: Represents the document redaction settings. Use this when need per-document redaction behavior is neede — for example,
+  /// anonymizing different fields depending on the document's country or type.
+  /// 4. The `firstImage` Base64 string - [String]: image that represents one side of the document. If the document contains two sides and the [ScanningMode] is set to `automatic`,
   /// this should contain the image of the front side of the document. In case the [ScanningMode] is set to `single`, it can be either the front or the back side of the document.
   ///
-  /// 4. The optional `secondImage` Base64 string - [String]: needed if the information from back side of the document is required and the [ScanningMode] is set to `automatic`.
+  /// 5. The optional `secondImage` Base64 string - [String]: needed if the information from back side of the document is required and the [ScanningMode] is set to `automatic`.
   ///
   /// Returns the `performDirectApiScan` method from the [BlinkidFlutterPlatform].
-  Future<BlinkIdScanningResult?> performDirectApiScan(
-    BlinkIdSdkSettings blinkidSdkSettings,
-    BlinkIdSessionSettings blinkidSessionSettings,
-    String firstImage, [
+  Future<BlinkIdScanningResult?> performDirectApiScan({
+    required BlinkIdSdkSettings blinkIdSdkSettings,
+    required BlinkIdSessionSettings blinkIdSessionSettings,
+    RedactionSettings? redactionSettings,
+    required String firstImage,
     String? secondImage,
-  ]) {
-    return BlinkidFlutterPlatform.instance.performDirectApiScan(
-      blinkidSdkSettings,
-      blinkidSessionSettings,
-      firstImage,
-      secondImage,
+  }) {
+    return BlinkIdFlutterPlatform.instance.performDirectApiScan(
+      blinkIdSdkSettings: blinkIdSdkSettings,
+      blinkIdSessionSettings: blinkIdSessionSettings,
+      redactionSettings: redactionSettings,
+      firstImage: firstImage,
+      secondImage: secondImage,
     );
   }
 
@@ -91,8 +105,10 @@ class BlinkidFlutter {
   /// BlinkID SDK Settings - [BlinkIdSdkSettings]: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK
   /// needs for the scanning process, should be obtained.
   /// To obtain a valid license key, please visit https://developer.microblink.com/ or contact us directly at https://help.microblink.com
-  Future<void> loadBlinkIdSdk(BlinkIdSdkSettings blinkidSdkSettings) async {
-    return BlinkidFlutterPlatform.instance.loadBlinkIdSdk(blinkidSdkSettings);
+  Future<void> loadBlinkIdSdk({
+    required BlinkIdSdkSettings blinkidSdkSettings,
+  }) async {
+    return BlinkIdFlutterPlatform.instance.loadBlinkIdSdk(blinkidSdkSettings);
   }
 
   /// The `unloadBlinkIdSdk` method terminates the BlinkID SDK and releases all associated resources.
@@ -108,7 +124,7 @@ class BlinkidFlutter {
   ///
   /// This method is automatically called after each successful scan session.
   Future<void> unloadBlinkIdSdk({bool deleteCachedResources = false}) async {
-    return BlinkidFlutterPlatform.instance.unloadBlinkIdSdk(
+    return BlinkIdFlutterPlatform.instance.unloadBlinkIdSdk(
       deleteCachedResources: deleteCachedResources,
     );
   }

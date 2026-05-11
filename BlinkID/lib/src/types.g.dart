@@ -1,201 +1,152 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'blinkid_settings.dart';
+part of 'types.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BlinkIdSdkSettings _$BlinkIdSdkSettingsFromJson(Map<String, dynamic> json) =>
-    BlinkIdSdkSettings(
-      json['licenseKey'] as String,
-      json['licensee'],
-      json['downloadResources'],
-      json['resourceDownloadUrl'],
-      json['resourceLocalFolder'],
-      json['resourceRequestTimeout'],
-      json['microblinkProxyURL'],
-    )..bundleIdentifier = json['bundleIdentifier'] as String?;
-
-Map<String, dynamic> _$BlinkIdSdkSettingsToJson(BlinkIdSdkSettings instance) =>
-    <String, dynamic>{
-      'licenseKey': instance.licenseKey,
-      'licensee': instance.licensee,
-      'downloadResources': instance.downloadResources,
-      'resourceDownloadUrl': instance.resourceDownloadUrl,
-      'resourceLocalFolder': instance.resourceLocalFolder,
-      'bundleIdentifier': instance.bundleIdentifier,
-      'resourceRequestTimeout': instance.resourceRequestTimeout,
-      'microblinkProxyURL': instance.microblinkProxyURL,
-    };
-
-BlinkIdSessionSettings _$BlinkIdSessionSettingsFromJson(
+BarcodeModuleSettings _$BarcodeModuleSettingsFromJson(
   Map<String, dynamic> json,
-) =>
-    BlinkIdSessionSettings()
-      ..scanningMode = $enumDecode(_$ScanningModeEnumMap, json['scanningMode'])
-      ..scanningSettings = BlinkIdScanningSettings.fromJson(
-        json['scanningSettings'] as Map<String, dynamic>,
-      )
-      ..stepTimeoutDuration = (json['stepTimeoutDuration'] as num).toInt();
-
-Map<String, dynamic> _$BlinkIdSessionSettingsToJson(
-  BlinkIdSessionSettings instance,
-) => <String, dynamic>{
-  'scanningMode': _$ScanningModeEnumMap[instance.scanningMode]!,
-  'scanningSettings': instance.scanningSettings,
-  'stepTimeoutDuration': instance.stepTimeoutDuration,
-};
-
-const _$ScanningModeEnumMap = {
-  ScanningMode.single: 0,
-  ScanningMode.automatic: 1,
-};
-
-BlinkIdScanningSettings _$BlinkIdScanningSettingsFromJson(
-  Map<String, dynamic> json,
-) =>
-    BlinkIdScanningSettings()
-      ..blurDetectionLevel = $enumDecode(
-        _$DetectionLevelEnumMap,
-        json['blurDetectionLevel'],
-      )
-      ..skipImagesWithBlur = json['skipImagesWithBlur'] as bool
-      ..glareDetectionLevel = $enumDecode(
-        _$DetectionLevelEnumMap,
-        json['glareDetectionLevel'],
-      )
-      ..skipImagesWithGlare = json['skipImagesWithGlare'] as bool
-      ..tiltDetectionLevel = $enumDecode(
-        _$DetectionLevelEnumMap,
-        json['tiltDetectionLevel'],
-      )
-      ..skipImagesWithInadequateLightingConditions =
-          json['skipImagesWithInadequateLightingConditions'] as bool
-      ..skipImagesOccludedByHand = json['skipImagesOccludedByHand'] as bool
-      ..combineResultsFromMultipleInputImages =
-          json['combineResultsFromMultipleInputImages'] as bool
-      ..enableBarcodeScanOnly = json['enableBarcodeScanOnly'] as bool
-      ..customDocumentRules =
-          (json['customDocumentRules'] as List<dynamic>?)
-              ?.map((e) => DocumentRules.fromJson(e as Map<String, dynamic>))
-              .toList()
-      ..anonymizationMode = $enumDecode(
-        _$AnonymizationModeEnumMap,
-        json['anonymizationMode'],
-      )
-      ..customDocumentAnonymizationSettings =
-          (json['customDocumentAnonymizationSettings'] as List<dynamic>?)
-              ?.map(
-                (e) => DocumentAnonymizationSettings.fromJson(
-                  e as Map<String, dynamic>,
-                ),
-              )
-              .toList()
-      ..returnInputImages = json['returnInputImages'] as bool
-      ..scanCroppedDocumentImage = json['scanCroppedDocumentImage'] as bool
-      ..recognitionModeFilter = RecognitionModeFilter.fromJson(
-        json['recognitionModeFilter'] as Map<String, dynamic>,
-      )
-      ..enableCharacterValidation = json['enableCharacterValidation'] as bool
-      ..inputImageMargin = (json['inputImageMargin'] as num).toDouble()
-      ..scanUnsupportedBack = json['scanUnsupportedBack'] as bool
-      ..allowUncertainFrontSideScan =
-          json['allowUncertainFrontSideScan'] as bool
-      ..maxAllowedMismatchesPerField =
-          (json['maxAllowedMismatchesPerField'] as num).toInt()
-      ..scanPassportDataPageOnly = json['scanPassportDataPageOnly'] as bool
-      ..croppedImageSettings = CroppedImageSettings.fromJson(
-        json['croppedImageSettings'] as Map<String, dynamic>,
-      );
-
-Map<String, dynamic> _$BlinkIdScanningSettingsToJson(
-  BlinkIdScanningSettings instance,
-) => <String, dynamic>{
-  'blurDetectionLevel': _$DetectionLevelEnumMap[instance.blurDetectionLevel]!,
-  'skipImagesWithBlur': instance.skipImagesWithBlur,
-  'glareDetectionLevel': _$DetectionLevelEnumMap[instance.glareDetectionLevel]!,
-  'skipImagesWithGlare': instance.skipImagesWithGlare,
-  'tiltDetectionLevel': _$DetectionLevelEnumMap[instance.tiltDetectionLevel]!,
-  'skipImagesWithInadequateLightingConditions':
-      instance.skipImagesWithInadequateLightingConditions,
-  'skipImagesOccludedByHand': instance.skipImagesOccludedByHand,
-  'combineResultsFromMultipleInputImages':
-      instance.combineResultsFromMultipleInputImages,
-  'enableBarcodeScanOnly': instance.enableBarcodeScanOnly,
-  'customDocumentRules': instance.customDocumentRules,
-  'anonymizationMode': _$AnonymizationModeEnumMap[instance.anonymizationMode]!,
-  'customDocumentAnonymizationSettings':
-      instance.customDocumentAnonymizationSettings,
-  'returnInputImages': instance.returnInputImages,
-  'scanCroppedDocumentImage': instance.scanCroppedDocumentImage,
-  'recognitionModeFilter': instance.recognitionModeFilter,
-  'enableCharacterValidation': instance.enableCharacterValidation,
-  'inputImageMargin': instance.inputImageMargin,
-  'scanUnsupportedBack': instance.scanUnsupportedBack,
-  'allowUncertainFrontSideScan': instance.allowUncertainFrontSideScan,
-  'maxAllowedMismatchesPerField': instance.maxAllowedMismatchesPerField,
-  'scanPassportDataPageOnly': instance.scanPassportDataPageOnly,
-  'croppedImageSettings': instance.croppedImageSettings,
-};
-
-const _$DetectionLevelEnumMap = {
-  DetectionLevel.off: 0,
-  DetectionLevel.low: 1,
-  DetectionLevel.mid: 2,
-  DetectionLevel.high: 3,
-};
-
-const _$AnonymizationModeEnumMap = {
-  AnonymizationMode.none: 0,
-  AnonymizationMode.imageOnly: 1,
-  AnonymizationMode.resultFieldsOnly: 2,
-  AnonymizationMode.fullResult: 3,
-};
-
-CroppedImageSettings _$CroppedImageSettingsFromJson(
-  Map<String, dynamic> json,
-) =>
-    CroppedImageSettings()
-      ..dotsPerInch = (json['dotsPerInch'] as num).toInt()
-      ..extensionFactor = (json['extensionFactor'] as num).toDouble()
-      ..returnDocumentImage = json['returnDocumentImage'] as bool
-      ..returnFaceImage = json['returnFaceImage'] as bool
-      ..returnSignatureImage = json['returnSignatureImage'] as bool;
-
-Map<String, dynamic> _$CroppedImageSettingsToJson(
-  CroppedImageSettings instance,
-) => <String, dynamic>{
-  'dotsPerInch': instance.dotsPerInch,
-  'extensionFactor': instance.extensionFactor,
-  'returnDocumentImage': instance.returnDocumentImage,
-  'returnFaceImage': instance.returnFaceImage,
-  'returnSignatureImage': instance.returnSignatureImage,
-};
-
-BlinkIdScanningUxSettings _$BlinkIdScanningUxSettingsFromJson(
-  Map<String, dynamic> json,
-) => BlinkIdScanningUxSettings(
-  allowHapticFeedback: json['allowHapticFeedback'] as bool? ?? true,
-  showHelpButton: json['showHelpButton'] as bool? ?? true,
-  showOnboardingDialog: json['showOnboardingDialog'] as bool? ?? true,
-  preferredCamera:
-      $enumDecodeNullable(_$PreferredCameraEnumMap, json['preferredCamera']) ??
-      PreferredCamera.back,
+) => BarcodeModuleSettings(
+  presenceMandatory: json['presenceMandatory'] as bool? ?? false,
+  barcodeImageReturnEnabled:
+      json['barcodeImageReturnEnabled'] as bool? ?? false,
+  pdf417ScanningEnabled: json['pdf417ScanningEnabled'] as bool? ?? true,
+  qrScanningEnabled: json['qrScanningEnabled'] as bool? ?? true,
+  upceScanningEnabled: json['upceScanningEnabled'] as bool? ?? false,
+  upcaScanningEnabled: json['upcaScanningEnabled'] as bool? ?? false,
+  code128ScanningEnabled: json['code128ScanningEnabled'] as bool? ?? false,
+  code39ScanningEnabled: json['code39ScanningEnabled'] as bool? ?? false,
+  ean8ScanningEnabled: json['ean8ScanningEnabled'] as bool? ?? false,
+  ean13ScanningEnabled: json['ean13ScanningEnabled'] as bool? ?? false,
+  itfScanningEnabled: json['itfScanningEnabled'] as bool? ?? false,
+  dataMatrixScanningEnabled:
+      json['dataMatrixScanningEnabled'] as bool? ?? false,
 );
 
-Map<String, dynamic> _$BlinkIdScanningUxSettingsToJson(
-  BlinkIdScanningUxSettings instance,
+Map<String, dynamic> _$BarcodeModuleSettingsToJson(
+  BarcodeModuleSettings instance,
 ) => <String, dynamic>{
-  'showHelpButton': instance.showHelpButton,
-  'showOnboardingDialog': instance.showOnboardingDialog,
-  'allowHapticFeedback': instance.allowHapticFeedback,
-  'preferredCamera': _$PreferredCameraEnumMap[instance.preferredCamera]!,
+  'presenceMandatory': instance.presenceMandatory,
+  'barcodeImageReturnEnabled': instance.barcodeImageReturnEnabled,
+  'pdf417ScanningEnabled': instance.pdf417ScanningEnabled,
+  'qrScanningEnabled': instance.qrScanningEnabled,
+  'upceScanningEnabled': instance.upceScanningEnabled,
+  'upcaScanningEnabled': instance.upcaScanningEnabled,
+  'code128ScanningEnabled': instance.code128ScanningEnabled,
+  'code39ScanningEnabled': instance.code39ScanningEnabled,
+  'ean8ScanningEnabled': instance.ean8ScanningEnabled,
+  'ean13ScanningEnabled': instance.ean13ScanningEnabled,
+  'itfScanningEnabled': instance.itfScanningEnabled,
+  'dataMatrixScanningEnabled': instance.dataMatrixScanningEnabled,
 };
 
-const _$PreferredCameraEnumMap = {
-  PreferredCamera.back: 'back',
-  PreferredCamera.front: 'front',
+DocumentCaptureModuleSettings _$DocumentCaptureModuleSettingsFromJson(
+  Map<String, dynamic> json,
+) => DocumentCaptureModuleSettings(
+  inputImageCropped: json['inputImageCropped'] as bool? ?? false,
+  unsupportedDocumentsAllowed:
+      json['unsupportedDocumentsAllowed'] as bool? ?? false,
+  secondSideWithNoExtractableDataSkipped:
+      json['secondSideWithNoExtractableDataSkipped'] as bool? ?? true,
+  passportDataPageScanOnly: json['passportDataPageScanOnly'] as bool? ?? true,
+  faceImageExtractionEnabled:
+      json['faceImageExtractionEnabled'] as bool? ?? false,
+  faceImagePresenceMandatory:
+      json['faceImagePresenceMandatory'] as bool? ?? false,
+  inputImageReturnEnabled: json['inputImageReturnEnabled'] as bool? ?? false,
+  documentImageReturnEnabled:
+      json['documentImageReturnEnabled'] as bool? ?? false,
+  inputImageMargin: (json['inputImageMargin'] as num?)?.toDouble() ?? 0.02,
+  dotsPerInch: (json['dotsPerInch'] as num?)?.toInt() ?? 250,
+  extensionFactor: (json['extensionFactor'] as num?)?.toDouble() ?? 0.0,
+  blurSensitivityLevel:
+      $enumDecodeNullable(
+        _$SensitivityLevelEnumMap,
+        json['blurSensitivityLevel'],
+      ) ??
+      SensitivityLevel.mid,
+  imageWithBlurRejected: json['imageWithBlurRejected'] as bool? ?? true,
+  glareSensitivityLevel:
+      $enumDecodeNullable(
+        _$SensitivityLevelEnumMap,
+        json['glareSensitivityLevel'],
+      ) ??
+      SensitivityLevel.mid,
+  imageWithGlareRejected: json['imageWithGlareRejected'] as bool? ?? true,
+  tiltSensitivityLevel:
+      $enumDecodeNullable(
+        _$SensitivityLevelEnumMap,
+        json['tiltSensitivityLevel'],
+      ) ??
+      SensitivityLevel.mid,
+  imageWithPoorLightingRejected:
+      json['imageWithPoorLightingRejected'] as bool? ?? true,
+  imageWithHandOcclusionRejected:
+      json['imageWithHandOcclusionRejected'] as bool? ?? true,
+);
+
+Map<String, dynamic> _$DocumentCaptureModuleSettingsToJson(
+  DocumentCaptureModuleSettings instance,
+) => <String, dynamic>{
+  'inputImageCropped': instance.inputImageCropped,
+  'unsupportedDocumentsAllowed': instance.unsupportedDocumentsAllowed,
+  'secondSideWithNoExtractableDataSkipped':
+      instance.secondSideWithNoExtractableDataSkipped,
+  'passportDataPageScanOnly': instance.passportDataPageScanOnly,
+  'faceImageExtractionEnabled': instance.faceImageExtractionEnabled,
+  'faceImagePresenceMandatory': instance.faceImagePresenceMandatory,
+  'inputImageReturnEnabled': instance.inputImageReturnEnabled,
+  'documentImageReturnEnabled': instance.documentImageReturnEnabled,
+  'inputImageMargin': instance.inputImageMargin,
+  'dotsPerInch': instance.dotsPerInch,
+  'extensionFactor': instance.extensionFactor,
+  'blurSensitivityLevel':
+      _$SensitivityLevelEnumMap[instance.blurSensitivityLevel]!,
+  'imageWithBlurRejected': instance.imageWithBlurRejected,
+  'glareSensitivityLevel':
+      _$SensitivityLevelEnumMap[instance.glareSensitivityLevel]!,
+  'imageWithGlareRejected': instance.imageWithGlareRejected,
+  'tiltSensitivityLevel':
+      _$SensitivityLevelEnumMap[instance.tiltSensitivityLevel]!,
+  'imageWithPoorLightingRejected': instance.imageWithPoorLightingRejected,
+  'imageWithHandOcclusionRejected': instance.imageWithHandOcclusionRejected,
+};
+
+const _$SensitivityLevelEnumMap = {
+  SensitivityLevel.off: 'off',
+  SensitivityLevel.low: 'low',
+  SensitivityLevel.mid: 'mid',
+  SensitivityLevel.high: 'high',
+};
+
+MrzModuleSettings _$MrzModuleSettingsFromJson(Map<String, dynamic> json) =>
+    MrzModuleSettings(
+      presenceMandatory: json['presenceMandatory'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$MrzModuleSettingsToJson(MrzModuleSettings instance) =>
+    <String, dynamic>{'presenceMandatory': instance.presenceMandatory};
+
+VizModuleSettings _$VizModuleSettingsFromJson(Map<String, dynamic> json) =>
+    VizModuleSettings(
+      presenceMandatory: json['presenceMandatory'] as bool? ?? false,
+      signatureImageExtractionEnabled:
+          json['signatureImageExtractionEnabled'] as bool? ?? false,
+      characterValidationEnabled:
+          json['characterValidationEnabled'] as bool? ?? true,
+      resultAggregationEnabled:
+          json['resultAggregationEnabled'] as bool? ?? true,
+    );
+
+Map<String, dynamic> _$VizModuleSettingsToJson(
+  VizModuleSettings instance,
+) => <String, dynamic>{
+  'presenceMandatory': instance.presenceMandatory,
+  'signatureImageExtractionEnabled': instance.signatureImageExtractionEnabled,
+  'characterValidationEnabled': instance.characterValidationEnabled,
+  'resultAggregationEnabled': instance.resultAggregationEnabled,
 };
 
 ClassFilter _$ClassFilterFromJson(Map<String, dynamic> json) =>
@@ -215,35 +166,39 @@ Map<String, dynamic> _$ClassFilterToJson(ClassFilter instance) =>
       'excludeDocuments': instance.excludeDocuments,
     };
 
-DocumentRules _$DocumentRulesFromJson(Map<String, dynamic> json) =>
-    DocumentRules(
-      (json['fields'] as List<dynamic>)
-          .map((e) => DetailedFieldType.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      json['documentFilter'] == null
-          ? null
-          : DocumentFilter.fromJson(
-            json['documentFilter'] as Map<String, dynamic>,
-          ),
+RedactionSettings _$RedactionSettingsFromJson(Map<String, dynamic> json) =>
+    RedactionSettings(
+      fields:
+          (json['fields'] as List<dynamic>)
+              .map((e) => $enumDecode(_$FieldTypeEnumMap, e))
+              .toList(),
+      mode:
+          $enumDecodeNullable(_$RedactionModeEnumMap, json['mode']) ??
+          RedactionMode.fullResult,
+      documentNumberRedactionSettings:
+          json['documentNumberRedactionSettings'] == null
+              ? null
+              : DocumentNumberRedactionSettings.fromJson(
+                json['documentNumberRedactionSettings'] as Map<String, dynamic>,
+              ),
+      redactBarcodeResult: json['redactBarcodeResult'] as bool? ?? false,
+      redactMrzResult: json['redactMrzResult'] as bool? ?? false,
+      documentFilter:
+          (json['documentFilter'] as List<dynamic>?)
+              ?.map((e) => DocumentFilter.fromJson(e as Map<String, dynamic>))
+              .toList(),
     );
 
-Map<String, dynamic> _$DocumentRulesToJson(DocumentRules instance) =>
-    <String, dynamic>{
-      'documentFilter': instance.documentFilter,
-      'fields': instance.fields,
-    };
-
-DetailedFieldType _$DetailedFieldTypeFromJson(Map<String, dynamic> json) =>
-    DetailedFieldType(
-      $enumDecode(_$FieldTypeEnumMap, json['fieldType']),
-      $enumDecode(_$AlphabetTypeEnumMap, json['alphabetType']),
-    );
-
-Map<String, dynamic> _$DetailedFieldTypeToJson(DetailedFieldType instance) =>
-    <String, dynamic>{
-      'fieldType': _$FieldTypeEnumMap[instance.fieldType]!,
-      'alphabetType': _$AlphabetTypeEnumMap[instance.alphabetType]!,
-    };
+Map<String, dynamic> _$RedactionSettingsToJson(
+  RedactionSettings instance,
+) => <String, dynamic>{
+  'mode': _$RedactionModeEnumMap[instance.mode]!,
+  'fields': instance.fields.map((e) => _$FieldTypeEnumMap[e]!).toList(),
+  'documentNumberRedactionSettings': instance.documentNumberRedactionSettings,
+  'redactMrzResult': instance.redactMrzResult,
+  'redactBarcodeResult': instance.redactBarcodeResult,
+  'documentFilter': instance.documentFilter,
+};
 
 const _$FieldTypeEnumMap = {
   FieldType.additionalAddressInformation: 'additionalAddressInformation',
@@ -314,15 +269,44 @@ const _$FieldTypeEnumMap = {
   FieldType.stateName: 'stateName',
   FieldType.effectiveDate: 'effectiveDate',
   FieldType.parentsLastName: 'parentsLastName',
-  FieldType.parentsLastName2: 'parentsLastName2',
   FieldType.parentsFirstName: 'parentsFirstName',
-  FieldType.parentsFirstName2: 'parentsFirstName2',
   FieldType.workRestriction: 'workRestriction',
   FieldType.socialSecurityStatus: 'socialSecurityStatus',
   FieldType.legalStatus: 'legalStatus',
   FieldType.husbandName: 'husbandName',
-  FieldType.chinPermanentExpiry: 'chinPermanentExpiry',
+  FieldType.cardAccessNumber: 'cardAccessNumber',
 };
+
+const _$RedactionModeEnumMap = {
+  RedactionMode.none: 'none',
+  RedactionMode.imageOnly: 'imageOnly',
+  RedactionMode.resultFieldsOnly: 'resultFieldsOnly',
+  RedactionMode.fullResult: 'fullResult',
+};
+
+RedactionSettingsResolver _$RedactionSettingsResolverFromJson(
+  Map<String, dynamic> json,
+) => RedactionSettingsResolver(
+  (json['documentRedactionList'] as List<dynamic>)
+      .map((e) => RedactionSettings.fromJson(e as Map<String, dynamic>))
+      .toList(),
+);
+
+Map<String, dynamic> _$RedactionSettingsResolverToJson(
+  RedactionSettingsResolver instance,
+) => <String, dynamic>{'documentRedactionList': instance.documentRedactionList};
+
+DetailedFieldType _$DetailedFieldTypeFromJson(Map<String, dynamic> json) =>
+    DetailedFieldType(
+      $enumDecode(_$FieldTypeEnumMap, json['fieldType']),
+      $enumDecode(_$AlphabetTypeEnumMap, json['alphabetType']),
+    );
+
+Map<String, dynamic> _$DetailedFieldTypeToJson(DetailedFieldType instance) =>
+    <String, dynamic>{
+      'fieldType': _$FieldTypeEnumMap[instance.fieldType]!,
+      'alphabetType': _$AlphabetTypeEnumMap[instance.alphabetType]!,
+    };
 
 const _$AlphabetTypeEnumMap = {
   AlphabetType.latin: 'latin',
@@ -331,36 +315,14 @@ const _$AlphabetTypeEnumMap = {
   AlphabetType.greek: 'greek',
 };
 
-DocumentAnonymizationSettings _$DocumentAnonymizationSettingsFromJson(
-  Map<String, dynamic> json,
-) => DocumentAnonymizationSettings(
-  (json['fields'] as List<dynamic>)
-      .map((e) => $enumDecode(_$FieldTypeEnumMap, e))
-      .toList(),
-  json['documentFilter'] == null
-      ? null
-      : DocumentFilter.fromJson(json['documentFilter'] as Map<String, dynamic>),
-  json['documentNumberAnonymizationSettings'] == null
-      ? null
-      : DocumentNumberAnonymizationSettings.fromJson(
-        json['documentNumberAnonymizationSettings'] as Map<String, dynamic>,
-      ),
-);
-
-Map<String, dynamic> _$DocumentAnonymizationSettingsToJson(
-  DocumentAnonymizationSettings instance,
-) => <String, dynamic>{
-  'fields': instance.fields.map((e) => _$FieldTypeEnumMap[e]!).toList(),
-  'documentFilter': instance.documentFilter,
-  'documentNumberAnonymizationSettings':
-      instance.documentNumberAnonymizationSettings,
-};
-
 DocumentFilter _$DocumentFilterFromJson(Map<String, dynamic> json) =>
     DocumentFilter(
-      $enumDecodeNullable(_$CountryEnumMap, json['country']),
-      $enumDecodeNullable(_$RegionEnumMap, json['region']),
-      $enumDecodeNullable(_$DocumentTypeEnumMap, json['documentType']),
+      country: $enumDecodeNullable(_$CountryEnumMap, json['country']),
+      region: $enumDecodeNullable(_$RegionEnumMap, json['region']),
+      documentType: $enumDecodeNullable(
+        _$DocumentTypeEnumMap,
+        json['documentType'],
+      ),
     );
 
 Map<String, dynamic> _$DocumentFilterToJson(DocumentFilter instance) =>
@@ -621,7 +583,7 @@ const _$CountryEnumMap = {
   Country.vanuatu: 'vanuatu',
   Country.vaticanCity: 'vaticanCity',
   Country.virginIslandsBritish: 'virginIslandsBritish',
-  Country.virginIslandsUs: 'virginIslandsUs',
+  Country.virginIslandsOfTheUnitedStates: 'virginIslandsOfTheUnitedStates',
   Country.wallisAndFutuna: 'wallisAndFutuna',
   Country.westernSahara: 'westernSahara',
   Country.yemen: 'yemen',
@@ -877,41 +839,19 @@ const _$DocumentTypeEnumMap = {
   DocumentType.mysssCard: 'mysssCard',
   DocumentType.gendarmerieId: 'gendarmerieId',
   DocumentType.policeId: 'policeId',
+  DocumentType.originCard: 'originCard',
 };
 
-DocumentNumberAnonymizationSettings
-_$DocumentNumberAnonymizationSettingsFromJson(Map<String, dynamic> json) =>
-    DocumentNumberAnonymizationSettings(
-      (json['prefixDigitsVisible'] as num?)?.toInt(),
-      (json['suffixDigitsVisible'] as num?)?.toInt(),
-    );
+DocumentNumberRedactionSettings _$DocumentNumberRedactionSettingsFromJson(
+  Map<String, dynamic> json,
+) => DocumentNumberRedactionSettings(
+  prefixDigitsVisible: (json['prefixDigitsVisible'] as num?)?.toInt(),
+  suffixDigitsVisible: (json['suffixDigitsVisible'] as num?)?.toInt(),
+);
 
-Map<String, dynamic> _$DocumentNumberAnonymizationSettingsToJson(
-  DocumentNumberAnonymizationSettings instance,
+Map<String, dynamic> _$DocumentNumberRedactionSettingsToJson(
+  DocumentNumberRedactionSettings instance,
 ) => <String, dynamic>{
   'prefixDigitsVisible': instance.prefixDigitsVisible,
   'suffixDigitsVisible': instance.suffixDigitsVisible,
-};
-
-RecognitionModeFilter _$RecognitionModeFilterFromJson(
-  Map<String, dynamic> json,
-) =>
-    RecognitionModeFilter()
-      ..enableMrzId = json['enableMrzId'] as bool
-      ..enableMrzVisa = json['enableMrzVisa'] as bool
-      ..enableMrzPassport = json['enableMrzPassport'] as bool
-      ..enablePhotoId = json['enablePhotoId'] as bool
-      ..enableBarcodeId = json['enableBarcodeId'] as bool
-      ..enableFullDocumentRecognition =
-          json['enableFullDocumentRecognition'] as bool;
-
-Map<String, dynamic> _$RecognitionModeFilterToJson(
-  RecognitionModeFilter instance,
-) => <String, dynamic>{
-  'enableMrzId': instance.enableMrzId,
-  'enableMrzVisa': instance.enableMrzVisa,
-  'enableMrzPassport': instance.enableMrzPassport,
-  'enablePhotoId': instance.enablePhotoId,
-  'enableBarcodeId': instance.enableBarcodeId,
-  'enableFullDocumentRecognition': instance.enableFullDocumentRecognition,
 };

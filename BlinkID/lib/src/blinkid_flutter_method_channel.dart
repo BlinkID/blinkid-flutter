@@ -5,8 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'blinkid_flutter_platform_interface.dart';
-import 'package:blinkid_flutter/blinkid_result.dart';
-import 'package:blinkid_flutter/blinkid_settings.dart';
+import 'blinkid_result.dart';
+import 'blinkid_settings.dart';
+import 'types.dart';
 
 /// An implementation of [BlinkidFlutterPlatform] that uses method channels.
 ///
@@ -14,7 +15,7 @@ import 'package:blinkid_flutter/blinkid_settings.dart';
 /// based on the detected platform: Android or iOS.
 ///
 /// The method channel contains the functions `performScan` and `performDirectApiScan` which enable the BlinkID scanning process, with the default UX properties, and with static images.
-class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
+class MethodChannelBlinkIdFlutter extends BlinkIdFlutterPlatform {
   /// The method channel is used to interact with the native platform.
   @visibleForTesting
   final methodChannel = const MethodChannel('blinkid_flutter');
@@ -23,10 +24,13 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   static const String ARG_LOAD_BLINKID_SDK = 'loadBlinkIdSdk';
   static const String ARG_UNLOAD_BLINKID_SDK = 'unloadBlinkIdSdk';
   static const String ARG_DELETE_CACHED_RESOURCES = 'deleteCachedResources';
-  static const String ARG_BLINKID_SDK_SETTINGS = 'blinkidSdkSettings';
-  static const String ARG_SESSION_SETTINGS = 'blinkidSessionSettings';
+  static const String ARG_BLINKID_SDK_SETTINGS = 'blinkIdSdkSettings';
+  static const String ARG_SESSION_SETTINGS = 'blinkIdSessionSettings';
   static const String ARG_UX_SETTINGS = 'blinkIdScanningUxSettings';
-  static const String ARG_CLASS_FILTER = 'blinkidClassFilter';
+  static const String ARG_CLASS_FILTER = 'blinkIdClassFilter';
+  static const String ARG_REDACTION_SETTINGS_RESOLVER =
+      'blinkIdRedactionSettingsResolver';
+  static const String ARG_REDACTION_SETTINGS = 'directApiRedactionSettings';
   static const String ARG_FIRST_IMAGE = 'firstImage';
   static const String ARG_SECOND_IMAGE = 'secondImage';
 
@@ -39,24 +43,32 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
   ///
-  /// 3. The optional BlinkID scanning UX settings class - [BlinkIdScanningUxSettings] - the class that allows customization of various aspects of the UI & UX
-  /// used during the scanning process.
+  /// 3. The optional BlinkID scanning UX settings class - [BlinkIdScanningUxSettings] - the class that allows customization of various aspects of the UI & UX used during the scanning process.
   ///
   /// 4. The optional ClassFilter class - [ClassFilter]: the class which controls which documents will be accepted or reject for information extraction during the scanning session. See [ClassFilter] for more implementation information.
   ///
+  /// 5. The optional Redaction settings - [RedactionSettings]: Represents the document redaction settings. Use this when need per-document redaction behavior is neede — for example,
+  /// anonymizing different fields depending on the document's country or type.
+  /// The resolver
+  /// is invoked by the SDK immediately before the scanning result is finalized.
+  ///
   @override
-  Future<BlinkIdScanningResult?> performScan(
-    BlinkIdSdkSettings blinkidSdkSettings,
-    BlinkIdSessionSettings blinkidSessionSettings, [
+  Future<BlinkIdScanningResult?> performScan({
+    required BlinkIdSdkSettings blinkIdSdkSettings,
+    required BlinkIdSessionSettings blinkIdSessionSettings,
     BlinkIdScanningUxSettings? blinkIdScanningUxSettings,
     ClassFilter? classFilter,
-  ]) async {
+    RedactionSettingsResolver? redactionSettingsResolver,
+  }) async {
     final jsonBlinkIdResult = await methodChannel
         .invokeMethod(ARG_SCAN_METHOD, {
-          ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkidSdkSettings)),
-          ARG_SESSION_SETTINGS: jsonDecode(jsonEncode(blinkidSessionSettings)),
+          ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkIdSdkSettings)),
+          ARG_SESSION_SETTINGS: jsonDecode(jsonEncode(blinkIdSessionSettings)),
           ARG_UX_SETTINGS: jsonDecode(jsonEncode(blinkIdScanningUxSettings)),
           ARG_CLASS_FILTER: jsonDecode(jsonEncode(classFilter)),
+          ARG_REDACTION_SETTINGS_RESOLVER: jsonDecode(
+            jsonEncode(redactionSettingsResolver),
+          ),
         });
 
     final decodedMap = Map<String, dynamic>.from(jsonDecode(jsonBlinkIdResult));
@@ -66,27 +78,33 @@ class MethodChannelBlinkidFlutter extends BlinkidFlutterPlatform {
   /// The `performDirectApiScan` platform channel method launches the BlinkID scanning process inteded for information extraction from static images.
   /// It takes the following parameters: [BlinkIdSdkSettings], [BlinkIdSessionSettings], `firstImage` [String] in the Base64 format and the optional `secondImage` [String] in the Base64 format.
   ///
-  /// 1. BlinkID SDK Settings - [BlinkIdSdkSettings]: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK needs for the scanning process, should be obtained.
+  /// 1. BlinkID SDK Settings - [BlinkIdSdkSettings]: the class that contains all of the available SDK settings. It contains settings for the license key, and how the models, that the SDK
+  /// needs for the scanning process, should be obtained.
   /// To obtain a valid license key, please visit https://developer.microblink.com/ or contact us directly at https://help.microblink.com
   ///
   /// 2. BlinkID Session Settings - [BlinkIdSessionSettings]: the class that contains various settings for the scanning session. It contains the settings for the [ScanningMode] and [BlinkIdScanningSettings], which define various parameters that control the scanning process.
   ///
-  /// 3. The `firstImage` Base64 string - [String]: image that represents one side of the document. If the document contains two sides and the [ScanningMode] is set to `automatic`,
+  /// 3. The optional Redaction settings - [RedactionSettings]: Represents the document redaction settings. Use this when need per-document redaction behavior is neede — for example,
+  /// anonymizing different fields depending on the document's country or type.
+  /// 4. The `firstImage` Base64 string - [String]: image that represents one side of the document. If the document contains two sides and the [ScanningMode] is set to `automatic`,
   /// this should contain the image of the front side of the document. In case the [ScanningMode] is set to `single`, it can be either the front or the back side of the document.
   ///
-  /// 4. The optional `secondImage` Base64 string - [String]: needed if the information from back side of the document is required and the [ScanningMode] is set to `automatic`.
+  /// 5. The optional `secondImage` Base64 string - [String]: needed if the information from back side of the document is required and the [ScanningMode] is set to `automatic`.
+  ///
   ///
   @override
-  Future<BlinkIdScanningResult?> performDirectApiScan(
-    BlinkIdSdkSettings blinkidSdkSettings,
-    BlinkIdSessionSettings blinkidSessionSettings,
-    String firstImage, [
+  Future<BlinkIdScanningResult?> performDirectApiScan({
+    required BlinkIdSdkSettings blinkIdSdkSettings,
+    required BlinkIdSessionSettings blinkIdSessionSettings,
+    RedactionSettings? redactionSettings,
+    required String firstImage,
     String? secondImage,
-  ]) async {
+  }) async {
     final jsonBlinkIdDirectApiResult = await methodChannel
         .invokeMethod(ARG_SCAN_DIRECT_API_METHOD, {
-          ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkidSdkSettings)),
-          ARG_SESSION_SETTINGS: jsonDecode(jsonEncode(blinkidSessionSettings)),
+          ARG_BLINKID_SDK_SETTINGS: jsonDecode(jsonEncode(blinkIdSdkSettings)),
+          ARG_SESSION_SETTINGS: jsonDecode(jsonEncode(blinkIdSessionSettings)),
+          ARG_REDACTION_SETTINGS: jsonDecode(jsonEncode(redactionSettings)),
           ARG_FIRST_IMAGE: jsonDecode(jsonEncode(firstImage)),
           ARG_SECOND_IMAGE: jsonDecode(jsonEncode(secondImage)),
         });
