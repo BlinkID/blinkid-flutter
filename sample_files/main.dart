@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
   ///
   /// It will be used both for the default UX scan (performScan method),
   /// and the DirectAPI scan (directApiMultiSideScan and directApiSingleSideScan methods).
-  final blinkIdPlugin = BlinkidFlutter();
+  final blinkIdPlugin = BlinkIdFlutter();
 
   @override
   void initState() {
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> performScan() async {
     try {
       /// Set the BlinkID SDK settings
-      final sdkSettings = BlinkIdSdkSettings(sdkLicenseKey);
+      final sdkSettings = BlinkIdSdkSettings(licenseKey: sdkLicenseKey);
       sdkSettings.downloadResources = true;
 
       /// Create and modify the Session Settings
@@ -71,18 +71,23 @@ class _MyAppState extends State<MyApp> {
 
       /// Create and modify the scanning settings
       final scanningSettings = BlinkIdScanningSettings();
-      scanningSettings.anonymizationMode = AnonymizationMode.fullResult;
-      scanningSettings.glareDetectionLevel = DetectionLevel.mid;
-      scanningSettings.blurDetectionLevel = DetectionLevel.mid;
 
-      /// Create and modify the Image settings
-      final imageSettings = CroppedImageSettings();
-      imageSettings.returnDocumentImage = true;
-      imageSettings.returnSignatureImage = true;
-      imageSettings.returnFaceImage = true;
+      /// Modify the barcode module settings
+      scanningSettings.barcodeModule = BarcodeModuleSettings(
+        presenceMandatory: true,
+        pdf417ScanningEnabled: true,
+      );
 
-      /// Place the image settings in the scanning settings
-      scanningSettings.croppedImageSettings = imageSettings;
+      /// Modify the document capture settings
+      scanningSettings.documentCaptureModule = DocumentCaptureModuleSettings(
+        documentImageReturnEnabled: true,
+      );
+
+      /// Modify the MRZ settings
+      scanningSettings.mrzModule = MrzModuleSettings(presenceMandatory: true);
+
+      /// Modify the VIZ settings
+      scanningSettings.vizModule = VizModuleSettings(presenceMandatory: true);
 
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
@@ -98,18 +103,41 @@ class _MyAppState extends State<MyApp> {
       /// Place the optional ClassFilter class
       /// The filter is currently modified to only accept Canada documents, and USA California documents
       final classFilter = ClassFilter.withIncludedDocumentClasses([
-        DocumentFilter(Country.canada),
-        DocumentFilter(Country.usa, Region.california),
+        DocumentFilter(country: Country.canada),
+        DocumentFilter(country: Country.usa, region: Region.california),
       ]);
+
+      /// Place the optional Redaction settings resolver class
+      /// The filter is currently modified to only accept Canada documents, and USA California documents
+      RedactionSettingsResolver redactionSettingsResolver =
+          RedactionSettingsResolver([
+            RedactionSettings(
+              mode: RedactionMode.fullResult,
+              documentNumberRedactionSettings: DocumentNumberRedactionSettings(
+                prefixDigitsVisible: 0,
+                suffixDigitsVisible: 1,
+              ),
+              fields: [FieldType.firstName, FieldType.lastName],
+              documentFilter: [
+                DocumentFilter(
+                  country: Country.usa,
+                  region: Region.california,
+                  documentType: DocumentType.id,
+                ),
+              ],
+            ),
+          ]);
 
       /// Call the 'performScan' method and handle the results
       /// Check how the results are handled in the blinkid_result_builder.dart file
       await blinkIdPlugin
           .performScan(
-            sdkSettings,
-            sessionSettings,
-            uiSettings,
-          ) //, classFilter)
+            blinkIdSdkSettings: sdkSettings,
+            blinkIdSessionSettings: sessionSettings,
+            blinkidScanningUxSettings: uiSettings,
+          )
+          //classFilter: classFilter,
+          //redactionSettingsResolver: redactionSettingsResolver)
           .then((result) {
             resetImages();
             setState(() {
@@ -153,7 +181,7 @@ class _MyAppState extends State<MyApp> {
       String backImageBase64 = base64Encode(await images[1].readAsBytes());
 
       /// Set the BlinkID SDK settings
-      final sdkSettings = BlinkIdSdkSettings(sdkLicenseKey);
+      final sdkSettings = BlinkIdSdkSettings(licenseKey: sdkLicenseKey);
       sdkSettings.downloadResources = true;
 
       /// Create and modify the Session Settings
@@ -162,22 +190,31 @@ class _MyAppState extends State<MyApp> {
 
       /// Create and modify the scanning settings
       final scanningSettings = BlinkIdScanningSettings();
-      scanningSettings.anonymizationMode = AnonymizationMode.fullResult;
-      scanningSettings.glareDetectionLevel = DetectionLevel.mid;
+
+      /// Modify the barcode module settings
+      scanningSettings.barcodeModule = BarcodeModuleSettings(
+        presenceMandatory: true,
+        pdf417ScanningEnabled: true,
+      );
+
+      /// Modify the document capture settings
+      scanningSettings.documentCaptureModule = DocumentCaptureModuleSettings(
+        documentImageReturnEnabled: true,
+      );
+
+      /// Modify the MRZ settings
+      scanningSettings.mrzModule = MrzModuleSettings(presenceMandatory: true);
+
+      /// Modify the VIZ settings
+      scanningSettings.vizModule = VizModuleSettings(presenceMandatory: true);
+
+      /// Place the Scanning settings in the Session settings
+      sessionSettings.scanningSettings = scanningSettings;
 
       /// Uncomment the following line if you are passing input images
       /// that consist solely of the cropped document image.
       ///
-      /// scanningSettings.scanCroppedDocumentImage = true;
-
-      /// Create and modify the Image settings
-      final imageSettings = CroppedImageSettings();
-      imageSettings.returnDocumentImage = true;
-      imageSettings.returnSignatureImage = true;
-      imageSettings.returnFaceImage = true;
-
-      /// Place the image settings in the scanning settings
-      scanningSettings.croppedImageSettings = imageSettings;
+      /// scanningSettings.documentCaptureModule.inputImageCropped = true;
 
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
@@ -186,10 +223,10 @@ class _MyAppState extends State<MyApp> {
       /// Check how the results are handled in the blinkid_result_builder.dart file
       await blinkIdPlugin
           .performDirectApiScan(
-            sdkSettings,
-            sessionSettings,
-            frontImageBase64,
-            backImageBase64,
+            blinkIdSdkSettings: sdkSettings,
+            blinkIdSessionSettings: sessionSettings,
+            firstImage: frontImageBase64,
+            secondImage: backImageBase64,
           )
           .then((result) {
             setState(() {
@@ -230,31 +267,32 @@ class _MyAppState extends State<MyApp> {
       String imageBase64 = base64Encode(await image.readAsBytes());
 
       /// Set the BlinkID SDK settings
-      final sdkSettings = BlinkIdSdkSettings(sdkLicenseKey);
+      final sdkSettings = BlinkIdSdkSettings(licenseKey: sdkLicenseKey);
       sdkSettings.downloadResources = true;
 
       /// Create and modify the Session Settings
       final sessionSettings = BlinkIdSessionSettings();
-      sessionSettings.scanningMode = ScanningMode.single;
+      sessionSettings.scanningMode = ScanningMode.automatic;
 
       /// Create and modify the scanning settings
       final scanningSettings = BlinkIdScanningSettings();
-      scanningSettings.anonymizationMode = AnonymizationMode.fullResult;
-      scanningSettings.glareDetectionLevel = DetectionLevel.mid;
 
-      /// Uncomment the following line if you are passing input images
-      /// that consist solely of the cropped document image.
-      ///
-      /// scanningSettings.scanCroppedDocumentImage = true;
+      /// Modify the barcode module settings
+      scanningSettings.barcodeModule = BarcodeModuleSettings(
+        presenceMandatory: true,
+        pdf417ScanningEnabled: true,
+      );
 
-      /// Create and modify the Image settings
-      final imageSettings = CroppedImageSettings();
-      imageSettings.returnDocumentImage = true;
-      imageSettings.returnSignatureImage = true;
-      imageSettings.returnFaceImage = true;
+      /// Modify the document capture settings
+      scanningSettings.documentCaptureModule = DocumentCaptureModuleSettings(
+        documentImageReturnEnabled: true,
+      );
 
-      /// Place the image settings in the scanning settings
-      scanningSettings.croppedImageSettings = imageSettings;
+      /// Modify the MRZ settings
+      scanningSettings.mrzModule = MrzModuleSettings(presenceMandatory: true);
+
+      /// Modify the VIZ settings
+      scanningSettings.vizModule = VizModuleSettings(presenceMandatory: true);
 
       /// Place the Scanning settings in the Session settings
       sessionSettings.scanningSettings = scanningSettings;
@@ -262,7 +300,11 @@ class _MyAppState extends State<MyApp> {
       /// Call the 'performDirectApiScan' method and handle the results
       /// Check how the results are handled in the blinkid_result_builder.dart file
       await blinkIdPlugin
-          .performDirectApiScan(sdkSettings, sessionSettings, imageBase64)
+          .performDirectApiScan(
+            blinkIdSdkSettings: sdkSettings,
+            blinkIdSessionSettings: sessionSettings,
+            firstImage: imageBase64,
+          )
           .then((result) {
             setState(() {
               resetImages();

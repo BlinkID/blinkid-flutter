@@ -1,4 +1,4 @@
-import 'package:blinkid_flutter/blinkid_result.dart';
+import 'package:blinkid_flutter/blinkid_flutter.dart';
 
 class BlinkIdResultBuilder {
   static String getIdResultString(BlinkIdScanningResult? result) {
@@ -7,7 +7,6 @@ class BlinkIdResultBuilder {
     }
 
     String resultString =
-        buildStringResult(result.recognitionMode?.name, "Recognition mode") +
         buildResult(result.firstName, "First name") +
         buildResult(result.lastName, "Last name") +
         buildResult(result.fullName, "Full name") +
