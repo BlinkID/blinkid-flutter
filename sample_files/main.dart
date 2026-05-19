@@ -47,10 +47,10 @@ class _MyAppState extends State<MyApp> {
     /// A valid license key can be obtained from the Microblink Developer Hub, here: https://developer.microblink.com
     if (Platform.isAndroid) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTmpJeE56QTRNakF3TkRRc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PRpURkVPwuO0koYgtsId0UoOnkvZdrc5+ewfldLFcoG9SoE1NurAQ6fYusivk5aUxIRrbWM7ak7bZfr/Y8ud9ayh2GEgB96T6uufqumXoW22/XJDPAcU4Mp8uzbIjps=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUAbGV5SkRjbVZoZEdWa1QyNGlPakUzTnpreE1ESXpOVGMxT1RBc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PRXlOs6VFBOfXCx1+6HuENpn05k2kl20pJr4kQ4S1sMxuSzZ+B8YhC9rYMsFXr3HSskFmMFwEe+44OQ1ZE2sm9iHUpxNBmVGpgBTKPOrc2vquGbpqmFwm1feyTL9Aw==";
     } else if (Platform.isIOS) {
       sdkLicenseKey =
-          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTmpJeE56QTROVE01Tnpnc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PYp8/JA4wSFGiNehLMfx8e5TtiIcdUR0YKx2/x/XlY+a10Qzw9Jsm/+aZS0QMqn14qrI6pmDxwkACGS4XkicR81ECuJIKtxe+7Tc/rLcmO2wjnFwuATJm69ERvdGDPw=";
+          "sRwCABVjb20ubWljcm9ibGluay5zYW1wbGUBbGV5SkRjbVZoZEdWa1QyNGlPakUzTnpreE56VTBNekE0T1Rrc0lrTnlaV0YwWldSR2IzSWlPaUprWkdRd05qWmxaaTAxT0RJekxUUXdNRGd0T1RRNE1DMDFORFU0WWpBeFlUVTJZamdpZlE9PaObKYfb4FlwqmqVoofXLicsmElmnSm1gmoXWaFx8MgdmmJRSLpdAfP6uV5xAr3K4rColEBYQ38GNh+FT081yjXPFB16LwdVhDiJcEK07cTBG5hQPXRy8+hoJJ1U7w==";
     }
 
     // If neccessary, the SDK can be pre-loaded with the neccessary resources before the scanning session starts.

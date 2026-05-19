@@ -49,15 +49,18 @@ s/<string>12\.0<\/string>/<string>16.0<\/string>/
 # Xcode project override
 sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = [0-9.]*/IPHONEOS_DEPLOYMENT_TARGET = 16.0/' Runner.xcodeproj/project.pbxproj
 
-# xcconfig override
-sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET=[0-9.]*/IPHONEOS_DEPLOYMENT_TARGET=16.0/' Flutter/*.xcconfig
+# xcconfig override - append since Flutter-generated xcconfigs only contain an #include and have no existing entry to replace
+echo "IPHONEOS_DEPLOYMENT_TARGET=16.0" >> Flutter/Debug.xcconfig
+echo "IPHONEOS_DEPLOYMENT_TARGET=16.0" >> Flutter/Release.xcconfig
 
 # add the camera and photo usage descriptions into Info.plist as the BlinkID SDK requires it.
-sed -i '' '/<dict>/a\
-  <key>NSCameraUsageDescription</key>\
-  <string>Enable the camera usage for BlinkID default UX scanning</string>\
-  <key>NSPhotoLibraryUsageDescription</key>\
-  <string>Enable photo gallery usage for BlinkID DirectAPI scanning</string>\
+# Use '^<dict>$' to match only the root-level <dict> tag (no indentation), avoiding
+# insertion into nested dicts (UIApplicationSceneManifest, UISceneConfigurations, etc.).
+sed -i '' '/^<dict>$/a\
+\	<key>NSCameraUsageDescription</key>\
+\	<string>Enable the camera usage for BlinkID default UX scanning</string>\
+\	<key>NSPhotoLibraryUsageDescription</key>\
+\	<string>Enable photo gallery usage for BlinkID DirectAPI scanning</string>\
 ' Runner/Info.plist
 
 # update the config for iOS as the minimum target has been raised
